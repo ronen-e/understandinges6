@@ -56,7 +56,7 @@ ECMAScript 6  הגיע למצב של     feature complete  במהלך שנת 201
 כל פרק מכיל מספר דוגמאות קוד לסייע לך ללמוד סינטאקס חדש וקונספטים חדשים. 
 
 
-<B>פרק  1:   כיצד עובד Block Binding </B>  הפרק מדבר על    `let` and `const` , החלפת block-level gcur  var. 
+<B>פרק  1 : כיצד עובד Block Binding </B>  הפרק מדבר על    `let` and `const` , החלפת block-level gcur  var. 
 
 ** פרק 2 : Strings ו Regular Expressions *** הפרק סוקר פונקציונאליות נוספת חדשה לעיבוד ומניפולאציות על מחרוזות string ו בחינה  וכן מציג הקונספט החדש  template strings. 
 
