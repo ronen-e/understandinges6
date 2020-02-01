@@ -56,53 +56,51 @@ ECMAScript 6  הגיע למצב של     feature complete  במהלך שנת 201
 כל פרק מכיל מספר דוגמאות קוד לסייע לך ללמוד סינטאקס חדש וקונספטים חדשים. 
 
 
-
 <B>פרק  1 : כיצד עובד Block Binding </B>  הפרק מדבר על    `let` and `const` , החלפת block-level gcur  var. 
 
 <B> פרק 2 : Strings ו Regular Expressions </B> הפרק סוקר פונקציונאליות נוספת חדשה לעיבוד ומניפולאציות על מחרוזות string ו בחינה  וכן מציג הקונספט החדש  template strings. 
 
  
+<B> פרק 3 : Functions in ECMAScript 6 </B>  הפרק עוסק בשינויים לגבי פונקציות.   זה כולל  תבנית פונקציות חץ,  ערך ברירת מחדל לפרמטרים של פונקציה  ונושאים נוספים. 
+  
+<B>   פרק 4 :  הרחבת פונקציונאליות של אוביקטים   </B>  מסביר את השינוי כיצד אוביקטים נוצרים, עוברים שינוי וכיצד משתמשים בהם.  הנושאים כוללים שינוי בליטרל של אוביקט , ומטודות הצגה. 
+
+<B>  פרק 5 : פעולת הרס אוביקטים  עבור גישה פשוטה יותר לנתונים </B>  מציג הרס אוביקטים ומערכים , המאפשר לבמע דקומפוז  של אוביקטים ומערכים בצורת כתיבה קצרה יותר. 
+
+<B>  פרק 6 :  Symbols ו - Symbols property  </B>  מציג את הקונספט של Symbols, דרך חדשה להגדיר תכונות אוביקט. Symbols הוא סוג חדש של  primitive type שניתן להשתמש בו  בצורה מוסתרת (אבל לא נסתרת לחלוטין )  לגבי תכונות   ומטודות  של  אוביקט . 
+
+<B>  פרק 7 : Sets ו Maps   </B>  מפרט את הסוגים החדשים  של   `Set`, `WeakSet`, `Map`, and `WeakMap`.  סוגים חדשים אלו מרחיבים את השימושיות של מערך  , מבחינת סמנטיקה ת עיבוד ת ניהול זיכרון שהותאם במיוחד ל  JavaScript. 
+ 
+<B>  פרק 8 : Iterators ו Generators  </B>  עוסק בתוספת של   Iterators ו Generators  לשפה. , תכונות אלו מאפשרות לך לעבוד עם אוספים של דאטה  בצורה יעילה ועוצמתית  שלא התאפשרה בגרסה הקודמת של  JavaScript. 
+
+<B> פרק 9 : הצגת   Classes ב JavaScript  </B>  מציג  הקונספט הפורמאלי הראשון  של  Classes ב JavaScript. לעיתים נקודת בילבול בין מה שמקיים בשפות  תכנות אחרות , התוספת של סינטאקס  של  Class ב JavaScript מאפשר שימוש בשפה בצורה יותר  נוחה ובצורה  מקוצרת  למי שמעוניין. 
+ 
+<B> פרק 10 : יכולות משופרות של Array  </B>  מפרט השינויים  למערכים  רגילים ודרכים מענינות חדשות בהם מערכים  ניתנים לשימוש ב JavaScript.  
+
+<B>  פרק 11 : Promises ותכנות אסינכרוני </B>  מציג את Promises כחלק חדש בשפה.   Promises היו מאמץ שורשי  לשינוי שבסוף הצליחו להיות פופולארים בזכות תמיכה מאסיבית בספריות .    ECMAScript 6  מציגה Promises בצורה פורמאלית ומאפשרת זמינותם כברירת מחדל. 
+
+<B>  פרק 12 :  Proxies וה  API  של ה Reflection </B>  מציג הצורה הפורמאלית של  reflection API בשפת JavaScript ואת ה proxy object החדש שמאפשר למפתח  לתפוס כל אירוע  של שינוי Object. Proxies מאפשרים למפתח שליטה ללא עוררין על  ה Objects , וככאלה אפשרויות אינסופיות של תבניות שליטה אינטראקטיביות . 
+
+<B>  פרק 13 : עטיפת קוד בעזרת Modules </B> מפרט את ה Module פורמט  ב JavaScrupt.  המוטיב הוא שמודולים אלו יכולים להחליף מספר רב של ad-hoc module definition format שהופיע ברבות השנים. 
+ 
+<B> Appendix A:  שינויים קטנים ב  ECMAScript 6 </B>  סוקר שינויים ב  ECMAScript 6   שהם בשימוש פחות שוטף ולכן לא בוסו בפרקים אחרים. 
+
+<B> Appendix B:  הבנת  ECMAScript 7  </B>  מתאר את שתי התוספות לתקן ב  ECMAScript 7 , שלא השפיעו על JavaScript כמו ECMAScript 6  
+
+
+
 
 </div>
 
 
 
+<div dir="rtl">
 
-### Overview
+### סימונים מוסכמים שבשימוש בספר זה 
 
-Each of this book's thirteen chapters covers a different aspect of ECMAScript 6. Many chapters start by discussing problems that ECMAScript 6 changes were made to solve, to give you a broader context for those changes, and all chapters include code examples to help you learn new syntax and concepts.
+</div>
 
-**Chapter 1: How Block Bindings Work** talks about `let` and `const`, the block-level replacement for `var`.
 
-**Chapter 2: Strings and Regular Expressions** covers additional functionality for string manipulation and inspection as well as the introduction of template strings.
-
-**Chapter 3: Functions in ECMAScript 6** discusses the various changes to functions. This includes the arrow function form, default parameters, rest parameters, and more.
-
-**Chapter 4: Expanded Object Functionality** explains the changes to how objects are created, modified, and used. Topics include changes to object literal syntax, and new reflection methods.
-
-**Chapter 5: Destructuring for Easier Data Access** introduces object and array destructuring, which allow you to decompose objects and arrays using a concise syntax.
-
-**Chapter 6: Symbols and Symbol Properties** introduces the concept of symbols, a new way to define properties. Symbols are a new primitive type that can be used to obscure (but not hide) object properties and methods.
-
-**Chapter 7: Sets and Maps** details the new collection types of `Set`, `WeakSet`, `Map`, and `WeakMap`. These types expand on the usefulness of arrays by adding semantics, de-duping, and memory management designed specifically for JavaScript.
-
-**Chapter 8: Iterators and Generators** discusses the addition of iterators and generators to the language. These features allow you to work with collections of data in powerful ways that were not possible in previous versions of JavaScript.
-
-**Chapter 9: Introducing JavaScript Classes** introduces the first formal concept of classes in JavaScript. Often a point of confusion for those coming from other languages, the addition of class syntax in JavaScript makes the language more approachable to others and more concise for enthusiasts.
-
-**Chapter 10: Improved Array Capabilities** details the changes to native arrays and the interesting new ways they can be used in JavaScript.
-
-**Chapter 11: Promises and Asynchronous Programming** introduces promises as a new part of the language. Promises were a grassroots effort that eventually took off and gained in popularity due to extensive library support. ECMAScript 6 formalizes promises and makes them available by default.
-
-**Chapter 12: Proxies and the Reflection API** introduces the formalized reflection API for JavaScript and the new proxy object that allows you to intercept every operation performed on an object. Proxies give developers unprecedented control over objects and, as such, unlimited possibilities for defining new interaction patterns.
-
-**Chapter 13: Encapsulating Code with Modules** details the official module format for JavaScript. The intent is that these modules can replace the numerous ad-hoc module definition formats that have appeared over the years.
-
-**Appendix A: Smaller ECMAScript 6 Changes** covers other changes implemented in ECMAScript 6 that you'll use less frequently or that didn't quite fit into the broader major topics covered in each chapter.
-
-**Appendix B: Understanding ECMAScript 7 (2016)** describes the two additions to the standard that were implemented for ECMAScript 7, which didn't impact JavaScript nearly as much as ECMAScript 6.
-
-### Conventions Used
 
 The following typographical conventions are used in this book:
 
@@ -138,7 +136,15 @@ won't be able to file issues on it. /JG -->
 
 If you have questions as you read this book, please send a message to my mailing list: [http://groups.google.com/group/zakasbooks](http://groups.google.com/group/zakasbooks).
 
-## Acknowledgments
+
+
+<div dir="rtl">
+
+###  תודות לתורמים לספר 
+
+</div>
+
+
 
 Thanks to Jennifer Griffith-Delgado, Alison Law, and everyone at No Starch Press for their support and help with this book. Their understanding and patience as my productivity slowed to a crawl during my extended illness is something I will never forget.
 
@@ -147,4 +153,6 @@ I'm grateful for the watchful eye of Juriy Zaytsev as tech editor and to Dr. Axe
 Thanks to everyone who submitted fixes to the version of this book that is hosted on GitHub: ShMcK, Ronen Elster, Rick Waldron, blacktail, Paul Salaets, Lonniebiz, Igor Skuhar, jakub-g, David Chang, Kevin Sweeney, Kyle Simpson, Peter Bakondy, Philip Borisov, Shaun Hickson, Steven Foote, kavun, Dan Kielp, Darren Huskie, Jakub Narębski, Jamund Ferguson, Josh Lubaway, Marián Rusnák, Nikolas Poniros, Robin Pokorný, Roman Lo, Yang Su, alexyans, robertd, 404, Aaron Dandy, AbdulFattah Popoola, Adam Richeimer, Ahmad Ali, Aleksandar Djindjic, Arjunkumar, Ben Regenspan, Carlo Costantini, Dmitri Suvorov, Kyle Pollock, Mallory, Erik Sundahl, Ethan Brown, Eugene Zubarev, Francesco Pongiluppi, Jake Champion, Jeremy Caney, Joe Eames, Juriy Zaytsev, Kale Worsley, Kevin Lozandier, Lewis Ellis, Mohsen Azimi, Navaneeth Kesavan, Nick Bottomley, Niels Dequeker, Pahlevi Fikri Auliya, Prayag Verma, Raj Anand, Ross Gerbasi, Roy Ling, Sarbbottam Bandyopadhyay, and Shidhin.
 
 Also, thanks to everyone who supported this book on Patreon: Casey Visco.
+
+
 
