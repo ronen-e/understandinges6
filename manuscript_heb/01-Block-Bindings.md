@@ -1,32 +1,56 @@
-# Block Bindings
+# שיוך משתנים לבלוקים של קוד
 
-Traditionally, the way variable declarations work has been one tricky part of programming in JavaScript. In most C-based languages, variables (or *bindings*) are created at the spot where the declaration occurs. In JavaScript, however, this is not the case. Where your variables are actually created depends on how you declare them, and ECMAScript 6 offers options to make controlling scope easier. This chapter demonstrates why classic `var` declarations can be confusing, introduces block-level bindings in ECMAScript 6, and then offers some best practices for using them.
+הגדרת משתנים הייתה תמיד חלק בעייתי בג׳אווהסקריפט. 
+ברוב השפות מבוססות שפת סי, משתנים נוצרים באותו מקום בקוד בו הם מוגדרים. 
+המצב שונה בשפת ג׳אווהסקריפט. 
+אופן ההגדרה של המשתנה תלוי בצורת הכתיבה, והמהדורה השישית של השפה נותנת אפשרויות חדשות לשליטה בהגדרת המשתנה והסביבה אליה הוא שייך
+(scope)
+. 
+פרק זה מראה מדוע הגדרת משתנים מסוג 
+`var` 
+יכולה ליצור בלבול, מציגה משתנים חדשים שמשוייכים מבחינת הסביבה שלהם לבלוקים של קוד 
+ומציעה מספר שיטות מומלצות כיצד להשתמש בהם.
 
-## Var Declarations and Hoisting
+## הגדרת משתנים מסוג ״var״ ו״הרמת״ משתנים
 
-Variable declarations using `var` are treated as if they are at the top of the function (or global scope, if declared outside of a function) regardless of where the actual declaration occurs; this is called *hoisting*. For a demonstration of what hoisting does, consider the following function definition:
+מתייחסים להגדרת משתנים מסוג
+`var` 
+כאילו הוגדרו בראשית הפונקציה 
+(או בסביבה הגלובלית, במידה והוגדרו מחוץ לפונקציה) 
+ואין זה משנה כלל וכלל היכן המשתנה מוגדר בעת הכתיבה. התנהגות זו נקראת ״הרמת משתנים״. 
+לדוגמה:
 
 ```js
 function getValue(condition) {
 
     if (condition) {
-        var value = "blue";
+        var value = "כחול";
 
-        // other code
+        // קוד נוסף
 
         return value;
     } else {
 
-        // value exists here with a value of undefined
+        // המשתנה ״value״ קיים ומכיל את הערך ״undefined״
 
         return null;
     }
 
-    // value exists here with a value of undefined
+    // המשתנה ״value״ קיים ומכיל את הערך ״undefined״
 }
 ```
 
-If you are unfamiliar with JavaScript, then you might expect the variable `value` to only be created if `condition` evaluates to true. In fact, the variable `value` is created regardless. Behind the scenes, the JavaScript engine changes the `getValue` function to look like this:
+אם ג׳אווהסקריפט היא שפה חדשה עבורכם ייתכן ותצפו מהמשתנה 
+`value` 
+שיתקיים אך ורק אם המשתנה 
+`condition`
+מקבל ערך מסוג ״אמת״. 
+למעשה, המשתנה 
+`value` 
+נוצר ללא קשר לערך המשתנה
+`condition`. 
+מאחורי הקלעים סביבת הריצה משנה את הפונקציה 
+`getValue`: 
 
 ```js
 function getValue(condition) {
@@ -34,9 +58,9 @@ function getValue(condition) {
     var value;
 
     if (condition) {
-        value = "blue";
+        value = "כחול";
 
-        // other code
+        // קוד נוסף
 
         return value;
     } else {
@@ -46,48 +70,99 @@ function getValue(condition) {
 }
 ```
 
-The declaration of `value` is hoisted to the top, while the initialization remains in the same spot. That means the variable `value` is actually still accessible from within the `else` clause. If accessed from there, the variable would just have a value of `undefined` because it hasn't been initialized.
+ההגדרה של המשתנה 
+`value` 
+מורמת לתחילת הפונקציה בעוד שפעולת ההשמה והאתחול נשארת כפי שהייתה. המשמעות היא שהמשתנה 
+`value` 
+קיים ונגיש גם בתוך הבלוק של 
+`else`. 
+במידה וניגשים למשתנה הוא יהיה בעל הערך 
+`undefined` 
+מאחר ולא אותחל לערך אחר.
 
-It often takes new JavaScript developers some time to get used to declaration hoisting, and misunderstanding this unique behavior can end up causing bugs. For this reason, ECMAScript 6 introduces block level scoping options to make the controlling a variable's lifecycle a little more powerful.
+לעיתים קרובות לוקח זמן עבור 
+מפתחי ג׳אווהסקריפט חדשים להתרגל לעקרון ״ההרמה״ וחוסר הבנה של ההתנהגות יוצאת הדופן של השפה יכולה להוביל לבאגים. מסיבה זו אקמהסקריפט 6 הוסיפה אפשרות להגדיר משתנים שמשויכים לבלוקים של קוד ולא עבור פונקציות ועל ידי כך לשלוט בצורה טובה יותר על המשתנים שנוצרים בעת כתיבת הקוד.
 
-## Block-Level Declarations
+## הגדרות משתנים ברמת בלוק
 
-Block-level declarations are those that declare variables that are inaccessible outside of a given block scope. Block scopes, also called lexical scopes, are created:
+הגדרות משתנים ברמת בלוק הן הגדרות שלא נגישות מחוץ לסביבת בלוק של קוד קיים.
+סביבת בלוק, שנקראת גם בשם סביבה לקסיקלית נוצרת:
 
-1. Inside of a function
-1. Inside of a block (indicated by the `{` and `}` characters)
+1. בתוך פונקציה
+1. בתוך בלוק של קוד. 
 
-Block scoping is how many C-based languages work, and the introduction of block-level declarations in ECMAScript 6 is intended to bring that same flexibility (and uniformity) to JavaScript.
+בלוק של קוד תחום בין התווים 
+`{ }`
 
-### Let Declarations
+שיוך סביבה לבלוק של קוד הינה הדרך בה עובדות שפות רבות מבוססות שפת סי, וההוספה של הגדרות ברמת בלוק של קוד באקמהסקריפט 6 נועדה להביא את אותה רמת גמישות
+(ואחידות)
+לשפה.
 
-The `let` declaration syntax is the same as the syntax for `var`. You can basically replace `var` with `let` to declare a variable, but limit the variable's scope to only the current code block (there are a few other subtle differences discussed a bit later, as well). Since `let` declarations are not hoisted to the top of the enclosing block, you may want to always place `let` declarations first in the block, so that they are available to the entire block. Here's an example:
+### הגדרות מסוג let
+
+הגדרת משתנה מסוג 
+`let`
+זהה מבחינת כתיבה להגדרת משתנה מסוג 
+`var`. 
+ברמה הבסיסית 
+אפשר להחליף הגדרת
+`var`
+בהגדרת 
+`let`
+ובכך להגביל את שיוך המשתנה לבלוק הקוד הנוכחי 
+(ישנם מספר הבדלים נוספים שיורחב עליהם בהמשך). 
+
+מאחר והגדרות מסוג
+`let`
+אינן מורמות לתחילת בלוק הקוד הנוכחי, ייתכן ותרצה לכתוב הגדרות משתנים אלו בתחילת הבלוק, כך שיהיו נגישות עבור כל הבלוק. 
+
+להלן דוגמה:
 
 ```js
 function getValue(condition) {
 
     if (condition) {
-        let value = "blue";
+        let value = "כחול";
 
-        // other code
+        // קוד אחר
 
         return value;
     } else {
 
-        // value doesn't exist here
+        // המשתנה value אינו קיים כאן
 
         return null;
     }
 
-    // value doesn't exist here
+    // המשתנה value אינו קיים כאן
 }
 ```
 
-This version of the `getValue` function behaves much closer to how you'd expect it to in other C-based languages. Since the variable `value` is declared using `let` instead of `var`, the declaration isn't hoisted to the top of the function definition, and the variable `value` is no longer accessible once execution flows out of the `if` block. If `condition` evaluates to false, then `value` is never declared or initialized.
+גרסא זו של הפונקציה 
+`getValue` 
+מתנהגת בצורה דומה לאיך שמצופה משפות מבוססות שפת סי. מאחר והמשתנה בשם 
+`value` 
+מוגדר באמצעות 
+`let` 
+ההגדרה אינה מורמת לתחילת הפונקציה, והמשתנה 
+`value` 
+אינו נגיש ברגע שהקוד גולש מחוץ לבלוק ה 
+`if`. 
 
-### No Redeclaration
+אם התנאי 
+`condition` 
+מקבל ערך ״שקרי״ 
+אזי המשתנה בשם 
+`value` 
+לא יוגדר ולא יאותחל לו ערך
 
-If an identifier has already been defined in a scope, then using the identifier in a `let` declaration inside that scope causes an error to be thrown. For example:
+### אין להגדיר שנית
+
+אם משתנה מסוג 
+`let`
+כבר הוגדר בתוך סביבה, אז שימוש נוסף של 
+`let` 
+באותה הסביבה יגרום לשגיאה. לדוגמה:
 
 ```js
 var count = 30;
@@ -96,153 +171,336 @@ var count = 30;
 let count = 40;
 ```
 
-In this example, `count` is declared twice: once with `var` and once with `let`. Because `let` will not redefine an identifier that already exists in the same scope, the `let` declaration will throw an error. On the other hand, no error is thrown if a `let` declaration creates a new variable with the same name as a variable in its containing scope, as demonstrated in the following code:
+בדוגמה למעלה המשתנה 
+`count`
+מוגדר פעמיים: פעם אחת באמצעות 
+`var` 
+ופעם נוספת באמצעות 
+`let`. 
+מאחר ומשתנה מסוג 
+`let` 
+אינו יכול להגדיר מחדש משתנה שכבר קיים באותה הסביבה, תיזרק שגיאה. 
+ואולם, לא תיזרק שגיאה אם הגדרת 
+`let` 
+מייצרת משתנה חדש עם אותו שם כמו משתנה בסביבה החיצונית, כפי שמדגים הקוד הבא:
 
 ```js
 var count = 30;
 
-// Does not throw an error
+// לא נזרקת שגיאה
 if (condition) {
 
     let count = 40;
 
-    // more code
+    // קוד אחר
 }
 ```
 
-This `let` declaration doesn't throw an error because it creates a new variable called `count` within the `if` statement, instead of creating `count` in the surrounding block. Inside the `if` block, this new variable shadows the global `count`, preventing access to it until execution leaves the block.
+הגדרה מסוג 
+`let`
+לא זורקת שגיאה מאחר והיא יוצרת משתנה חדש בשם 
+`count` 
+בתוך בלוק של הצהרת 
+`if`, 
+וזאת במקום לייצר את המשתנה בסביבה החיצונית לבלוק. 
+בתוך בלוק ה - 
+`if` 
+המשתנה החדש שנוצר ״דורס״ את משתנה 
+`count` 
+החיצוני
 
-### Constant Declarations
+### הגדרת משתנים קבועים
 
-You can also define variables in ECMAScript 6 with the `const` declaration syntax. Variables declared using `const` are considered *constants*, meaning their values cannot be changed once set. For this reason, every `const` variable must be initialized on declaration, as shown in this example:
+באקמהסקריפט 6 ניתן להגדיר משתנים בעזרת המזהה 
+`const`. 
+משתנים שמוגדרים על ידי
+`const` 
+נחשבים למשתנים *קבועים*, כלומר הערכים שהושמו בהם אינם ניתנים לשינוי.
+מסיבה זו חובה לאתחל כל משתנה מסוג 
+`const` 
+בזמן הגדרתו, כפי שרואים בדוגמה הבאה:
 
 ```js
-// Valid constant
+// הגדרה תקינה
 const maxItems = 30;
 
 // Syntax error: missing initialization
 const name;
 ```
 
-The `maxItems` variable is initialized, so its `const` declaration should work without a problem. The `name` variable, however, would cause a syntax error if you tried to run the program containing this code, because `name` is not initialized.
+המשתנה 
+`maxItems` 
+מאותחל בעת הגדרתו, לכן הקוד יעבוד ללא שגיאה. 
+לעומת זאת, המשתנה
+`name`
+יזרוק שגיאת תחביר בעת הרצתו מאחר והמשתנה 
+`name`
+אינו מאותחל
 
+#### הבדלים בין let ו const
 
-#### Constants vs Let Declarations
-
-Constants, like `let` declarations, are block-level declarations. That means constants are no longer accessible once execution flows out of the block in which they were declared, and declarations are not hoisted, as demonstrated in this example:
+משתנים מסוג
+`const`
+בדומה למשתנים מסוג 
+`let` 
+הם משתנים המוגדרים בסביבת בלוק של קוד. המשמעות היא שמשתנים קבועים לא נגישים ברגע שהקוד שרץ יוצא מתחומי הבלוק שבו הוגדרו. בנוסף לכך משתנים קבועים אינם ״מורמים״ כפי שרואים בדוגמה הבאה:
 
 ```js
 if (condition) {
     const maxItems = 5;
 
-    // more code
+    // קוד נוסף
 }
 
-// maxItems isn't accessible here
+// maxItems אינו נגיש
 ```
 
-In this code, the constant `maxItems` is declared within an `if` statement. Once the statement finishes executing, `maxItems` is not accessible outside of that block.
+בדוגמת הקוד שראינו המשתנה הקבוע מוגדר בתוך בלוק של 
+`if`. 
+ברגע שהקוד בתוך אותו בלוק מסיים לרוץ המשתנה 
+`maxItems` 
+אינו נגיש יותר, כיוון שהוא אינו קיים מחוץ לבלוק שבו הוגדר. 
 
-In another similarity to `let`, a `const` declaration throws an error when made with an identifier for an already-defined variable in the same scope. It doesn't matter if that variable was declared using `var` (for global or function scope) or `let` (for block scope). For example, consider this code:
+בדומה למשתנה מסוג 
+`let`, 
+משתנה מסוג 
+`const` 
+זורק שגיאה כאשר מנסים להשתמש בו עבור שם משתנה שכבר הוגדר באותה סביבה. 
+אין זה משנה גם אם המשתנה הוגדר באמצעות 
+`var` 
+(עבור סביבה גלובלית או סביבת פונקציה) 
+או באמצעות 
+`let` 
+(בתוך סביבת בלוק של קוד). 
+
+לדוגמה:
 
 ```js
-var message = "Hello!";
+var message = "שלום!";
 let age = 25;
 
-// Each of these would throw an error.
-const message = "Goodbye!";
+// כל אחת מהשורות למטה תזרוק שגיאה
+const message = "להתראות!";
 const age = 30;
 ```
 
-The two `const` declarations would be valid alone, but given the previous `var` and `let` declarations in this case, neither will work as intended.
+שתי ההגדרות מסוג
+`const` 
+בדוגמה למעלה יהיו תקינות במצב רגיל, אך בגלל הגדרות מסוג
+`var` 
+ו-
+`let` 
+שקדמו להן, אף אחת לא תעבוד.
 
-Despite those similarities, there is one big difference between `let` and `const` to remember. Attempting to assign a `const` to a previously defined constant will throw an error, in both strict and non-strict modes:
+למרות הדמיון הרב יש הבדל מובהק בין הגדרת 
+`let` 
+לבין הגדרת
+`const`. 
+כל ניסיון לבצע השמת ערך חדש למשתנה מסוג 
+`const` 
+יזרוק שגיאה, 
+בין אם מדובר במצב ״קפדני״  
+(strict mode)
+או לא:
 
 ```js
 const maxItems = 5;
 
-maxItems = 6;      // throws error
+maxItems = 6;      // שגיאה
 ```
 
-Much like constants in other languages, the `maxItems` variable can't be assigned a new value later on. However, unlike constants in other languages, the value a constant holds may be modified if it is an object.
+בדומה למשתנים קבועים בשפות תכנות אחרות, המשתנה 
+`maxItems` 
+לא יכול לקבל ערך חדש מאוחר יותר. 
+יחד עם זאת, בניגוד לשפות אחרות, במידה והערך הינו אוביקט ג׳אווהסקריפט אז הוא ניתן לשינוי.
 
-#### Declaring Objects with Const
+#### הגדרת אובייקט באמצעות משתנה קבוע
 
-A `const` declaration prevents modification of the binding and not of the value itself. That means `const` declarations for objects do not prevent modification of those objects. For example:
+הגדרת משתנה מסוג 
+`const` 
+מונעת שינוי של הקישור אך לא של הערך עצמו. משמעות הדבר היא שהגדרת משתנה מסוג 
+ `const` 
+ עבור אוביקט לא מונעת שינוי של אותו אוביקט. לדוגמה:
+
 
 ```js
 const person = {
-    name: "Nicholas"
+    name: "ניקולאס"
 };
 
-// works
-person.name = "Greg";
+// תקין
+person.name = "גרג";
 
-// throws an error
+// שגיאה
 person = {
-    name: "Greg"
+    name: "גרג"
 };
 ```
 
-Here, the binding `person` is created with an initial value of an object with one property. It's possible to change `person.name` without causing an error because this changes what `person` contains and doesn't change the value that `person` is bound to. When this code attempts to assign a value to `person` (thus attempting to change the binding), an error will be thrown. This subtlety in how `const` works with objects is easy to misunderstand. Just remember: `const` prevents modification of the binding, not modification of the bound value.
+בדוגמה הקודמת, הקישור עבור 
+`person` 
+נוצר עם הערך התחלתי של אוביקט בעל תכונה אחת. 
+ניתן לשנות את הערך עבור
+`person.name` 
+מבלי שתיזרק שגיאה מאחר והדבר משנה רק את התוכן של 
+`person` 
+ולא משנה את הערך ש
+`person` 
+קשור אליו. 
 
-### The Temporal Dead Zone
+כאשר מנסים לתת ערך חדש למשתנה 
+`person` 
+(ועל ידי כך לשנות את הקישור), 
+תיזרק שגיאה. 
 
-A variable declared with either `let` or `const` cannot be accessed until after the declaration. Attempting to do so results in a reference error, even when using normally safe operations such as the `typeof` operation in this example:
+קל להתבלבל מהתנהגות זו ולכן יש לזכור את העקרון הבא:
+שימוש ב- 
+`const` 
+מונע שינוי של הקישור לערך, אך אינו מונע שינוי של הערך עצמו.
+
+### האזור המת באופן זמני - The Temporal Dead Zone
+
+לא ניתן להשתמש במשתנה שהוגדר באמצעות
+`let` 
+או
+`const` 
+עד לאחר שהוגדר. ניסיון להשתמש במשתנה לפני כן זורק שגיאת ייחוס 
+(ReferenceError), 
+השגיאה נזרקת גם אם משתמשים בפעולות בטוחות יחסית כמו פעולת 
+`typeof` 
+בדוגמה הבאה:
 
 ```js
 if (condition) {
     console.log(typeof value);  // ReferenceError!
-    let value = "blue";
+    let value = "כחול";
 }
 ```
 
-Here, the variable `value` is defined and initialized using `let`, but that statement is never executed because the previous line throws an error. The issue is that `value` exists in what the JavaScript community has dubbed the *temporal dead zone* (TDZ). The TDZ is never named explicitly in the ECMAScript specification, but the term is often used to describe why `let` and `const` declarations are not accessible before their declaration. This section covers some subtleties of declaration placement that the TDZ causes, and although the examples shown all use `let`, note that the same information applies to `const`.
+בדוגמה זו, המשתנה בשם 
+`value` 
+מוגדר ומאותחל באמצעות הגדרת 
+`let`
+אך קודם לכן נזרקת שגיאה בגלל שורת הקוד הקודמת. הבעיה היא שהמשתנה 
+`value` 
+נמצא בתוך מה שקהילת המפתחים כינתה בשם 
+*האזור המת באופן זמני* 
+(TDZ). 
 
-When a JavaScript engine looks through an upcoming block and finds a variable declaration, it either hoists the declaration to the top of the function or global scope (for `var`) or places the declaration in the TDZ (for `let` and `const`). Any attempt to access a variable in the TDZ results in a runtime error. That variable is only removed from the TDZ, and therefore safe to use, once execution flows to the variable declaration.
+השם
+TDZ 
+אינו מופיע באופן מפורש באפיון אקמהסקריפט אך המונח משמש כדי לתאר מדוע הגדרות מסוג 
+`let` 
+ו- 
+`const`
+אינן נגישות לפני הגדרתן. בהמשך נעבור על מספר דקויות שלהן גורם ה 
+TDZ 
+ולמרות שהדוגמאות משתמשות במשתנה מסוג 
+`let`,
+חשוב לדעת שהמידע משמש גם עבור משתנה מסוג 
+`const`
 
-This is true anytime you attempt to use a variable declared with `let` or `const`  before it's been defined. As the previous example demonstrated, this even applies to the normally safe `typeof` operator. You can, however, use `typeof` on a variable outside of the block where that variable is declared, though it may not give the results you're after. Consider this code:
+כאשר מנוע ריצה של ג׳אווהסקריפט מסתכל בתוך בלוק של קוד ומוצא הגדרת משתנה, אזי הוא מרים את ההגדרה לתחילת הפונקציה או לתחילת הסביבה הגלובלית
+(עבור משתנה מסוג
+ `var`)
+או שאותו מנוע ריצה ממקם את ההגדרה בתוך ה-
+TDZ 
+(עבור משתנים מסוג 
+`let` ו `const`). 
+כל ניסיון לגשת למשתנה בתוך ה 
+TDZ 
+יגרום לזריקת שגיאה בזמן ריצה.
+
+אותו משתנה מסולק מתוך ה
+TDZ 
+וכך הופך בטוח לשימוש, 
+רק כאשר הקוד מגיע לשורת הקוד בה מוגדר המשתנה.
+
+אותה התנהגות מתקיימת בכל ניסיון לגשת למשתנה מסוג 
+`let` או `const` 
+טרם הגדרתו. כפי שמדגימה הדוגמה הקודמת, הדבר תקף גם עבור האופרטור 
+`typeof` 
+שנחשב לבטוח לשימוש. 
+יחד עם זאת ניתן להשתמש ב
+ `typeof` 
+ על משתנה שקיים מחוץ לבלוק בו מוגדר המשתנה, אך לא בטוח שיתקבלו אותן התוצאות :.
 
 ```js
 console.log(typeof value);     // "undefined"
 
 if (condition) {
-    let value = "blue";
+    let value = "כחול";
 }
 ```
 
-The variable `value` isn't in the TDZ when the `typeof` operation executes because it occurs outside of the block in which `value` is declared. That means there is no `value` binding, and `typeof` simply returns `"undefined"`.
+המשתנה
+`value` 
+אינו נמצא בתוך 
+TDZ 
+בזמן שאופרטור 
+`typeof` 
+פועל מאחר והאופרציה מתבצעת מבחוץ לבלוק הקוד שבתוכו מוגדר המשתנה 
+`value`. 
+משמעות הדבר היא שכלל לא קיים קישור עבור 
+`value` 
+ולכן פעולת 
+`typeof` 
+תסתיים עם הערך
+`"undefined"`.
 
-The TDZ is just one unique aspect of block bindings. Another unique aspect has to do with their use inside of loops.
+ה-
+TDZ 
+מהווה רק היבט ייחודי אחד של קשירות לסביבת בלוק. 
+היבט ייחודי אחר מתבטא בעת השימוש בלולאות
 
-## Block Binding in Loops
+## קישור משתנים בסביבת בלוק בתוך לולאות
 
-Perhaps one area where developers most want block level scoping of variables is within `for` loops, where the throwaway counter variable is meant to be used only inside the loop. For instance, it's not uncommon to see code like this in JavaScript:
+אחד המקומות הטובים ביותר עבור משתנים ברמת בלוק הוא בתוך לולאות 
+`for`, 
+היכן שמשתנה אינדקס נועד לשימוש רק בתוך הלולאה. ראה דוגמה   : 
 
 ```js
 for (var i = 0; i < 10; i++) {
     process(items[i]);
 }
 
-// i is still accessible here
+// המשתנה i נגיש
 console.log(i);                     // 10
 ```
 
-In other languages, where block level scoping is the default, this example should work as intended, and only the `for` loop should have access to the `i` variable. In JavaScript, however, the variable `i` is still accessible after the loop is completed because the `var` declaration gets hoisted. Using `let` instead, as in the following code, should give the intended behavior:
+בשפות אחרות היכן ששיוך ברמת בלוק קורה כברירת מחדל, הדוגמה האחרונה תעבוד כך שהמשתנה
+`i` 
+נגיש אך ורק בתוך לולאת ה 
+`for`. 
+לעומת זאת, בג׳אווהסקריפט המשתנה 
+`i` 
+עדיין נגיש לאחר שהלולאה סיימה לרוץ מאחר והגדרת ה 
+`var` 
+מורמת. 
+באמצעות שימוש בהגדרת 
+`let` 
+תתקבל התוצאה הרצויה, כפי שמודגם בהמשך:
 
 ```js
 for (let i = 0; i < 10; i++) {
     process(items[i]);
 }
 
-// i is not accessible here - throws an error
+// המשתנה i אינו נגיש - תיזרק שגיאה
 console.log(i);
 ```
 
-In this example, the variable `i` only exists within the `for` loop. Once the loop is complete, the variable is no longer accessible elsewhere.
+בדוגמה זו, המשתנה 
+`i` 
+קיים אך ורק בתוך לולאת ה 
+`for`. 
+ברגע שהלולאה סיימה לרוץ המשתנה אינו נגיש. 
 
-### Functions in Loops
+### פונקציות בתוך לולאות
 
+המאפיינים של הגדרת 
+`var`
+גרמו לשי
 The characteristics of `var` have long made creating functions inside of loops problematic, because the loop variables are accessible from outside the scope of the loop. Consider the following code:
 
 ```js
