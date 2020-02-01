@@ -30,24 +30,27 @@ TC-39, הועדה האחראית לקדם את התפתחות      ECMAScript  �
 ECMAScript 6  הגיע למצב של     feature complete  במהלך שנת 2015  ופוסמה פורמאלית כ   "ECMAScript 2015" (אבל עדיין הכוונה ל   ECMAScript 6 השם המקובל בקרב תכנתים בעוךם).  
 בתקן זה התכונות  כוללות  מנעד רחב של שינויים  החל מאוביקטים חדשים   , תבניות  ועד לשינויי סינטאקס . 
 המלהיב ב  ECMAScript 6   הוא שהשינויים  בשפה מוכוונים היטב  לפתרון בעיות שמפתחים נתקלו בהם בפועל.
+
+ 
+## על ספר זה 
+הבנה טובה  של התכונות והיכולות של   ECMAScript 6   הוא מפתח לכל מפתחי ה  JavaScript המתקדמים לאימוץ התקנים החדשים. 
+התכונות בשפה המוצגת ב    ECMAScript 6  מציגות הבסיס  עליו אפליקציות   JavaScript   יבנו בעתיד הנראה לעין. 
+ למטרה זו נכתב ספר זה.  תקוותי שתקראו ספר זה למוד על התכונות והיכולות  של  ECMAScript 6  כך שתהיו מוכנים  להתחיל להשתמש בתכונות והיכולות החדשות בכל עת שתזקקו להם . 
+
+ 
+### תאימות ל  Node.js ודפדפנים 
+סביביות רבות של   JavaScript,  כדפדפנים שונים  ו  Node.js , עובדים על יישום בפועל  של   ECMAScript 6 . 
+ספר זה אינו עוסק בבעיות יישום התקן בסביבות השונות  אלא מתרכז בהגדרות התקן  והתנהגות נכונה. 
+לכן , יתכן שבסביבות מסויימות תתקלו בבעיות תאימות לתקן שלא נכללות בספר זה. 
+ 
+### למי מיועד ספר זה 
+
+ספר זה נועד להדריך אלו המכירים  JavaScript  ו ECMAScript 5.  בעוד שהבנת JavaScript לעומק אינה הכרחית לשימוש בספר זה ,  הוא יסיעע לכם להבין ההבדלים בין   ECMAScript 5  ו ECMAScript 6. 
+במיוחד , ספר זה נועד  למעבר  מהיר לתכנות מתקדם  למפתחים בסביבת   Node.JS וקוד לדפדפנים המעונינים ללמוד על התפתחויות  עדכניות  בשפה וליישם אותם. 
+ספר זה אינו למתחילים שמעולם לא תכנתו ב  JavaScript. הנכם אמורים להיות בעלי הבנה בסיסית טובה  בשפה בכדי להשתמש  בספר זה. 
  
 
 </div>
-
-
-## About This Book
-
-A good understanding of ECMAScript 6 features is key for all JavaScript developers going forward. The language features introduced in ECMAScript 6 represent the foundation upon which JavaScript applications will be built for the foreseeable future. That's where this book comes in. My hope is that you'll read this book to learn about ECMAScript 6 features so that you'll be ready to start using them as soon as you need to.
-
-### Browser and Node.js Compatibility
-
-Many JavaScript environments, such as web browsers and Node.js, are actively working on implementing ECMAScript 6. This book doesn't attempt to address the inconsistencies between implementations and instead focuses on what the specification defines as the correct behavior. As such, it's possible that your JavaScript environment may not conform to the behavior described in this book.
-
-### Who This Book is For
-
-This book is intended as a guide for those who are already familiar with JavaScript and ECMAScript 5. While a deep understanding of the language isn't necessary to use this book, it will help you understand the differences between ECMAScript 5 and 6. In particular, this book is aimed at intermediate-to-advanced JavaScript developers programming for a browser or Node.js environment who want to learn about the latest developments in the language.
-
-This book is not for beginners who have never written JavaScript. You will need to have a good basic understanding of the language to make use of this book.
 
 ### Overview
 
