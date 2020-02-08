@@ -21,6 +21,8 @@
 ואין זה משנה כלל וכלל היכן המשתנה מוגדר בעת הכתיבה. התנהגות זו נקראת ״הרמת משתנים״. 
 לדוגמה:
 
+<div dir="ltr">
+
 ```js
 function getValue(condition) {
 
@@ -41,6 +43,8 @@ function getValue(condition) {
 }
 ```
 
+</div>
+
 אם ג׳אווהסקריפט היא שפה חדשה עבורכם ייתכן ותצפו מהמשתנה 
 `value` 
 שיתקיים אך ורק אם המשתנה 
@@ -52,6 +56,8 @@ function getValue(condition) {
 `condition`. 
 מאחורי הקלעים סביבת הריצה משנה את הפונקציה 
 `getValue`: 
+
+<div dir="ltr">
 
 ```js
 function getValue(condition) {
@@ -70,6 +76,8 @@ function getValue(condition) {
     }
 }
 ```
+
+</div>
 
 ההגדרה של המשתנה 
 `value` 
@@ -119,6 +127,8 @@ function getValue(condition) {
 
 להלן דוגמה:
 
+<div dir="ltr">
+
 ```js
 function getValue(condition) {
 
@@ -138,6 +148,8 @@ function getValue(condition) {
     // המשתנה value אינו קיים כאן
 }
 ```
+
+</div>
 
 גרסא זו של הפונקציה 
 `getValue` 
@@ -165,12 +177,16 @@ function getValue(condition) {
 `let` 
 באותה הסביבה יגרום לשגיאה. לדוגמה:
 
+<div dir="ltr">
+
 ```js
 var count = 30;
 
 // Syntax error
 let count = 40;
 ```
+
+</div>
 
 בדוגמה למעלה המשתנה 
 `count`
@@ -185,6 +201,8 @@ let count = 40;
 `let` 
 מייצרת משתנה חדש עם אותו שם כמו משתנה בסביבה החיצונית, כפי שמדגים הקוד הבא:
 
+<div dir="ltr">
+
 ```js
 var count = 30;
 
@@ -196,6 +214,8 @@ if (condition) {
     // קוד אחר
 }
 ```
+
+</div>
 
 הגדרה מסוג 
 `let`
@@ -221,6 +241,8 @@ if (condition) {
 `const` 
 בזמן הגדרתו, כפי שרואים בדוגמה הבאה:
 
+<div dir="ltr">
+
 ```js
 // הגדרה תקינה
 const maxItems = 30;
@@ -228,6 +250,8 @@ const maxItems = 30;
 // Syntax error: missing initialization
 const name;
 ```
+
+</div>
 
 המשתנה 
 `maxItems` 
@@ -246,6 +270,8 @@ const name;
 `let` 
 הם משתנים המוגדרים בסביבת בלוק של קוד. המשמעות היא שמשתנים קבועים לא נגישים ברגע שהקוד שרץ יוצא מתחומי הבלוק שבו הוגדרו. בנוסף לכך משתנים קבועים אינם ״מורמים״ כפי שרואים בדוגמה הבאה:
 
+<div dir="ltr">
+
 ```js
 if (condition) {
     const maxItems = 5;
@@ -255,6 +281,8 @@ if (condition) {
 
 // maxItems אינו נגיש
 ```
+
+</div>
 
 בדוגמת הקוד שראינו המשתנה הקבוע מוגדר בתוך בלוק של 
 `if`. 
@@ -276,6 +304,8 @@ if (condition) {
 
 לדוגמה:
 
+<div dir="ltr">
+
 ```js
 var message = "שלום!";
 let age = 25;
@@ -284,6 +314,8 @@ let age = 25;
 const message = "להתראות!";
 const age = 30;
 ```
+
+</div>
 
 שתי ההגדרות מסוג
 `const` 
@@ -304,11 +336,15 @@ const age = 30;
 (strict mode)
 או לא:
 
+<div dir="ltr">
+
 ```js
 const maxItems = 5;
 
 maxItems = 6;      // שגיאה
 ```
+
+</div>
 
 בדומה למשתנים קבועים בשפות תכנות אחרות, המשתנה 
 `maxItems` 
@@ -323,6 +359,7 @@ maxItems = 6;      // שגיאה
  `const` 
  עבור אוביקט לא מונעת שינוי של אותו אוביקט. לדוגמה:
 
+<div dir="ltr">
 
 ```js
 const person = {
@@ -337,6 +374,8 @@ person = {
     name: "גרג"
 };
 ```
+
+</div>
 
 בדוגמה הקודמת, הקישור עבור 
 `person` 
@@ -371,12 +410,16 @@ person = {
 `typeof` 
 בדוגמה הבאה:
 
+<div dir="ltr">
+
 ```js
 if (condition) {
     console.log(typeof value);  // ReferenceError!
     let value = "כחול";
 }
 ```
+
+</div>
 
 בדוגמה זו, המשתנה בשם 
 `value` 
@@ -426,6 +469,8 @@ TDZ
  `typeof` 
  על משתנה שקיים מחוץ לבלוק בו מוגדר המשתנה, אך לא בטוח שיתקבלו אותן התוצאות :.
 
+<div dir="ltr">
+
 ```js
 console.log(typeof value);     // "undefined"
 
@@ -433,6 +478,9 @@ if (condition) {
     let value = "כחול";
 }
 ```
+
+</div>
+
 
 המשתנה
 `value` 
@@ -458,7 +506,9 @@ TDZ
 
 אחד המקומות הטובים ביותר עבור משתנים ברמת בלוק הוא בתוך לולאות 
 `for`, 
-היכן שמשתנה אינדקס נועד לשימוש רק בתוך הלולאה. ראה דוגמה   : 
+היכן שמשתנה אינדקס נועד לשימוש רק בתוך הלולאה. ראה דוגמה : 
+
+<div dir="ltr">
 
 ```js
 for (var i = 0; i < 10; i++) {
@@ -468,6 +518,9 @@ for (var i = 0; i < 10; i++) {
 // המשתנה i נגיש
 console.log(i);                     // 10
 ```
+
+</div>
+
 
 בשפות אחרות היכן ששיוך ברמת בלוק קורה כברירת מחדל, הדוגמה האחרונה תעבוד כך שהמשתנה
 `i` 
@@ -482,6 +535,8 @@ console.log(i);                     // 10
 `let` 
 תתקבל התוצאה הרצויה, כפי שמודגם בהמשך:
 
+<div dir="ltr">
+
 ```js
 for (let i = 0; i < 10; i++) {
     process(items[i]);
@@ -490,6 +545,8 @@ for (let i = 0; i < 10; i++) {
 // המשתנה i אינו נגיש - תיזרק שגיאה
 console.log(i);
 ```
+
+</div>
 
 בדוגמה זו, המשתנה 
 `i` 
@@ -504,6 +561,8 @@ console.log(i);
 היו בעייתיים מבחינת הגדרת פונקציות בתוך לולאות, מאחר ומשתנים שנוצרו בלולאה עדיין נגישים מחוצה לה. 
 לדוגמה:
 
+<div dir="ltr">
+
 ```js
 var funcs = [];
 
@@ -515,6 +574,8 @@ funcs.forEach(function(func) {
     func();     // המספר ״10״ יודפס עשר פעמים
 });
 ```
+
+</div>
 
 ייתכן ותטעו לחשוב שהקוד הנ״ל ידפיס את הספרות 0-9 אך במקום זאת הוא ידפיס את המספר 10 עשר פעמים רצופות.
 הסיבה היא שהמשתנה 
@@ -532,6 +593,7 @@ funcs.forEach(function(func) {
 (IIFEs - immediately-invoked function expressions)
 בתוך לולאות על מנת ליצור עותק מקומי לפונקציה.
 לדוגמה:
+<div dir="ltr">
 
 ```js
 var funcs = [];
@@ -548,6 +610,9 @@ funcs.forEach(function(func) {
     func();     // מדפיס את הספרות 0-9
 });
 ```
+
+</div>
+
 בדוגמה זו משתמשים ב 
 (IIFE) 
 בתוך הלולאה.
@@ -578,6 +643,7 @@ IIFE
 על מנת לקבל את התוצאה הרצויה.
 
 לדוגמה:
+<div dir="ltr">
 
 ```js
 var funcs = [];
@@ -592,6 +658,8 @@ funcs.forEach(function(func) {
     func();     // יודפס 0 ואז 1 ואז 2 עד שמגיעים ל 9
 })
 ```
+
+</div>
 
 לולאה כמו בדוגמה האחרונה פועלת באותה צורה כמו הלולאה בדוגמה שלפניה שהשתמשה במשתנה מסוג 
 `var` 
@@ -611,6 +679,8 @@ IIFE,
 `for-in` ו `for-of`
 כפי שניתן לראות בדוגמה הבאה:
 
+<div dir="ltr">
+
 ```js
 var funcs = [],
     object = {
@@ -629,6 +699,8 @@ funcs.forEach(function(func) {
     func();     // יודפס "a", ואז "b", ואז "c"
 });
 ```
+
+</div>
 
 בדוגמה זו לולאה 
 `for-in` 
@@ -669,6 +741,8 @@ I> חשוב
 עבור החלק המאתחל של הלולאה, אך הלולאה תזרוק שגיאה במידה ומנסים לשנות את הערך. 
 לדוגמה: 
 
+<div dir="ltr">
+
 ```js
 var funcs = [];
 
@@ -679,6 +753,8 @@ for (const i = 0; i < 10; i++) {
     });
 }
 ```
+
+</div>
 
 בדוגמת הקוד האחרונה, המשתנה 
 `i` 
@@ -701,6 +777,8 @@ for (const i = 0; i < 10; i++) {
 `let`. 
 לכן דוגמה הקוד הבאה תרוץ בהצלחה
 
+<div dir="ltr">
+
 ```js
 var funcs = [],
     object = {
@@ -720,6 +798,8 @@ funcs.forEach(function(func) {
     func();     // יודפס "a", ואז "b", ואז "c"
 });
 ```
+
+</div>
 
 דוגמה הקוד האחרונה מתנהגת כמו הדוגמה השניה בפסקה
 "הגדרת let בתוך לולאה". 
@@ -748,6 +828,8 @@ funcs.forEach(function(func) {
 בצורה כזו ניתן בטעות לדרוס ערך גלובלי קיים, 
 לדוגמה: 
 
+<div dir="ltr">
+
 ```js
 // בדפדפן
 var RegExp = "Hello!";
@@ -756,6 +838,8 @@ console.log(window.RegExp);     // "Hello!"
 var ncz = "Hi!";
 console.log(window.ncz);        // "Hi!"
 ```
+
+</div>
 
 למרות שהמשתנה הגלובלי 
 `RegExp` 
@@ -785,6 +869,8 @@ JavaScript
 
 לדוגמה:
 
+<div dir="ltr">
+
 ```js
 // בדפדפן
 let RegExp = "Hello!";
@@ -795,6 +881,8 @@ const ncz = "Hi!";
 console.log(ncz);                       // "Hi!"
 console.log("ncz" in window);           // false
 ```
+
+</div>
 
 בדוגמה זו, 
 משתנה חדש מסוג 
@@ -886,9 +974,9 @@ I> ניתן עדיין להשתמש בהגדרה מסוג
 
 הדרך המומלצת לשימוש במשתנים עבור סביבת בלוק הינה  
 להשתמש בהגדרת 
-
+`const`
 כברירת מחדל ולהעדיף שימוש בהגדרת
-
+`let`
 כאשר ידוע לך שהמשתנה עתיד לקבל ערך שונה. 
 דרך זו מבטיחה רמה בסיסית של 
 קוד מוגן כנגד שינויים בלתי צפויים
