@@ -1,11 +1,12 @@
+<div dir="rtl">
+
 # שיוך משתנים לבלוקים של קוד
 
 הגדרת משתנים הייתה תמיד חלק בעייתי בג׳אווהסקריפט. 
 ברוב השפות מבוססות שפת סי, משתנים נוצרים באותו מקום בקוד בו הם מוגדרים. 
 המצב שונה בשפת ג׳אווהסקריפט. 
 אופן ההגדרה של המשתנה תלוי בצורת הכתיבה, והמהדורה השישית של השפה נותנת אפשרויות חדשות לשליטה בהגדרת המשתנה והסביבה אליה הוא שייך
-(scope)
-. 
+(scope). 
 פרק זה מראה מדוע הגדרת משתנים מסוג 
 `var` 
 יכולה ליצור בלבול, מציגה משתנים חדשים שמשוייכים מבחינת הסביבה שלהם לבלוקים של קוד 
@@ -358,7 +359,7 @@ person = {
 `const` 
 מונע שינוי של הקישור לערך, אך אינו מונע שינוי של הערך עצמו.
 
-### האזור המת באופן זמני - The Temporal Dead Zone
+### האזור המת הזמני - The Temporal Dead Zone
 
 לא ניתן להשתמש במשתנה שהוגדר באמצעות
 `let` 
@@ -384,7 +385,7 @@ if (condition) {
 אך קודם לכן נזרקת שגיאה בגלל שורת הקוד הקודמת. הבעיה היא שהמשתנה 
 `value` 
 נמצא בתוך מה שקהילת המפתחים כינתה בשם 
-*האזור המת באופן זמני* 
+*האזור המת הזמני* 
 (TDZ). 
 
 השם
@@ -846,12 +847,50 @@ I> ניתן עדיין להשתמש בהגדרה מסוג
 כאשר ידוע מראש כי ערך המשתנה עתיד להשתנות. 
 הרציונל לכך הוא שרוב המשתנים לא משנים את ערכם לאחר האתחול מאחר ושינויי ערך שאינם צפויים הם מקור לבאגים.
 
-## Summary
+## סיכום
 
-The `let` and `const` block bindings introduce lexical scoping to JavaScript. These declarations are not hoisted and only exist within the block in which they are declared. This offers behavior that is more like other languages and less likely to cause unintentional errors, as variables can now be declared exactly where they are needed. As a side effect, you cannot access variables before they are declared, even with safe operators such as `typeof`. Attempting to access a block binding before its declaration results in an error due to the binding's presence in the temporal dead zone (TDZ).
+הגדרות משתנים עבור סביבת בלוק מסוג 
+`let` ו `const` 
+מביאות איתן מה שנקרא שיוך לקסיקאלי לג׳אווהסקריפט. 
+הגדרות אלו אינן מורמות וקיימות רק עבור אותו הבלוק בקוד בו הוגדרו. 
+דבר זה מייצר התנהגות שדומה יותר לשפות קיימות אחרות, ופחות נוטה ליצירת שגיאות לא מכוונות, מאחר ומשתנים יכולים כעת להיות מוגדרים בדיוק היכן שמשתמשים בהם. 
+כתופעת לוואי לכך, לא ניתן לגשת למשתנים לפני שהם מוגדרים בפועל, אפילו לא באמצעות אופרטורים שנחשבים בטוחים לשימוש כגון אופרטור 
+`typeof`. 
+ניסיון לגשת למשתנה עבור סביבת בלוק לפני הגדרתו זורק שגיאה עקב שיוך המשתנה במה שנקרה 
+האזור המת הזמני 
+(TDZ). 
 
-In many cases, `let` and `const` behave in a manner similar to `var`; however, this is not true for loops. For both `let` and `const`, `for-in` and `for-of` loops create a new binding with each iteration through the loop. That means functions created inside the loop body can access the loop bindings values as they are during the current iteration, rather than as they were after the loop's final iteration (the behavior with `var`). The same is true for `let` declarations in `for` loops, while attempting to use `const` declarations in a `for` loop may result in an error.
+במקרים רבים,
+משתנים מסוג
+`let` ו `const` 
+מתנהגים באופן דומה למשתנים מסוג 
+`var`. 
+הדבר אינו נכון עבור לולאות.
+השימוש במשתנים מסוג 
+`let` ו `const` 
+בתוך לולאות
+`for-in` ו `for-of` 
+יוצר שיוך חדש עבור כל איטרציה של הלולאה. 
+משמעות הדבר היא שפונקציות אשר מוגדרות בתוך הלולאה יכולות לגשת למשתנים ולערכם כפי שהיה בעת האיטרציה הנוכחית, 
+ולא כפי שהם לאחר שהלולאה סיימה לעבוד 
+(ההתנהגות הקיימת עבור משתנים מסוג `var`). 
+הדבר נכון גם עבור הגדרת משתנים מסוג 
+`let`
+בתוך לולאות מסוג לולאות, 
+`for`
+בעוד שניסיון להשתמש בהגדרת
+`const`
+בתוך לולאת
+`for`
+עלול לזרוק שגיאה.
 
-The current best practice for block bindings is to use `const` by default and only use `let` when you know a variable's value needs to change. This ensures a basic level of immutability in code that can help prevent certain types of errors.
+הדרך המומלצת לשימוש במשתנים עבור סביבת בלוק הינה  
+להשתמש בהגדרת 
 
+כברירת מחדל ולהעדיף שימוש בהגדרת
 
+כאשר ידוע לך שהמשתנה עתיד לקבל ערך שונה. 
+דרך זו מבטיחה רמה בסיסית של 
+קוד מוגן כנגד שינויים בלתי צפויים
+שיכול למנוע שגיאות מסויימות.
+</div>
