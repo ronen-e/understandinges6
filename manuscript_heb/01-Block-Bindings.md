@@ -732,12 +732,23 @@ funcs.forEach(function(func) {
 מאחר ומאתחל הלולאה יוצר שיוך חדש בכל איטרציה ולא מנסה לשנות את הערך של שיוך קיים 
 (כפי שקרה בדוגמה הקודמת כאשר ניסינו לעשות זאת בתוך לולאה מסוג לולאת `for`).
 
-## Global Block Bindings
+## שיוך לסביבת בלוק גלובלית
 
-Another way in which `let` and `const` are different from `var` is in their global scope behavior. When `var` is used in the global scope, it creates a new global variable, which is a property on the global object (`window` in browsers). That means you can accidentally overwrite an existing global using `var`, such as:
+הבדל נוסף בין משתנים מסוג 
+`let` ו `const` 
+לבין משתנים מסוג 
+`var` 
+הוא התנהגותם בסביבה הגלובלית. 
+כאשר משתנים מסוג 
+`var` 
+מוגדרים בסביבה הגלובלית, הדבר יוצר משתנה גלובלי חדש, 
+שהופך למפתח של האובייקט הגלובלי 
+(`window` בדפדפנים). 
+בצורה כזו ניתן בטעות לדרוס ערך גלובלי קיים, 
+לדוגמה: 
 
 ```js
-// in a browser
+// בדפדפן
 var RegExp = "Hello!";
 console.log(window.RegExp);     // "Hello!"
 
@@ -745,12 +756,36 @@ var ncz = "Hi!";
 console.log(window.ncz);        // "Hi!"
 ```
 
-Even though the `RegExp` global is defined on `window`, it is not safe from being overwritten by a `var` declaration. This example declares a new global variable `RegExp` that overwrites the original. Similarly, `ncz` is defined as a global variable and immediately defined as a property on `window`. This is the way JavaScript has always worked.
+למרות שהמשתנה הגלובלי 
+`RegExp` 
+מוגדר כחלק של  
+`window` 
+אין לו חסינות מפני דריסה על ידי משתנה מסוג 
+`var`. 
+הדוגמה הנ״ל מגדירה משתנה גלובלי חדש בשם 
+`RegExp` 
+אשר דורסת את המשתנה המקורי. 
+בצורה דומה, 
+המשתנה 
+`ncz` 
+מוגדר כמשתנה בסביבה הגלובלית ומייד מגדיר מפתח חדש באוביקט 
+`window`. 
+זוהי הדרך שבה 
+JavaScript 
+למן ההתחלה.
 
-If you instead use `let` or `const` in the global scope, a new binding is created in the global scope but no property is added to the global object. That also means you cannot overwrite a global variable using `let` or `const`, you can only shadow it. Here's an example:
+אילו היינו משתמשים במשתנים מסוג 
+`let` או `const`
+בסביבה הגלובלית,
+היינו יוצרים שיוך חדש בסביבה הגלובלית אך לא היה מתווסף מפתח חדש לאוביקט הגלובלי. 
+משמעות הדבר היא שלא ניתן לדרוס משתנה גלובלי על ידי הגדרת 
+`let` או `const`, 
+ניתן רק להסתיר אותו. 
+
+לדוגמה:
 
 ```js
-// in a browser
+// בדפדפן
 let RegExp = "Hello!";
 console.log(RegExp);                    // "Hello!"
 console.log(window.RegExp === RegExp);  // false
@@ -760,15 +795,56 @@ console.log(ncz);                       // "Hi!"
 console.log("ncz" in window);           // false
 ```
 
-Here, a new `let` declaration for `RegExp` creates a binding that shadows the global `RegExp`. That means `window.RegExp` and `RegExp` are not the same, so there is no disruption to the global scope. Also, the `const` declaration for `ncz` creates a binding but does not create a property on the global object. This capability makes `let` and `const` a lot safer to use in the global scope when you don't want to create properties on the global object.
+בדוגמה זו, 
+משתנה חדש מסוג 
+`let` 
+מוגדר תחת השם  
+`RegExp` 
+ובתורו מסתיר את משתנה 
+`RegExp` 
+שכבר קיים בסביבה הגלובלית.
 
-I> You may still want to use `var` in the global scope if you have a code that should be available from the global object. This is most common in a browser when you want to access code across frames or windows.
+משמעות הדבר הינה שהערכים עבור 
+`window.RegExp` ו `RegExp` 
+שונים זה מזה, כך שאין דריסה של משתנים בסביבה הגלובלית. 
+כמו כן, הגדרת 
+`const`
+עבור המשתנה בשם
+`ncz` 
+יוצרת שיוך עבור משתנה בסביבה הגלובלית אך אינה יוצרת מפתח חדש באוביקט הגלובלי. 
+תכונה זו של משתנים מסוג
+`let` ו `const` 
+הופכת אותם לבטוחים יותר לשימוש בסביבה הגלובלית כאשר אין זה רצוי ליצור מפתחות חדשים באוביקט הגלובלי.
 
-## Emerging Best Practices for Block Bindings
+I> ניתן עדיין להשתמש בהגדרה מסוג
+`var` 
+בסביבה הגלובלית עבור קוד שרוצים לאפשר את הגישה אליו מתוך האוביקט הגלובלי. 
+זהו דבר נפוץ בסביבת הדפדפן כאשר ברצונך לשתף קוד בין פריימים או חלונות נפרדים. 
 
-While ECMAScript 6 was in development, there was widespread belief you should use `let` by default instead of `var` for variable declarations. For many JavaScript developers, `let` behaves exactly the way they thought `var` should have behaved, and so the direct replacement makes logical sense. In this case, you would use `const` for variables that needed modification protection.
+## דרכים מומלצות לשימוש בשיוך משתנים בסביבת בלוק
 
-However, as more developers migrated to ECMAScript 6, an alternate approach gained popularity: use `const` by default and only use `let` when you know a variable's value needs to change. The rationale is that most variables should not change their value after initialization because unexpected value changes are a source of bugs. This idea has a significant amount of traction and is worth exploring in your code as you adopt ECMAScript 6.
+בעת שהמהדורה השישית הייתה בפיתוח, היו רבים שהאמינו שיש להשתמש בהגדרת
+`let` 
+בתור הגדרת ברירת מחדל במקום להשתמש בהגדרות מסוג
+`var`. 
+עבור מפתחי ג׳אווהסקריפט רבים, 
+הגדרות 
+`let`
+פועלות כמו שהם האמינו שהגדרות מסוג 
+`var` 
+היו צריכות לפעול מלכתחילה, 
+לכן החלפה ישירה בין הסוגים היא הגיונית. 
+במקרים אלו, השימוש בהגדרות 
+`const` 
+ייעשה עבור משתנים שצריכים להיות מוגנים בפני שינוי
+
+ואולם, עם הזמן התפתחה גישה חלופית:
+יש להשתמש בהגדרות מסוג 
+`const` 
+בתור ברירת מחדל ויש להשתמש בהגדרות מסוג 
+`let` 
+כאשר ידוע מראש כי ערך המשתנה עתיד להשתנות. 
+הרציונל לכך הוא שרוב המשתנים לא משנים את ערכם לאחר האתחול מאחר ושינויי ערך שאינם צפויים הם מקור לבאגים.
 
 ## Summary
 
