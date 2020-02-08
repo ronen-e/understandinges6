@@ -655,14 +655,23 @@ I> חשוב
 `let` 
 כמשתנה שאינו מורם. למעשה, מימושים מוקדמים פעלו ללא התנהגות זו והיא התווספה רק בשלב מאוחר יותר.
 
-### Constant Declarations in Loops
+### הגדרת משתנים קבועים בתוך לולאות
 
-The ECMAScript 6 specification doesn't explicitly disallow `const` declarations in loops; however, there are different behaviors based on the type of loop you're using. For a normal `for` loop, you can use `const` in the initializer, but the loop will throw a warning if you attempt to change the value. For example:
+המהדורה השישית של אקמהסקריפט אינה אוסרת שימוש בהגדרת 
+`const` 
+בתוך לולאות. אך קיימת התנהגות שונה בהתאם לסוג הלולאה.
+
+עבור לולאת 
+`for` 
+רגילה, ניתן להשתמש במשתנה מסוג 
+`const` 
+עבור החלק המאתחל של הלולאה, אך הלולאה תזרוק שגיאה במידה ומנסים לשנות את הערך. 
+לדוגמה: 
 
 ```js
 var funcs = [];
 
-// throws an error after one iteration
+// שגיאה לאחר האיטרציה הראשונה
 for (const i = 0; i < 10; i++) {
     funcs.push(function() {
         console.log(i);
@@ -670,9 +679,26 @@ for (const i = 0; i < 10; i++) {
 }
 ```
 
-In this code, the `i` variable is declared as a constant. The first iteration of the loop, where `i` is 0, executes successfully. An error is thrown when `i++` executes because it's attempting to modify a constant. As such, you can only use `const` to declare a variable in the loop initializer if you are not modifying that variable.
+בדוגמת הקוד האחרונה, המשתנה 
+`i` 
+מוגדר בתור משתנה קבוע. 
+האיטרציה הראשונה של הלולאה, היכן שערכו של המשתנה 
+`i`
+אותחל ל 0 
+תרוץ בהצלחה. 
+אולם, תיזרק שגיאה כאשר הקוד 
+`i++` 
+ירוץ מאחר והקוד הנ״ל מנסה לשנות ערך קבוע. 
+לכן ניתן להשתמש בהגדרת 
+`const` 
 
-When used in a `for-in` or `for-of` loop, on the other hand, a `const` variable behaves the same as a `let` variable. So the following should not cause an error:
+בניגוד לכך, כאשר משתמשים בו בלולאות מסוג
+`for-in` או `for-of` 
+משתנה מסוג 
+`const`
+מתנהג בדיוק כמו משתנה מסוג 
+`let`. 
+לכן דוגמה הקוד הבאה תרוץ בהצלחה
 
 ```js
 var funcs = [],
@@ -682,7 +708,7 @@ var funcs = [],
         c: true
     };
 
-// doesn't cause an error
+// אין שגיאה
 for (const key in object) {
     funcs.push(function() {
         console.log(key);
@@ -690,11 +716,21 @@ for (const key in object) {
 }
 
 funcs.forEach(function(func) {
-    func();     // outputs "a", then "b", then "c"
+    func();     // יודפס "a", ואז "b", ואז "c"
 });
 ```
 
-This code functions almost exactly the same as the second example in the "Let Declarations in Loops" section. The only difference is that the value of `key` cannot be changed inside the loop. The `for-in` and `for-of` loops work with `const` because the loop initializer creates a new binding on each iteration through the loop rather than attempting to modify the value of an existing binding (as was the case with the previous example using `for` instead of `for-in`).
+דוגמה הקוד האחרונה מתנהגת כמו הדוגמה השניה בפסקה
+"הגדרת let בתוך לולאה". 
+ההבדל היחיד הוא שהערך של המשתנה 
+`key` 
+אינו ניתן לשינוי בתוך הלולאה.
+לולאות מסוג 
+`for-in` או `for-of` 
+עובדות בצורה כזו בשילוב עם הגדרות 
+`const`
+מאחר ומאתחל הלולאה יוצר שיוך חדש בכל איטרציה ולא מנסה לשנות את הערך של שיוך קיים 
+(כפי שקרה בדוגמה הקודמת כאשר ניסינו לעשות זאת בתוך לולאה מסוג לולאת `for`).
 
 ## Global Block Bindings
 
