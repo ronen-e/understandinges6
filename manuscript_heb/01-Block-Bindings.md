@@ -498,10 +498,10 @@ console.log(i);
 
 ### פונקציות בתוך לולאות
 
-המאפיינים של הגדרת 
+מאז ומתמיד משתנים מסוג
 `var`
-גרמו לשי
-The characteristics of `var` have long made creating functions inside of loops problematic, because the loop variables are accessible from outside the scope of the loop. Consider the following code:
+היו בעייתיים מבחינת הגדרת פונקציות בתוך לולאות, מאחר ומשתנים שנוצרו בלולאה עדיין נגישים מחוצה לה. 
+לדוגמה:
 
 ```js
 var funcs = [];
@@ -511,13 +511,26 @@ for (var i = 0; i < 10; i++) {
 }
 
 funcs.forEach(function(func) {
-    func();     // outputs the number "10" ten times
+    func();     // המספר ״10״ יודפס עשר פעמים
 });
 ```
 
-You might ordinarily expect this code to print the numbers 0 to 9, but it outputs the number 10 ten times in a row. That's because `i` is shared across each iteration of the loop, meaning the functions created inside the loop all hold a reference to the same variable. The variable `i` has a value of `10` once the loop completes, and so when `console.log(i)` is called, that value prints each time.
+ייתכן ותטעו לחשוב שהקוד הנ״ל ידפיס את הספרות 0-9 אך במקום זאת הוא ידפיס את המספר 10 עשר פעמים רצופות.
+הסיבה היא שהמשתנה 
+`i` 
+קיים באופן משותף עבור כל איטרציה של הלולאה, והמשמעות היא שפונקציות שנוצרו בתוך הלולאה מתייחסות לאותו משתנה. 
+המשתנה 
+`i` 
+מקבל את הערך 
+ `10` 
+ לאחר שהלולאה מסתיימת, וכאשר קוראים ל
+`console.log(i)` 
+זה יהיה הערך שיודפס. 
 
-To fix this problem, developers use immediately-invoked function expressions (IIFEs) inside of loops to force a new copy of the variable they want to iterate over to be created, as in this example:
+כדי לטפל בבעיה זו נהוג להשתמש בפונקציה שנקראת באופן מיידי
+(IIFEs - immediately-invoked function expressions)
+בתוך לולאות על מנת ליצור עותק מקומי לפונקציה.
+לדוגמה:
 
 ```js
 var funcs = [];
@@ -531,15 +544,39 @@ for (var i = 0; i < 10; i++) {
 }
 
 funcs.forEach(function(func) {
-    func();     // outputs 0, then 1, then 2, up to 9
+    func();     // מדפיס את הספרות 0-9
 });
 ```
+בדוגמה זו משתמשים ב 
+(IIFE) 
+בתוך הלולאה.
 
-This version uses an IIFE inside of the loop. The `i` variable is passed to the IIFE, which creates its own copy and stores it as `value`. This is the value used by the function for that iteration, so calling each function returns the expected value as the loop counts up from 0 to 9. Fortunately, block-level binding with `let` and `const` in ECMAScript 6 can simplify this loop for you.
+המשתנה 
+`i` 
+מועבר לתוך ה 
+IIFE 
+אשר יוצרת עותק מקומי משלה ושומרת אותו בתור המשתנה בשם 
+`value`. 
+זהו הערך שישמש בתוך הפונקציה, עבור אותה איטרציה, וכך הקריאה לכל פונקציה מדפיסה את הערך לו מצפים, ספירה מ 0 ועד 9. 
 
-### Let Declarations in Loops
+למרבה המזל, שיוך לבלוק באמצעות משתנים מסוג 
+`let` ו `const` 
+עושים זאת באופן פשוט וקל. 
 
-A `let` declaration simplifies loops by effectively mimicking what the IIFE does in the previous example. On each iteration, the loop creates a new variable and initializes it to the value of the variable with the same name from the previous iteration. That means you can omit the IIFE altogether and get the results you expect, like this:
+### הגדרת let בתוך לולאה
+
+הגדרת 
+`let` 
+מפשטת שימוש בלולאות על ידי מתן אותה תוצאה כמו השימוש ב 
+IIFE 
+בדוגמה הקודמת. 
+
+בכל איטרציה, הלולאה יוצרת משתנה חדש ומאתחלת אותו לערך של המשתנה בעל אותו השם מהאיטרציה האחרונה של הלולאה. 
+בצורה זו אין יותר צורך להשתמש ב
+IIFE 
+על מנת לקבל את התוצאה הרצויה.
+
+לדוגמה:
 
 ```js
 var funcs = [];
@@ -551,11 +588,27 @@ for (let i = 0; i < 10; i++) {
 }
 
 funcs.forEach(function(func) {
-    func();     // outputs 0, then 1, then 2, up to 9
+    func();     // יודפס 0 ואז 1 ואז 2 עד שמגיעים ל 9
 })
 ```
 
-This loop works exactly like the loop that used `var` and an IIFE but is, arguably, cleaner. The `let` declaration creates a new variable `i` each time through the loop, so each function created inside the loop gets its own copy of `i`. Each copy of `i` has the value it was assigned at the beginning of the loop iteration in which it was created. The same is true for `for-in` and `for-of` loops, as shown here:
+לולאה כמו בדוגמה האחרונה פועלת באותה צורה כמו הלולאה בדוגמה שלפניה שהשתמשה במשתנה מסוג 
+`var` 
+ביחד עם 
+IIFE, 
+אך היא קריאה וקצרה יותר. 
+השימוש במשתנה מסוג 
+`let` 
+יוצר משתנה חדש בשם 
+`i` 
+בכל איטרציה של הלולאה, ולכן כל פונקציה שמוגדרת בתוך הלולאה מקבלת עותק מקומי של המשתנה 
+`i`. 
+לכל עותק של 
+`i` 
+ניתן הערך שהתקבל בתחילת האיטרציה שבה נוצר. 
+הדבר נכון גם עבור לולאות מסוג 
+`for-in` ו `for-of`
+כפי שניתן לראות בדוגמה הבאה:
 
 ```js
 var funcs = [],
@@ -572,13 +625,35 @@ for (let key in object) {
 }
 
 funcs.forEach(function(func) {
-    func();     // outputs "a", then "b", then "c"
+    func();     // יודפס "a", ואז "b", ואז "c"
 });
 ```
 
-In this example, the `for-in` loop shows the same behavior as the `for` loop. Each time through the loop, a new `key` binding is created, and so each function has its own copy of the `key` variable. The result is that each function outputs a different value. If `var` were used to declare `key`, all functions would output `"c"`.
+בדוגמה זו לולאה 
+`for-in` 
+פועלת באותה צורה כמו לולאת
+`for`. 
+בכל איטרציה של הלולאה נוצר שיוך חדש 
+(binding) 
+של המשתנה 
+`key` 
+ולכן כל פונקציה מקבלת עותק מקומי משלה עבור המשתנה 
+`key`. 
+כתוצאה מכך כל פונקציה מדפיסה ערך שונה. 
+לו היינו משתמשים במשתנה מסוג 
+`var` 
+במקום משתנה מסוג 
+`let`
+אזי כל הפונקציות היו מדפיסות 
+`"c"`.
 
-I> It's important to understand that the behavior of `let` declarations in loops is a specially-defined behavior in the specification and is not necessarily related to the non-hoisting characteristics of `let`. In fact, early implementations of `let` did not have this behavior, as it was added later on in the process.
+I> חשוב
+לדעת שההתנהגות של משתנים מסוג 
+`let` 
+בתוך לולאות היא התנהגות שאופיינה בצורה ברורה בשפה עצמה 
+ואינה בהכרח קשורה למאפייני הגדרת
+`let` 
+כמשתנה שאינו מורם. למעשה, מימושים מוקדמים פעלו ללא התנהגות זו והיא התווספה רק בשלב מאוחר יותר.
 
 ### Constant Declarations in Loops
 
