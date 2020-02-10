@@ -1,6 +1,8 @@
-# Strings and Regular Expressions
+# מחרוזות וביטויים רגולריים
 
-Strings are arguably one of the most important data types in programming. They're in nearly every higher-level programming language, and being able to work with them effectively is fundamental for developers to create useful programs. By extension, regular expressions are important because of the extra power they give developers to wield on strings. With these facts in mind, the creators of ECMAScript 6 improved strings and regular expressions by adding new capabilities and long-missing functionality. This chapter gives a tour of both types of changes.
+מחרוזות נחשבות לאחד מסוגי הנתונים החשובים ביותר בעולם התכנות. הן מופיעות כמעט בכל שפת תכנות גבוהה, והיכולת לעבוד איתן בצורה טובה היא ידע הכרחי עבור מפתחים על מנת ליצור תוכנות מוצלחות. בהתאם לכך ביטויים רגולריים חשובים גם הם בזכות הכוח הנוסף שהם נותנים למפתחים ביחס לעבודה עם מחרוזות. 
+בהמשך לכך, היוצרים של אקמהסקריפט 6 שיפרו מחרוזות וביטויים רגולריים באמצעות הוספת תכונות חדשות ויכולות שהיו חסרות עד עתה.
+פרק זה נותן סקירה של שני סוגי השינויים.
 
 ## Better Unicode Support
 
