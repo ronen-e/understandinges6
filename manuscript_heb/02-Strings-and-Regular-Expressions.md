@@ -1,4 +1,4 @@
-<div direction="rtl">
+<div dir="rtl">
 
 # מחרוזות וביטויים רגולריים
 
@@ -64,6 +64,8 @@ UTF-16
 אשר מכילות זוגות חלופיים,
 כמו שניתן לראות בדוגמה הבאה:
 
+<div dir="ltr">
+
 ```js
 var text = "𠮷";
 
@@ -74,6 +76,8 @@ console.log(text.charAt(1));        // ""
 console.log(text.charCodeAt(0));    // 55362
 console.log(text.charCodeAt(1));    // 57271
 ```
+
+</div>
 
 `"𠮷"`
 הוא תו יוניקוד בודד שמיוצג באמצעות זוגות חלופיים, ולכן, הפעולות שמבוצעות עליו בדוגמה הקודמת מתייחסות אליו כאל מחרוזת בעלת שני תווים בני 16 ביט כל אחד. 
@@ -92,9 +96,19 @@ console.log(text.charCodeAt(1));    // 57271
 אקמהסקריפט מהדורה 6 לעומת זאת, נותן מענה לבעיות אלו ונותן תמיכה לעבודה עם זוגות חלופיים.
 בהמשך נדון במספר דוגמאות עקרוניות ליכולות החדשות שהתווספו
 
-### The codePointAt() Method
+### codePointAt()
 
-One method ECMAScript 6 added to fully support UTF-16 is the `codePointAt()` method, which retrieves the Unicode code point that maps to a given position in a string. This method accepts the code unit position rather than the character position and returns an integer value, as these `console.log()` examples show:
+מתודה אחת שהתווספה לאקמהסקריפט 6 על מנת לתת תמיכה מלאה בקידוד 
+UTF-16
+היא המתודה
+`codePointAt()`, 
+שמחזירה את ערך נקודת הקוד של 
+Unicode 
+שתואמת למיקום נתון בתוך מחרוזת. 
+המתודה מקבלת את מיקום נקודת הקוד ולא את מיקום התו הבודד ומחזירה ערך מספרי, כפי שניתן לראות בדוגמה הבאה:
+
+<div dir="ltr">
+
 
 ```js
 var text = "𠮷a";
@@ -108,9 +122,35 @@ console.log(text.codePointAt(1));   // 57271
 console.log(text.codePointAt(2));   // 97
 ```
 
-The `codePointAt()` method returns the same value as the `charCodeAt()` method unless it operates on non-BMP characters. The first character in `text` is non-BMP and is therefore comprised of two code units, meaning the `length` property is 3 rather than 2. The `charCodeAt()` method returns only the first code unit for position 0, but `codePointAt()` returns the full code point even though the code point spans multiple code units. Both methods return the same value for positions 1 (the second code unit of the first character) and 2 (the `"a"` character).
+</div>
 
-Calling the `codePointAt()` method on a character is the easiest way to determine if that character is represented by one or two code units. Here's a function you could write to check:
+המתודה
+`codePointAt()` 
+מחזירה את אותו ערך שמחזירה המתודה 
+`charCodeAt()` 
+אלא אם כן היא פועלת על תווים שאינם שייכים ל
+BMP.
+התו הראשון במשתנה 
+
+הינו תו אחד שכזה ומורכב משתי יחידות קוד, ומכאן ערך התכונה 
+`length` 
+הוא 3 ולא 2. 
+המתודה 
+`charCodeAt()` 
+מחזירה רק את יחידת הקוד הראשונה עבור המיקום 0 במחרוזת, ולעומת זאת 
+`codePointAt()` 
+מחזירה את נקודת הקוד המלאה, אף אם נקודת הקוד מורכבת ממספר יחידות קוד. 
+שתי המתודות מחזירות את אותו ערך עבור מיקום מספר 1
+(יחידת הקוד השנייה של התו הראשון) 
+ועבור מיקום מספר 2 
+(התו `"a"`).
+
+שימוש במתודה
+`codePointAt()` 
+על תו הינו הדרך הקלה ביותר לבדוק האם אותו תו מיוצג על ידי יחידת קוד בודדת או שתי יחידות קוד. להלן פונקציה שיכולה לשמש לבדיקה זו:
+
+<div dir="ltr">
+
 
 ```js
 function is32Bit(c) {
@@ -121,19 +161,40 @@ console.log(is32Bit("𠮷"));         // true
 console.log(is32Bit("a"));          // false
 ```
 
-The upper bound of 16-bit characters is represented in hexadecimal as `FFFF`, so any code point above that number must be represented by two code units, for a total of 32 bits.
+</div>
 
-### The String.fromCodePoint() Method
 
-When ECMAScript provides a way to do something, it also tends to provide a way to do the reverse. You can use `codePointAt()` to retrieve the code point for a character in a string, while `String.fromCodePoint()` produces a single-character string from a given code point. For example:
+הגבול העליון של תווים בני 16-ביט מיוצג במספר הקסאדצימלי בתור המספר
+`FFFF`, 
+לכן כל נקודת קוד מעל מספר זה חייבת להיות מיוצגת על ידי שתי יחידות קוד, ובסך הכל 32 ביטים
+
+### String.fromCodePoint()
+
+כאשר אקמהסקריפט מספקת דרך לעשות פעולה כלשהי, במקרים רבים היא גם מספקת דרך לעשות את הפעולה ההפוכה. ניתן להשתמש ב 
+`codePointAt()` 
+בכדי להשיג את ערך נקודת הקוד עבור תו כלשהו בתוך מחרוזת, בעוד ש 
+`String.fromCodePoint()` 
+מייצרת לנו תו בודד מתוך נקודת קוד נתונה. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 console.log(String.fromCodePoint(134071));  // "𠮷"
 ```
 
-Think of `String.fromCodePoint()` as a more complete version of the `String.fromCharCode()` method. Both give the same result for all characters in the BMP. There's only a difference when you pass code points for characters outside of the BMP.
+</div>
 
-### The normalize() Method
+
+ניתן לחשוב על 
+`String.fromCodePoint()` 
+כאל שיפור של מתודת
+`String.fromCharCode()`. 
+שתיהן נותנות את אותה תוצאה עבור כל התווים ב
+BMP. 
+קיים הבדל אך ורק כאשר בודקים נקודות קוד עבור תווים מחוץ ל-
+BMP.
+
+### normalize()
 
 Another interesting aspect of Unicode is that different characters may be considered equivalent for the purpose of sorting or other comparison-based operations. There are two ways to define these relationships. First, *canonical equivalence* means that two sequences of code points are considered interchangeable in all respects. For example, a combination of two characters can be canonically equivalent to one character. The second relationship is *compatibility*. Two compatible sequences of code points look different but can be used interchangeably in certain situations.
 
