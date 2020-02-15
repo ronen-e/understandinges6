@@ -1,3 +1,5 @@
+<div direction="rtl">
+
 # מחרוזות וביטויים רגולריים
 
 מחרוזות נחשבות לאחד מסוגי הנתונים החשובים ביותר בעולם התכנות. הן מופיעות כמעט בכל שפת תכנות גבוהה, והיכולת לעבוד איתן בצורה טובה היא ידע הכרחי עבור מפתחים על מנת ליצור תוכנות מוצלחות. בהתאם לכך ביטויים רגולריים חשובים גם הם בזכות הכוח הנוסף שהם נותנים למפתחים ביחס לעבודה עם מחרוזות. 
@@ -6,10 +8,21 @@
 
 ## Better Unicode Support
 
-Before ECMAScript 6, JavaScript strings revolved around 16-bit character encoding (UTF-16). Each 16-bit sequence is a *code unit* representing a character. All string properties and methods, like the `length` property and the `charAt()` method, were based on these 16-bit code units. Of course, 16 bits used to be enough to contain any character. That's no longer true thanks to the expanded character set introduced by Unicode.
+לפני המהדורה השישית מחרוזות בג׳אווהסקריפט היו מורכבות מתווים בקידוד של 16 ביטים
+(UTF-16). 
+כל רצף בן 16-ביט נחשב ל 
+*יחידת קוד* 
+שמייצגת תו אחד. כל התכונות והמתודות של מחרוזת, כמו תכונת 
+`length` 
+ומתודת ה
+`charAt()`
+היו מבוססים על יחידות אלו בנות 16 ביט.
+16 ביטים הספיקו פעם להכלת כל התווים. 
+זה איננו המקרה הודות לערכת התווים שחשפה על ידי סולם התווים יוניקוד.
 
-### UTF-16 Code Points
+### UTF-16 נקודות קוד של
 
+הגבלת אורך התווים ל 16 ביט לא 
 Limiting character length to 16 bits wasn't possible for Unicode's stated goal of providing a globally unique identifier to every character in the world. These globally unique identifiers, called *code points*, are simply numbers starting at 0. Code points are what you may think of as character codes, where a number represents a character. A character encoding must encode code points into code units that are internally consistent. For UTF-16, code points can be made up of many code units.
 
 The first 2^16^ code points in UTF-16 are represented as single 16-bit code units. This range is called the *Basic Multilingual Plane* (BMP). Everything beyond that is considered to be in one of the *supplementary planes*, where the code points can no longer be represented in just 16-bits. UTF-16 solves this problem by introducing *surrogate pairs* in which a single code point is represented by two 16-bit code units. That means any single character in a string can be either one code unit for BMP characters, giving a total of 16 bits, or two units for supplementary plane characters, giving a total of 32 bits.
@@ -728,3 +741,5 @@ Template literals are an important addition to ECMAScript 6 that allows you to c
 Built-in support for multiline strings also makes template literals a useful upgrade over normal JavaScript strings, which have never had this ability. Despite allowing newlines directly inside the template literal, you can still use `\n` and other character escape sequences.
 
 Template tags are the most important part of this feature for creating DSLs. Tags are functions that receive the pieces of the template literal as arguments. You can then use that data to return an appropriate string value. The data provided includes literals, their raw equivalents, and any substitution values. These pieces of information can then be used to determine the correct output for the tag.
+
+</div>
