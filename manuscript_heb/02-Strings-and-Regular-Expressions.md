@@ -6,7 +6,7 @@
 בהמשך לכך, היוצרים של אקמהסקריפט 6 שיפרו מחרוזות וביטויים רגולריים באמצעות הוספת תכונות חדשות ויכולות שהיו חסרות עד עתה.
 פרק זה נותן סקירה של שני סוגי השינויים.
 
-## Better Unicode Support
+## תמיכה טובה יותר ב Unicode
 
 לפני המהדורה השישית מחרוזות בג׳אווהסקריפט היו מורכבות מתווים בקידוד של 16 ביטים
 (UTF-16). 
@@ -22,12 +22,47 @@
 
 ### UTF-16 נקודות קוד של
 
-הגבלת אורך התווים ל 16 ביט לא 
-Limiting character length to 16 bits wasn't possible for Unicode's stated goal of providing a globally unique identifier to every character in the world. These globally unique identifiers, called *code points*, are simply numbers starting at 0. Code points are what you may think of as character codes, where a number represents a character. A character encoding must encode code points into code units that are internally consistent. For UTF-16, code points can be made up of many code units.
+הגבלת אורך התווים ל 16 ביט לא הייתה אפשרית עבור המטרה המוצהרת של מפתחי קידוד יוניקוד לספק מזהה ייחודי לכל תו. המזהים הייחודיים הללו שנקראים 
+*נקודות קוד* 
+ הם לא יותר מאשר מספרים שמתחילים מ-0. 
+ניתן לחשוב על נקודות קוד בתור מזהה לתו, כאשר מספר מייצג תו מסוים. 
+קידוד תוים חייב למפות נקודות קוד 
+(code points) 
+אל יחידות קוד 
+(code units).
 
-The first 2^16^ code points in UTF-16 are represented as single 16-bit code units. This range is called the *Basic Multilingual Plane* (BMP). Everything beyond that is considered to be in one of the *supplementary planes*, where the code points can no longer be represented in just 16-bits. UTF-16 solves this problem by introducing *surrogate pairs* in which a single code point is represented by two 16-bit code units. That means any single character in a string can be either one code unit for BMP characters, giving a total of 16 bits, or two units for supplementary plane characters, giving a total of 32 bits.
+תחת הכללים של קידוד
+UTF-16 
+נקודות קוד יכולות להיות מורכבות ממספר רב של יחידות קוד.
+את 
+2^16^ 
+נקודות הראשונות ב 
+UTF-16 
+מייצגים בתור יחידות קוד בודדות בנות 16 ביט. 
+הטווח הזה נקרא בשם 
+*המישור המולטילשוני הבסיסי* 
+(*Basic Multilingual Plane* - BMP). 
+כל מה שמצוי מחוץ לטווח הזה נמצא בתוך אחד מני מה שנקרא 
+*מישורים נוספים* 
+(*supplementary planes*) 
+במצב כזה לא ניתן עוד לייצג נקודות קוד ביחידות בודדות בנות 16 ביט. 
+קידוד 
+UTF-16 
+פותר את בעיה זו באמצעות מה שנקרא 
+*זוגות חלופיים* 
+(*surrogate pairs*) 
+ובעצם מייצג נקודת קוד בודדת באמצעות 2 יחידות קוד בנות 16 ביט.
+ ומכאן כל תו בתוך מחרוזת יכול שיהיה יחידת קוד בודדת עבור תווים מתוך ה 
+BMP 
+שתופס 16 ביט בזיכרון, 
+או שיהיה מורכב מ 2 יחידות קוד עבור תווים מתוך המישורים הנוספים
+שתופס 32 ביט בזיכרון.
 
-In ECMAScript 5, all string operations work on 16-bit code units, meaning that you can get unexpected results from UTF-16 encoded strings containing surrogate pairs, as in this example:
+באקמהסקריפט 5, כל הפעולות שניתן לבצע על מחרוזת מבוצעות על יחידות קוד בנות 16 ביט,
+ומכאן ניתן לקבל תוצאות בלתי צפויות ממחרוזות בקידוד 
+UTF-16 
+אשר מכילות זוגות חלופיים,
+כמו שניתן לראות בדוגמה הבאה:
 
 ```js
 var text = "𠮷";
@@ -40,15 +75,22 @@ console.log(text.charCodeAt(0));    // 55362
 console.log(text.charCodeAt(1));    // 57271
 ```
 
-The single Unicode character `"𠮷"` is represented using surrogate pairs, and as such, the JavaScript string operations above treat the string as having two 16-bit characters. That means:
+`"𠮷"`
+הוא תו יוניקוד בודד שמיוצג באמצעות זוגות חלופיים, ולכן, הפעולות שמבוצעות עליו בדוגמה הקודמת מתייחסות אליו כאל מחרוזת בעלת שני תווים בני 16 ביט כל אחד. 
+המשמעות היא:
 
-* The `length` of `text` is 2, when it should be 1.
-* A regular expression trying to match a single character fails because it thinks there are two characters.
-* The `charAt()` method is unable to return a valid character string, because neither set of 16 bits corresponds to a printable character.
+* האורך של המשתנה `text` הוא 2, במקום 1
+* ביטוי רגולרי שמנסה לבודד תו אחד נכשל מכיוון שמבחינתו מדובר בשני תויים
+* המתודה `charAt()` לא מסוגלת להחזיר תו תקין מכיוון שאף יחידת קוד בת 16 תווים מבין הזוגות החלופיים אינה ניתנת להדפסה
 
-The `charCodeAt()` method also just can't identify the character properly. It returns the appropriate 16-bit number for each code unit, but that is the closest you could get to the real value of `text` in ECMAScript 5.
+המתודה 
+`charCodeAt()` 
+גם היא אינה מסוגלת לזהות את התו בצורה תקינה. היא מחזירה את המספר התואם בן 16 ביט עבור כל יחידת קוד בנפרד, אבל זו הדרך הטובה ביותר להתקרב אל הערך האמיתי של המשתנה
+`text` 
+באקמהסקריפט מהדורה 5
 
-ECMAScript 6, on the other hand, enforces UTF-16 string encoding to address problems like these. Standardizing string operations based on this character encoding means that JavaScript can support functionality designed to work specifically with surrogate pairs. The rest of this section discusses a few key examples of that functionality.
+אקמהסקריפט מהדורה 6 לעומת זאת, נותן מענה לבעיות אלו ונותן תמיכה לעבודה עם זוגות חלופיים.
+בהמשך נדון במספר דוגמאות עקרוניות ליכולות החדשות שהתווספו
 
 ### The codePointAt() Method
 
