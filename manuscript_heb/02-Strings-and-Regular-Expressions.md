@@ -196,18 +196,45 @@ BMP.
 
 ### normalize()
 
-Another interesting aspect of Unicode is that different characters may be considered equivalent for the purpose of sorting or other comparison-based operations. There are two ways to define these relationships. First, *canonical equivalence* means that two sequences of code points are considered interchangeable in all respects. For example, a combination of two characters can be canonically equivalent to one character. The second relationship is *compatibility*. Two compatible sequences of code points look different but can be used interchangeably in certain situations.
+היבט אחד מעניין של 
+Unicode 
+הוא שתווים שונים יכולים להיחשב זהים למטרת מיון או השוואה. ישנן שתי שיטות להגדיר שוויון כזה. 
+ראשית,
+*שוויון קאנוני* 
+(*canonical equivalence*) 
+לפיו שתי סדרות של נקודות קוד נחשבות שוות מבכל הבחינות. 
+לדוגמה, שילוב של שני תווים יכול להיות בעל שוויון קאנוני לתו אחד. 
+ השיטה השנייה היא שוויון מבחינת 
+*התאמה*
+(*compatibility*). 
+לפיו, שתי סדרות תואמות של נקודות קוד נראות שונות אך יכולות לשמש אחת במקום השנייה במצבים מסוימים.
 
-Due to these relationships, two strings representing fundamentally the same text can contain different code point sequences. For example, the character "æ" and the two-character string "ae" may be used interchangeably but are strictly not equivalent unless normalized in some way.
+מסיבות אלו, שתי מחרוזות אשר מייצגות באופן עקרוני את אותו הטקסט ייתכן שיכילו סדרות שונות של נקודות קוד. לדוגמה, התו
+"æ" 
+והמחרוזת בת שני התווים
+"ae" 
+יכולים לשמש אחד במקום השני אך אינם שווים זה לזה, אלא אם כן מעבירים אותם לצורה אחידה ״מנורמלת״.
 
-ECMAScript 6 supports Unicode normalization forms by giving strings a `normalize()` method. This method optionally accepts a single string parameter indicating one of the  following Unicode normalization forms to apply:
+אקמהסקריפט 6 תומך בנורמליזציה של קידוד
+Unicode
+על ידי המתודה
+<span dir="ltr">`normalize()`</span>. 
+המתודה יכולה לקבל פרמטר אחר מסוג מחרוזת שמייצג את אחת מצורות הנורמליזציה האפשריות:
 
-* Normalization Form Canonical Composition (`"NFC"`), which is the default
+<div dir="ltr">
+* Normalization Form Canonical Composition (`"NFC"`)
 * Normalization Form Canonical Decomposition (`"NFD"`)
 * Normalization Form Compatibility Composition (`"NFKC"`)
 * Normalization Form Compatibility Decomposition (`"NFKD"`)
+</div>
 
-It's beyond the scope of this book to explain the differences between these four forms. Just keep in mind that when comparing strings, both strings must be normalized to the same form. For example:
+צורת הנורמליזציה של המתודה כברירת מחדל הינה נורמליזציה מסוג
+`"NFC"`
+
+הסבר נרחב על ההבדלים בין ארבע צורות הנרמול נמצא מחוץ למטרות ספר זה. אולם חשוב לזכור שכאשר משווים מחרוזות יש לנרמל אותן קודם לכן לאותה צורה.
+לדוגמה:
+
+<span dir="ltr">
 
 ```js
 var normalized = values.map(function(text) {
@@ -225,7 +252,16 @@ normalized.sort(function(first, second) {
 });
 ```
 
-This code converts the strings in the `values` array into a normalized form so that the array can be sorted appropriately. You can also sort the original array by calling `normalize()` as part of the comparator, as follows:
+</span>
+
+הקוד ממיר את המחרוזות בתוך מערך 
+`values`
+לצורה מנורמלת על מנת למיין את המערך לפי סדר האלף בית. 
+ניתן למיין את המערך המקורי על ידי קריאה ל
+<span dir="ltr">`normalize()` </span>
+כלהלן:
+
+<span dir="ltr">
 
 ```js
 values.sort(function(first, second) {
@@ -242,7 +278,18 @@ values.sort(function(first, second) {
 });
 ```
 
-Once again, the most important thing to note about this code is that both `first` and `second` are normalized in the same way. These examples have used the default, NFC, but you can just as easily specify one of the others, like this:
+</span>
+
+ושוב, הדבר החשוב ביותר בדוגמת הקוד האחרונה היא שגם המשתנה
+`first` 
+וגם המשתנה 
+`second` 
+משתנים לצורה מנורמלת אחידה. דוגמאות אלו השתמשו בצורת ברירת המחדל 
+(NFC)
+אך באותה המידה ניתן לנקוב בשם כל אחת מהצורות האחרות, כמו בדוגמה הבאה: 
+
+
+<span dir="ltr">
 
 ```js
 values.sort(function(first, second) {
@@ -259,9 +306,19 @@ values.sort(function(first, second) {
 });
 ```
 
-If you've never worried about Unicode normalization before, then you probably won't have much use for this method now. But if you ever work on an internationalized application, you'll definitely find the `normalize()` method helpful.
+</span>
 
-Methods aren't the only improvements that ECMAScript 6 provides for working with Unicode strings, though. The standard also adds two useful syntax elements.
+במידה ומעולם לא היית צריך לדאוג לגבי נורמליזציה של קידוד 
+Unicode, 
+סביר להניח שלא יהיה לך שימוש רב במתודה זו גם עתה. אך במידה ויהיה צורך לעבוד על 
+אפליקציה שמותאמת לשפות אחרות, תגלו עד כמה שימושית המתודה 
+<span dir="ltr">
+`normalize()`
+</span>
+
+מתודות חדשות אינן השיפורים היחידים שאקמהסקריפט 6 מספקת עבור עבודה עם מחרוזות 
+Unicode. 
+המהדורה השישית הוסיפה שני אלמנטים תחביריים חדשים.
 
 ### The Regular Expression u Flag
 
