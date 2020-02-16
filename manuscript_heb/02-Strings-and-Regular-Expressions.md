@@ -320,13 +320,26 @@ Unicode,
 Unicode. 
 המהדורה השישית הוסיפה שני אלמנטים תחביריים חדשים.
 
-### The Regular Expression u Flag
+### סימון <span dir="ltr">u</span> בביטוי רגולרי
 
-You can accomplish many common string operations through regular expressions. But remember, regular expressions assume 16-bit code units, where each represents a single character. To address this problem, ECMAScript 6 defines a `u` flag for regular expressions, which stands for Unicode.
+באמצעות ביטויים רגולריים ניתן לבצע פעולות נפוצות רבות. אך יש לזכור שביטויים רגולריים עובדים כברירת מחדל על יחידות קוד בנות 16 ביט, כאשר כל אחת מייצגת תו בודד. 
+על מנת לפתור בעיה זו אקמהסקריפט 6 הגדירה סימון
+`u` 
+עבור ביטויים רגולריים.
+הסימון 
+`u`
+ מייצג התייחסות ל 
+Unicode. 
 
-#### The u Flag in Action
+#### סימון <span dir="ltr">u</span> בפעולה
 
-When a regular expression has the `u` flag set, it switches modes to work on characters, not code units. That means the regular expression should no longer get confused about surrogate pairs in strings and should behave as expected. For example, consider this code:
+כאשר ביטוי רגולרי עובד תחת סימון
+ `u`, 
+הוא עובד על תווים, לא על יחידות קוד. 
+המשמעות היא שהביטוי הרגולרי אמור לעבוד כמצופה גם כאשר הוא עובד על זוגות חלופיים. 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 var text = "𠮷";
@@ -336,7 +349,20 @@ console.log(/^.$/.test(text));      // false
 console.log(/^.$/u.test(text));     // true
 ```
 
-The regular expression `/^.$/` matches any input string with a single character. When used without the `u` flag, this regular expression matches on code units, and so the Japanese character (which is represented by two code units) doesn't match the regular expression. When used with the `u` flag, the regular expression compares characters instead of code units and so the Japanese character matches.
+</div>
+
+הביטוי הרגולרי
+`/^.$/`
+תואם כל מחרוזות בעלת תו אחד בלבד. 
+כאשר משתמשים בו ללא סימון 
+`u`ת 
+הביטוי הרגולרי תואם ליחידות קוד בלבד. 
+ועקב זאת האות היפנית שבדוגמה
+(שמיוצגת על ידי שתי יחידות קוד) 
+לא תואמת את הביטוי הרגולרי. 
+אך כאשר משתמשים בסימון 
+ `u` 
+ הביטוי הרגולרי תואם לתווים ולכן התו היפני תואם לביטוי.
 
 #### Counting Code Points
 
