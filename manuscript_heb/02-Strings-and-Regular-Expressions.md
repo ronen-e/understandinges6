@@ -96,7 +96,7 @@ console.log(text.charCodeAt(1));    // 57271
 אקמהסקריפט מהדורה 6 לעומת זאת, נותן מענה לבעיות אלו ונותן תמיכה לעבודה עם זוגות חלופיים.
 בהמשך נדון במספר דוגמאות עקרוניות ליכולות החדשות שהתווספו
 
-### codePointAt()
+### <span dir="ltr">codePointAt()</span>
 
 מתודה אחת שהתווספה לאקמהסקריפט 6 על מנת לתת תמיכה מלאה בקידוד 
 UTF-16
@@ -167,7 +167,7 @@ console.log(is32Bit("a"));          // false
 `FFFF`, 
 לכן כל נקודת קוד מעל מספר זה חייבת להיות מיוצגת על ידי שתי יחידות קוד, ובסך הכל 32 ביטים
 
-### String.fromCodePoint()
+### <span dir="ltr">String.fromCodePoint()</span>
 
 כאשר אקמהסקריפט מספקת דרך לעשות פעולה כלשהי, במקרים רבים היא גם מספקת דרך לעשות את הפעולה ההפוכה. ניתן להשתמש ב 
 <span dir="ltr">`codePointAt()`</span> 
@@ -194,7 +194,7 @@ BMP.
 קיים הבדל אך ורק כאשר בודקים נקודות קוד עבור תווים מחוץ ל-
 BMP.
 
-### normalize()
+### <span dir="ltr">normalize()</span>
 
 היבט אחד מעניין של 
 Unicode 
@@ -258,8 +258,7 @@ normalized.sort(function(first, second) {
 `values`
 לצורה מנורמלת על מנת למיין את המערך לפי סדר האלף בית. 
 ניתן למיין את המערך המקורי על ידי קריאה ל
-<span dir="ltr">`normalize()` </span>
-כלהלן:
+<span dir="ltr">`normalize()` </span> 
 
 <span dir="ltr">
 
@@ -352,10 +351,12 @@ console.log(/^.$/u.test(text));     // true
 </div>
 
 הביטוי הרגולרי
-`/^.$/`
+
+<span dir="ltr">`/^.$/`</span>
+
 תואם כל מחרוזות בעלת תו אחד בלבד. 
 כאשר משתמשים בו ללא סימון 
-`u`ת 
+`u`,
 הביטוי הרגולרי תואם ליחידות קוד בלבד. 
 ועקב זאת האות היפנית שבדוגמה
 (שמיוצגת על ידי שתי יחידות קוד) 
@@ -385,18 +386,20 @@ console.log(codePointLength("𠮷bc"));   // 3
 </div>
 
 בקוד הנתון מבצעים קריאה לפונקציה 
-`match()` 
+<span dir="ltr">`match()`</span>
+
 כדי לבדוק נוכחות של כל התווים במחרוזת 
 `text`
-באמצעות הביטוי הרגולרי 
-`[\s\S]` 
+באמצעות הביטוי הרגולרי
+<span dir="ltr">`[\s\S]` </span> 
 שמופעל גלובלית גם עבור 
-Unicode. 
+<span dir="ltr">Unicode</span>. 
 המשתנה 
 `result`
 מכיל מערך של תוצאות כאשר קיימת התאמה אחת לפחות, כך אורך המערך הוא גם מספר נקודות הקוד בתוך המחרוזת. 
-לפי 
-Unicode 
+לפי קידוד
+<span dir="ltr">Unicode</span> 
+ 
 המחרוזות  
 `"abc"` 
 ו-
@@ -408,9 +411,18 @@ W> אף על פי
 (עליו יוסבר בהרחבה בפרק 8).
 כעקרון, נסו להימנע מספירת נקודות קוד ככל האפשר.
 
-#### Determining Support for the u Flag
+#### תמיכה עבור סימון u
 
-Since the `u` flag is a syntax change, attempting to use it in JavaScript engines that aren't compatible with ECMAScript 6 throws a syntax error. The safest way to determine if the `u` flag is supported is with a function, like this one:
+מאחר וסימון
+`u`
+הינו שינוי תחבירי, ניסיון להשתמש בו בסביבת 
+ג׳אווהסקריפט שאינה תומכת במהדורה ה 6 של אקמהסקריפט זורק שגיאה תחבירית 
+<span dir="ltr">(syntax error)</span>.
+הדרך הבטוחה לבדוק האם הסימון
+`u`
+נתמך היא על ידי שימוש בפונקציה כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 function hasRegExpU() {
@@ -423,9 +435,22 @@ function hasRegExpU() {
 }
 ```
 
-This function uses the `RegExp` constructor to pass in the `u` flag as an argument. This syntax is valid even in older JavaScript engines, but the constructor will throw an error if `u` isn't supported.
+</div>
 
-I> If your code still needs to work in older JavaScript engines, always use the `RegExp` constructor when using the `u` flag. This will prevent syntax errors and allow you to optionally detect and use the `u` flag without aborting execution.
+הפונקציה בדוגמה משתמשת בקונסטרקטור 
+`RegExp` 
+כדי להעביר את הסימון 
+`u`
+כארגומנט לפונקציה.
+התחביר עובד גם במנועי ריצה ישנים של ג׳אווהסקריפט, אך הקונסטרקטור יזרוק שגיאה בזמן הרצתו במידה והסימון
+`u`
+אינו נתמך.
+
+I> במידה והקוד שלכם אמור לעבוד במנועי ריצה ישנים של ג׳אווהסקריפט, תמיד השתמשו בקונסטרקטור 
+`RegExp` 
+כאשר יש צורך להשתמש בסימון 
+`u`
+זה ימנע שגיאות תחביריות ויאפשר לכן להשתמש בו בצורה תקינה.
 
 ## Other String Changes
 
