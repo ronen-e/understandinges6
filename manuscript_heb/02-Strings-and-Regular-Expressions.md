@@ -364,9 +364,13 @@ console.log(/^.$/u.test(text));     // true
  `u` 
  הביטוי הרגולרי תואם לתווים ולכן התו היפני תואם לביטוי.
 
-#### Counting Code Points
+#### ספירת נקודות קוד
 
-Unfortunately, ECMAScript 6 doesn't add a method to determine how many code points a string has, but with the `u` flag, you can use regular expressions to figure it out as follows:
+לרוע המזל, אקמהסקריפט 6 לא הוסיף שיטה לקביעת כמה נקודות קוד קיימות במחרוזת, אך על ידי שימוש עם בסימון 
+`u` 
+ניתן להשתמש בביטוי רגולרי כדי למצוא זאת. כפי שמודגם בהמשך:
+
+<div dir="ltr">
 
 ```js
 function codePointLength(text) {
@@ -378,9 +382,31 @@ console.log(codePointLength("abc"));    // 3
 console.log(codePointLength("𠮷bc"));   // 3
 ```
 
-This example calls `match()` to check `text` for both whitespace and non-whitespace characters (using `[\s\S]` to ensure the pattern matches newlines), using a regular expression that is applied globally with Unicode enabled. The `result` contains an array of matches when there's at least one match, so the array length is the number of code points in the string. In Unicode, the strings `"abc"` and `"𠮷bc"` both have three characters, so the array length is three.
+</div>
 
-W> Although this approach works, it's not very fast, especially when applied to long strings. You can use a string iterator (discussed in Chapter 8) as well. In general, try to minimize counting code points whenever possible.
+בקוד הנתון מבצעים קריאה לפונקציה 
+`match()` 
+כדי לבדוק נוכחות של כל התווים במחרוזת 
+`text`
+באמצעות הביטוי הרגולרי 
+`[\s\S]` 
+שמופעל גלובלית גם עבור 
+Unicode. 
+המשתנה 
+`result`
+מכיל מערך של תוצאות כאשר קיימת התאמה אחת לפחות, כך אורך המערך הוא גם מספר נקודות הקוד בתוך המחרוזת. 
+לפי 
+Unicode 
+המחרוזות  
+`"abc"` 
+ו-
+ `"𠮷bc"` 
+ שתיהן בעלות שלושה תווים ולכן אורך המערך שווה ל-3.
+
+W> אף על פי
+שטכניקה זו עובדת היא אינה מהירה במיוחד, בייחוד כאשר משתמשים בה על מחרוזות ארוכות. לשם כך ניתן להשתמש באיטרטור של מחרוזות
+(עליו יוסבר בהרחבה בפרק 8).
+כעקרון, נסו להימנע מספירת נקודות קוד ככל האפשר.
 
 #### Determining Support for the u Flag
 
