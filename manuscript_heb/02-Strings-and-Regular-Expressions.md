@@ -452,13 +452,21 @@ I> במידה והקוד שלכם אמור לעבוד במנועי ריצה יש
 `u`
 זה ימנע שגיאות תחביריות ויאפשר לכן להשתמש בו בצורה תקינה.
 
-## Other String Changes
+## שינויים נוספים
 
-JavaScript strings have always lagged behind similar features of other languages. It was only in ECMAScript 5 that strings finally gained a `trim()` method, for example, and ECMAScript 6 continues extending JavaScript's capacity to parse strings with new functionality.
+מחרוזות בג׳אווהסקריפט תמיד נשרכו מאחורי יכולות קיימות במחרוזות בשפות אחרות.
+לשם הדוגמה, 
+היה זה רק באקמהסקריפט מהדורה חמישית שמחרוזות זכו לשיטת
+<span dir="ltr">`trim()` </span>
+שמאפשרת לקצר רווחים בתחילת וסוף מילה. 
+המהדורה השישית של אקמהסקריפט ממשיכה להרחיב את יכולות השפה לעבוד עם מחרוזות
 
-### Methods for Identifying Substrings
+### מתודות לזיהוי תת מחרוזות
 
-Developers have used the `indexOf()` method to identify strings inside other strings since JavaScript was first introduced. ECMAScript 6 includes the following three methods, which are designed to do just that:
+מפתחים השתמשו במתודה
+<span dir="ltr">`indexOf()`</span> 
+כדי לזהות מחרוזות בתוך מחרוזות עוד מאז שג׳אווהסקריפט פותחה לראשונה. 
+המהדורה השישית של אקמהסקריפט כוללת את שלושת המתודות הבאות שנועדו לבצע את אותה פעולה:
 
 * The `includes()` method returns true if the given text is found anywhere within the string. It returns false if not.
 * The `startsWith()` method returns true if the given text is found at the beginning of the string. It returns false if not.
