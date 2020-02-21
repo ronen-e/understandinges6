@@ -468,11 +468,49 @@ I> במידה והקוד שלכם אמור לעבוד במנועי ריצה יש
 כדי לזהות מחרוזות בתוך מחרוזות עוד מאז שג׳אווהסקריפט פותחה לראשונה. 
 המהדורה השישית של אקמהסקריפט כוללת את שלושת המתודות הבאות שנועדו לבצע את אותה פעולה:
 
-* The `includes()` method returns true if the given text is found anywhere within the string. It returns false if not.
-* The `startsWith()` method returns true if the given text is found at the beginning of the string. It returns false if not.
-* The `endsWith()` method returns true if the given text is found at the end of the string. It returns false if not.
+* המתודה 
+<span dir="ltr">`includes()`</span>
+מחזירה 
+`true`
+ אם הטקסט הנתון מופיע בתוך המחרוזת.
+ אחרת, יוחזר
+`false`.
 
-Each methods accept two arguments: the text to search for and an optional index. When the second argument is provided, `includes()` and `startsWith()` start the match from that index while `endsWith()` starts the match from the second argument; when the second argument is omitted, `includes()` and `startsWith()` search from the beginning of the string, while `endsWith()` starts from the end. In effect, the second argument minimizes the amount of the string being searched. Here are some examples showing these three methods in action:
+* המתודה
+<span dir="ltr">`startsWith()`</span>
+מחזירה
+`true`
+אם הטקסט הנתון מופיע בתחילת המחרוזת. 
+אחרת, יוחזר
+`false`.
+
+* המתודה
+<span dir="ltr">`endsWith()`</span> 
+מחזירה
+`true`
+אם הטקסט הנתון מופיע בסוף המחרוזת. 
+אחרת, יוחזר
+`false`.
+
+כל מתודה מקבלת שני ארגומנטים:
+הטקסט לחפש ואינדקס אפשרי.
+כאשר הארגומנט השני מתקבל אזי המתודות 
+<span dir="ltr">`includes()`</span>
+ו-
+<span dir="ltr">`startsWith()`</span>
+מתחילות לחפש מאותו אינדקס, בעוד שהמתודה
+<span dir="ltr">`endsWith()`</span> 
+מתייחסת לאותו ארגומנט כאל אורך המחרוזת. 
+כאשר הארגומנט השני חסר אזי המתודות 
+<span dir="ltr">`includes()`</span>
+ו-
+<span dir="ltr">`startsWith()`</span>
+מתחילות לחפש מתחילת המחרוזת בעוד שהמתודה 
+<span dir="ltr">`endsWith()`</span> 
+מחפשת מסוף המחרוזת
+להלן מספר דוגמאות:
+
+<div dir="ltr">
 
 ```js
 var msg = "Hello world!";
@@ -490,11 +528,45 @@ console.log(msg.endsWith("o", 8));          // true
 console.log(msg.includes("o", 8));          // false
 ```
 
-The first six calls don't include a second parameter, so they'll search the whole string if needed. The last three calls only check part of the string. The call to `msg.startsWith("o", 4)` starts the match by looking at index 4 of the `msg` string, which is the "o" in "Hello". The call to `msg.endsWith("o", 8)` starts the search from index 0 and searches up to index 7, which is the "o" in "world". The call to `msg.includes("o", 8)` starts the match from index 8, which is the "r" in "world".
+</div>
 
-While these three methods make identifying the existence of substrings easier, each only returns a boolean value. If you need to find the actual position of one string within another, use the `indexOf()` or `lastIndexOf()` methods.
+שש הקריאות הראשונות למתודה בדוגמה לא כוללות ארגומנט שני, ולכן החיפוש יתבצע על כל אורך המחרוזת, במידת הצורך. שלוש הקריאות האחרונות בודקות רק חלק מהמחרוזת. הקריאה ל - 
+<span dir="ltr">`msg.startsWith("o", 4)` </span>
+מתחילה לחפש החל מסמן אינדקס מס׳ 4 של ערך המשתנה
+`msg`,
+שהוא התו
+"o"
+בתוך 
+"Hello".
+הקריאה ל
+<span dir="ltr">`msg.endsWith("o", 8)`</span>
+מתחילה את החיפוש החל מסמן אינדקס 0 וממשיכה עד לסמן אינדקס 7 
+שהוא התו
+"o"
+בתוך 
+"world".
+הקריאה ל
+<span dir="ltr">`msg.includes("o", 8)`</span>
+מתחילה את החיפוש החל מסמן אינדקס 8 שהוא התו
+"r" 
+בתוך 
+"world".
 
-W> The `startsWith()`, `endsWith()`, and `includes()` methods will throw an error if you pass a regular expression instead of a string. This stands in contrast to `indexOf()` and `lastIndexOf()`, which both convert a regular expression argument into a string and then search for that string.
+למרות ששלוש המתודות הללו מקלות על זיהוי קיומן של תת מחרוזות, הן כולן מחזירות ערך בוליאני. אם ברצונך למצוא את המיקום של מחרוזת אחת בתוך השנייה יש להשתמש במתודה
+<span dir="ltr">`indexOf()`</span>
+או
+<span dir="ltr">`lastIndexOf()`</span>
+
+W> המתודות 
+<span dir="ltr">`startsWith()`</span>,
+<span dir="ltr">`endsWith()`</span>,
+ו- 
+<span dir="ltr">`includes()`</span>
+זורקות שגיאה כאשר מעבירים כארגומנט ראשון ביטוי רגולרי במקום מחרוזת. זוהי התנהגות שונה מאשר הקיימת במתודות 
+<span dir="ltr">`indexOf()`</span>
+ו-
+<span dir="ltr">`lastIndexOf()`</span>,
+שממירות ביטוי רגולרי למחרוזת ומחפשות את אותה מחרוזת.
 
 ### The repeat() Method
 
