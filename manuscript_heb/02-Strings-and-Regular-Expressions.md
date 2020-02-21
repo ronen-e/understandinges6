@@ -932,9 +932,17 @@ console.log(re2.test("AB"));            // false
 היה בעל סימונים זהים למשתנה
 `re1`.
 
-### The `flags` Property
+### התכונה `flags`
 
-Along with adding a new flag and changing how you can work with flags, ECMAScript 6 added a property associated with them. In ECMAScript 5, you could get the text of a regular expression by using the `source` property, but to get the flag string, you'd have to parse the output of  the `toString()` method as shown below:
+אקמהסקריפט הוסיפה תכונה חדשה שקשורה לסימונים בביטויים רגולריים.
+באקמהסקריפט מהדורה 5, היה ניתן לקבל את טקסט המקור השל ביטוי רגולרי באמצעות התכונה 
+`source` 
+אך בשביל לקבל את תיאור הסימונים עליו היה צורך להשתמש במתודה 
+<span dir="ltr">`toString()`</span>
+כפי שמוצג בדוגמה הבאה:
+
+
+<div dir="ltr">
 
 ```js
 function getFlags(re) {
@@ -942,17 +950,33 @@ function getFlags(re) {
     return text.substring(text.lastIndexOf("/") + 1, text.length);
 }
 
-// toString() is "/ab/g"
+// toString() => "/ab/g"
 var re = /ab/g;
 
 console.log(getFlags(re));          // "g"
 ```
 
-This converts a regular expression into a string and then returns the characters found after the last `/`. Those characters are the flags.
+</div>
 
-ECMAScript 6 makes fetching flags easier by adding a `flags` property to go along with the `source` property. Both properties are prototype accessor properties with only a getter assigned, making them read-only. The `flags` property makes inspecting regular expressions easier for both debugging and inheritance purposes.
+הקוד בדוגמה ממיר ביטוי רגולרי למחרוזת ומחזיר את התווים שמופיעים לאחר התו
+`/` 
+האחרון. 
+התווים הללו מייצגים את הסימונים על הביטוי הרגולרי.
 
-A late addition to ECMAScript 6, the `flags` property returns the string representation of any flags applied to a regular expression. For example:
+המהדורה השישית של אקמהסקריפט מאפשרת לעשות את אותה פעולה בקלות על ידי הוספת התכונה 
+`flags` 
+בנוסף על התכונה 
+`source`.
+שתי התכונות הינן תכונות לקריאה בלבד.
+באמצעות התכונה 
+`flags` 
+ניתן להשתמש בביטויים רגולריים באופן פשוט יותר בעת פתירת באגים ומימוש ירושה.
+
+התכונה 
+`flags` 
+מחזירה ייצוג מחרוזת של כל הסימונים שמופעלים על ביטוי רגולרי נתון. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 var re = /ab/g;
@@ -961,9 +985,13 @@ console.log(re.source);     // "ab"
 console.log(re.flags);      // "g"
 ```
 
-This fetches all flags on `re` and prints them to the console with far fewer lines of code than the `toString()` technique can. Using `source` and `flags` together allows you to extract the pieces of the regular expression that you need without parsing the regular expression string directly.
+</div>
 
-The changes to strings and regular expressions that this chapter has covered so far are definitely powerful, but ECMAScript 6 improves your power over strings in a much bigger way. It brings a type of literal to the table that makes strings more flexible.
+הקוד בדוגמה מחזיר את כל הסימונים על המשתנה
+`re` 
+ומדפיס אותם באמצעות כתיבת קוד מינמלית
+
+השינויים שנסקרו בפרק זה מביאים שיפור עצום עבור מפתחים, אך אקמהסקריפט מהדורה שישית מביאה שיפור גדול אף יותר. היא הוסיפה סוג חדש של כתיבה דינמית ש מחרוזות  שהופכת עבודה עם מחרוזות לגמישה יותר מבעבר.
 
 ## Template Literals
 
