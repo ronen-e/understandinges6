@@ -612,11 +612,12 @@ var newIndent = indent.repeat(++indentLevel);
 <span dir="ltr">`repeat()`</span>
 עם רמת הזחה שונה שמשנה את מספר הרווחים.
 
-אקמהסקריפט 6 נותנת לנו כמה שינויים מועילים לביטויים רגולריים כלליים. בהמשך יוצגו כמה מהם.
+אקמהסקריפט 6 הביאה מספר שינויים מועילים לביטויים רגולריים כלליים. בהמשך יוצגו כמה מהם.
 
-## Other Regular Expression Changes
+## שינויים בביטויים רגולריים
 
-Regular expressions are an important part of working with strings in JavaScript, and like many parts of the language, they haven't changed much in recent versions. ECMAScript 6, however, makes several improvements to regular expressions to go along with the updates to strings.
+ביטויים רגולריים לוקחים חלק נכבד בעבודה עם מחרוזות בג׳אווהסקריפט, וכמו חלקים רבים אחרים של השפה הם לא השתנו הרבה בגרסאות הקודמות. 
+לעומת זאת, אקמהסקריפט 6 הציגה מספר שיפורים לביטויים רגולריים בד בבד עם השינויים שנעשו במחרוזות.
 
 ### The Regular Expression y Flag
 
