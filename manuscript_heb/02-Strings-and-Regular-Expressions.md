@@ -848,30 +848,51 @@ function hasRegExpY() {
 `RegExp`
 על מנת להימנע משגיאה תחבירית.
 
-### Duplicating Regular Expressions
+### העתקת ביטויים רגולריים
 
-In ECMAScript 5, you can duplicate regular expressions by passing them into the `RegExp` constructor like this:
+באקמהסקריפט 5, ניתן להעתיק ביטויים רגולרים על ידי העברתם לקונסטרקטור
+`RegExp` 
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 var re1 = /ab/i,
     re2 = new RegExp(re1);
 ```
 
-The `re2` variable is just a copy of the `re1` variable. But if you provide the second argument to the `RegExp` constructor, which specifies the flags for the regular expression, your code won't work, as in this example:
+</div>
+
+המשתנה
+`re2`
+הוא עותק של המשתנה 
+`re1`. 
+אבל אם מספקים את הארגומנט השני לקונסטרקטור 
+`RegExp`, 
+שתפקידו להגדיר את הסימונים עבור הביטוי הרגולרי, 
+הקוד יפסיק לעבוד, כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 var re1 = /ab/i,
 
-    // throws an error in ES5, okay in ES6
+    // זורק שגיאה באקמהסקריפט 5, עובד באקמהסקריפט 6
     re2 = new RegExp(re1, "g");
 ```
 
-If you execute this code in an ECMAScript 5 environment, you'll get an error stating that the second argument cannot be used when the first argument is a regular expression. ECMAScript 6 changed this behavior such that the second argument is allowed and overrides any flags present on the first argument. For example:
+</div>
+
+אם הקוד לעיל ירוץ בסביבת אקמהסקריפט 5, 
+תיזרק שגיאה לפיה הארגומנט השני לא יכול להתקבל כאשר הארגומנט הראשון הוא ביטוי רגולרי.
+אקמהסקריפט 6 שינתה את ההתנהגות כך שהארגומנט השני יעבוד ויקבע מחדש את הסימונים על הביטוי הרגולרי החדש. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 var re1 = /ab/i,
 
-    // throws an error in ES5, okay in ES6
+    // זורק שגיאה באקמהסקריפט 5, עובד באקמהסקריפט 6
     re2 = new RegExp(re1, "g");
 
 
@@ -886,7 +907,30 @@ console.log(re2.test("AB"));            // false
 
 ```
 
-In this code, `re1` has the case-insensitive `i` flag while `re2` has only the global `g` flag. The `RegExp` constructor duplicated the pattern from `re1` and substituted the `g` flag for the `i` flag. Without the second argument, `re2` would have the same flags as `re1`.
+</div>
+
+בקוד לעיל למשתנה 
+`re1` 
+קיים סימון 
+`i`
+עבור חיפוש לא רגיש
+בעוד שלמשתנה 
+`re2`
+קיים רק הסימון 
+`g`
+עבור חיפוש גלובלי.
+הקונסטרקטור לביטויים רגולריים
+`RegExp` 
+העתיק את הביטוי הרגולרי של המשתנה 
+`re1` 
+והחליף את הסימון מסוג 
+`i`
+בסימון מסוג 
+`g`.
+לולא סופק הארגומנט השני, המשתנה 
+`re2` 
+היה בעל סימונים זהים למשתנה
+`re1`.
 
 ### The `flags` Property
 
