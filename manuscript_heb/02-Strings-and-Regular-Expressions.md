@@ -993,9 +993,26 @@ console.log(re.flags);      // "g"
 
 השינויים שנסקרו בפרק זה מביאים שיפור עצום עבור מפתחים, אך אקמהסקריפט מהדורה שישית מביאה שיפור גדול אף יותר. היא הוסיפה סוג חדש של כתיבה דינמית ש מחרוזות  שהופכת עבודה עם מחרוזות לגמישה יותר מבעבר.
 
-## Template Literals
+## Template Literals - טמפלייט ליטראלס
 
-JavaScript's strings have always had limited functionality compared to strings in other languages. For instance, until ECMAScript 6, strings lacked the methods covered so far in this chapter, and string concatenation is as simple as possible. To allow developers to solve more complex problems, ECMAScript 6's *template literals* provide syntax for creating domain-specific languages (DSLs) for working with content in a safer way than the solutions available in ECMAScript 5 and earlier. (A DSL is a programming language designed for a specific, narrow purpose, as opposed to general-purpose languages like JavaScript.) The ECMAScript wiki offers the following description on the [template literal strawman](http://wiki.ecmascript.org/doku.php?id=harmony:quasis):
+למחרוזות בג׳אווהסקריפט תמיד היו מגבלות ביחס למחרוזות בשפות תכנות אחרות.
+עד אקמרהסקריפט 6, למחרוזות לא הייתה גישה למתודות שנסקרו בפרק זה, ושרשור מחרוזות הינו פשוט ביותר. על מנת לאפשר למפתחים לפתור בעיות מורכבות יותר, 
+*טמפלייט ליטראלס*
+מספקים צורת כתיבה שמאפשרת בתורה יצירת שפות לדומיין
+<span dir="ltr">(domain-specific languages - DSLs)</span>
+לצורך עבודה עם טקסט בדרך יותר בטוחה מאשר הדרכים הזמינות במהדורה החמישית של אקמהסקריפט וקודם לכן.
+(
+שפת דומיין היא שפת תכנות למען תכלית ברורה מפורטת וצרה, בניגוד לשפות בעלות תכלית כללית כמו ג׳אווהסקריפט.
+)
+<!-- see #7
+בוויקי של אקמהסקריפט ניתן למצוא את התיאור הבא על 
+[template literal strawman](http://wiki.ecmascript.org/doku.php?id=harmony:quasis):
+-->
+
+> צורה זו מרחיבה את התחביר של אקמהסקריפט עם עטיפה על מנת לאפשר לספריות שונות לספק שפות דומיין שבאופן קל יחסית יוכלו לייצר, לעבד ולשנות תוכן משפות אחרות בצורה כזו שיהיו חסינות או עמידות להתקפות כמו 
+XSS
+הזרקת SQL
+וכולי.
 
 > This scheme extends ECMAScript syntax with syntactic sugar to allow libraries to provide DSLs that easily produce, query, and manipulate content from other languages that are immune or resistant to injection attacks such as XSS, SQL Injection, etc.
 
