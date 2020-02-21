@@ -568,9 +568,16 @@ W> המתודות
 <span dir="ltr">`lastIndexOf()`</span>,
 שממירות ביטוי רגולרי למחרוזת ומחפשות את אותה מחרוזת.
 
-### The repeat() Method
+### מתודת <span dir="ltr">repeat()</span>
 
-ECMAScript 6 also adds a `repeat()` method to strings, which accepts the number of times to repeat the string as an argument. It returns a new string containing the original string repeated the specified number of times. For example:
+אקמהסקריפט 6 הוסיפה מתודת 
+<span dir="ltr">repeat()</span>
+למחרוזות, שמקבלת כארגומנט את מספר הפעמים שיש לחזור על המחרוזת. 
+המתודה מחזירה מחרוזת חדשה שמכילה את המחרוזת המקורית אשר חוזרים עליה את מספר הפעמים הנתון.
+לדוגמה:
+
+
+<div dir="ltr">
 
 ```js
 console.log("x".repeat(3));         // "xxx"
@@ -578,20 +585,34 @@ console.log("hello".repeat(2));     // "hellohello"
 console.log("abc".repeat(4));       // "abcabcabcabc"
 ```
 
-This method is a convenience function above all else, and it can be especially useful when manipulating text. It's particularly useful in code formatting utilities that need to create indentation levels, like this:
+</div>
+
+המתודה משמשת בעיקר ככלי עזר, והיא שימושית מאוד כאשר מבצעים מניפולציה על טקסט. 
+היא עוזרת במיוחד כאשר עורכים טקסט שדורש רמות שונות של הזחה, למשל:
+
+<div dir="ltr">
 
 ```js
-// indent using a specified number of spaces
+// הזחה על ידי מספר קבוע של רווחים
 var indent = " ".repeat(4),
     indentLevel = 0;
 
-// whenever you increase the indent
+// כל פעם שמגדילים הזחה
 var newIndent = indent.repeat(++indentLevel);
 ```
 
-The first `repeat()` call creates a string of four spaces, and the `indentLevel` variable keeps track of the indent level. Then, you can just call `repeat()` with an incremented `indentLevel` to change the number of spaces.
+</div>
 
-ECMAScript 6 also makes some useful changes to regular expression functionality that don't fit into a particular category. The next section highlights a few.
+הקריאה ראשונה למתודה
+<span dir="ltr">`repeat()`</span>
+יוצרת מחרוזת של ארבעה רווחים, והמשתנה
+`indentLevel` 
+עוקב אחר רמת ההזחה. 
+כך, ניתן לקרוא למתודה 
+<span dir="ltr">`repeat()`</span>
+עם רמת הזחה שונה שמשנה את מספר הרווחים.
+
+אקמהסקריפט 6 נותנת לנו כמה שינויים מועילים לביטויים רגולריים כלליים. בהמשך יוצגו כמה מהם.
 
 ## Other Regular Expression Changes
 
