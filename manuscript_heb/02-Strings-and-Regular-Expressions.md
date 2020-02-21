@@ -619,9 +619,21 @@ var newIndent = indent.repeat(++indentLevel);
 ביטויים רגולריים לוקחים חלק נכבד בעבודה עם מחרוזות בג׳אווהסקריפט, וכמו חלקים רבים אחרים של השפה הם לא השתנו הרבה בגרסאות הקודמות. 
 לעומת זאת, אקמהסקריפט 6 הציגה מספר שיפורים לביטויים רגולריים בד בבד עם השינויים שנעשו במחרוזות.
 
-### The Regular Expression y Flag
+### הסימון y
 
-ECMAScript 6 standardized the `y` flag after it was implemented in Firefox as a proprietary extension to regular expressions. The `y` flag affects a regular expression search's `sticky` property, and it tells the search to start matching characters in a string at the position specified by the regular expression's `lastIndex` property. If there is no match at that location, then the regular expression stops matching. To see how this works, consider the following code:
+אקמהסקריפט 6 הפך את הסימון 
+`y` 
+לחלק מהשפה לאחר שהוכנס לדפדפן פיירפוקס באופן עצמאי לפיירפוקס בתור הרחבה לביטויים רגולריים בפיירפוקס בלבד. 
+הסימון 
+`y` 
+משפיע על תכונת ה״דביקות״ - 
+`sticky` 
+של הביטוי הרגולרי, למעשה הוא גורם לחיפוש להתחיל לבדוק התאמות במחרוזת במיקום שנקבע על ידי תכונת 
+`lastIndex`
+של הביטוי הרגולרי. במידה ואין התאמה באותו מיקום, אזי הביטוי הרגולרי מפסיק לחפש התאמות.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 var text = "hello1 hello2 hello3",
@@ -646,14 +658,58 @@ stickyResult = stickyPattern.exec(text);
 
 console.log(result[0]);         // "hello1 "
 console.log(globalResult[0]);   // "hello2 "
-console.log(stickyResult[0]);   // Error! stickyResult is null
+console.log(stickyResult[0]);   // TypeError: Cannot read property '0' of null
 ```
 
-This example has three regular expressions. The expression in `pattern` has no flags, the one in `globalPattern` uses the `g` flag, and the one in `stickyPattern` uses the `y` flag. In the first trio of `console.log()` calls, all three regular expressions should return `"hello1 "` with a space at the end.
+</div>
 
-After that, the `lastIndex` property is changed to 1 on all three patterns, meaning that the regular expression should start matching from the second character on all of them. The regular expression with no flags completely ignores the change to `lastIndex` and still matches `"hello1 "` without incident. The regular expression with the `g` flag goes on to match `"hello2 "` because it is searching forward from the second character of the string (`"e"`). The sticky regular expression doesn't match anything beginning at the second character so `stickyResult` is `null`.
+בדוגמה זו מובאים שלושה ביטויים רגולריים.
+הביטוי בתוך המשתנה 
+`pattern`
+הינו ללא סימונים, 
+הביטוי במשתנה 
+`globalPattern`
+משתמש בסימון 
+`g`,
+והביטוי במשתנה
+`stickyPattern` 
+משתמש בסימון
+`y`.
+בשלוש הקריאות הראשונות ל - 
+<span dir="ltr">`console.log()`</span>
+כל שלושת הביטויים מחזירים את המחרוזת 
+`"hello1 "` 
+עם רווח בסוף המחרוזת.
 
-The sticky flag saves the index of the next character after the last match in `lastIndex` whenever an operation is performed. If an operation results in no match, then `lastIndex` is set back to 0. The global flag behaves the same way, as demonstrated here:
+לאחר מכן התכונה
+`lastIndex`
+נקבעת לערך 1 עבור כל שלושת הביטויים הרגולריים, כלומר הביטוי הרגולרי יחפש התאמות החל מהתו השני. 
+הביטוי הרגולרי ללא סימון מתעלם מהשינוי לתכונה
+`lastIndex`
+ועדיין מוצא את ההתאמה 
+`"hello1 "` . 
+הביטוי הרגולרי עם סימון 
+`g` 
+ממשיך הלאה בחיפוש ומוצא התאמה עבור המחרוזת 
+`"hello2 "` 
+מכיוון והוא מחפש קדימה החל מהתו השני של המחרוזת 
+(`"e"`). 
+הביטוי הרגולרי ה״דביק״ לא מוצא התאמה כאשר הוא מחפש החל מהתו השני ולכן ערכו של המשתנה 
+`stickyResult` 
+הוא 
+`null`.
+
+הסימון הדביק שומר את סמן האינדקס של התו הבא לאחר ההתאמה האחרונה בתוך התכונה 
+`lastIndex` 
+לאחר סיום פעולת החיפוש. 
+אם חיפוש מסתיים ללא התאמה אזי ערך התכונה 
+`lastIndex` 
+מאותחל חזרה ל 0. 
+הסימון הגלובלי 
+`g` 
+מתנהג בצורה זהה כפי שמודגם בהמשך:
+
+<div dir="ltr">
 
 ```js
 var text = "hello1 hello2 hello3",
@@ -685,14 +741,57 @@ console.log(globalPattern.lastIndex);   // 14
 console.log(stickyPattern.lastIndex);   // 14
 ```
 
-The value of `lastIndex` changes to 7 after the first call to `exec()` and to 14 after the second call, for both the `stickyPattern` and `globalPattern` variables.
+</div>
 
-There are two more subtle details about the sticky flag to keep in mind:
+ערך התכונה
+`lastIndex` 
+משתנה ל 7 לאחר הקריאה הראשונה ל 
+<span dir="ltr">`exec()`</span>
+ול 14 לאחר הקריאה השנייה
+הן עבור המשתנה 
+`stickyPattern`
+והן עבור המשתנה 
+`globalPattern`.
 
-1. The `lastIndex` property is only honored when calling methods that exist on the regular expression object, like the `exec()` and `test()` methods. Passing the regular expression to a string method, such as `match()`, will not result in the sticky behavior.
-1. When using the `^` character to match the start of a string, sticky regular expressions only match from the start of the string (or the start of the line in multiline mode). While `lastIndex` is 0, the `^` makes a sticky regular expression no different from a non-sticky one. If `lastIndex` doesn't correspond to the beginning of the string in single-line mode or the beginning of a line in multiline mode, the sticky regular expression will never match.
+קיימים שני דברים נוספים שחשוב לדעת לגבי הסימון הדביק:
 
-As with other regular expression flags, you can detect the presence of `y` by using a property. In this case, you'd check the `sticky` property, as follows:
+1. מתייחסים לתכונה 
+`lastIndex` 
+אך ורק כאשר משתמשים במתודות שקיימות על הביטוי הרגולרי, כגון המתודות 
+<span dir="ltr">`exec()`</span>
+ו- 
+<span dir="ltr">`test()`</span>. 
+העברת הביטוי הרגולרי למתודה של מחרוזת, כמו 
+<span dir="ltr">`match()`</span>
+לא תפעיל התנהגות דביקה.
+
+1.  כאשר משתמשים בתו
+`^`
+כדי לחפש התאמה בתחילת מחרוזת, ביטוי רגולרי דביק יחפש התאמות אך ורק מתחילת המחרוזות
+(או מתחילת השורה במצב התאמה רב שורות - `multiline`).
+כל עוד ערך התכונה
+`lastIndex` 
+הוא 0, 
+אזי התו
+`^`
+הופך את הביטוי הרגולרי הדביק לזהה לכזה שאינו דביק. 
+אם ערך התכונה
+`lastIndex`
+אינו תואם להתחלת מחרוזת במצב שורה בודדת
+<span dir="ltr">`(single-line mode)`</span>
+או לתחילת שורה במצב רב שורות
+<span dir="ltr">`(multiline mode)`</span>
+הביטוי הרגולרי הדביק  לא ימצא התאמה.
+
+כמו בסימונים אחרים של ביטויים רגולריים, ניתן לזהות את נוכחות הסימון 
+
+על ידי שימוש בתכונה מיוחדת. 
+במקרה זה עליכם לבדוק את התכונה
+`sticky`,
+
+כפי שמוצג בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 var pattern = /hello\d/y;
@@ -700,9 +799,29 @@ var pattern = /hello\d/y;
 console.log(pattern.sticky);    // true
 ```
 
-The `sticky` property is set to true if the sticky flag is present, and the property is false if not. The `sticky` property is read-only based on the presence of the flag and cannot be changed in code.
+</div>
 
-Similar to the `u` flag, the `y` flag is a syntax change, so it will cause a syntax error in older JavaScript engines. You can use the following approach to detect support:
+התכונה
+`sticky`
+מוגדרת כ 
+`true`
+במידה והסימון הדביק פעיל, ומקבלת את הערך 
+`false`
+במידה ולא.
+התכונה 
+`sticky`
+אינה ניתנת לשינוי בדרך אחרת והיא נחשבת לתכונה בעלת ערך שניתן לקריאה בלבד
+
+בדומה לסימון
+`u`
+הסימון 
+`y`
+מהווה שינוי תחבירי, ולכן יגרום לשגיאת תחביר 
+<span dir="ltr">`(syntax error)`</span>
+במנועי ריצה ישנים של ג׳אווהסקריפט.
+ניתן להשתמש בגישה הבאה על מנת לזהות תמיכה בו:
+
+<div dir="ltr">
 
 ```js
 function hasRegExpY() {
@@ -715,7 +834,19 @@ function hasRegExpY() {
 }
 ```
 
-Just like the `u` check, this returns false if it's unable to create a regular expression with the `y` flag. In one final similarity to `u`, if you need to use `y` in code that runs in older JavaScript engines, be sure to use the `RegExp` constructor when defining those regular expressions to avoid a syntax error.
+</div>
+
+בדומה לבדיקה עבור הסימון 
+`u` 
+הפונקציה בדוגמה מחזירה את הערך
+`false` 
+אם לא ניתן ליצור ביטוי רגולרי עם הסימון
+`y`. 
+במידה ויש צורך להשתמש בסימון 
+`y`
+במנועי ריצה ישנים של ג׳אווהסקריפט יש להשתמש בקונסטרקטור 
+`RegExp`
+על מנת להימנע משגיאה תחבירית.
 
 ### Duplicating Regular Expressions
 
