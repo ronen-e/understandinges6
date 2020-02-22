@@ -1067,73 +1067,107 @@ console.log(message.length);        // 14
 
 אין צורך ל״ברוח״ מרכאות כפולות או בודדות בתוך טמפלייט ליטראלס.
 
+### מחרוזת רבת שורות
 
-### Multiline Strings
+מפתחי ג׳אווהסקריפט רצו דרך ליצור מחרוזות רבות שורות מאז הגרסה הראשונה של השפה. אך כאשר משתמשים במרכאות כפולות או בודדות, מחרוזות חייבות להיות תחומות על פני שורה אחת בודדת.
 
-JavaScript developers have wanted a way to create multiline strings since the first version of the language. But when using double or single quotes, strings must be completely contained on a single line.
+#### המצב לפני אקמהסקריפט 6
+ 
+הודות לבאג תחבירי עתיק יומין, ניתן לעקוף מגבלה זו. ניתן ליצור מחרוזות רבות שורות אם קיים קו הפוך נטוי 
+ (`\`) 
+לפני השורה החדשה.
+ראה דוגמה:
 
-#### Pre-ECMAScript 6 Workarounds
-
-Thanks to a long-standing syntax bug, JavaScript does have a workaround. You can create multiline strings if there's a backslash (`\`) before a newline. Here's an example:
-
-```js
-var message = "Multiline \
-string";
-
-console.log(message);       // "Multiline string"
-```
-
-The `message` string has no newlines present when printed to the console because the backslash is treated as a continuation rather than a newline. In order to show a newline in output, you'd need to manually include it:
+<div dir="ltr">
 
 ```js
-var message = "Multiline \n\
-string";
+var message = "שורה 1 \
+שורה 2";
 
-console.log(message);       // "Multiline
-                            //  string"
+console.log(message);       // "שורה 1 שורה 2"
 ```
 
-This should print `Multiline String` on two separate lines in all major JavaScript engines, but the behavior is defined as a bug and many developers recommend avoiding it.
+</div>
 
-Other pre-ECMAScript 6 attempts to create multiline strings usually relied on arrays or string concatenation, such as:
+המחרוזת במשתנה
+`message` 
+אינה מכילה תו לשורה חדשה כאשר היא מודפסת מאחר והקו הפוך נטוי נחשב להמשך המחרוזות ולא שורה חדשה. 
+על מנת להציג שורה חדשה בפלט, עליך להוסיף אותו ידנית:
+
+<div dir="ltr">
+
+```js
+var message = "שורה 1 \n\
+שורה 2";
+
+console.log(message);       // "שורה 1
+                            //  שורה 2"
+```
+
+הקוד לעיל ידפיס
+`
+שורה 1
+שורה 2
+` 
+על פני שתי שורות נפרדות, אך ההתנהגות נחשבת לבאג, ורבים ממליצים להימנע מכך
+
+ניסיונות אחרים ליצור מחרוזות רבות שורות הסתמכו על מערכים או שרשור, לדוגמה:
+
+<div dir="ltr">
 
 ```js
 var message = [
-    "Multiline ",
-    "string"
+    "שורה 1 ",
+    "שורה 2"
 ].join("\n");
 
-var message = "Multiline \n" +
-    "string";
+var message = "שורה 1 \n" +
+    "שורה 2";
 ```
 
-All of the ways developers worked around JavaScript's lack of multiline strings left something to be desired.
+</div>
 
-#### Multiline Strings the Easy Way
+כל הניסיונות שתוארו לעיל השאירו טעם רע למפתחים ורצון לפתרון מוצלח יותר.
 
-ECMAScript 6's template literals make multiline strings easy because there's no special syntax. Just include a newline where you want, and it shows up in the result. For example:
+#### מחרוזת רבת שורות בדרך הקלה
+
+טמפלייט ליטראלס מקלים על יצירת מחרוזות רבות שורות מכיוון שאין תחביר מיוחד. רק צריך להוסיף שורה חדשה במקום המתאים. 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
-let message = `Multiline
-string`;
+let message = `שורה 1
+שורה 2`;
 
-console.log(message);           // "Multiline
-                                //  string"
-console.log(message.length);    // 16
+console.log(message);           // "שורה 1
+                                //  שורה 2"
+console.log(message.length);    // 13
 ```
 
-All whitespace inside the backticks is part of the string, so be careful with indentation. For example:
+</div>
+
+כל ריווח בתוך הטמפלייט ליטראלס נחשב לחלק מהמחרוזת, ולכן יש להישמר מפני הזחה לא רצויה.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
-let message = `Multiline
-               string`;
+let message = `שורה 1
+               שורה 2`;
 
-console.log(message);           // "Multiline
-                                //                 string"
-console.log(message.length);    // 31
+console.log(message);           // "שורה 1
+                                //                 שורה 2"
+console.log(message.length);    // 28
 ```
 
-In this code, all whitespace before the second line of the template literal is considered part of the string itself. If making the text line up with proper indentation is important to you, then consider leaving nothing on the first line of a multiline template literal and then indenting after that, as follows:
+</div>
+
+בדוגמה לעיל, כל הריווח לפני השורה השנייה של הטמפלייט ליטראלס נחשב לחלק מהמחרוזת. 
+אם ברצונך לכתוב קוד שמכיל הזחה בתוכו, יש להתחיל את המחרוזת מתחילת השורה. 
+ראה דוגמה:
+
+<div dir="ltr">
 
 ```js
 let html = `
@@ -1142,7 +1176,14 @@ let html = `
 </div>`.trim();
 ```
 
-This code begins the template literal on the first line but doesn't have any text until the second. The HTML tags are indented to look correct and then the `trim()` method is called to remove the initial empty line.
+</div>
+
+הקוד לעיל מתחיל את הטמפלייט ליטראלס בשורה הראשונה אך מכיל טקסט החל מהשורה השנייה.
+תגיות ה - 
+HTML 
+מוזחות על מנת להיראות תקינות ואז מופעלת המתודה
+<span dir="ltr">`trim()`</span>
+בכדי למחוק את השורה התחילית הריקה.
 
 A> If you prefer, you can also use `\n` in a template literal to indicate where a newline should be inserted:
 A> {:lang="js"}
@@ -1155,11 +1196,21 @@ A>                                 //  string"
 A> console.log(message.length);    // 16
 A> ~~~~~~~~
 
-### Making Substitutions
+### ביצוע החלפות
 
-At this point, template literals may look like fancier versions of normal JavaScript strings. The real difference between the two lies in template literal *substitutions*. Substitutions allow you to embed any valid JavaScript expression inside a template literal and output the result as part of the string.
+ההבדל האמיתי בין מחרוזות רגילות לבין טמפלייט ליטראלס הוא באפשרות לבצע 
+*החלפות*. 
+החלפות מאפשרות לך לשבץ כל ביטוי ג׳אווהסקריפט תקין בתוך טמפלייט ליטראלס ולייצר מחרוזות שמכילה את התוצאה.
 
-Substitutions are delimited by an opening `${` and a closing `}` that can have any JavaScript expression inside. The simplest substitutions let you embed local variables directly into a resulting string, like this:
+החלפות תחומות על ידי פתיחה באמצעות 
+<span dir="ltr">`${`</span>
+וסגירה באמצעות
+`}` 
+כאשר ניתן לשים באמצע כל ביטוי ג׳אווהסקריפט. 
+ההחלפה הפשוטה ביותר היא לשבץ משתנים ישירות לתוך המחרוזות הסופית,
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let name = "Nicholas",
@@ -1168,23 +1219,53 @@ let name = "Nicholas",
 console.log(message);       // "Hello, Nicholas."
 ```
 
-The substitution `${name}` accesses the local variable `name` to insert `name` into the `message` string. The `message` variable then holds the result of the substitution immediately.
+</div>
 
-I> A template literal can access any variable accessible in the scope in which it is defined. Attempting to use an undeclared variable in a template literal throws an error in both strict and non-strict modes.
+ההחלפה
+`${name}`
+מכניסה את ערך המשתנה המקומי
+`name` 
+לתוך המחרוזת שבתוך המשתנה 
+`message`. 
+המשתנה
+`message` 
+יכיל את התוצאה של ההחלפה באופן מיידי.
+
+I> טמפלייט ליטראלס יכולים לגשת לכל משתנה שקיים בסביבה בה הוא מוגדר. 
+ניסיון להשתמש במשתנה לא מוגדר בתוך טמפלייט ליטראלס יזרוק שגיאה הן במצב שמרני והן במצב לא שמרני 
+<span dir="ltr">(strict and non-strict modes)</span>
+
+מאחר וההחלפות נחשבות לביטוי ג׳אווהסקריפט, ניתן להחליף יותר מאשר רק משתנים. 
+ניתן לשבץ תוצאות חישוב, קריאות לפונקציות, ועוד. 
+לדוגמה:
 
 Since all substitutions are JavaScript expressions, you can substitute more than just simple variable names. You can easily embed calculations, function calls, and more. For example:
+
+<div dir="ltr">
 
 ```js
 let count = 10,
     price = 0.25,
-    message = `${count} items cost $${(count * price).toFixed(2)}.`;
+    message = `${count} פריטים עולים $${(count * price).toFixed(2)}.`;
 
-console.log(message);       // "10 items cost $2.50."
+console.log(message);       // "10 פריטים עולים $2.50."
 ```
 
-This code performs a calculation as part of the template literal. The variables `count` and `price` are multiplied together to get a result, and then formatted to two decimal places using `.toFixed()`. The dollar sign before the second substitution is output as-is because it's not followed by an opening curly brace.
+</div>
 
-Template literals are also JavaScript expressions, which means you can place a template literal inside of another template literal, as in this example:
+הקוד בדוגמה לעיל מבצע חישוב כחלק מתוך טמפלייט ליטראלס. 
+המשתנים 
+`count`
+ו
+`price`
+מוכפלים זה בזה כדי לקבל תוצאה ואז מעוגלים לשתי נקודות דצימליות באמצעות 
+<span dir="ltr">`.toFixed()`</span>.
+סימן הדולר לפני ההחלפה השנייה מודפס כמו שהוא ולא נחשב להחלפה מאחר ואינו מלווה בסימני פתיחה וסגירה של טמפלייט ליטראלס
+
+טמפלייט ליטראלס נחשבים לביטויי ג׳אווהסקריפט ומכאן ניתן להכיל טמפלייט ליטראלס אחד בתוך השני.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let name = "Nicholas",
@@ -1195,61 +1276,145 @@ let name = "Nicholas",
 console.log(message);        // "Hello, my name is Nicholas."
 ```
 
-This example nests a second template literal inside the first. After the first `${`, another template literal begins. The second `${` indicates the beginning of an embedded expression inside the inner template literal. That expression is the variable `name`, which is inserted into the result.
+</div>
 
-### Tagged Templates
+בדוגמה לעיל מופיע טמפלייט ליטראלס אחד בתוך השני.
+המשתנה 
+`name`
+מוכנס לתוך טמפלייט ליטראלס הפנימי.
 
-Now you've seen how template literals can create multiline strings and insert values into strings without concatenation. But the real power of template literals comes from tagged templates. A *template tag* performs a transformation on the template literal and returns the final string value. This tag is specified at the start of the template, just before the first `` ` `` character, as shown here:
+### תגיות טמפלייט ליטראלס
+
+עד כה ראית כיצד בעזרת טמפלייט ליטראלס ניתן ליצור מחרוזות רבות שורות ולהכניס ערכים לתוך מחרוזות ללא שרשור. אך הכוח האמיתי של טמפלייט ליטראלס בא מתגיות טמפלייט ליטראלס.
+*תגית טמפלייט ליטראלס* 
+פועלת על הטמפלייט ליטראלס ומחזירה ערך מחרוזת סופי. 
+התגית מופעלת בראשית הטמפלייט ליטראלס, 
+ממש לפני התו
+`` ` `` 
+הראשון, 
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let message = tag`Hello world`;
 ```
 
-In this example, `tag` is the template tag to apply to the `` `Hello world` `` template literal.
+</div>
 
-#### Defining Tags
+בדוגמה זו 
+המשתנה 
+`tag` 
+הינו התגית 
+שמופעלת על הטמפלייט ליטראלס 
+<span dir="ltr">`` `Hello world` ``</span>.
 
-A *tag* is simply a function that is called with the processed template literal data. The tag receives data about the template literal as individual pieces and must combine the pieces to create the result. The first argument is an array containing the literal strings as interpreted by JavaScript. Each subsequent argument is the interpreted value of each substitution.
+#### הגדרת תגית
 
-Tag functions are typically defined using rest arguments as follows, to make dealing with the data easier:
+*תגית*
+היא לא יותר מאשר פונקציה שנקראת על טמפלייט ליטראלס ומעבדת את הנתונים שלו.
+התגית מקבלת את הנתונים של הטמפלייט ליטראלס בחתיכות ועליה לחבר אותן על מנת ליצור את התוצאה הרצויה.
+הארגומנט הראשון הוא מערך אשר מכיל את ערכי המחרוזות הבודדות. כל ארגומנט לאחר מכן הינו הערך עבור כל החלפה.
+
+פונקציות תגיות מוגדרות בד״כ בעזרת שימוש בארגומנט רסט
+`rest` 
+כפי שמופיע בדוגמה הבאה, על מנת להקל על עיבוד המידע.
+
+<div dir="ltr">
 
 ```js
 function tag(literals, ...substitutions) {
-    // return a string
+    // יש להחזיר מחרוזת
 }
 ```
 
-To better understand what gets passed to tags, consider the following:
+</div>
+
+הדוגמה הבאה ממחישה את מה שמועבר לתגית:
+
+<div dir="ltr">
 
 ```js
 let count = 10,
     price = 0.25,
-    message = passthru`${count} items cost $${(count * price).toFixed(2)}.`;
+    message = passthru`${count} פריטים עולים $${(count * price).toFixed(2)}.`;
 ```
 
-If you had a function called `passthru()`, that function would receive three arguments. First, it would get a `literals` array, containing the following elements:
+</div>
 
-* The empty string before the first substitution (`""`)
-* The string after the first substitution and before the second (`" items cost $"`)
-* The string after the second substitution (`"."`)
+הפונקציה
 
-The next argument would be `10`, which is the interpreted value for the `count` variable. This becomes the first element in a `substitutions` array. The final argument would be `"2.50"`, which is the interpreted value for `(count * price).toFixed(2)` and the second element in the `substitutions` array.
+<span dir="ltr">`passthru()`</span>
+תקבל שלושה ארגומנטים.
+ראשית, היא תקבל מערך 
+<span dir="ltr">`literals`</span>
 
-Note that the first item in `literals` is an empty string. This ensures that `literals[0]` is always the start of the string, just like `literals[literals.length - 1]` is always the end of the string. There is always one fewer substitution than literal, which means the expression `substitutions.length === literals.length - 1` is always true.
+שיכיל את האלמנטים הבאים:
 
-Using this pattern, the `literals` and `substitutions` arrays can be interwoven to create a resulting string. The first item in `literals` comes first, the first item in `substitutions` is next, and so on, until the string is complete. As an example, you can mimic the default behavior of a template literal by alternating values from these two arrays:
+* המחרוזת הריקה לפני ההחלפה הראשונה (`""`)
+* המחרוזת לאחר ההחלפה הראשונה ולפני השנייה (`" פריטים עולים $"`)
+* המחרוזת לאחר ההחלפה השנייה (`"."`)
+
+הארגומנט הבא יהיה
+`10`, 
+שהוא הערך המוחלף עבור המשתנה 
+`count`. 
+הוא יהיה האלמנט הראשון במערך 
+`substitutions`. 
+הארגומנט האחרון יהיה 
+`"2.50"`, 
+שהוא הערך המוחזר מהביטוי 
+<span dir="ltr">`(count * price).toFixed(2)` </span>
+והוא יהיה האלמנט השני במערך 
+`substitutions`. 
+
+יש להקדיש תשומת לב לכך שהערך הראשון במערך 
+
+הינו מחרוזת ריקה.
+<span dir="ltr">`literals[0]`</span>
+הינו תמיד התחלת המחרוזת, 
+ממש כמו ש
+<span dir="ltr">`literals[literals.length - 1]`</span> 
+הינו תמיד סוף המחרוזת.
+מספר ההחלפות תמיד קטן באחד ממספר המחרוזות שבתוך 
+`literals`. 
+כתוצאה מכך ניתן להסיק כי:
+
+<span dir="ltr">
+
+```js
+substitutions.length === literals.length - 1  // true
+```
+</span> 
+
+בשיטה זו,
+המערכים 
+`literals` 
+ו-
+ `substitutions`
+יכולים לשמש ליצירת מחרוזת.
+האלמנט הראשון בתוך 
+`literals`
+מתחיל את המחרוזות.
+לאחר מכן בא הערך הראשון בתוך 
+ `substitutions` 
+וכך הלאה, 
+עד שהמחרוזת הושלמה.
+כך ניתן למשל לחקות את ההתנהגות הרגילה של טמפלייט ליטראלס:
+
+<div dir="ltr">
 
 ```js
 function passthru(literals, ...substitutions) {
     let result = "";
 
-    // run the loop only for the substitution count
+    // מריצים את הלולאה כמספר ההחלפות
     for (let i = 0; i < substitutions.length; i++) {
         result += literals[i];
         result += substitutions[i];
     }
 
-    // add the last literal
+    // מוסיפים את המחרוזת האחרונה
     result += literals[literals.length - 1];
 
     return result;
@@ -1257,14 +1422,33 @@ function passthru(literals, ...substitutions) {
 
 let count = 10,
     price = 0.25,
-    message = passthru`${count} items cost $${(count * price).toFixed(2)}.`;
+    message = passthru`${count} פריטים עולים $${(count * price).toFixed(2)}.`;
 
-console.log(message);       // "10 items cost $2.50."
+console.log(message);       // "10 פריטים עולים $2.50."
 ```
 
-This example defines a `passthru` tag that performs the same transformation as the default template literal behavior. The only trick is to use `substitutions.length` for the loop rather than `literals.length` to avoid accidentally going past the end of the `substitutions` array. This works because the relationship between `literals` and `substitutions` is well-defined in ECMAScript 6.
+</div>
 
-I> The values contained in `substitutions` are not necessarily strings. If an expression evaluates to a number, as in the previous example, then the numeric value is passed in. Determining how such values should output in the result is part of the tag's job.
+הדוגמה לעיל מגדירה תגית
+`passthru` 
+שמבצעת את אותה פעולה כמו התנהגות רגילה של טמפלייט ליטראלס. 
+החלק המעניין הוא השימוש בערך
+`substitutions.length` 
+עבור הרצת הלולאה במקום להשתמש ב 
+`literals.length`
+בכדי להימנע מלעבור את סוף מערך 
+`substitutions`. 
+פעולה זו עובדת בצורה תקינה מכיוון וההתנהגות עבור 
+`literals`
+ו-
+`substitutions` 
+מוגדרת היטב באקמהסקריפט 6.
+
+I> הערכים בתוך מערך 
+`substitutions` 
+לא יהיו מחרוזות בהכרח. 
+אם ערכו של ביטוי הוא מספר, כמו בדוגמה האחרונה, אותו ערך יועבר כארגומנט. 
+על התגית להחליט כיצד להשתמש באותו ערך.
 
 #### Using Raw Values in Template Literals
 
