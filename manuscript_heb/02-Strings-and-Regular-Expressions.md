@@ -1022,9 +1022,14 @@ XSS
 
 במקום הוספת פונקציונליות למחרוזות הקיימות בג׳אווהסקריפט, טמפלייט ליטראלס מייצגים גישה חדשה לפתרון הבעיות הללו.
 
-### Basic Syntax
+### תחביר בסיסי
 
-At their simplest, template literals act like regular strings delimited by backticks (`` ` ``) instead of double or single quotes. For example, consider the following:
+ברמה הכי בסיסית, טמפלייט ליטראלס עובדים כמו מחרוזות רגילות שתחומות בכל צד עם התו 
+(`` ` ``) 
+במקום מרכאות כפולות או בודדות. 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let message = `Hello world!`;
@@ -1034,9 +1039,21 @@ console.log(typeof message);        // "string"
 console.log(message.length);        // 12
 ```
 
-This code demonstrates that the variable `message` contains a normal JavaScript string. The template literal syntax is used to create the string value, which is then assigned to the `message` variable.
+</div>
 
-If you want to use a backtick in your string, then just escape it with a backslash (`\`), as in this version of the `message` variable:
+הקוד לעיל מדגים שהמשתנה 
+`message`
+מכיל מחרוזת רגילה. 
+התחביר של טמפלייט ליטראלס משמש ליצירת ערך המחרוזת שעובר השמה אל המשתנה 
+`message`
+
+במידה ותרצה להשתמש בתו
+(`` ` ``) 
+במחרוזת כזו יש להשתמש בו יחד עם קו נטוי הפוך
+(`\`)
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let message = `\`Hello\` world!`;
@@ -1046,7 +1063,10 @@ console.log(typeof message);        // "string"
 console.log(message.length);        // 14
 ```
 
-There's no need to escape either double or single quotes inside of template literals.
+</div>
+
+אין צורך ל״ברוח״ מרכאות כפולות או בודדות בתוך טמפלייט ליטראלס.
+
 
 ### Multiline Strings
 
