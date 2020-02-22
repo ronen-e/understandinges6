@@ -989,9 +989,9 @@ console.log(re.flags);      // "g"
 
 הקוד בדוגמה מחזיר את כל הסימונים על המשתנה
 `re` 
-ומדפיס אותם באמצעות כתיבת קוד מינמלית
+ומדפיס אותם באמצעות כתיבת קוד מינימלית
 
-השינויים שנסקרו בפרק זה מביאים שיפור עצום עבור מפתחים, אך אקמהסקריפט מהדורה שישית מביאה שיפור גדול אף יותר. היא הוסיפה סוג חדש של כתיבה דינמית ש מחרוזות  שהופכת עבודה עם מחרוזות לגמישה יותר מבעבר.
+השינויים שנסקרו בפרק זה מביאים שיפור עצום עבור מפתחים, אך אקמהסקריפט מהדורה שישית מביאה שיפור גדול אף יותר. היא הוסיפה סוג חדש של כתיבה דינמית של מחרוזות  שהופכת עבודה עם מחרוזות לגמישה יותר מבעבר.
 
 ## Template Literals - טמפלייט ליטראלס
 
@@ -1014,15 +1014,13 @@ XSS
 הזרקת SQL
 וכולי.
 
-> This scheme extends ECMAScript syntax with syntactic sugar to allow libraries to provide DSLs that easily produce, query, and manipulate content from other languages that are immune or resistant to injection attacks such as XSS, SQL Injection, etc.
+טמפלייט ליטראלס הינם התשובה של אקמהסקריפט 6 ליכולות שהיו חסרות בג׳אווהסקריפט עד כה:
 
-In reality, though, template literals are ECMAScript 6's answer to the following features that JavaScript lacked all the way through ECMAScript 5:
+* **כתיבת מחרוזות במספר שורות** צורה סטנדרטית לכתיבת מחרוזות על פני מספר שורות
+* **בניית מחרוזת דינמית** היכולת להחליף חלקים במחרוזת בערכים השמורים במשתנים.
+* **סידור HTML** היכולת לשנות מחרוזת בצורה כזו שבטוח להזריק אותה ישירות לתוך HTML
 
-* **Multiline strings** A formal concept of multiline strings.
-* **Basic string formatting** The ability to substitute parts of the string for values contained in variables.
-* **HTML escaping** The ability to transform a string such that it is safe to insert into HTML.
-
-Rather than trying to add more functionality to JavaScript's already-existing strings, template literals represent an entirely new approach to solving these problems.
+במקום הוספת פונקציונליות למחרוזות הקיימות בג׳אווהסקריפט, טמפלייט ליטראלס מייצגים גישה חדשה לפתרון הבעיות הללו.
 
 ### Basic Syntax
 
