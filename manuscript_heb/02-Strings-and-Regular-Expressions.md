@@ -1185,15 +1185,31 @@ HTML
 <span dir="ltr">`trim()`</span>
 בכדי למחוק את השורה התחילית הריקה.
 
+יש באפשרותך להשתמש בתו 
+
+באופן מפורש בתוך טמפלייט ליטראלס בכדי לסמן באופן מפורש היכן קיימת שורה חדשה:
+
+<div dir="ltr">
+
+```js
+let message = `שורה 1\nשורה 2`;
+
+console.log(message);           // "שורה 1
+                                //  שורה 2"
+console.log(message.length);    // 13
+```
+
+</div>
+
 A> If you prefer, you can also use `\n` in a template literal to indicate where a newline should be inserted:
 A> {:lang="js"}
 A> ~~~~~~~~
 A>
 A> let message = `Multiline\nstring`;
 A>
-A> console.log(message);           // "Multiline
-A>                                 //  string"
-A> console.log(message.length);    // 16
+console.log(message);           // "Multiline
+                                //  string"
+console.log(message.length);    // 16
 A> ~~~~~~~~
 
 ### ביצוע החלפות
@@ -1213,10 +1229,10 @@ A> ~~~~~~~~
 <div dir="ltr">
 
 ```js
-let name = "Nicholas",
-    message = `Hello, ${name}.`;
+let name = "ניקולאס",
+    message = `שלום, ${name}.`;
 
-console.log(message);       // "Hello, Nicholas."
+console.log(message);       // "שלום, ניקולאס."
 ```
 
 </div>
@@ -1238,8 +1254,6 @@ I> טמפלייט ליטראלס יכולים לגשת לכל משתנה שקי�
 מאחר וההחלפות נחשבות לביטוי ג׳אווהסקריפט, ניתן להחליף יותר מאשר רק משתנים. 
 ניתן לשבץ תוצאות חישוב, קריאות לפונקציות, ועוד. 
 לדוגמה:
-
-Since all substitutions are JavaScript expressions, you can substitute more than just simple variable names. You can easily embed calculations, function calls, and more. For example:
 
 <div dir="ltr">
 
@@ -1268,12 +1282,12 @@ console.log(message);       // "10 פריטים עולים $2.50."
 <div dir="ltr">
 
 ```js
-let name = "Nicholas",
-    message = `Hello, ${
-        `my name is ${ name }`
+let name = "ניקולאס",
+    message = `שלום, ${
+        `השם שלי הוא ${ name }`
     }.`;
 
-console.log(message);        // "Hello, my name is Nicholas."
+console.log(message);        // "שלום, השם שלי הוא ניקולאס."
 ```
 
 </div>
@@ -1450,57 +1464,129 @@ I> הערכים בתוך מערך
 אם ערכו של ביטוי הוא מספר, כמו בדוגמה האחרונה, אותו ערך יועבר כארגומנט. 
 על התגית להחליט כיצד להשתמש באותו ערך.
 
-#### Using Raw Values in Template Literals
+#### ערכים גולמיים בטמפלייט ליטראלס
 
-Template tags also have access to raw string information, which primarily means access to character escapes before they are transformed into their character equivalents. The simplest way to work with raw string values is to use the built-in `String.raw()` tag. For example:
+תגיות טמפלייט ליטראלס יכולות לגשת גם לנתוני מחרוזת גולמיים, שבאופן בסיסי 
+מאפשר גישה לתווים מיוחדים לפני המרתם לתווים. הדרך הפשוטה ביותר לעבוד עם ערך מחרוזת גולמית הינה להשתמש בתגית המובנית
+<span dir="ltr">`String.raw()`</span> 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
-let message1 = `Multiline\nstring`,
-    message2 = String.raw`Multiline\nstring`;
+let message1 = `שורה 1\nשורה 2`,
+    message2 = String.raw`שורה 1\nשורה 2`;
 
-console.log(message1);          // "Multiline
-                                //  string"
-console.log(message2);          // "Multiline\nstring"
+console.log(message1);          // "שורה 1
+                                //  שורה 2"
+console.log(message2);          // "שורה 1\nשורה 2"
 ```
 
-In this code, the `\n` in `message1` is interpreted as a newline while the `\n` in `message2` is returned in its raw form of `"\\n"` (the slash and `n` characters). Retrieving the raw string information like this allows for more complex processing when necessary.
+</div>
 
-The raw string information is also passed into template tags. The first argument in a tag function is an array with an extra property called `raw`. The `raw` property is an array containing the raw equivalent of each literal value. For example, the value in `literals[0]` always has an equivalent `literals.raw[0]` that contains the raw string information. Knowing that, you can mimic `String.raw()` using the following code:
+בדוגמת הקוד לעיל התו 
+<span dir="ltr">`\n`</span> 
+בתוך המשתנה
+`message1` 
+מחושב בתור שורה חדשה בעוד שהתו 
+<span dir="ltr">`\n`</span> 
+בתוך המשתנה
+`message2`
+מוחזר בצורתו הגולמית 
+<span dir="ltr">`"\\n"`</span> 
+(
+הקו הנטוי והתו 
+`n`
+). 
+שימוש בצורה הגולמית של המחרוזת בצורה זו מאפשרת לבצע עיבוד מורכב באופן נוח וקל יותר של מחרוזות במידת הצורך מאשר היה בעבר.
+
+המידע הגולמי במחרוזות מועבר גם לתוך תגיות טמפלייט ליטראלס. הארגומנט הראשון בפונקציית תגיד הינו מערך שאליו התווספה התכונה בשם 
+`raw`. 
+התכונה 
+`raw` 
+הינה מערך המכיל את הערך הגולמי של כל ערך מילולי. 
+לדוגמה, 
+הערך בתוך המשתנה 
+<span dir="ltr">`literals[0]`</span> 
+תמיד בעל הערך המקביל 
+<span dir="ltr">`literals.raw[0]`</span> 
+אשר מכיל את הערך הגולמי של המחרוזת. 
+באפשרותך לחקות את התנהגות הפונקציה 
+<span dir="ltr">`String.raw()`</span> 
+על ידי הקוד להלן:
+
+<div dir="ltr">
 
 ```js
 function raw(literals, ...substitutions) {
     let result = "";
 
-    // run the loop only for the substitution count
+    // הלולאה תרוץ מספר פעמים כמספר ההחלפות
     for (let i = 0; i < substitutions.length; i++) {
-        result += literals.raw[i];      // use raw values instead
+        result += literals.raw[i];      // שימוש בערכים מילוליים גולמיים
         result += substitutions[i];
     }
 
-    // add the last literal
+    // הוספת הערך המילולי האחרון
     result += literals.raw[literals.length - 1];
 
     return result;
 }
 
-let message = raw`Multiline\nstring`;
+let message = raw`שורה 1\nשורה 2`;
 
-console.log(message);           // "Multiline\nstring"
-console.log(message.length);    // 17
+console.log(message);           // "שורה 1\nשורה 2"
+console.log(message.length);    // 14
 ```
 
-This uses `literals.raw` instead of `literals` to output the string result. That means any character escapes, including Unicode code point escapes, should be returned in their raw form. Raw strings are helpful when you want to output a string containing code in which you'll need to include the character escaping (for instance, if you want to generate documentation about some code, you may want to output the actual code as it appears).
+</div>
 
-## Summary
+בדוגמה נעשה שימוש בערך
+<span dir="ltr">`literals.raw`</span>  
+במקום בערך 
+`literals` 
+לצורך הצגת התוצאה. 
+כל תו מיוחד יופיע בצורתו הגולמית. 
+מחרוזות גולמיות יהיו שימושיות במיוחד כאשר רוצים להציג טקסט שבו קיים צורך להציג את התו המיוחד, 
+(למשל, כאשר רוצים לייצר דוקומנטציה ורוצים להציג את הקוד המקורי).
 
-Full Unicode support allows JavaScript to deal with UTF-16 characters in logical ways. The ability to transfer between code point and character via `codePointAt()` and `String.fromCodePoint()` is an important step for string manipulation. The addition of the regular expression `u` flag makes it possible to operate on code points instead of 16-bit characters, and the `normalize()` method allows for more appropriate string comparisons.
+## סיכום
 
-ECMAScript 6 also added new methods for working with strings, allowing you to more easily identify a substring regardless of its position in the parent string. More functionality was added to regular expressions, too.
+תמיכה מלאה ב 
+<span dir="ltr">Unicode</span> 
 
-Template literals are an important addition to ECMAScript 6 that allows you to create domain-specific languages (DSLs) to make creating strings easier. The ability to embed variables directly into template literals means that developers have a safer tool than string concatenation for composing long strings with variables.
+מאפשרת עבודה עם תווים בקידוד 
+<span dir="ltr">UTF-16 </span>  
+בצורה נוחה יותר.
+היכולת לעבור 
+בין תו לבין נקודת קוד בעזרת
+<span dir="ltr">`codePointAt()`</span> 
+ו- 
+<span dir="ltr">`String.fromCodePoint()`</span> 
+מהווה שלב חשוב בעיבוד מחרוזות.
+ההוספה של סימון
+`u`
+לביטויים רגולריים מאפשרת לעבוד על נקודות קוד ולא רק על תווים בגודל
+16 ביט, 
+ומתודת 
+<span dir="ltr">`normalize()`</span> 
+נותנת לנו אפשרות להשוות בצורה טובה יותר בין מחרוזות
 
-Built-in support for multiline strings also makes template literals a useful upgrade over normal JavaScript strings, which have never had this ability. Despite allowing newlines directly inside the template literal, you can still use `\n` and other character escape sequences.
+אקמהסקריפט 6 הוסיפה שיטות חדשות לעבודה עם מחרוזות, שמאפשרות לנו לזהות תת מחרוזות ללא קשר למיקומן במחרוזת המקורית.
+יכולות נוספות התווספו גם לביטויים רגולריים.
 
-Template tags are the most important part of this feature for creating DSLs. Tags are functions that receive the pieces of the template literal as arguments. You can then use that data to return an appropriate string value. The data provided includes literals, their raw equivalents, and any substitution values. These pieces of information can then be used to determine the correct output for the tag.
+טמפלייט ליטראלס מהווים תוספת חשובה לאקמהסקריפט 6 שמרשה לנו ליצור שפות דומיין 
+<span dir="ltr">(DSL)</span> 
+ובכך ליצור מחרוזות בקלות. היכולת לשבץ משתנים ישירות לתוך טמפלייט ליטראלס נותנת למפתחים כלי עדיף מאשר שרשור מחרוזות שהיה נהוג בעבר לצורך שילוב מחרוזות עם משתנים.
+
+תמיכה במחרוזות רבות שורות משדרגת את השפה עם יכולת שימושית שכלל לא הייתה קיימת קודם לכן.
+למרות שניתן להשתמש בשורות חדשות ישירות בתוך טמפלייט ליטראלס, עדיין נשמרת היכולת להשתמש בתווים מיוחדים כרגיל, כולל התו
+`\n`
+ למען הוספת שורה חדשה במחרוזת
+ באופן מפורש.
+
+תגיות טמפלייט ליטראלס מהוות את העיקר ביכולת ליצירת שפות דומיין. תגיות הן פונקציות שמקבלות את החתיכות שמרכיבות טמפלייט ליטראלס בתור ארגומנטים. בהמשך ניתן להשתמש בנתונים אלו על מנת להרכיב מחרוזת כרצונך. 
+הנתונים שמסופקים לתגית כוללים ערכים מילוליים, המקבילות הגולמיות שלהם, וכל ערך מוחלף. 
+באמצעות חתיכות נפרדות אלו ניתן להרכיב את הפלט המתאים לתגית.
 
 </div>
