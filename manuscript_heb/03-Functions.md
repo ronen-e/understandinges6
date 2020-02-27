@@ -1,8 +1,10 @@
-# Functions
+# פונקציות
 
-Functions are an important part of any programming language, and prior to ECMAScript 6, JavaScript functions hadn't changed much since the language was created. This left a backlog of problems and nuanced behavior that made making mistakes easy and often required more code just to achieve very basic behaviors.
+פונקציות הן חלק חשוב בכל שפת תכנות ועד אקמהסקריפט 6, פונקציות נותרו כמעט כמות שהן מאז כתיבת השפה. 
+הדבר הותיר מאחוריו שובל של בעיות והתנהגות בעייתית שבגללה היה קל מאוד לטעות ולעיתים תכופות דרשה כתיבת קוד רבה רק לשם השגת מטרות פשוטות.
 
-ECMAScript 6 functions make a big leap forward, taking into account years of complaints and requests from JavaScript developers. The result is a number of incremental improvements on top of ECMAScript 5 functions that make programming in JavaScript less error-prone and more powerful.
+פונקציות כפי שהן קיימות באקמהסקריפט 6 מקדמות את השפה באופן ניכר, ומבטאות התייחסות לשנים של תלונות ובקשות מצד מפתחי ג׳אווהסקריפט. 
+התוצאה הינה מספר שיפורים על גבי השיפורים שכבר התווספו באקמהסקריפט 5 שבזכותם תכנות בג׳אווהסקריפט הופך לקל ויעיל יותר.
 
 ## Functions with Default Parameter Values
 
