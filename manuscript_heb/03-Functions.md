@@ -6,9 +6,19 @@
 פונקציות כפי שהן קיימות באקמהסקריפט 6 מקדמות את השפה באופן ניכר, ומבטאות התייחסות לשנים של תלונות ובקשות מצד מפתחי ג׳אווהסקריפט. 
 התוצאה הינה מספר שיפורים על גבי השיפורים שכבר התווספו באקמהסקריפט 5 שבזכותם תכנות בג׳אווהסקריפט הופך לקל ויעיל יותר.
 
-## Functions with Default Parameter Values
+## פונקציות עם ערכי ברירת מחדל
 
-Functions in JavaScript are unique in that they allow any number of parameters to be passed, regardless of the number of parameters declared in the function definition. This allows you to define functions that can handle different numbers of parameters, often by just filling in default values when parameters aren't provided. This section covers how default parameters work both in and prior to ECMAScript 6, along with some important information on the `arguments` object, using expressions as parameters, and another TDZ.
+לפונקציות בג׳אווהסקריפט הינן בעלות תכונה מעניינת וייחודית - הן יכולות לקבל כל מספר של ארגומנטים, ללא קשר למספר הארגומנטים שניתן בהגדרת הפונקציה. זה מאפשר יצירת פונקציות שיכולות לטפל במספרים שונים של ארגומנטים, לעיתים תכופות רק על ידי כתיבת ערכי ברירת מחדל כאשר ארגומנטים לא מועברים פנימה לפונקציה. 
+כעת נרחיב כיצד ערכי ברירת מחדל 
+(ערכים דיפולטיביים) 
+עובדים לפני ואחרי אקמהסקריפט, בנוסף להסבר על אובייקט 
+`arguments`
+המיוחד, 
+באמצעות ביטויים
+<span dir="ltr">(expressions)</span> 
+בתור ארגומנטים ועוד. 
+כמו כן, יוצג בפניכם אזור מת באופן זמני חדש
+<span dir="ltr">(TDZ)</span>.
 
 ### Simulating Default Parameter Values in ECMAScript 5
 
