@@ -186,11 +186,21 @@ makeRequest("/foo", null, function(body) {
 <span dir="ltr">`makeRequest()`</span> 
 הערך הדיפולטיבי של המשתנה 
 `timeout`
-לא יתקבל
+לא יתקבל.
 
-### How Default Parameter Values Affect the arguments Object
+### כיצד ערכים דיפולטיביים משפיעים על אוביקט ארגומנטס
 
-Just keep in mind that the behavior of the `arguments` object is different when default parameter values are present. In ECMAScript 5 nonstrict mode, the `arguments` object reflects changes in the named parameters of a function. Here's some code that illustrates how this works:
+חשוב לדעת שהתנהגות אוביקט
+`arguments` 
+שונה ביחס לערכים דיפולטיביים. 
+באקמהסקריפט 5 תחת עבודה במצב לא קשיח 
+<span dir="ltr">(nonstrict mode)</span> 
+אוביקט 
+
+משקף שינויים בפרמטרים של הפונקציה. 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function mixArgs(first, second) {
@@ -205,7 +215,11 @@ function mixArgs(first, second) {
 mixArgs("a", "b");
 ```
 
-This outputs:
+</div>
+
+הפלט עבור הקוד לעיל הינו:
+
+<div dir="ltr">
 
 ```
 true
@@ -214,9 +228,36 @@ true
 true
 ```
 
-The `arguments` object is always updated in nonstrict mode to reflect changes in the named parameters. Thus, when `first` and `second` are assigned new values, `arguments[0]` and `arguments[1]` are updated accordingly, making all of the `===` comparisons resolve to `true`.
+</div>
 
-ECMAScript 5's strict mode, however, eliminates this confusing aspect of the `arguments` object. In strict mode, the `arguments` object does not reflect changes to the named parameters. Here's the `mixArgs()` function again, but in strict mode:
+אוביקט 
+`arguments` 
+תמיד משתנה במצב לא קשיח ומשקף שינויים בפרמטרים של הפונקציה. 
+ומכאן, כאשר המשתנים 
+`first` 
+ו 
+`second` 
+מקבלים ערכים חדשים 
+גם
+<span dir="ltr">`arguments[0]` </span> 
+ו 
+<span dir="ltr">`arguments[1]` </span> 
+משתנים בהתאם, ולכן כל ההשוואות מסוג 
+`===` 
+מקבלות את הערך 
+`true`. 
+
+ואולם,
+כאשר פועלים תחת הכללים של מצב קשיח באקמהסקריפט 5, 
+ההתנהגות של אוביקט 
+`arguments`
+משתנה. 
+במצב קשיח אוביקט
+`arguments`
+לא משקף שינויים בפרמטרים של הפונקציה.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function mixArgs(first, second) {
@@ -233,7 +274,12 @@ function mixArgs(first, second) {
 mixArgs("a", "b");
 ```
 
-The call to `mixArgs()` outputs:
+</div>
+
+הפלט הינו:
+
+<div dir="ltr">
+
 
 ```
 true
@@ -242,12 +288,36 @@ false
 false
 ```
 
-This time, changing `first` and `second` doesn't affect `arguments`, so the output behaves as you'd normally expect it to.
+</div>
 
-The `arguments` object in a function using ECMAScript 6 default parameter values, however, will always behave in the same manner as ECMAScript 5 strict mode, regardless of whether the function is explicitly running in strict mode. The presence of default parameter values triggers the `arguments` object to remain detached from the named parameters. This is a subtle but important detail because of how the `arguments` object may be used. Consider the following:
+בדוגמה לעיל,
+שינוי המשתנים 
+`first` 
+ו
+ `second` 
+אינו משפיע על אוביקט 
+`arguments`, 
+ולכן הפלט נראה כמצופה.
+
+לעומת זאת,
+אוביקט 
+`arguments` 
+כאשר הוא מופיע 
+בפונקציה שמשתמשת בערכים דיפולטיביים של אקמהסקריפט 6,
+ יתנהג באותו אופן כמו במצב קשיח של אקמהסקריפט 5,
+בלי קשר לשאלה האם הפונקציה ככלל נמצאת במצב קשיח. 
+נוכחותם של ערכים דיפולטיביים גורמת לאוביקט 
+`arguments`
+להתנתק מן הפרמטרים בפונקציה. 
+זהו פרט חשוב לדעת כאשר משתמשים באוביקט 
+`arguments`
+בעת הפיתוח. 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
-// not in strict mode
+// הפונקציה אינה פועלת במצב קשיח
 function mixArgs(first, second = "b") {
     console.log(arguments.length);
     console.log(first === arguments[0]);
@@ -261,7 +331,13 @@ function mixArgs(first, second = "b") {
 mixArgs("a");
 ```
 
-This outputs:
+</div>
+
+
+הפלט הינו:
+
+<div dir="ltr">
+
 
 ```
 1
@@ -271,7 +347,32 @@ false
 false
 ```
 
-In this example, `arguments.length` is 1 because only one argument was passed to `mixArgs()`. That also means `arguments[1]` is `undefined`, which is the expected behavior when only one argument is passed to a function. That means `first` is equal to `arguments[0]` as well. Changing `first` and `second` has no effect on `arguments`. This behavior occurs in both nonstrict and strict mode, so you can rely on `arguments` to always reflect the initial call state.
+</div>
+
+בדוגמה זו, 
+הערך של 
+<span dir="ltr">`arguments.length`</span> 
+הינו 1 מכיוון שרק ארגומנט אחד הועבר לפונקציה 
+<span dir="ltr">`mixArgs()`</span>. 
+ומכאן הערך עבור 
+<span dir="ltr">`arguments[1]`</span>
+הינו
+`undefined`, 
+כמצופה, כאשר רק ארגומנט אחד מסופק לפונקציה. 
+המשמעות היא שערך המשתנה 
+`first` 
+זהה לערך של 
+`arguments[0]`. 
+שינוי ערכי המשתנים 
+`first` 
+ו 
+`second`
+לא משנה את אוביקט 
+`arguments` 
+בשום צורה שהיא.
+התנהגות זו מתקיימת הן תחת מצב קשיח והן תחת מצב רגיל, ובצורה כזו ניתן לסמוך על אוביקט 
+`arguments` 
+שישקף תמיד את המצב ההתחלתי של הפונקציה בעת קריאתה
 
 ### Default Parameter Expressions
 
