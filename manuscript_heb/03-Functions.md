@@ -20,9 +20,11 @@
 כמו כן, יוצג בפניכם אזור מת באופן זמני חדש
 <span dir="ltr">(TDZ)</span>.
 
-### Simulating Default Parameter Values in ECMAScript 5
+### ערכים דיפולטיביים באקמהסקריפט 5
 
-In ECMAScript 5 and earlier, you would likely use the following pattern to create a function with default parameters values:
+באקמהסקריפט 5 וקודם לכן, היה ניתן להשתמש בשיטה הבאה על מנת ליצור פונקציה עם ערכים דיפולטיביים
+
+<div dir="ltr">
 
 ```js
 function makeRequest(url, timeout, callback) {
@@ -30,14 +32,42 @@ function makeRequest(url, timeout, callback) {
     timeout = timeout || 2000;
     callback = callback || function() {};
 
-    // the rest of the function
+    // יתר הפונקציה
 
 }
 ```
 
-In this example, both `timeout` and `callback` are actually optional because they are given a default value if a parameter isn't provided. The logical OR operator (`||`) always returns the second operand when the first is falsy. Since named function parameters that are not explicitly provided are set to `undefined`, the logical OR operator is frequently used to provide default values for missing parameters. There is a flaw with this approach, however, in that a valid value for `timeout` might actually be `0`, but this would replace it with `2000` because `0` is falsy.
+</div>
 
-In that case, a safer alternative is to check the type of the argument using `typeof`, as in this example:
+בדוגמה לעיל, שני המשתנים
+`timeout` ו `callback`
+הינם משתנים אופציונליים מכיוון שהם מקבלים ערך דיפולטיבי במידה ואיננו מסופק לפונקציה. 
+האופרטיור הלוגי 
+OR 
+(`||`)
+
+תמיד מחזיר את האופרנד השני כאשר הראשון הינו ״שקרי״.
+מאחר ופרמטרים שאינם מסופקים לפונקציה מקבלים את הערך 
+`undefined`,
+האופרטור הלוגי 
+OR 
+משמש לעיתים תכופות בכדי לספק ערך דיפולטיבי עבור פרמטרים חסרים. 
+קיים פגם בשיטה זו, מאחר וערך תקין עבור המשתנה 
+`timeout` 
+יכול להיות 
+`0`, 
+אך הערך יוחלף ב
+ `2000` 
+מאחר ו
+`0` 
+הינו ״שקרי״ 
+
+במקרה כזה, מומלץ לבדוק את סוג הארגומנט בעזרת 
+`typeof`
+כמו בדוגמה הבאה:
+
+
+<div dir="ltr">
 
 ```js
 function makeRequest(url, timeout, callback) {
@@ -45,24 +75,31 @@ function makeRequest(url, timeout, callback) {
     timeout = (typeof timeout !== "undefined") ? timeout : 2000;
     callback = (typeof callback !== "undefined") ? callback : function() {};
 
-    // the rest of the function
+    // יתר הפונקציה
 
 }
 ```
 
-While this approach is safer, it still requires a lot of extra code for a very basic operation. Popular JavaScript libraries are filled with similar patterns, as this represents a common pattern.
+</div>
 
-### Default Parameter Values in ECMAScript 6
+בעוד שגישה זו עדיפה, היא עדיין דורשת כתיבת קוד רב יחסית עבור פעולה בסיסית. 
+ספריות ג׳אווהסקריפט פופולריות מלאות בדוגמאות דומות. 
 
-ECMAScript 6 makes it easier to provide default values for parameters by providing initializations that are used when the parameter isn't formally passed. For example:
+### ערכים דיפולטיביים באקמהסקריפט 6
+
+אקמהסקריפט 6 מפשטת את תהליך הוספת ערכים דיפולטיביים לפרמטרים באמצעות הוספת יכולת אתחול פרמטרים כאשר הללו אינם נתונים לנו. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function makeRequest(url, timeout = 2000, callback = function() {}) {
 
-    // the rest of the function
+    // יתר הפונקציה
 
 }
 ```
+
+</div>
 
 This function only expects the first parameter to always be passed. The other two parameters have default values, which makes the body of the function much smaller because you don't need to add any code to check for a missing value.
 
