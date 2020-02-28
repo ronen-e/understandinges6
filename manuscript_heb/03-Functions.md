@@ -101,53 +101,92 @@ function makeRequest(url, timeout = 2000, callback = function() {}) {
 
 </div>
 
-This function only expects the first parameter to always be passed. The other two parameters have default values, which makes the body of the function much smaller because you don't need to add any code to check for a missing value.
+הפונקציה בדוגמה לעיל מצפה רק את הפרמטר הראשון כארגומנט שחובה להעבירו. שני הפרמטרים האחרים מקבלים ערכים דיפולטיביים, מה שהופך את הפונקציה לקטנה יותר מכיוון ואין צורך לכתוב קוד נוסף שבודק ערכים חסרים ומחליף אותם.
 
-When `makeRequest()` is called with all three parameters, the defaults are not used. For example:
+כאשר קוראים לפונקציה
+<span dir="ltr">`makeRequest()`</span>
+ומספקים את כל שלושת הפרמטרים, הערכים הדיפולטיביים אינם נלקחים. לדוגמה:
+
+<div dir="ltr">
 
 ```js
-// uses default timeout and callback
+// שימוש בערכים דיפולטיביים
+// timeout, callback
 makeRequest("/foo");
 
-// uses default callback
+// שימוש בערכים דיפולטיביים
+// callback
 makeRequest("/foo", 500);
 
-// doesn't use defaults
+// אין שימוש בערכים דיפולטיביים
 makeRequest("/foo", 500, function(body) {
     doSomething(body);
 });
 ```
 
-ECMAScript 6 considers `url` to be required, which is why `"/foo"` is passed in all three calls to `makeRequest()`. The two parameters with a default value are considered optional.
+</div>
 
-It's possible to specify default values for any arguments, including those that appear before arguments without default values in the function declaration. For example, this is fine:
+
+תחת אקמהסקריפט 6 המשתנה
+`url`
+הוא משתנה שחובה לספקו, וזוהי הסיבה שהערך
+`"/foo"` 
+נתון בכל שלושת הקריאות לפונקציה
+<span dir="ltr">`makeRequest()`</span>. 
+שני הפרמטרים שמקבלים ערכים דיפולטיביים הינם משתנים אופציונליים.
+
+ניתן להגדיר ערך דיפולטיבי בעבור כל ארגומנט, כולל אלו שמופיעים לפני ארגומנטים ללא ערכים דיפולטיביים בהגדרת הפונקציה. 
+למשל, 
+הקוד בדוגמה הבאה הינו קוד תקין:
+
+<div dir="ltr">
+
 
 ```js
 function makeRequest(url, timeout = 2000, callback) {
 
-    // the rest of the function
+    // יתר הפונקציה
 
 }
 ```
 
-In this case, the default value for `timeout` will only be used if there is no second argument passed in or if the second argument is explicitly passed in as `undefined`, as in this example:
+</div>
+
+בדוגמה זו, הערך הדיפולטיבי עבור המשתנה 
+`timeout`
+יתקבל רק כאשר הארגומנט השני איננו מסופק לפונקציה או כאשר הארגומנט השני מסופק עם הערך 
+`undefined`, 
+לדוגמה: 
+
+<div dir="ltr">
 
 ```js
-// uses default timeout
+// שימוש בערכים דיפולטיביים
+// timeout
 makeRequest("/foo", undefined, function(body) {
     doSomething(body);
 });
 
-// uses default timeout
+// שימוש בערכים דיפולטיביים
+// timeout
 makeRequest("/foo");
 
-// doesn't use default timeout
+// אין שימוש בערכים דיפולטיביים
 makeRequest("/foo", null, function(body) {
     doSomething(body);
 });
 ```
 
-In the case of default parameter values, a value of `null` is considered to be valid, meaning that in the third call to `makeRequest()`, the default value for `timeout` will not be used.
+</div>
+
+בכל הנוגע לערכים דיפולטיביים, הערך 
+`null`
+נחשב לערך תקין, 
+ומכאן שבעת הקריאה השלישית לפונקציה 
+<span dir="ltr">`makeRequest()`</span> 
+הערך הדיפולטיבי של המשתנה 
+`timeout`
+לא יתקבל
 
 ### How Default Parameter Values Affect the arguments Object
 
