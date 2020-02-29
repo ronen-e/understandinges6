@@ -196,8 +196,8 @@ makeRequest("/foo", null, function(body) {
 באקמהסקריפט 5 תחת עבודה במצב לא קשיח 
 <span dir="ltr">(nonstrict mode)</span> 
 אוביקט 
-
-משקף שינויים בפרמטרים של הפונקציה. 
+`arguments` 
+משקף שינויים בפרמטרים של הפונקציה, כאשר הועברו לתוכה
 לדוגמה:
 
 <div dir="ltr">
@@ -232,7 +232,7 @@ true
 
 אוביקט 
 `arguments` 
-תמיד משתנה במצב לא קשיח ומשקף שינויים בפרמטרים של הפונקציה. 
+תמיד משתנה במצב לא קשיח ומשקף שינויים בפרמטרים של הפונקציה, כאשר הם מסופקים לפונקציה  
 ומכאן, כאשר המשתנים 
 `first` 
 ו 
@@ -247,7 +247,7 @@ true
 מקבלות את הערך 
 `true`. 
 
-ואולם,
+לעומת זאת,
 כאשר פועלים תחת הכללים של מצב קשיח באקמהסקריפט 5, 
 ההתנהגות של אוביקט 
 `arguments`
@@ -280,7 +280,6 @@ mixArgs("a", "b");
 
 <div dir="ltr">
 
-
 ```
 true
 true
@@ -300,9 +299,8 @@ false
 ולכן הפלט נראה כמצופה.
 
 לעומת זאת,
-אוביקט 
+כאשר מופיע אוביקט 
 `arguments` 
-כאשר הוא מופיע 
 בפונקציה שמשתמשת בערכים דיפולטיביים של אקמהסקריפט 6,
  יתנהג באותו אופן כמו במצב קשיח של אקמהסקריפט 5,
 בלי קשר לשאלה האם הפונקציה ככלל נמצאת במצב קשיח. 
@@ -333,7 +331,6 @@ mixArgs("a");
 
 </div>
 
-
 הפלט הינו:
 
 <div dir="ltr">
@@ -362,7 +359,7 @@ false
 המשמעות היא שערך המשתנה 
 `first` 
 זהה לערך של 
-`arguments[0]`. 
+<span dir="ltr">`arguments[0]`</span>. 
 שינוי ערכי המשתנים 
 `first` 
 ו 
@@ -372,11 +369,14 @@ false
 בשום צורה שהיא.
 התנהגות זו מתקיימת הן תחת מצב קשיח והן תחת מצב רגיל, ובצורה כזו ניתן לסמוך על אוביקט 
 `arguments` 
-שישקף תמיד את המצב ההתחלתי של הפונקציה בעת קריאתה
+שישקף תמיד את המצב ההתחלתי של הפונקציה בעת קריאתה.
 
-### Default Parameter Expressions
+### חישוב ערכים דיפולטיביים
 
-Perhaps the most interesting feature of default parameter values is that the default value need not be a primitive value. You can, for example, execute a function to retrieve the default parameter value, like this:
+תכונה מעניינת של ערכים דיפולטיביים היא שאינם חייבים להיות ערכים פרימיטיביים. 
+ניתן למשל, להריץ פונקציה כדי להחזיר ממנה את הערך הדיפולטיבי, לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function getValue() {
@@ -391,7 +391,24 @@ console.log(add(1, 1));     // 2
 console.log(add(1));        // 6
 ```
 
-Here, if the last argument isn't provided, the function `getValue()` is called to retrieve the correct default value. Keep in mind that `getValue()` is only called when `add()` is called without a second parameter, not when the function declaration is first parsed. That means if `getValue()` were written differently, it could potentially return a different value. For instance:
+</div>
+
+כאשר הארגומנט האחרון אינו מועבר לפונקציה 
+<span dir="ltr">`add()`</span>
+תופעל הפונקציה 
+<span dir="ltr">`getValue()`</span>
+על מנת לקבל את הערך הדיפולטיבי עבור הפרמטר השני. 
+ הפונקציה 
+<span dir="ltr">`getValue()`</span> 
+נקראת רק כאשר 
+<span dir="ltr">`add()`</span> 
+נקראת ללא הפרמטר השני, לא בעת הגדרת הפונקציה. 
+אם הפונקציה 
+<span dir="ltr">`getValue()`</span> 
+הייתה נכתבת אחרת היא הייתה יכולה להחזיר ערך אחר. 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let value = 5;
@@ -409,11 +426,41 @@ console.log(add(1));        // 6
 console.log(add(1));        // 7
 ```
 
-In this example, `value` begins as five and increments each time `getValue()` is called. The first call to `add(1)` returns 6, while the second call to `add(1)` returns 7 because `value` was incremented. Because the default value for `second` is only evaluated when the function is called, changes to that value can be made at any time.
+</div>
 
-W> Be careful when using function calls as default parameter values. If you forget the parentheses, such as `second = getValue` in the last example, you are passing a reference to the function rather than the result of the function call.
+בדוגמה לעיל, המשתנה
+`value` 
+מאותחל עם הערך 
+`5` 
+ומעודכן בכל פעם שהפונקציה 
+<span dir="ltr">`getValue()`</span> 
+נקראת. 
+הקריאה הראשונה לפונקציה 
+<span dir="ltr">`add(1)`</span> 
+מחזירה את הערך 
+`6`,  
+בעוד שהקריאה השנייה לפונקציה 
+<span dir="ltr">`add(1)`</span> 
+מחזירה את הערך 
+`7` 
+מכיוון שערכו של 
+`value` 
+השתנה. 
+מפני שהערך הדיפולטיבי של המשתנה 
+`second`
+מתקבל רק כאשר הפונקציה 
+`add`
+נקראת, שינויים לאותו ערך יכולים שיתבצעו בכל עת.
 
-This behavior introduces another interesting capability. You can use a previous parameter as the default for a later parameter. Here's an example:
+W> חובה להיזהר בעת שימוש בפונקציות למתן ערכים דיפולטיביים. 
+אם שכחתם את השימוש בסוגריים, לדוגמה, אם היה נכתב: 
+<span dir="ltr">`second = getValue`</span> 
+בדוגמה האחרונה, המשמעות הינה העברת מצביע לפונקציה עצמה במקום לערך המוחזר ממנה.
+
+התנהגות זו מציעה לנו תכונה נוספת. ניתן להשתמש בפרמטר קודם כערך דיפולטיבי לפרמטר שאחריו. 
+לדוגמה: 
+
+<div dir="ltr">
 
 ```js
 function add(first, second = first) {
@@ -424,7 +471,25 @@ console.log(add(1, 1));     // 2
 console.log(add(1));        // 2
 ```
 
-In this code, the parameter `second` is given a default value of `first`, meaning that passing in just one argument leaves both arguments with the same value. So `add(1, 1)` returns 2 just as `add(1)` returns 2. Taking this a step further, you can pass `first` into a function to get the value for `second` as follows:
+</div>
+
+בקוד לעיל, הפרמטר
+`second` 
+מקבל את הערך הדיפולטיבי שזהה לערכו של המשתנה 
+`first`, 
+כך שהעברת ארגומנט אחד לפונקציה למעשה נותן לשני הארגומנטים
+את אותו הערך. 
+ולכן הקריאה לפונקציה כך:
+<span dir="ltr">`add(1, 1)`</span> 
+תחזיר את הערך `2` כתוצאה כמו הקריאה 
+<span dir="ltr">`add(1)`</span>. 
+ניתן אף להעביר את המשתנה
+ `first`
+לתוך פונקציה על מנת לקבל ערך דיפולטיבי עבור המשתנה 
+ `second`:
+
+
+<div dir="ltr">
 
 ```js
 function getValue(value) {
@@ -439,9 +504,25 @@ console.log(add(1, 1));     // 2
 console.log(add(1));        // 7
 ```
 
-This example sets `second` equal to the value returned by `getValue(first)`, so while `add(1, 1)` still returns 2, `add(1)` returns 7 (1 + 6).
+</div>
 
-The ability to reference parameters from default parameter assignments works only for previous arguments, so earlier arguments do not have access to later arguments. For example:
+בדוגמה האחרונה נותנים למשתנה 
+`second` 
+את הערך המוחזר כתוצאה מהפונקציה
+<span dir="ltr">`getValue(first)`</span>, 
+לכן בעוד שהקריאה לפונקציה
+<span dir="ltr">`add(1, 1)`</span> 
+מחזירה את הערך 2, 
+הקריאה לפונקציה 
+<span dir="ltr">`add(1)`</span> 
+מחזירה את הערך 
+7 
+(1 + 6).
+
+שיטה זו של הפניה לפרמטרים קודמים בעת השמת ערכים דיפולטיביים עובדת רק עבור ארגומנטים קיימים, ולכן אין גישה לארגומנטים שבאים מאוחר יותר מאשר בזמן הגדרת הפונקציה. לדוגמה:
+
+
+<div dir="ltr">
 
 ```js
 function add(first = second, second) {
@@ -449,16 +530,29 @@ function add(first = second, second) {
 }
 
 console.log(add(1, 1));         // 2
-console.log(add(undefined, 1)); // throws error
+console.log(add(undefined, 1)); // שגיאה
 ```
 
-The call to `add(undefined, 1)` throws an error because `second` is defined after `first` and is therefore unavailable as a default value. To understand why that happens, it's important to revisit temporal dead zones.
+</div>
+
+הקריאה לפונקציה 
+<span dir="ltr">`add(undefined, 1)`</span> 
+זורקת שגיאה מכיוון שהפרמטר
+`second`
+מוגדר לאחר
+`first` 
+ולכן איננו זמין בתור ערך דיפולטיבי. 
+על מנת להבין מדוע הדבר קורה חשוב להסביר שוב על
+הנושא הקרוי
+`אזור מת באופן זמני`.
 
 ### Default Parameter Value Temporal Dead Zone
 
 Chapter 1 introduced the temporal dead zone (TDZ) as it relates to `let` and `const`, and default parameter values also have a TDZ where parameters cannot be accessed. Similar to a `let` declaration, each parameter creates a new identifier binding that can't be referenced before initialization without throwing an error. Parameter initialization happens when the function is called, either by passing a value for the parameter or by using the default parameter value.
 
 To explore the default parameter value TDZ, consider this example from "Default Parameter Expressions" again:
+
+<div dir="ltr">
 
 ```js
 function getValue(value) {
@@ -473,7 +567,11 @@ console.log(add(1, 1));     // 2
 console.log(add(1));        // 7
 ```
 
+</div>
+
 The calls to `add(1, 1)` and `add(1)` effectively execute the following code to create the `first` and `second` parameter values:
+
+<div dir="ltr">
 
 ```js
 // JavaScript representation of call to add(1, 1)
@@ -485,7 +583,11 @@ let first = 1;
 let second = getValue(first);
 ```
 
+</div>
+
 When the function `add()` is first executed, the bindings `first` and `second` are added to a parameter-specific TDZ (similar to how `let` behaves). So while `second` can be initialized with the value of `first` because `first` is always initialized at that time, the reverse is not true. Now, consider this rewritten `add()` function:
+
+<div dir="ltr">
 
 ```js
 function add(first = second, second) {
@@ -496,7 +598,11 @@ console.log(add(1, 1));         // 2
 console.log(add(undefined, 1)); // throws error
 ```
 
+</div>
+
 The calls to `add(1, 1)` and `add(undefined, 1)` in this example now map to this code behind the scenes:
+
+<div dir="ltr">
 
 ```js
 // JavaScript representation of call to add(1, 1)
@@ -507,6 +613,8 @@ let second = 1;
 let first = second;
 let second = 1;
 ```
+
+</div>
 
 In this example, the call to `add(undefined, 1)` throws an error because `second` hasn't yet been initialized when `first` is initialized. At that point, `second` is in the TDZ and therefore any references to `second` throw an error. This mirrors the behavior of `let` bindings discussed in Chapter 1.
 
