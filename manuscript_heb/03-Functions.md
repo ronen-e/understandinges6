@@ -457,7 +457,7 @@ W> חובה להיזהר בעת שימוש בפונקציות למתן ערכי�
 <span dir="ltr">`second = getValue`</span> 
 בדוגמה האחרונה, המשמעות הינה העברת מצביע לפונקציה עצמה במקום לערך המוחזר ממנה.
 
-התנהגות זו מציעה לנו תכונה נוספת. ניתן להשתמש בפרמטר קודם כערך דיפולטיבי לפרמטר שאחריו. 
+ניתן גם להשתמש בפרמטר קודם כערך דיפולטיבי לפרמטר שאחריו. 
 לדוגמה: 
 
 <div dir="ltr">
@@ -546,11 +546,21 @@ console.log(add(undefined, 1)); // שגיאה
 הנושא הקרוי
 `אזור מת באופן זמני`.
 
-### Default Parameter Value Temporal Dead Zone
+### אזור מת באופן זמני בערכים דיפולטיביים
 
-Chapter 1 introduced the temporal dead zone (TDZ) as it relates to `let` and `const`, and default parameter values also have a TDZ where parameters cannot be accessed. Similar to a `let` declaration, each parameter creates a new identifier binding that can't be referenced before initialization without throwing an error. Parameter initialization happens when the function is called, either by passing a value for the parameter or by using the default parameter value.
+בפרק 1 דובר על האזור המת באופן זמני 
+<span dir="ltr">(TDZ)</span> 
+כפי שהוא נוגע למשתנים מסוג 
+`let` 
+ו-
+`const`, 
+ובאופן דומה גם לפרמטרים דיפולטיביים קייבם אזור מת באופן זמני שבו פרמטרים אינם נגישים. 
+בדומה להגדרת 
+`let` 
+כל פרמטר מייצר קישור חדש משלו שלא ניתן לגישה לפני אתחולו. ניסיון לעשות זאת יגרום לשגיאה. 
+אתחול פרמטרים מתקיים כאשר הפונקציה נקראת, או על ידי העברת ערך עבור הפרמטר או באמצעות קביעת ערך דיפולטיבי.
 
-To explore the default parameter value TDZ, consider this example from "Default Parameter Expressions" again:
+על מנת לחקור את האזור המת של פרמטרים דיפולטיביים ניתן להשתמש בדוגמת קוד קודמת:
 
 <div dir="ltr">
 
@@ -569,23 +579,49 @@ console.log(add(1));        // 7
 
 </div>
 
-The calls to `add(1, 1)` and `add(1)` effectively execute the following code to create the `first` and `second` parameter values:
+הקריאות לפונקציות
+<span dir="ltr">`add(1, 1)`</span> 
+ו- 
+<span dir="ltr">`add(1)`</span> 
+למעשה מריצות את הקוד הבא על מנת ליצור את הערכים עבור הפרמטרים
+`first` 
+ו 
+ `second`:
 
 <div dir="ltr">
 
 ```js
-// JavaScript representation of call to add(1, 1)
+// add(1, 1)
 let first = 1;
 let second = 1;
 
-// JavaScript representation of call to add(1)
+// add(1)
 let first = 1;
 let second = getValue(first);
 ```
 
 </div>
 
-When the function `add()` is first executed, the bindings `first` and `second` are added to a parameter-specific TDZ (similar to how `let` behaves). So while `second` can be initialized with the value of `first` because `first` is always initialized at that time, the reverse is not true. Now, consider this rewritten `add()` function:
+כאשר הפונקציה
+<span dir="ltr">`add()`</span> 
+נקראת לראשונה,
+הקישורים למשתנים 
+`first` 
+ו 
+ `second`
+נוצרים בתוך אזור מת מיוחד לפרמטרים
+(בדומה להתנהגות משתנים מסוג 
+`let`). 
+בעוד שהמשתנה 
+`second`
+יכול שיאותחל בעזרת הערך של המשתנה
+`first`
+וזאת מכיוון שהמשתנה
+`first`
+תמיד מאותחל
+קודם לכן, 
+אך ההיפך אינו תמיד נכון.
+לדוגמה:
 
 <div dir="ltr">
 
@@ -595,30 +631,47 @@ function add(first = second, second) {
 }
 
 console.log(add(1, 1));         // 2
-console.log(add(undefined, 1)); // throws error
+console.log(add(undefined, 1)); // שגיאה
 ```
 
 </div>
 
-The calls to `add(1, 1)` and `add(undefined, 1)` in this example now map to this code behind the scenes:
+בדוגמה לעיל הקריאות לפונקציות
+<span dir="ltr">`add(1, 1)`</span> 
+ו- 
+<span dir="ltr">`add(undefined, 1)`</span> 
+למעשה מתורגמות מאחורי הקלעים לקוד הבא:
 
 <div dir="ltr">
 
 ```js
-// JavaScript representation of call to add(1, 1)
+// add(1, 1)
 let first = 1;
 let second = 1;
 
-// JavaScript representation of call to add(undefined, 1)
+// add(undefined, 1)
 let first = second;
 let second = 1;
 ```
 
 </div>
 
-In this example, the call to `add(undefined, 1)` throws an error because `second` hasn't yet been initialized when `first` is initialized. At that point, `second` is in the TDZ and therefore any references to `second` throw an error. This mirrors the behavior of `let` bindings discussed in Chapter 1.
+בדוגמה לעיל הקריאה לפונקציה
+<span dir="ltr">`add(undefined, 1)`</span> 
+זורקת שגיאה מכיוון והמשתנה
+`second`
+עוד לא מאותחל בעת אתחול המשתנה
+`first`.
+באותו הרגע המשתנה 
+`second`
+שוהה בתוך האזור המת ולכן כל ניסיון לקרוא את ערכו של 
+`second`
+יזרוק שגיאה. 
+זוהי אותה התנהגות שנצפית במשתנים מסוג 
+`let`
+כפי שתוארה בפרק 1. 
 
-I> Function parameters have their own scope and their own TDZ that is separate from the function body scope. That means the default value of a parameter cannot access any variables declared inside the function body.
+I> פרמטרים של פונקציה מקבלים סביבה ואזור מת בנפרד מזה של גוף הפונקציה. המשמעות של הדבר היא שערך דיפולטיבי של פרמטר אינו יכול לגשת למשתנים אשר מוגדרים בתוך גוף הפונקציה.
 
 ## Working with Unnamed Parameters
 
