@@ -673,9 +673,12 @@ let second = 1;
 
 I> פרמטרים של פונקציה מקבלים סביבה ואזור מת בנפרד מזה של גוף הפונקציה. המשמעות של הדבר היא שערך דיפולטיבי של פרמטר אינו יכול לגשת למשתנים אשר מוגדרים בתוך גוף הפונקציה.
 
-## Working with Unnamed Parameters
+## פרמטרים שלא הוגדרו
 
-So far, the examples in this chapter have only covered parameters that have been named in the function definition. However, JavaScript functions don't limit the number of parameters that can be passed to the number of named parameters defined. You can always pass fewer or more parameters than formally specified. Default parameter values make it clear when a function can accept fewer parameters, and ECMAScript 6 sought to make the problem of passing more parameters than defined better as well.
+הדוגמאות בפרק זה עסקו אך ורק בפרמטרים שהוגדרו בחתימת הפונקציה. 
+אך פונקציות בג׳אווהסקריפט אינן מוגבלות מבחינת מספר הפרמטרים שניתן להעביר לתוך הפונקציה ללא קשר למספר הפרמטרים שהוגדרו בפועל. 
+תמיד ניתן להעביר פחות או יותר פרמטרים מאלו שהוגדרו באופן רשמי. 
+ערכים דיפולטיביים מציגים בצורה ברורה מתי פונקציה יכולה לקבל פחות פרמטרים, ואקמהסקריפט 6 רצתה גם לשפר את המצב שבו מעבירים יותר פרמטרים מאשר הוגדרו.
 
 ### Unnamed Parameters in ECMAScript 5
 
