@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # פונקציות
 
 פונקציות הן חלק חשוב בכל שפת תכנות ועד אקמהסקריפט 6, פונקציות נותרו כמעט כמות שהן מאז כתיבת השפה. 
@@ -42,10 +44,9 @@ function makeRequest(url, timeout, callback) {
 בדוגמה לעיל, שני המשתנים
 `timeout` ו `callback`
 הינם משתנים אופציונליים מכיוון שהם מקבלים ערך דיפולטיבי במידה ואיננו מסופק לפונקציה. 
-האופרטיור הלוגי 
+האופרטור הלוגי 
 OR 
 (`||`)
-
 תמיד מחזיר את האופרנד השני כאשר הראשון הינו ״שקרי״.
 מאחר ופרמטרים שאינם מסופקים לפונקציה מקבלים את הערך 
 `undefined`,
@@ -126,7 +127,6 @@ makeRequest("/foo", 500, function(body) {
 
 </div>
 
-
 תחת אקמהסקריפט 6 המשתנה
 `url`
 הוא משתנה שחובה לספקו, וזוהי הסיבה שהערך
@@ -140,7 +140,6 @@ makeRequest("/foo", 500, function(body) {
 הקוד בדוגמה הבאה הינו קוד תקין:
 
 <div dir="ltr">
-
 
 ```js
 function makeRequest(url, timeout = 2000, callback) {
@@ -454,10 +453,12 @@ console.log(add(1));        // 7
 
 W> חובה להיזהר בעת שימוש בפונקציות למתן ערכים דיפולטיביים. 
 אם שכחתם את השימוש בסוגריים, לדוגמה, אם היה נכתב: 
+
 <span dir="ltr">`second = getValue`</span> 
+
 בדוגמה האחרונה, המשמעות הינה העברת מצביע לפונקציה עצמה במקום לערך המוחזר ממנה.
 
-ניתן גם להשתמש בפרמטר קודם כערך דיפולטיבי לפרמטר שאחריו. 
+ניתן להשתמש בפרמטר קודם כערך דיפולטיבי לפרמטר שאחריו. 
 לדוגמה: 
 
 <div dir="ltr">
@@ -850,7 +851,7 @@ let object = {
 עדיין ממשיך להתקיים.
 
 אוביקט 
-
+`arguments`
 עובד יחד עם פרמטרים מסוג רסט כאשר הוא משקף את הארגומנטים שהועברו לפונקציה בעת קריאתה, כפי שמודגם בדוגמה הקוד הבאה:
 
 <div dir="ltr">
@@ -870,7 +871,7 @@ checkArgs("a", "b");
 
 הקריאה לפונקציה 
 <span dir="ltr">`checkArgs()`</span>. 
-
+מייצרת את הפלט הבא:
 
 <div dir="ltr">
 
@@ -1674,3 +1675,5 @@ In ECMAScript 6, the behavior of a function is defined by `[[Call]]`, normal fun
 The biggest change to functions in ECMAScript 6 was the addition of arrow functions. Arrow functions are designed to be used in place of anonymous function expressions. Arrow functions have a more concise syntax, lexical `this` binding, and no `arguments` object. Additionally, arrow functions can't change their `this` binding, and so can't be used as constructors.
 
 Tail call optimization allows some function calls to be optimized in order to keep a smaller call stack, use less memory, and prevent stack overflow errors. This optimization is applied by the engine automatically when it is safe to do so, however, you may decide to rewrite recursive functions in order to take advantage of this optimization.
+
+</div>
