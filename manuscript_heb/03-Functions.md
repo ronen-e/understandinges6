@@ -780,12 +780,19 @@ function pick(object, ...keys) {
 מההתחלה ועד הסוף ללא כל חשש. 
 בנוסף, ניתן להתרשם בקלות שמדובר בפונקציה שמסוגלת לקבל כל מספר של פרמטרים.
 
+I> פרמטרים מסוג רסט אינם משפיעים על תכונת 
+`length`
+בפונקציה, שמספקת מידע על מספר הפרמטרים המוגדרים בחתימת הפונקציה. הערך של התכונה 
+<span dir="ltr">`pick()`</span> 
+בעבור הפונקציה 
+בדוגמה למעלה הינו 1 מכיוון שרק הפרמטר
+`object` 
+נחשב עבור חישוב הערך.
 
-I> Rest parameters do not affect a function's `length` property, which indicates the number of named parameters for the function. The value of `length` for `pick()` in this example is 1 because only `object` counts towards this value.
+#### מגבלות על פרמטרים מסוג רסט
 
-#### Rest Parameter Restrictions
-
-There are two restrictions on rest parameters. The first restriction is that there can be only one rest parameter, and the rest parameter must be last. For example, this code won't work:
+מתקיימות שתי הגבלות לעניין פרמטרים מסוג רסט. המגבלה הראשונה היא שיהיה אך ורק פרמטר אחד מסוג רסט, ואותו פרמטר חייב להיות מוגדר אחרון. 
+הקוד בדוגמה הבאה לא יעבוד:
 
 <div dir="ltr">
 
@@ -804,9 +811,15 @@ function pick(object, ...keys, last) {
 
 </div>
 
-Here, the parameter `last` follows the rest parameter `keys`, which would cause a syntax error.
+בדוגמה לעיל, הפרמטר 
+`last` 
+בא אחרי הפרמטר מסוג רסט בשם 
+`keys`,
+ולכן תיזרק שגיאת תחביר.
 
-The second restriction is that rest parameters cannot be used in an object literal setter. That means this code would also cause a syntax error:
+המגבלה השניה היא שפרמטרים מסוג רסט לא יכולים להיות מוגדרים בתוך מגדיר ערך תכונה,
+<span dir="ltr">`(setter)`</span>. 
+גם הקוד הבא יזרוק שגיאת תחביר:
 
 <div dir="ltr">
 
@@ -815,14 +828,15 @@ let object = {
 
     // Syntax error: Can't use rest param in setter
     set name(...value) {
-        // do something
+        // שאר הקוד
     }
 };
 ```
 
 </div>
 
-This restriction exists because object literal setters are restricted to a single argument. Rest parameters are, by definition, an infinite number of arguments, so they're not allowed in this context.
+מגבלה זו קיימת מכיוון ומגדירי ערך תכונה מוגבלים לארגומנט בודד יחיד. 
+פרמטרים מסוג רסט מייצגים מספר בלתי מוגבל של ארגומנטים ולכן הם אסורים לשימוש בהקשר זה.
 
 #### How Rest Parameters Affect the arguments Object
 
