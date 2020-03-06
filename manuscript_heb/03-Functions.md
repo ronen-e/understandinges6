@@ -785,9 +785,9 @@ I> פרמטרים מסוג רסט אינם משפיעים על תכונת
 בפונקציה, שמספקת מידע על מספר הפרמטרים המוגדרים בחתימת הפונקציה. הערך של התכונה 
 <span dir="ltr">`pick()`</span> 
 בעבור הפונקציה 
-בדוגמה למעלה הינו 1 מכיוון שרק הפרמטר
+בדוגמה למעלה הינו 1 מכיוון שרק הפרמטר 
 `object` 
-נחשב עבור חישוב הערך.
+נחשב עבור חישוב ערך התכונה.
 
 #### מגבלות על פרמטרים מסוג רסט
 
@@ -838,11 +838,20 @@ let object = {
 מגבלה זו קיימת מכיוון ומגדירי ערך תכונה מוגבלים לארגומנט בודד יחיד. 
 פרמטרים מסוג רסט מייצגים מספר בלתי מוגבל של ארגומנטים ולכן הם אסורים לשימוש בהקשר זה.
 
-#### How Rest Parameters Affect the arguments Object
+#### השפעת פרמטרים מסוג רסט על אוביקט ארגומנטס
 
-Rest parameters were designed to replace `arguments` in ECMAScript. Originally, ECMAScript 4 did away with `arguments` and added rest parameters to allow an unlimited number of arguments to be passed to functions. ECMAScript 4 never came into being, but this idea was kept around and reintroduced in ECMAScript 6, despite `arguments` not being removed from the language.
+פרמטרים מסוג רסט נועדו להחליף את אוביקט 
+`arguments`. 
+במקור, אקמהסקריפט 4 סיימה את השימוש באוביקט 
+`arguments` 
+ובמקומו הוסיפה פרמטרים מסוג רסט על מנת לאפשר העברת מספר בלתי מוגבל של ארגומנטים לתוך פונקציות. 
+בסופו של דבר, אקמהסקריפט 4 מעולם לא יצאה אל הפועל, אך הרעיון עצמו נשמר והופיע שוב באקמהסקריפט 6, למרות שאוביקט 
+`arguments`
+עדיין ממשיך להתקיים.
 
-The `arguments` object works together with rest parameters by reflecting the arguments that were passed to the function when called, as illustrated in this program:
+אוביקט 
+
+עובד יחד עם פרמטרים מסוג רסט כאשר הוא משקף את הארגומנטים שהועברו לפונקציה בעת קריאתה, כפי שמודגם בדוגמה הקוד הבאה:
 
 <div dir="ltr">
 
@@ -859,7 +868,11 @@ checkArgs("a", "b");
 
 </div>
 
-The call to `checkArgs()` outputs:
+הקריאה לפונקציה 
+<span dir="ltr">`checkArgs()`</span>. 
+
+
+<div dir="ltr">
 
 ```
 2
@@ -868,10 +881,11 @@ a a
 b b
 ```
 
-The `arguments` object always correctly reflects the parameters that were passed into a function regardless of rest parameter usage.
+</div>
 
-That's all you really need to know about rest parameters to get started using them.
-
+אוביקט 
+`arguments`
+משקף בצורה מדויקת את הפרמטרים שהועברו בפועל לפונקציה בעת קריאתה, ללא קשר לשימוש בפרמטרים מסוג רסט.
 
 ## Increased Capabilities of the Function Constructor
 
