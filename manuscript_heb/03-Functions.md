@@ -680,9 +680,14 @@ I> פרמטרים של פונקציה מקבלים סביבה ואזור מת ב
 תמיד ניתן להעביר פחות או יותר פרמטרים מאלו שהוגדרו באופן רשמי. 
 ערכים דיפולטיביים מציגים בצורה ברורה מתי פונקציה יכולה לקבל פחות פרמטרים, ואקמהסקריפט 6 רצתה גם לשפר את המצב שבו מעבירים יותר פרמטרים מאשר הוגדרו.
 
-### Unnamed Parameters in ECMAScript 5
+### פרמטרים לא מוגדרים באקמהסקריפט 5
 
-Early on, JavaScript provided the `arguments` object as a way to inspect all function parameters that are passed without necessarily defining each parameter individually. While inspecting `arguments` works fine in most cases, this object can be a little cumbersome to work with. For example, examine this code, which inspects the `arguments` object:
+עוד מתחילתה, ג׳אווהסקריפט סיפקה את אוביקט 
+`arguments`
+בתור דרך להתייחס לכל הפרמטרים שמועברים לפונקציה מבלי שיהיה צורך להגדיר כל אחד מהם בנפרד. 
+התעסקות עם האוביקט ייתכן שתהיה מכבידה יחסית. לדוגמה, הקוד הבא:
+
+<div dir="ltr">
 
 ```js
 function pick(object) {
@@ -707,12 +712,26 @@ let bookData = pick(book, "author", "year");
 console.log(bookData.author);   // "Nicholas C. Zakas"
 console.log(bookData.year);     // 2015
 ```
+</div>
 
-This function mimics the `pick()` method from the *Underscore.js* library, which returns a copy of a given object with some specified subset of the original object's properties. This example defines only one argument and expects the first argument to be the object from which to copy properties. Every other argument passed is the name of a property that should be copied on the result.
+הפונקציה בדוגמת הקוד פועלת בדומה לפונקציה 
+<span dir="ltr">`pick()`</span> 
+מתוך ספריית 
+<span dir="ltr">*Underscore.js*</span> ,
+שמחזירה עותק של אוביקט שמקבל אליו חלק מתכונות האוביקט המקורי. דוגמה זו מגדירה רק ארגומנט אחד ומצפה ממנו להיות האוביקט שממנו יועתקו תכונות. כל ארגומנט נוסף שמועבר לפונקציה הינו שם תכונה שאמורה להיות מועתקת מהאוביקט המקורי לתוצר הפונקציה. 
 
-There are a couple of things to notice about this `pick()` function. First, it's not at all obvious that the function can handle more than one parameter. You could define several more parameters, but you would always fall short of indicating that this function can take any number of parameters. Second, because the first parameter is named and used directly, when you look for the properties to copy, you have to start in the `arguments` object at index 1 instead of index 0. Remembering to use the appropriate indices with `arguments` isn't necessarily difficult, but it's one more thing to keep track of.
+ישנם מספר דברים שיש להתייחס אליהם בפונקציה 
+<span dir="ltr">`pick()`</span> 
+שבדוגמה. 
+ראשית, 
+כלל אין זה ברור לעין שהפונקציה מסוגלת לטפל ביותר מפרמטר אחד. 
+ניתן להגדיר פרמטרים נוספים אך עדיין הדבר לא ייתן אינדיקציה לכך שהפונקציה מסוגלת לקבל כל מספר של פרמטרים. 
+שנית, מאחר והפרמטר הראשון מוגדר ונעשה בו שימוש בפונקציה, חובה להתחיל את חיפוש התכונות בסמן אינדקס מספר 
+`1` 
+במקום בסמן אינדקס מספר 
+`0`. 
 
-ECMAScript 6 introduces rest parameters to help with these issues.
+אקמהסקריפט 6 מציעה לנו פרמטרים מסוג רסט בכדי להתגבר על בעיות אילו.
 
 ### Rest Parameters
 
