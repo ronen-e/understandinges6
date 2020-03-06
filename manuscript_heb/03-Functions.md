@@ -373,7 +373,7 @@ false
 
 ### חישוב ערכים דיפולטיביים
 
-תכונה מעניינת של ערכים דיפולטיביים היא שאינם חייבים להיות ערכים פרימיטיביים. 
+תכונה מעניינת של ערכים דיפולטיביים היא שהם אינם חייבים להיות ערכים פרימיטיביים. 
 ניתן למשל, להריץ פונקציה כדי להחזיר ממנה את הערך הדיפולטיבי, לדוגמה:
 
 <div dir="ltr">
@@ -733,9 +733,24 @@ console.log(bookData.year);     // 2015
 
 אקמהסקריפט 6 מציעה לנו פרמטרים מסוג רסט בכדי להתגבר על בעיות אילו.
 
-### Rest Parameters
+### פרמטרים מסוג רסט
 
-A *rest parameter* is indicated by three dots (`...`) preceding a named parameter. That named parameter becomes an `Array` containing the rest of the parameters passed to the function, which is where the name "rest" parameters originates. For example, `pick()` can be rewritten using rest parameters, like this:
+*פרמטר מסוג רסט* 
+<span dir="ltr">`(Rest Parameter)`</span> 
+מיוצג על ידי שלוש נקודות 
+(`...`)
+שבאות לפני שם הפרמטר. 
+הפרמטר הופך לערך מסוג מערך 
+`Array`
+שמכיל את שאר הפרמטרים המועברים לפונקציה. 
+זהו המקור לשם 
+״rest״
+(״שאר״).
+כך ניתן לשכתב את הפונקציה 
+<span dir="ltr">`pick()`</span> 
+להשתמש בפרמטרים מסוג רסט:
+
+<div dir="ltr">
 
 ```js
 function pick(object, ...keys) {
@@ -749,13 +764,30 @@ function pick(object, ...keys) {
 }
 ```
 
-In this version of the function, `keys` is a rest parameter that contains all parameters passed after `object` (unlike `arguments`, which contains all parameters including the first one). That means you can iterate over `keys` from beginning to end without worry. As a bonus, you can tell by looking at the function that it is capable of handling any number of parameters.
+</div>
+
+בדוגמה לעיל, 
+הפרמטר בשם
+`keys`
+הינו פרמטר מסוג רסט שמכיל את כל הפרמטרים המועברים לפונקציה לאחר הפרמטר בשם
+`object` 
+(בניגוד אל 
+`arguments`, 
+שמכיל את כל הפרמטרים המועברים לפונקציה, כולל הראשון
+). 
+המשמעות הינה שניתן לרוץ על המשתנה
+`keys`
+מההתחלה ועד הסוף ללא כל חשש. 
+בנוסף, ניתן להתרשם בקלות שמדובר בפונקציה שמסוגלת לקבל כל מספר של פרמטרים.
+
 
 I> Rest parameters do not affect a function's `length` property, which indicates the number of named parameters for the function. The value of `length` for `pick()` in this example is 1 because only `object` counts towards this value.
 
 #### Rest Parameter Restrictions
 
 There are two restrictions on rest parameters. The first restriction is that there can be only one rest parameter, and the rest parameter must be last. For example, this code won't work:
+
+<div dir="ltr">
 
 ```js
 // Syntax error: Can't have a named parameter after rest parameters
@@ -770,9 +802,13 @@ function pick(object, ...keys, last) {
 }
 ```
 
+</div>
+
 Here, the parameter `last` follows the rest parameter `keys`, which would cause a syntax error.
 
 The second restriction is that rest parameters cannot be used in an object literal setter. That means this code would also cause a syntax error:
+
+<div dir="ltr">
 
 ```js
 let object = {
@@ -784,6 +820,8 @@ let object = {
 };
 ```
 
+</div>
+
 This restriction exists because object literal setters are restricted to a single argument. Rest parameters are, by definition, an infinite number of arguments, so they're not allowed in this context.
 
 #### How Rest Parameters Affect the arguments Object
@@ -791,6 +829,8 @@ This restriction exists because object literal setters are restricted to a singl
 Rest parameters were designed to replace `arguments` in ECMAScript. Originally, ECMAScript 4 did away with `arguments` and added rest parameters to allow an unlimited number of arguments to be passed to functions. ECMAScript 4 never came into being, but this idea was kept around and reintroduced in ECMAScript 6, despite `arguments` not being removed from the language.
 
 The `arguments` object works together with rest parameters by reflecting the arguments that were passed to the function when called, as illustrated in this program:
+
+<div dir="ltr">
 
 ```js
 function checkArgs(...args) {
@@ -802,6 +842,8 @@ function checkArgs(...args) {
 
 checkArgs("a", "b");
 ```
+
+</div>
 
 The call to `checkArgs()` outputs:
 
@@ -821,13 +863,19 @@ That's all you really need to know about rest parameters to get started using th
 
 The `Function` constructor is an infrequently used part of JavaScript that allows you to dynamically create a new function. The arguments to the constructor are the parameters for the function and the function body, all as strings. Here's an example:
 
+<div dir="ltr">
+
 ```js
 var add = new Function("first", "second", "return first + second");
 
 console.log(add(1, 1));     // 2
 ```
 
+</div>
+
 ECMAScript 6 augments the capabilities of the `Function` constructor to allow default parameters and rest parameters. You need only add an equals sign and a value to the parameter names, as follows:
+
+<div dir="ltr">
 
 ```js
 var add = new Function("first", "second = first",
@@ -837,15 +885,21 @@ console.log(add(1, 1));     // 2
 console.log(add(1));        // 2
 ```
 
+</div>
+
 In this example, the parameter `second` is assigned the value of `first` when only one parameter is passed. The syntax is the same as for function declarations that don't use `Function`.
 
 For rest parameters, just add the `...` before the last parameter, like this:
+
+<div dir="ltr">
 
 ```js
 var pickFirst = new Function("...args", "return args[0]");
 
 console.log(pickFirst(1, 2));   // 1
 ```
+
+</div>
 
 This code creates a function that uses only a single rest parameter and returns the first argument that was passed in.
 
@@ -855,6 +909,8 @@ The addition of default and rest parameters ensures that `Function` has all of t
 
 Closely related to rest parameters is the spread operator. While rest parameters allow you to specify that multiple independent arguments should be combined into an array, the spread operator allows you to specify an array that should be split and have its items passed in as separate arguments to a function. Consider the `Math.max()` method, which accepts any number of arguments and returns the one with the highest value. Here's a simple use case for this method:
 
+<div dir="ltr">
+
 ```js
 let value1 = 25,
     value2 = 50;
@@ -862,7 +918,11 @@ let value1 = 25,
 console.log(Math.max(value1, value2));      // 50
 ```
 
+</div>
+
 When you're dealing with just two values, as in this example, `Math.max()` is very easy to use. The two values are passed in, and the higher value is returned. But what if you've been tracking values in an array, and now you want to find the highest value? The `Math.max()` method doesn't allow you to pass in an array, so in ECMAScript 5 and earlier, you'd be stuck either searching the array yourself or using `apply()` as follows:
+
+<div dir="ltr">
 
 ```js
 let values = [25, 50, 75, 100]
@@ -870,9 +930,13 @@ let values = [25, 50, 75, 100]
 console.log(Math.max.apply(Math, values));  // 100
 ```
 
+</div>
+
 This solution works, but using `apply()` in this manner is a bit confusing. It actually seems to obfuscate the true meaning of the code with additional syntax.
 
 The ECMAScript 6 spread operator makes this case very simple. Instead of calling `apply()`, you can pass the array to `Math.max()` directly and prefix it with the same `...` pattern used with rest parameters. The JavaScript engine then splits the array into individual arguments and passes them in, like this:
+
+<div dir="ltr">
 
 ```js
 let values = [25, 50, 75, 100]
@@ -882,15 +946,21 @@ let values = [25, 50, 75, 100]
 console.log(Math.max(...values));           // 100
 ```
 
+</div>
+
 Now the call to `Math.max()` looks a bit more conventional and avoids the complexity of specifying a `this`-binding (the first argument to `Math.max.apply()` in the previous example) for a simple mathematical operation.
 
 You can mix and match the spread operator with other arguments as well. Suppose you want the smallest number returned from `Math.max()` to be 0 (just in case negative numbers sneak into the array). You can pass that argument separately and still use the spread operator for the other arguments, as follows:
+
+<div dir="ltr">
 
 ```js
 let values = [-25, -50, -75, -100]
 
 console.log(Math.max(...values, 0));        // 0
 ```
+
+</div>
 
 In this example, the last argument passed to `Math.max()` is `0`, which comes after the other arguments are passed in using the spread operator.
 
