@@ -1019,7 +1019,7 @@ console.log(Math.max(...values));           // 100
 
 </div>
 
-עתה הקריאה ל
+כעת הקריאה ל
 <span dir="ltr">`Math.max()`</span> 
 נראית יותר סדורה ונמנעת מן הצורך להגדיר במפורש את החיבור ל
 `this` 
@@ -1053,13 +1053,25 @@ console.log(Math.max(...values, 0));        // 0
 
 ניתן להשתמש באופרטור הפיזור גם עבור פונקציות שנוצרו באמצעות בנאי הפונקציה.
 
-## ECMAScript 6's name Property
+## התכונה name
 
-Identifying functions can be challenging in JavaScript given the various ways a function can be defined. Additionally, the prevalence of anonymous function expressions makes debugging a bit more difficult, often resulting in stack traces that are hard to read and decipher. For these reasons, ECMAScript 6 adds the `name` property to all functions.
+זיהוי פונקציות יכול להפוך לדבר מאתגר בג׳אווהסקריפט בהתחשב במספר הדרכים שניתן להגדיר פונקציה.
+בנוסף, השכיחות הגבוהה של פונקציות אנונימיות הופכת פתרון באגים לקשה יותר, 
+מסיבות אלו, אקמהסקריפט 6 מוסיפה את התכונה
+`name` 
+לכל הפונקציות.
 
-### Choosing Appropriate Names
+### בחירת שמות מתאימים
 
-All functions in an ECMAScript 6 program will have an appropriate value for their `name` property. To see this in action, look at the following example, which shows a function and function expression, and prints the `name` properties for both:
+כל הפונקציות שרצות תחת אקמהסקריפט 6 יקבלו ערך עבור תכונת
+`name`. 
+
+ניתן לראות זאת בדוגמה הבאה שמדפיסה את תכונת 
+`name`, 
+עבור הגדרת פונקציה 
+ועבור משתנה מסוג פונקציה.
+
+<div dir="ltr">
 
 ```js
 function doSomething() {
@@ -1074,7 +1086,23 @@ console.log(doSomething.name);          // "doSomething"
 console.log(doAnotherThing.name);       // "doAnotherThing"
 ```
 
-In this code, `doSomething()` has a `name` property equal to `"doSomething"` because it's a function declaration. The anonymous function expression `doAnotherThing()` has a `name` of `"doAnotherThing"` because that's the name of the variable to which it is assigned.
+</div>
+
+בדוגמת הקוד האחרון לפונקציה 
+<span dir="ltr">`doSomething()`</span>  
+יש תכונת 
+`name` 
+בעל הערך
+`"doSomething"` 
+מכיוון שמדובר בהגדרת פונקציה רגילה. 
+
+לפונקציה האנונימית 
+<span dir="ltr">`doAnotherThing()`</span>  
+יש תכונת 
+`name` 
+עם הערך 
+`"doAnotherThing"` 
+מכיוון שזהו שמו של המשתנה אליו מקושרת הפונקציה.
 
 ### Special Cases of the name Property
 
