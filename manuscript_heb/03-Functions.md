@@ -949,9 +949,16 @@ console.log(pickFirst(1, 2));   // 1
 
 הוספת ערכים דיפולטיביים ופרמטרים מסוג רסט לבנאי הפונקציה מספקת לו את אותן יכולות הקיימות בצורה הרגילה להגדרת הפונקציה.
 
-## The Spread Operator
+## אופרטור הפיזור
 
-Closely related to rest parameters is the spread operator. While rest parameters allow you to specify that multiple independent arguments should be combined into an array, the spread operator allows you to specify an array that should be split and have its items passed in as separate arguments to a function. Consider the `Math.max()` method, which accepts any number of arguments and returns the one with the highest value. Here's a simple use case for this method:
+לאופרטור הפיזור
+<span dir="ltr">(`spread`)</span>
+קשר מסוים עם פרמטרים מסוג רסט. 
+בעוד שפרמטרים מסוג רסט מאפשרים לחבר מספר ארגומנטים לתוך מערך, 
+אופרטור הפיזור מאפשר לקבוע שמערך מסויים יפורק כך שכל עצמיו יועברו לפונקציה בתור ארגומנטים נפרדים. 
+ראה דוגמה שמשתמש בפונקציה 
+<span dir="ltr">`Math.max()`</span> 
+שיכולה לקבל כל מספר של ארגומנטים ומחזירה את האחד בעל הערך המספרי הגבוה ביותר.
 
 <div dir="ltr">
 
@@ -964,7 +971,15 @@ console.log(Math.max(value1, value2));      // 50
 
 </div>
 
-When you're dealing with just two values, as in this example, `Math.max()` is very easy to use. The two values are passed in, and the higher value is returned. But what if you've been tracking values in an array, and now you want to find the highest value? The `Math.max()` method doesn't allow you to pass in an array, so in ECMAScript 5 and earlier, you'd be stuck either searching the array yourself or using `apply()` as follows:
+כאשר מעבירים לפונקציה שני ערכים בלבד, כמו בדוגמה לעיל,
+קל להשתמש בפונקציה 
+<span dir="ltr">`Math.max()`</span>. 
+ אך מה היה קורה אם היינו רוצים למצוא את הערך הגבוה ביותר בתוך מערך של עצמים?  
+הפונקציה 
+<span dir="ltr">`Math.max()`</span>. 
+לא מקבלת מערכים, ולכן לפני אקמהסקריפט 6 היה צורך לבדוק את המערך בעצמנו או להשתמש ב
+<span dir="ltr">`apply()`</span> 
+כמו בדוגמה הבאה: 
 
 <div dir="ltr">
 
@@ -976,25 +991,46 @@ console.log(Math.max.apply(Math, values));  // 100
 
 </div>
 
-This solution works, but using `apply()` in this manner is a bit confusing. It actually seems to obfuscate the true meaning of the code with additional syntax.
+הקוד בדוגמה עובד אך השימוש ב
+<span dir="ltr">`apply()`</span> 
+בצורה זו יכול לבלבל. הוא גם מערפל את משמעות הקוד.
 
-The ECMAScript 6 spread operator makes this case very simple. Instead of calling `apply()`, you can pass the array to `Math.max()` directly and prefix it with the same `...` pattern used with rest parameters. The JavaScript engine then splits the array into individual arguments and passes them in, like this:
+אופרטור הפיזור הופך את הקוד לפשוט יותר. 
+
+במקום לקרוא לפונקציה 
+<span dir="ltr">`apply()`</span> 
+ניתן להעביר מערך לתוך 
+<span dir="ltr">`Math.max()`</span>. 
+ולהשתמש באותו תחביר 
+`...` 
+כמו זה שמשמש בפרמטרים מסוג רסט. 
+המערך מפורק לארגומנטים בודדים שמועברים אחד אחד לפונקציה. 
+כמו בדוגמה הבאה:
 
 <div dir="ltr">
 
 ```js
 let values = [25, 50, 75, 100]
 
-// equivalent to
+// פועל באותו אופן כמו
 // console.log(Math.max(25, 50, 75, 100));
 console.log(Math.max(...values));           // 100
 ```
 
 </div>
 
-Now the call to `Math.max()` looks a bit more conventional and avoids the complexity of specifying a `this`-binding (the first argument to `Math.max.apply()` in the previous example) for a simple mathematical operation.
+עתה הקריאה ל
+<span dir="ltr">`Math.max()`</span> 
+נראית יותר סדורה ונמנעת מן הצורך להגדיר במפורש את החיבור ל
+`this` 
+(שהוא הארגומנט הראשון בקריאה ל
+<span dir="ltr">`Math.max.apply()`</span> 
+בדוגמה הקודמת
+)
 
-You can mix and match the spread operator with other arguments as well. Suppose you want the smallest number returned from `Math.max()` to be 0 (just in case negative numbers sneak into the array). You can pass that argument separately and still use the spread operator for the other arguments, as follows:
+ניתן לשלב את אופרטור הפיזור עם ארגומנטים אחרים. 
+נניח שהיינו רוצים שלא יוחזר מספר קטן מ-0. 
+ניתן להעביר את הערך הנ״ל בנפרד ועדיין להשתמש באופרטור הפיזור, לדוגמה:
 
 <div dir="ltr">
 
@@ -1006,11 +1042,16 @@ console.log(Math.max(...values, 0));        // 0
 
 </div>
 
-In this example, the last argument passed to `Math.max()` is `0`, which comes after the other arguments are passed in using the spread operator.
+בדוגמה האחרונה, הארגומנט האחרון שמועבר לפונקציה 
+<span dir="ltr">`Math.max()`</span> 
+הוא 
+`0`, 
+והוא בא לאחר שכל שאר הארגומנטים מועברים באמצעות אופרטור הפיזור.
 
-The spread operator for argument passing makes using arrays for function arguments much easier. You'll likely find it to be a suitable replacement for the `apply()` method in most circumstances.
+אופרטור הפיזור מקל על שימוש במערכים בתור ארגומנטים לפונקציה. ברוב המקרים ניתן להחליף בו את השימוש בפונקציה 
+<span dir="ltr">`apply()`</span> 
 
-In addition to the uses you've seen for default and rest parameters so far, in ECMAScript 6, you can also apply both parameter types to JavaScript's `Function` constructor.
+ניתן להשתמש באופרטור הפיזור גם עבור פונקציות שנוצרו באמצעות בנאי הפונקציה.
 
 ## ECMAScript 6's name Property
 
