@@ -1104,9 +1104,14 @@ console.log(doAnotherThing.name);       // "doAnotherThing"
 `"doAnotherThing"` 
 מכיוון שזהו שמו של המשתנה אליו מקושרת הפונקציה.
 
-### Special Cases of the name Property
+### מקרים מיוחדים של תכונת name
 
-While appropriate names for function declarations and function expressions are easy to find, ECMAScript 6 goes further to ensure that *all* functions have appropriate names. To illustrate this, consider the following program:
+בעוד שמציאת שמות עבור פונקציות נהפכה לדבר קל, אקמהסקריפט 6 מרחיקה לכת ודואגת לכך 
+*שכל* 
+הפונקציות יהיו בעלות שם מתאים.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 var doSomething = function doSomethingElse() {
@@ -1129,9 +1134,50 @@ var descriptor = Object.getOwnPropertyDescriptor(person, "firstName");
 console.log(descriptor.get.name); // "get firstName"
 ```
 
-In this example, `doSomething.name` is `"doSomethingElse"` because the function expression itself has a name, and that name takes priority over the variable to which the function was assigned. The `name` property of `person.sayName()` is `"sayName"`, as the value was interpreted from the object literal. Similarly, `person.firstName` is actually a getter function, so its name is `"get firstName"` to indicate this difference. Setter functions are prefixed with `"set"` as well. (Both getter and setter functions must be retrieved using `Object.getOwnPropertyDescriptor()`.)
+</div>
 
-There are a couple of other special cases for function names, too. Functions created using `bind()` will have their names prefixed with `"bound"` and functions created using the `Function` constructor have a name of `"anonymous"`, as in this example:
+בדוגמה זו,
+הערך של
+<span dir="ltr">`doSomething.name`</span> 
+הינו 
+`"doSomethingElse"` 
+מכיוון ולמשתנה עצמו ניתן אותו שם.
+ערך 
+`name` 
+עבור 
+<span dir="ltr">`person.sayName()`</span> 
+הינו
+`"sayName"`, 
+מאחר וזהו שם המשתנה על האוביקט
+`person` . 
+
+המשתנה 
+<span dir="ltr">`person.firstName`</span> 
+הינו למעשה פונקציית גטר
+<span dir="ltr">`(getter function)`</span> 
+ולכן שמו יהיה
+<span dir="ltr">`"get firstName"`</span>. 
+לפונקציות סטר
+<span dir="ltr">`(setter function)`</span> 
+תופיע המילה 
+`"set"` 
+בהתאמה.
+(במידה ונרצה לקבל גישה לפונקציה עצמה נצטרך להשתמש ב 
+<span dir="ltr">`Object.getOwnPropertyDescriptor()`</span> 
+)
+
+ישנם כמה מקרים מיוחדים עבור שמות פונקציה. 
+עבור פונקציות שנוצרו באמצעות
+<span dir="ltr">`bind()`</span> 
+תופיע הקידומת  
+`"bound"` 
+ועבור פונקציות שנוצרו באמצעות הבנאי
+`Function` 
+תופיע הקידומת 
+`"anonymous"`, 
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 var doSomething = function() {
@@ -1143,9 +1189,28 @@ console.log(doSomething.bind().name);   // "bound doSomething"
 console.log((new Function()).name);     // "anonymous"
 ```
 
-The `name` of a bound function will always be the `name` of the function being bound prefixed with the string `"bound "`, so the bound version of `doSomething()` is `"bound doSomething"`.
+</div>
 
-Keep in mind that the value of `name` for any function does not necessarily refer to a variable of the same name. The `name` property is meant to be informative, to help with debugging, so there's no way to use the value of `name` to get a reference to the function.
+השם של פונקציה שעברה דרך
+<span dir="ltr">`bind()`</span> 
+תמיד יהיה ערך התכונה 
+`name` 
+של הפונקציה המקורית בתוספת הקידומת 
+<span dir="ltr">`"bound "`</span>, 
+ולכן שמה של הגרסה החדשה של 
+<span dir="ltr">`doSomething()`</span> 
+לאחר שעברה דרך 
+<span dir="ltr">`bind()`</span> 
+יהיה 
+<span dir="ltr">`"bound doSomething"`</span> 
+
+חשוב לזכור שהערך של תכונת 
+`name`
+של פונקציה לא בהכרח משקף משתנה בעל אותו שם.
+תכונת
+`name`
+אמורה לספק מידע, לעזור בפתרון באגים, ולכן 
+אינה יכולה לשמש כדי להשיג גישה לפונקציה עצמה.
 
 ## Clarifying the Dual Purpose of Functions
 
