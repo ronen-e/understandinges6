@@ -888,9 +888,14 @@ b b
 `arguments`
 משקף בצורה מדויקת את הפרמטרים שהועברו בפועל לפונקציה בעת קריאתה, ללא קשר לשימוש בפרמטרים מסוג רסט.
 
-## Increased Capabilities of the Function Constructor
+## יכולות משופרות של בנאי פונקציה
 
-The `Function` constructor is an infrequently used part of JavaScript that allows you to dynamically create a new function. The arguments to the constructor are the parameters for the function and the function body, all as strings. Here's an example:
+בנאי הפונקציה
+<span dir="ltr">(`Function` constructor)</span>
+מהווה חלק מהשפה שמאפשר ליצור פונקציות חדשות באופן דינמי. 
+הארגומנטים עבור הבנאי הם הפרמטרים עבור הפונקציה והארגומנט האחרון הינו גוף הפונקציה, 
+כל הארגומנטים הינם מחרוזות. 
+להלן דוגמה:
 
 <div dir="ltr">
 
@@ -902,7 +907,10 @@ console.log(add(1, 1));     // 2
 
 </div>
 
-ECMAScript 6 augments the capabilities of the `Function` constructor to allow default parameters and rest parameters. You need only add an equals sign and a value to the parameter names, as follows:
+אקמהסקריפט 6 מוסיפה לבנאי הפונקציה את האפשרות להוסיף ערכים דיפולטיביים ופרמטרים מסוג רסט. 
+צריך רק להוסיף סימן
+`=` 
+וערך עבור שמות הפרמטרים, לדוגמה:
 
 <div dir="ltr">
 
@@ -916,9 +924,16 @@ console.log(add(1));        // 2
 
 </div>
 
-In this example, the parameter `second` is assigned the value of `first` when only one parameter is passed. The syntax is the same as for function declarations that don't use `Function`.
+בדוגמה זו, הפרמטר
+`second` 
+מקבל את ערכו של הפרמטר
+`first` 
+כאשר מועבר לפונקציה פרמטר בודד בלבד. 
+צורת הכתיבה זהה כמו פונקציה רגילה
 
-For rest parameters, just add the `...` before the last parameter, like this:
+לגבי פרמטרים מסוג רסט, יש להוסיף 
+`...` 
+לפני הפרמטר האחרון, כמו בדוגמה הבא:
 
 <div dir="ltr">
 
@@ -930,9 +945,9 @@ console.log(pickFirst(1, 2));   // 1
 
 </div>
 
-This code creates a function that uses only a single rest parameter and returns the first argument that was passed in.
+הקוד בדוגמה יוצר פונקציה שמקבלת בפרמטר בודד מסוג רסט ומחזירה את הארגומנט הראשון שהועבר לפונקציה.
 
-The addition of default and rest parameters ensures that `Function` has all of the same capabilities as the declarative form of creating functions.
+הוספת ערכים דיפולטיביים ופרמטרים מסוג רסט לבנאי הפונקציה מספקת לו את אותן יכולות הקיימות בצורה הרגילה להגדרת הפונקציה.
 
 ## The Spread Operator
 
