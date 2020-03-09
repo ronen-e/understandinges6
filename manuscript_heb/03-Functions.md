@@ -1212,9 +1212,18 @@ console.log((new Function()).name);     // "anonymous"
 אמורה לספק מידע, לעזור בפתרון באגים, ולכן 
 אינה יכולה לשמש כדי להשיג גישה לפונקציה עצמה.
 
-## Clarifying the Dual Purpose of Functions
+## הפרדה ברורה בין שתי תכליות הפונקציה
 
-In ECMAScript 5 and earlier, functions serve the dual purpose of being callable with or without `new`. When used with `new`, the `this` value inside a function is a new object and that new object is returned, as illustrated in this example:
+עד וכולל אקמהסקריפט 5, לפונקציות הייתה תכלית כפולה לפיה היה ניתן לקרוא לפונקציה עם או בלי האופרטור 
+`new`. 
+כאשר נקראה הפונקציה בעזרת 
+`new`, 
+הדבר הפך את ערך המשתנה 
+`this` 
+בתוך הפונקציה לאוביקט חדש שמוחזר מהפונקציה. 
+כפי שמודגם בדוגמת הקוד הבאה:
+
+<div dir="ltr">
 
 ```js
 function Person(name) {
@@ -1228,11 +1237,65 @@ console.log(person);        // "[Object object]"
 console.log(notAPerson);    // "undefined"
 ```
 
-When creating `notAPerson`, calling `Person()` without `new` results in `undefined` (and sets a `name` property on the global object in nonstrict mode). The capitalization of `Person` is the only real indicator that the function is meant to be called using `new`, as is common in JavaScript programs. This confusion over the dual roles of functions led to some changes in ECMAScript 6.
+</div>
 
-JavaScript has two different internal-only methods for functions: `[[Call]]` and `[[Construct]]`. When a function is called without `new`, the `[[Call]]` method is executed, which executes the body of the function as it appears in the code. When a function is called with `new`, that's when the `[[Construct]]` method is called. The `[[Construct]]` method is responsible for creating a new object, called the *new target*, and then executing the function body with `this` set to the new target. Functions that have a `[[Construct]]` method are called *constructors*.
+כאשר יוצרים את המשתנה 
+`notAPerson`, 
+קריאה לפונקציה 
+<span dir="ltr">`Person()`</span> 
 
-I> Keep in mind that not all functions have `[[Construct]]`, and therefore not all functions can be called with `new`. Arrow functions, discussed in the "Arrow Functions" section, do not have a `[[Construct]]` method.
+ללא שימוש ב 
+`new` 
+מחזירה את הערך 
+`undefined`
+(
+    וגם מגדירה את תכונת
+`name`
+    על האוביקט הגלובלי במצב לא קשיח
+). 
+השימוש באות ראשונה גדולה 
+(`capitalization`) 
+של הפונקציה 
+`Person` 
+נותן לנו אינדיקציה שהפונקציה מיועדת לקריאה באמצעות 
+`new`, 
+כפי שנפוץ אצל מפתחי ג׳אווהסקריפט רבים. 
+הבלבול הזה, לגבי התכלית הכפולה של פונקציות הוביל למספר שינויים באקמהסקריפט 6.
+
+בג׳אווהסקריפט קיימות שתי פונקציות פנימיות, שאינן חשופות למפתחים, עבור פונקציות:
+<span dir="ltr">`[[Call]]`</span> 
+ו 
+<span dir="ltr">`[[Construct]]`</span>. 
+כאשר פונקציה נקראת ללא האופרטור 
+`new`, 
+מופעלת הפונקציה
+<span dir="ltr">`[[Call]]`</span> 
+והיא מריצה את הפונקציה כפי שהיא כתובה. 
+כאשר הפונקציה נקראת עם 
+`new`, 
+מופעלת הפונקציה
+<span dir="ltr">`[[Construct]]`</span>. 
+והיא אחראית ליצירת אוביקט חדש, 
+שנקרא 
+*אוביקט המטרה* 
+<span dir="ltr">`(new target)`</span> 
+וממשיכה להריץ את הפונקציה כמות שהיא כתובה ורק המשתנה המיוחד 
+ `this`
+מצביע על
+אוביקט המטרה. 
+פונקציות שמכילות פונקציה פנימית 
+<span dir="ltr">`[[Construct]]`</span> 
+*נקראות *קונסטרקטורים.
+
+I> חשוב לשים לב לכך שלא לכל הפונקציות יש פונקציה פנימית 
+<span dir="ltr">`[[Construct]]`</span>, 
+ולכן לא כל הפונקציות יכולות להיקרא בעזרת 
+`new`. 
+פונקציות מקוצרות, שידובר עליהן בהרבה תחת פרק 
+״פונקציות מקוצרות״, 
+אינן בעלות פונקציית 
+<span dir="ltr">`[[Construct]]`</span> 
+פנימית.
 
 ### Determining How a Function was Called in ECMAScript 5
 
