@@ -1297,24 +1297,58 @@ I> חשוב לשים לב לכך שלא לכל הפונקציות יש פונק�
 <span dir="ltr">`[[Construct]]`</span> 
 פנימית.
 
-### Determining How a Function was Called in ECMAScript 5
+### בדיקת דרך הקריאה לפונקציה באקמהסקריפט 5
 
-The most popular way to determine if a function was called with `new` (and hence, with constructor) in ECMAScript 5 is to use `instanceof`, for example:
+השיטה הנפוצה ביותר לבדוק האם פונקציה נקראה באמצעות האופרטור 
+`new` 
+(ומכאן על ידי קונסטרקטור)
+הייתה בעזרת 
+`instanceof`, 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function Person(name) {
     if (this instanceof Person) {
-        this.name = name;   // using new
+        this.name = name;   // new
     } else {
         throw new Error("You must use new with Person.")
     }
 }
 
 var person = new Person("Nicholas");
-var notAPerson = Person("Nicholas");  // throws error
+var notAPerson = Person("Nicholas");  // error
 ```
 
-Here, the `this` value is checked to see if it's an instance of the constructor, and if so, execution continues as normal. If `this` isn't an instance of `Person`, then an error is thrown. This works because the `[[Construct]]` method creates a new instance of `Person` and assigns it to `this`. Unfortunately, this approach is not completely reliable because `this` can be an instance of `Person` without using `new`, as in this example:
+</div>
+
+בדוגמה זו, ערכו של המשתנה 
+`this` 
+נבדק כדי לבדוק האם מדובר במופע של הקונסטרקטור
+`Person`, 
+ואם כן,
+הקוד ממשיך לרוץ כרגיל. 
+במידה ו 
+`this` 
+איננו מופע של 
+`Person` 
+נזרקת שגיאה. 
+הקוד עובד מפני שפונקציית
+<span dir="ltr">`[[Construct]]`</span> 
+יוצרת מופע חדש של 
+`Person` 
+ומבצעת השמה שלו למשתנה 
+`this`. 
+לרוע המזל, גישה זו אינה אמינה מכיוון והמשתנה 
+`this` 
+יכול להיות מופע של 
+`Person` 
+גם ללא שימוש ב
+`new`, 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function Person(name) {
@@ -1329,7 +1363,23 @@ var person = new Person("Nicholas");
 var notAPerson = Person.call(person, "Michael");    // works!
 ```
 
-The call to `Person.call()` passes the `person` variable as the first argument, which means `this` is set to `person` inside of the `Person` function. To the function, there's no way to distinguish this from being called with `new`.
+</div>
+
+הקריאה לפונקציה
+<span dir="ltr">`Person.call()`</span> 
+מעבירה את המשתנה 
+`person` 
+בתור הארגומנט הראשון, 
+ולכן 
+`this`
+מצביע על
+`person`
+בתוך פונקציית הקונסטרקטור 
+`Person`.
+להפונקציה 
+`Person`
+אין דרך לדעת אם הפונקציה נקראה בדרך זו או בעזרת 
+`new`.
 
 ### The new.target MetaProperty
 
