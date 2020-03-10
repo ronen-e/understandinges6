@@ -1381,16 +1381,41 @@ var notAPerson = Person.call(person, "Michael");    // works!
 אין דרך לדעת אם הפונקציה נקראה בדרך זו או בעזרת 
 `new`.
 
-### The new.target MetaProperty
+### new.target
 
-To solve this problem, ECMAScript 6 introduces the `new.target` *metaproperty*. A metaproperty is a property of a non-object that provides additional information related to its target (such as `new`). When a function's `[[Construct]]` method is called, `new.target` is filled with the target of the `new` operator. That target is typically the constructor of the newly created object instance that will become `this` inside the function body. If `[[Call]]` is executed, then `new.target` is `undefined`.
+כדי להתגבר על בעיה זו, הוסיפו באקמהסקריפט 6 את 
+*מטה-תכונה* בשם
+<span dir="ltr"> `new.target`</span> 
+מטה-תכונה היא שאינה שייכות לאוביקט ומספק מידע מוסף הקשור לבעליו 
+(במקרה זה -
+`new`). 
+כאשר נקראת הפונקציה 
+<span dir="ltr">`[[Construct]]`</span> 
+הערך של 
+<span dir="ltr">`new.target`</span> 
+מצביע על המטרה שעליה הופעלל אופרטור 
+`new`. 
+המטרה היא בדרך כלל פונקציית הקונסטרקטור של האוביקט שיפעל בתור 
+`this`
+בתוך גוף הפונקציה כאשר היא רצה. 
+במידה ומופעלת הפונקציה 
+<span dir="ltr">`[[Call]]`</span> 
+אזי 
+`new.target`
+תקבל את הערך 
+`undefined`.
 
-This new metaproperty allows you to safely detect if a function is called with `new` by checking whether `new.target` is defined as follows:
+מטה-תכונה חדשה זו מאפשרת לנו לבדוק האם פונקציה נקראה בעזרת 
+בדיקת הערך עבור
+<span dir="ltr">`new.target`</span>  
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function Person(name) {
     if (typeof new.target !== "undefined") {
-        this.name = name;   // using new
+        this.name = name;   // new
     } else {
         throw new Error("You must use new with Person.")
     }
@@ -1400,9 +1425,23 @@ var person = new Person("Nicholas");
 var notAPerson = Person.call(person, "Michael");    // error!
 ```
 
-By using `new.target` instead of `this instanceof Person`, the `Person` constructor is now correctly throwing an error when used without `new`.
+</div>
 
-You can also check that `new.target` was called with a specific constructor. For instance, look at this example:
+בעזרת שימוש ב
+<span dir="ltr">`new.target`</span>  
+במקום ב
+<span dir="ltr">`this instanceof Person`</span>   
+הקונסטרקטור
+`Person`
+זורק כעת שגיאה כאשר מפעילים אותו ללא 
+`new`. 
+
+כמו כן, ניתן לבדוק באמצעות שימוש ב
+<span dir="ltr">`new.target`</span>  
+קריאה לקונסטרקטור ספציפי.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function Person(name) {
@@ -1421,11 +1460,39 @@ var person = new Person("Nicholas");
 var anotherPerson = new AnotherPerson("Nicholas");  // error!
 ```
 
-In this code, `new.target` must be `Person` in order to work correctly. When `new AnotherPerson("Nicholas")` is called, the subsequent call to `Person.call(this, name)` will throw an error because `new.target` is `undefined` inside of the `Person` constructor (it was called without `new`).
+</div>
+
+בקוד שבדוגמה הערך עבור 
+<span dir="ltr">`new.target`</span>  
+חייב להיות 
+`Person` 
+על מנת לעבוד.
+לאחר הקריאה ל
+<span dir="ltr">`new AnotherPerson("Nicholas")`</span>  
+הקריאה הבאה 
+<span dir="ltr">`Person.call(this, name)` </span>  
+זורקת שגיאה מפני ש 
+<span dir="ltr">`new.target`</span>  
+מקבלת את הערך 
+`undefined`
+בתוך הקונסטרקטור
+`Person` 
+(שנקרא בלי שימוש ב 
+`new`).
+
+
 
 W> Warning: Using `new.target` outside of a function is a syntax error.
+W> אזהרה: 
+כל שימוש ב 
+<span dir="ltr">`new.target`</span>  
+מחוץ לפונקציה יזרוק שגיאת תחביר 
+<span dir="ltr">(syntax error)</span>  
 
-By adding `new.target`, ECMAScript 6 helped to clarify some ambiguity around functions calls. Following on this theme, ECMAScript 6 also addresses another previously ambiguous part of the language: declaring functions inside of blocks.
+באמצעות שימוש ב
+<span dir="ltr">`new.target`</span>  
+אקמהסקריפט 6 עזרה להבדיל בין דרכים שונות לקריאת פונקציה.
+אקמהסקריפט 6 המשיכה בנוסף לחלק אחר שאינו ברור של השפה: הגדרת הפונקציה בתוך בלוק של קוד.
 
 ## Block-Level Functions
 
