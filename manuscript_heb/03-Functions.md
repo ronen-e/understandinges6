@@ -1561,17 +1561,25 @@ console.log(typeof doSomething);            // "undefined"
 <span dir="ltr">`doSomething()`</span>  
 היא אינה קיימת יותר
 
+### מתי להשתמש בפונקציות ברמת בלוק
 
-### Deciding When to Use Block-Level Functions
+פונקציות ברמת בלוק דומות למשתנים מסוג 
+`let` 
+בכך שהפונקציה מפסיקה להתקיים ברגם שהקוד הרץ יוצא מתחומי הבלוק בו היא הוגדרה. 
+ההבדל העיקרי הוא שהגדרות פונקציה תמיד מורמות לתחילת הבלוק העוטף. 
+ביטויי פונקציה
+<span dir="ltr">`(function expressions)`</span>  
+שמוגדרים בעזרת 
+אינם מורמים, כפי שמדגימה הדוגמה הבאה:
 
-Block level functions are similar to `let` function expressions in that the function definition is removed once execution flows out of the block in which it's defined. The key difference is that block level functions are hoisted to the top of the containing block. Function expressions that use `let` are not hoisted, as this example illustrates:
+<div dir="ltr">
 
 ```js
 "use strict";
 
 if (true) {
 
-    console.log(typeof doSomething);        // throws error
+    console.log(typeof doSomething);        // שגיאה
 
     let doSomething = function () {
         // ...
@@ -1583,7 +1591,23 @@ if (true) {
 console.log(typeof doSomething);
 ```
 
-Here, code execution stops when `typeof doSomething` is executed, because the `let` statement hasn't been executed yet, leaving `doSomething()` in the TDZ. Knowing this difference, you can choose whether to use block level functions or `let` expressions based on whether or not you want the hoisting behavior.
+</div>
+
+בדוגמה זו, הקוד נעצר בעת הרצת הפקודה 
+<span dir="ltr">`typeof doSomething`</span>  
+מאחר והפונקציה  
+<span dir="ltr">`doSomething()`</span>  
+משויכת למשתנה מסוג 
+`let` 
+שעוד לא אותחל. 
+ומכאן הפונקציה 
+<span dir="ltr">`doSomething`</span> 
+נמצאת באותו רגע באזור המת באופן זמני
+<span dir="ltr">`(TDZ)`</span>  
+ולכן נזרקת שגיאה. 
+
+באפשרותנו לבחור כיצד להגדיר פונקציות 
+בתוך בלוק על פי השאלה האם ברצוננו הרמה של הפונקציה או לא
 
 ### Block-Level Functions in Nonstrict Mode
 
