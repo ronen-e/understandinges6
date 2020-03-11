@@ -1494,25 +1494,42 @@ W> אזהרה:
 אקמהסקריפט 6 עזרה להבדיל בין דרכים שונות לקריאת פונקציה.
 אקמהסקריפט 6 המשיכה בנוסף לחלק אחר שאינו ברור של השפה: הגדרת הפונקציה בתוך בלוק של קוד.
 
-## Block-Level Functions
+## פונקציות ברמת בלוק של קוד
 
-In ECMAScript 3 and earlier, a function declaration occurring inside of a block (a *block-level function*) was technically a syntax error, but all browsers still supported it. Unfortunately, each browser that allowed the syntax behaved in a slightly different way, so it is considered a best practice to avoid function declarations inside of blocks (the best alternative is to use a function expression).
+בגרסת אקמהסקריפט 3 וקודם לכן, הגדרת פונקציה בתוך בלוק
+*פונקציה ברמת בלוק של קוד*
+הייתה נחשבת לשגיאה תחבירית מבחינה טכנית, 
+ובכל זאת דפדפנים תמכו בכך. 
+לרוע המזל, כל דפדפן שאיפשר את התחביר התנהג בצורה שונה במקצת, ולכן עדיף להימנע מהגדרת פונקציה בתוך בלוק של קוד 
+(האלטרנטיבה הטובה ביותר היא לכתוב פונקציה בתור ביטוי קוד - 
+`expression`
+).
 
-In an attempt to rein in this incompatible behavior, ECMAScript 5 strict mode introduced an error whenever a function declaration was used inside of a block in this way:
+בניסיון להשתלט על הבעיה, מהדורה 5 של אקמהסקריפט זרקה שגיאה בכל פעם שפונקציה הייתה מוגדרת בתוך בלוק אך במצב קשיח בלבד:
+
+<div dir="ltr">
 
 ```js
 "use strict";
 
 if (true) {
 
-    // Throws a syntax error in ES5, not so in ES6
+    // נזרקת שגיאה באקמהסקריפט 5 אך לא באקמהסקריפט 6
     function doSomething() {
         // ...
     }
 }
 ```
 
-In ECMAScript 5, this code throws a syntax error. In ECMAScript 6, the `doSomething()` function is considered a block-level declaration and can be accessed and called within the same block in which it was defined. For example:
+</div>
+
+באקמהסקריפט 5, הקוד זורק שגיאה תחבירית. 
+באקמהסקריפט 6, הפונקציה 
+<span dir="ltr">`doSomething()`</span>  
+נחשבת למוגדרת ברמת בלוק ויכולה להיקרא בתוך אותו בלוק בה הוגדרה. 
+לדוגמה: 
+
+<div dir="ltr">
 
 ```js
 "use strict";
@@ -1531,7 +1548,19 @@ if (true) {
 console.log(typeof doSomething);            // "undefined"
 ```
 
-Block level functions are hoisted to the top of the block in which they are defined, so `typeof doSomething` returns `"function"` even though it appears before the function declaration in the code. Once the `if` block is finished executing, `doSomething()` no longer exists.
+</div>
+
+פונקציות ברמת בלוק מורמות לתחילת הבלוק שבו הוגדרו, ולכן הקוד 
+<span dir="ltr">`typeof doSomething`</span>  
+מחזיר לנו
+`"function"` 
+למרות שהוא מופיע לפני הגדרת הפונקציה בקוד. 
+ברגע שמגיעים לסוף הבלוק  
+`if` 
+שבתוכו הוגדרה הפונקציה 
+<span dir="ltr">`doSomething()`</span>  
+היא אינה קיימת יותר
+
 
 ### Deciding When to Use Block-Level Functions
 
