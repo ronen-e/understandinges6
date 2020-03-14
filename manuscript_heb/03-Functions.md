@@ -1642,25 +1642,64 @@ console.log(typeof doSomething);            // "function"
 `if`.
 אקמהסקריפט 6 אוכפת התנהגות זו על מנת להסדיר ולאחד את התנהגויות הדפדפנים השונות שהיו קיימות מקודם.
 
+## פונקציות חץ
 
-Allowing block-level functions improves your ability to declare functions in JavaScript, but ECMAScript 6 also introduced a completely new way to declare functions.
+אחד מהשינויים המעניינים של אקמהסקריפט 6 הינו הוספת 
+*פונקציות חץ*
+(*arrow function*). 
+פונקציות חץ הן פונקציות אשר מוגדרות על ידי תחביר חדש שמשתמש ב״חץ״
+<span dir="ltr">(`=>`)</span>. 
+פונקציות חץ מתנהגות בצורה שונה מפונקציות רגילות במספר דרכים:
 
-## Arrow Functions
+* **אין קישור למשתנים  
+<span dir="ltr">`this`, `super`, `arguments`, `new.target`</span>
+בתוך הפונקציה** - 
+הערך עבור המשתנים 
+<span dir="ltr">`this`, `super`, `arguments`, `new.target`</span>
+בתוך הפונקציה הוא זה של הפונקציה העוטפת הרגילה הראשונה מעל פונקצית החץ.
+(המשתנה 
+`super`
+מוזכר בהרחבה פרק 4).
+* **אין קריאה לפונקציה עם `new`** - 
+לפונקציות חץ אין פונקציית
+<span dir="ltr">`[[Construct]]`</span> 
+פנימית ולכן לא יכולות לשמש בתור קונסטרקטורים. פונקציות חץ זורקות שגיאה כאשר קוראים להן עם האופרטור
+`new`.
+* **אין prototype** - 
+מאחר ולא ניתן להשתמש ב
+`prototype`
+עם פונקציית חץ, אין בו צורך.
+התכונה
+`prototype`
+אינה מוגדרת עבור פונקציית חץ
+* **לא ניתן לשנות את `this`** - 
+הערך עבור המשתנה 
+`this`
+בתוך הפונקציה בלתי ניתן לשינוי. הוא נותר זהה במהלך קריאה לפונקציה
+* **אין `arguments`** - 
+מאחר ובפונקצית חץ אין קישור לאוביקט 
+`arguments` 
+ניתן להסתמך אך ורק על פרמטרים מוגדרים או פרמטרים מסוג רסט כדי לגשת לארגומנטים שסופקו לפונקציה בעת קריאתה.
+* **אין פרמטרים מוגדרים בעלי אותו שם** - 
+לא ניתן להגדיר פונקציית חץ עם פרמטרים זהים בשמם במצב קשיח או רגיל, בניגוד לפונקציות רגילות שלא ניתן להגדיר עבורן פרמטרים בעלי שם זהה רק במצב קשיח.
 
-One of the most interesting new parts of ECMAScript 6 is the *arrow function*. Arrow functions are, as the name suggests, functions defined with a new syntax that uses an "arrow" (`=>`). But arrow functions behave differently than traditional JavaScript functions in a number of important ways:
+קיימות מספר סיבות להבדלים הללו. בראש וראשונה הקישור לערך 
+`this`
+הינו מקור נפוץ לשגיאות בג׳אווהסקריפט. 
+לפעמים קשה לעקוב אחר ערכו של
+`this`
+בתוך פונקציה, 
+דבר שיכול להוביל לשגיאות, ואילו בפונקציות חץ הבעיה אינה קיימת. שנית על יד הגבלת פונקציות חץ 
+לערך 
+`this`
+יחיד ובודד, מנועי ריצה של ג׳אווהסקריפט יכולים להריץ את הקוד הקשור בצורה אופטימלית, בניגוד לפונקציות רגילות, אשר יכולות לשמש גם בתור קונסטרקטור או לעבור שינויים נוספים.
 
-* **No `this`, `super`, `arguments`, and `new.target` bindings** - The value of `this`, `super`, `arguments`, and `new.target` inside of the function is by the closest containing nonarrow function. (`super` is covered in Chapter 4.)
-* **Cannot be called with `new`** - Arrow functions do not have a `[[Construct]]` method and therefore cannot be used as constructors. Arrow functions throw an error when used with `new`.
-* **No prototype** - since you can't use `new` on an arrow function, there's no need for a prototype. The `prototype` property of an arrow function doesn't exist.
-* **Can't change `this`** - The value of `this` inside of the function can't be changed. It remains the same throughout the entire lifecycle of the function.
-* **No `arguments` object** - Since arrow functions have no `arguments` binding, you must rely on named and rest parameters to access function arguments.
-* **No duplicate named parameters** - arrow functions cannot have duplicate named parameters in strict or nonstrict mode, as opposed to nonarrow functions that cannot have duplicate named parameters only in strict mode.
+שאר ההבדלים מיועדים גם הם להפחית שגיאות ובלבול בעת קריאה לפונקציות. 
+בכך, מנועי ריצה של הקוד יכולים להריץ קוד בצורה אופטימלית.
 
-There are a few reasons for these differences. First and foremost, `this` binding is a common source of error in JavaScript. It's very easy to lose track of the `this` value inside a function, which can result in unintended program behavior, and arrow functions eliminate this confusion. Second, by limiting arrow functions to simply executing code with a single `this` value, JavaScript engines can more easily optimize these operations, unlike regular functions, which might be used as a constructor or otherwise modified.
-
-The rest of the differences are also focused on reducing errors and ambiguities inside of arrow functions. By doing so, JavaScript engines are better able to optimize arrow function execution.
-
-I> Note: Arrow functions also have a `name` property that follows the same rule as other functions.
+I> הערה: לפונקציות מוגדרת התכונה 
+`name`
+שפועלת לפי אותם כללים כמו פונקציות רגילות.
 
 ### Arrow Function Syntax
 
