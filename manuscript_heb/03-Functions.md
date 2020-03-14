@@ -1609,12 +1609,17 @@ console.log(typeof doSomething);
 באפשרותנו לבחור כיצד להגדיר פונקציות 
 בתוך בלוק על פי השאלה האם ברצוננו הרמה של הפונקציה או לא
 
-### Block-Level Functions in Nonstrict Mode
+### פונקציות ברמת בלוק במצב לא קשיח
 
-ECMAScript 6 also allows block-level functions in nonstrict mode, but the behavior is slightly different. Instead of hoisting these declarations to the top of the block, they are hoisted all the way to the containing function or global environment. For example:
+אקמהסקריפט 6 מתירה פונקציות ברמת בלוק במצב לא קשיח, אך ההתנהגות שונה במקצת.
+במקום להרים את הגדרת הפונקציה לתחילת הבלוק הן מורמות לתחילת הפונקציה העוטפת, ובמקרה שאין פונקציה עוטפת - לתחילת הסביבה הגלובלית.
+לדוגמה:
+
+<div dir="ltr">
+
 
 ```js
-// ECMAScript 6 behavior
+// ECMAScript 6 
 if (true) {
 
     console.log(typeof doSomething);        // "function"
@@ -1629,7 +1634,14 @@ if (true) {
 console.log(typeof doSomething);            // "function"
 ```
 
-In this example, `doSomething()` is hoisted into the global scope so that it still exists outside of the `if` block. ECMAScript 6 standardized this behavior to remove the incompatible browser behaviors that previously existed, so all ECMAScript 6 runtimes should behave in the same way.
+</div>
+
+בדוגמה זו, 
+<span dir="ltr">`doSomething()`</span> 
+מורמת לסביבה הגלובלית כך שהפונקציה עדיין קיימת מעבר לגבולות בלוק ה 
+`if`.
+אקמהסקריפט 6 אוכפת התנהגות זו על מנת להסדיר ולאחד את התנהגויות הדפדפנים השונות שהיו קיימות מקודם.
+
 
 Allowing block-level functions improves your ability to declare functions in JavaScript, but ECMAScript 6 also introduced a completely new way to declare functions.
 
