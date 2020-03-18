@@ -1617,7 +1617,6 @@ console.log(typeof doSomething);
 
 <div dir="ltr">
 
-
 ```js
 // ECMAScript 6 
 if (true) {
@@ -1701,80 +1700,118 @@ I> הערה: לפונקציות מוגדרת התכונה
 `name`
 שפועלת לפי אותם כללים כמו פונקציות רגילות.
 
-### Arrow Function Syntax
+### כתיבת פונקציות חץ
 
-The syntax for arrow functions comes in many flavors depending upon what you're trying to accomplish. All variations begin with function arguments, followed by the arrow, followed by the body of the function. Both the arguments and the body can take different forms depending on usage. For example, the following arrow function takes a single argument and simply returns it:
+התחביר לכתיבת פונקציות חץ מופיע במספר צורות, תלוי במטרה. 
+כל הוריאציות מתחילות עם ארגומנטים לפונקציה, כשלאחר מכן מופיע סימן החץ כשלאחר מכן מופיע גוף הפונקציה. גם הארגומנטים וגם גוף הפונקציה יכולים להופיע במספר צורות שונות, תלוי בשימוש. לדוגמה פונקציה החץ בדוגמה הבאה מקבלת ארגומנט אחד ומחזירה אותו:
+
+<div dir="ltr">
 
 ```js
 var reflect = value => value;
 
-// effectively equivalent to:
+// זהה למעשה ל:
 
 var reflect = function(value) {
     return value;
 };
 ```
 
-When there is only one argument for an arrow function, that one argument can be used directly without any further syntax. The arrow comes next and the expression to the right of the arrow is evaluated and returned. Even though there is no explicit `return` statement, this arrow function will return the first argument that is passed in.
+</div>
 
-If you are passing in more than one argument, then you must include parentheses around those arguments, like this:
+כאשר נתון רק ארגומנט אחד לפונקציית חץ, אותו ארגומנט יכול לשמש בצורה ישירה ללא כתיבה נוספת. החץ בא לאחר מכן והביטוי לימינו מחושב ומוחזר.
+גם אם לא כותבים פקודת 
+`return` 
+בצורה מפורשת
+פונקציית החץ תחזיר את הארגומנט. 
+
+במידה ומועבר לפונקציה יותר מארגומנט אחד, יש להקיף את הארגומנטים בסוגריים, כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 var sum = (num1, num2) => num1 + num2;
 
-// effectively equivalent to:
+// זהה למעשה ל:
 
 var sum = function(num1, num2) {
     return num1 + num2;
 };
 ```
 
-The `sum()` function simply adds two arguments together and returns the result. The only difference between this arrow function and the `reflect()` function is that the arguments are enclosed in parentheses with a comma separating them (like traditional functions).
+</div>
 
-If there are no arguments to the function, then you must include an empty set of parentheses in the declaration, as follows:
+הפונקציה 
+<span dir="ltr">`sum()`</span> 
+מוסיפה ארגומנט אחד לשני ומחזירה את התוצאה. 
+ההבדל היחידי בין פונקציית חץ זו ובין הפונקציה 
+<span dir="ltr">`reflect()`</span> 
+בדוגמה הקודמת היא שהארגומנטים עטופים בסוגריים ומופרדים בפסיק
+(בדומה לפונקציות רגילות). 
+
+במידה וכלל אין לפונקציה ארגומנטים, יש להוסיף סוגריים ריקים, כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 var getName = () => "Nicholas";
 
-// effectively equivalent to:
+// זהה למעשה ל:
 
 var getName = function() {
     return "Nicholas";
 };
 ```
 
-When you want to provide a more traditional function body, perhaps consisting of more than one expression, then you need to wrap the function body in braces and explicitly define a return value, as in this version of `sum()`:
+</div>
+
+כאשר רוצים להשתמש בגוף פונקציה רגיל, כזה שיש בו יותר ביטויים, יש לעטוף את גוף הפונקציה בסוגריים מסולסלים ולהחזיר ערך בצורה מפורשת, 
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 var sum = (num1, num2) => {
     return num1 + num2;
 };
 
-// effectively equivalent to:
+// זהה למעשה ל:
 
 var sum = function(num1, num2) {
     return num1 + num2;
 };
 ```
 
-You can more or less treat the inside of the curly braces the same as you would in a traditional function, with the exception that `arguments` is not available.
+</div>
 
-If you want to create a function that does nothing, then you need to include curly braces, like this:
+ניתן להתייחס לחלק שבתוך הסוגריים כמו לזה שנמצא בפונקציה רגילה, כמובן צריך לזכור שהמשתנה 
+`arguments`
+אינו זמין
+
+אם נרצה ליצור פונקציה שלא עושה דבר, יש להשתמש בסוגריים מסולסלים, כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 var doNothing = () => {};
 
-// effectively equivalent to:
+// זהה למעשה ל:
 
 var doNothing = function() {};
 ```
 
-Curly braces are used to denote the function's body, which works just fine in the cases you've seen so far. But an arrow function that wants to return an object literal outside of a function body must wrap the literal in parentheses. For example:
+</div>
+
+סוגריים מסולסלים משמשים עבור גוף הפונקציה.
+לכן כאשר רוצים להחזיר אוביקט בכתיבה מקוצרת יש לעטוף אותו בסוגריים.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 var getTempItem = id => ({ id: id, name: "Temp" });
 
-// effectively equivalent to:
+// זהה למעשה ל:
 
 var getTempItem = function(id) {
 
@@ -1785,7 +1822,9 @@ var getTempItem = function(id) {
 };
 ```
 
-Wrapping the object literal in parentheses signals that the braces are an object literal instead of the function body.
+</div>
+
+עטיפת האוביקט בסוגריים מסמנת לנו שהסוגריים המסולסלים מייצגים אוביקט ולא את גוף הפונקציה.
 
 ### Creating Immediately-Invoked Function Expressions
 
