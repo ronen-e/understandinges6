@@ -1826,9 +1826,16 @@ var getTempItem = function(id) {
 
 עטיפת האוביקט בסוגריים מסמנת לנו שהסוגריים המסולסלים מייצגים אוביקט ולא את גוף הפונקציה.
 
-### Creating Immediately-Invoked Function Expressions
+### הגדרת פונקציה שמופעלת מיידית
 
-One popular use of functions in JavaScript is creating immediately-invoked function expressions (IIFEs). IIFEs allow you to define an anonymous function and call it immediately without saving a reference. This pattern comes in handy when you want to create a scope that is shielded from the rest of a program. For example:
+שימוש נפוץ בג׳אווהסקריפט עבור פונקציות הינו הגדרת פונקציה שמופעלת מיידית 
+<span dir="ltr">`(immediately-invoked function expressions - IIFEs)`.</span> 
+<span dir="ltr">`IIFEs`</span>  
+מאפשרים לנו להגדיר פונקציה אנונימית ולקרוא לה באופן מיידי ללא צורך במצביע לפונקציה. 
+שיטה זו יעילה במיוחד כאשר רוצים ליצור סביבה פנימית שאינה חשופה לשאר הקוד שרץ. 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let person = function(name) {
@@ -1844,9 +1851,21 @@ let person = function(name) {
 console.log(person.getName());      // "Nicholas"
 ```
 
-In this code, the IIFE is used to create an object with a `getName()` method. The method uses the `name` argument as the return value, effectively making `name` a private member of the returned object.
+</div>
 
-You can accomplish the same thing using arrow functions, so long as you wrap the arrow function in parentheses:
+בקוד שבדוגמה, משתמשים ב 
+IIFE  
+כדי ליצור אוביקט בעל פונקציית 
+<span dir="ltr">`getName()`</span>. 
+הפונקציה מחזירה את ארגומנט  
+`name`, 
+ולמעשה הופכת את 
+`name`
+למשתנה פרטי בעבור האוביקט שמוחזר מהפונקציה.
+
+ניתן להשיג את אותו דבר בעזרת שימוש בפונקציות חץ, כל עוד עוטפים את הפונקציה בסוגריים:
+
+<div dir="ltr">
 
 ```js
 let person = ((name) => {
@@ -1862,7 +1881,12 @@ let person = ((name) => {
 console.log(person.getName());      // "Nicholas"
 ```
 
-Note that the parentheses are only around the arrow function definition, and not around `("Nicholas")`. This is different from a formal function, where the parentheses can be placed outside of the passed-in parameters as well as just around the function definition.
+</div>
+
+הסוגריים עוטפים אך ורק את הגדרת הפונקציה, אך לא מסביב לקריאה לפונקציה 
+<span dir="ltr">`("Nicholas")`</span>. 
+זה שונה מפונקציה רגילה, שם הסוגריים יכולים להופיע באותה צורה או אפילו מסביב לכל הפונקציה כולל הקריאה לה.
+
 
 ### No this Binding
 
