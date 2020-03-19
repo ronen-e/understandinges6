@@ -1887,10 +1887,17 @@ console.log(person.getName());      // "Nicholas"
 <span dir="ltr">`("Nicholas")`</span>. 
 זה שונה מפונקציה רגילה, שם הסוגריים יכולים להופיע באותה צורה או אפילו מסביב לכל הפונקציה כולל הקריאה לה.
 
+### אין קישור עבור this
 
-### No this Binding
+אחד ממקורות השגיאה הנפוצים ביותר בג׳אווהסקריפט הינו הקישור עבור המשתנה 
+`this` 
+בתוך פונקציות.
+מכיוון שערכו של 
+`this` 
+יכול להשתנות, תלוי באיזה אופן הפונקציה נקראה, ייתכן שנשפיע בטעות על אוביקט אחד בעת שהתכוונו לשנות אוביקט אחר.
+למשל:
 
-One of the most common areas of error in JavaScript is the binding of `this` inside of functions. Since the value of `this` can change inside a single function depending on the context in which the function is called, it's possible to mistakenly affect one object when you meant to affect another. Consider the following example:
+<div dir="ltr">
 
 ```js
 var PageHandler = {
@@ -1899,7 +1906,7 @@ var PageHandler = {
 
     init: function() {
         document.addEventListener("click", function(event) {
-            this.doSomething(event.type);     // error
+            this.doSomething(event.type);     // שגיאה
         }, false);
     },
 
@@ -1909,11 +1916,40 @@ var PageHandler = {
 };
 ```
 
-In this code, the object `PageHandler` is designed to handle interactions on the page. The `init()` method is called to set up the interactions, and that method in turn assigns an event handler to call `this.doSomething()`. However, this code doesn't work exactly as intended.
+</div>
 
-The call to `this.doSomething()` is broken because `this` is a reference to the object that was the target of the event (in this case `document`), instead of being bound to `PageHandler`. If you tried to run this code, you'd get an error when the event handler fires because `this.doSomething()` doesn't exist on the target `document` object.
+בדוגמת הקוד האוביקט
+`PageHandler`
+מיועד לטפל באינטרקציות של המשתמש בדף האינטרנט בו הקוד רץ.
+הפונקציה 
+<span dir="ltr">`init()`</span>. 
+נקראת כדי להגדיר את אותן אינטרקציות ובהמשך לכך מגדירה פונקציה נוספת שתקרא לפונקציה
+<span dir="ltr">`this.doSomething()`</span>. 
+אך הקוד אינו עובד כמצופה.
 
-You could fix this by binding the value of `this` to `PageHandler` explicitly using the `bind()` method on the function instead, like this:
+הקריאה לפונקציה 
+<span dir="ltr">`this.doSomething()`</span>
+לא עובדת מכיוון שהמשתנה
+`this` 
+מצביע על האוביקט שהיה המטרה עבור אותו אירוע אינטרקציה עם הדף 
+(`document`),
+במקום להצביע על האוביקט 
+`PageHandler`. 
+אם תנסו להריץ את הקוד תיזרק שגיאה בעת שנקראת הפונקציה לטיפול באירוע כי הפונקציה
+<span dir="ltr">`this.doSomething()`</span> 
+לא קיימת על האוביקט 
+`document`. 
+
+ניתן לתקן זאת על ידי קישור המשתנה 
+`this` 
+אל האוביקט
+`PageHandler` 
+בצורה מפורשת על ידי שימוש בפונקציית 
+<span dir="ltr">`bind()`</span> 
+
+על הפונקציה עצמה. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 var PageHandler = {
@@ -1922,7 +1958,7 @@ var PageHandler = {
 
     init: function() {
         document.addEventListener("click", (function(event) {
-            this.doSomething(event.type);     // no error
+            this.doSomething(event.type);     // עובד
         }).bind(this), false);
     },
 
@@ -1932,9 +1968,36 @@ var PageHandler = {
 };
 ```
 
-Now the code works as expected, but it may look a little bit strange. By calling `bind(this)`, you're actually creating a new function whose `this` is bound to the current `this`, which is `PageHandler`. To avoid creating an extra function, a better way to fix this code is to use an arrow function.
+</div>
 
-Arrow functions have no `this` binding, which means the value of `this` inside an arrow function can only be determined by looking up the scope chain. If the arrow function is contained within a nonarrow function, `this` will be the same as the containing function; otherwise, `this` is equivalent to the value of `this` in the global scope. Here's one way you could write this code using an arrow function:
+כעת הקוד עובד כמצופה, למרות שהוא נראה קצת מוזר. 
+על ידי קריאה לפונקציה 
+<span dir="ltr">`bind(this)`</span> 
+למעשה מגדירים פונקציה חדשה כאשר המשתנה
+`this`
+שלה מקושר למשתנה 
+`this`
+הנוכחי,  
+אוביקט 
+`PageHandler`.
+כדי להימנה מיצירת פונקציה חדשה ניתן להשתמש בפונקציית חץ.
+
+
+לפונקציות חץ אין קישור למשתנה
+`this` 
+כך שלמעשה ערכו של 
+`this` 
+בתוך הפונקציה יכול להימצא על ידי חיפוש בשרשרת הסביבות. אם פונקציית החץ נמצאת בתוך פונקציה רגילה, אזי 
+`this` 
+יהיה זהה לזה של הפונקציה העוטפת. 
+אחרת ערכו של 
+`this` 
+יהיה זהה לערכו של 
+`this` 
+בסביבה הגלובלית. 
+דוגמה:
+
+<div dir="ltr">
 
 ```js
 var PageHandler = {
@@ -1952,18 +2015,55 @@ var PageHandler = {
 };
 ```
 
-The event handler in this example is an arrow function that calls `this.doSomething()`. The value of `this` is the same as it is within `init()`, so this version of the code works similarly to the one using `bind(this)`. Even though the `doSomething()` method doesn't return a value, it's still the only statement executed in the function body, and so there is no need to include braces.
+</div>
 
-Arrow functions are designed to be "throwaway" functions, and so cannot be used to define new types; this is evident from the missing `prototype` property, which regular functions have. If you try to use the `new` operator with an arrow function, you'll get an error, as in this example:
+הפונקציה שמטפלת באירועים בדוגמה זו הינה פונקציית חץ שקוראת בתורה לפונקציה
+<span dir="ltr">`this.doSomething()`</span>. 
+ערכו של 
+`this` 
+זהה לזה שנמצא בתוך הפונקציה 
+<span dir="ltr">`init()`</span>. 
+ולכן גרסה זו עובדת בדומה לגרסה הקודמת שהשתמשה ב
+<span dir="ltr">`bind(this)`</span> 
+אף שפונקציה 
+<span dir="ltr">`this.doSomething()`</span>. 
+אינה מחזירה ערך, זהו הקוד היחיד שרץ בתוך גוף הפונקציה, ולכן אין צורך לכלול סוגריים מסולסלים.
+
+פונקציות חץ נועדו לשמש כפונקציות למטרות פשוטות ולכן אינן יכולות להגדיר סוג חדש.
+לכן אין להן תכונת
+`prototype` 
+כמו שיש לפונקציות רגילות. 
+אם מנסים להשתמש באופרטור
+`new`
+על פונקציית חץ תיזרק שגיאה. כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 var MyType = () => {},
-    object = new MyType();  // error - you can't use arrow functions with 'new'
+    object = new MyType();  // שגיאה
 ```
 
-In this code, the call to `new MyType()` fails because `MyType` is an arrow function and therefore has no `[[Construct]]` behavior. Knowing that arrow functions cannot be used with `new` allows JavaScript engines to further optimize their behavior.
+</div>
 
-Also, since the `this` value is determined by the containing function in which the arrow function is defined, you cannot change the value of `this` using `call()`, `apply()`, or `bind()`.
+בדוגמת הקוד האחרונה הקריאה לפונקציה
+<span dir="ltr">`new MyType()`</span>. 
+נכשלת מכיוון שהפונקציה 
+`MyType` 
+היא פונקציה חץ ולכן אין לה את התכונה הפנימית 
+<span dir="ltr">`[[Construct]]`</span> 
+שמאפשרת התנהגות זו. 
+הידיעה שפונקציות חץ אינן יכולות לעבוד עם אופרטור 
+`new`
+מאפשר למנועי ריצה של ג׳אווהסקריפט לייעל את ריצת הקוד.
+
+מאחר וערכו של המשתנה 
+`this` 
+נקבע על ידי הפונקציה העוטפת שבה מוגדרת פונקציית החץ,
+לא ניתן לשנות את ערכו של 
+`this` 
+באמצעות שיטות כמו 
+<span dir="ltr">`call()`, `apply()`, `bind()`.</span> 
 
 ### Arrow Functions and Arrays
 
