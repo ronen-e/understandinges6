@@ -2222,15 +2222,21 @@ function doSomething() {
 מקטע זכרון חדש נוצר ונדחף לתוך מחסנית הקריאות על מנת לייצג את הקריאה לפונקציה. 
 המשמעות היא שכל מקטע זכרון קודם נשמר בזכרון, דבר שיכול להפוך לבעיה כאשר מחסנית הקריאות גודלת יותר מדי.
 
-### What's Different?
+### מה השתנה?
 
-ECMAScript 6 seeks to reduce the size of the call stack for certain tail calls in strict mode (nonstrict mode tail calls are left untouched). With this optimization, instead of creating a new stack frame for a tail call, the current stack frame is cleared and reused so long as the following conditions are met:
+אקמהסקריפט 6 ביקשה להקטין את גודל מחסנית הקריאות עבור רקורסיות זנב במצב קשיח 
+(במצב נורמלי רקורסיות זנב מתנהגות כרגיל). 
+באמצעות אופטימיזציה זו, במקום ליצור מקטע זכרון חדש, משתמשים במקטע הזכרון הקיים כל עוד מתקיימים התנאים הבאים:
 
-1. The tail call does not require access to variables in the current stack frame (meaning the function is not a closure)
-1. The function making the tail call has no further work to do after the tail call returns
-1. The result of the tail call is returned as the function value
+1. רקורסיית הזנב לא ניגשת למשתנים בתוך מקטע הזכרון הקיים 
+(כלומר הפונקציה אינה פונקצית סגור - closure)
+1. הפונקציה שקוראת לרקורסיית הזנב אינה מבצעת פעולה נוספת לאחר שרקורסיית הזנב חוזרת.
+1. התוצאה של רקורסיית הזנב מוחזרת בתור ערך הפונקציה
 
-As an example, this code can easily be optimized because it fits all three criteria:
+הקוד בדוגמה הבאה עומד בכל שלושת התנאים:
+
+
+<div dir="ltr">
 
 ```js
 "use strict";
@@ -2241,19 +2247,28 @@ function doSomething() {
 }
 ```
 
-This function makes a tail call to `doSomethingElse()`, returns the result immediately, and doesn't access any variables in the local scope. One small change, not returning the result, results in an unoptimized function:
+</div>
+
+הפונקציה בדוגמה מבצעת רקורסיית זנב לפונקציה 
+<span dir="ltr">`doSomethingElse()`</span>, 
+מחזירה את התוצאה מייד ואינה ניגשת לאף משתנה בסביבה המקומית של הפונקציה. שינוי אחד קטן, כמו לא להחזיר את התוצאה יהפוך את הפונקציה ללא מתאימה לאופטימיזציה: 
+
+<div dir="ltr">
 
 ```js
 "use strict";
 
 function doSomething() {
-    // not optimized - no return
+    // אין אופטימיזציה - הערך אינו מוחזר
     doSomethingElse();
 }
 ```
 
-Similarly, if you have a function that performs an operation after returning from the tail call, then the function can't be optimized:
+</div>
 
+באופן דומה, אם הפונקציה מבצעת פעולה נוספת אחרי שהערך מוחזר מרקורסיית הזנב, גם אז הפונקציה לא תעבור אופטימיזציה:
+
+<div dir="ltr">
 
 ```js
 "use strict";
@@ -2264,23 +2279,39 @@ function doSomething() {
 }
 ```
 
-This example adds the result of `doSomethingElse()` with 1 before returning the value, and that's enough to turn off optimization.
+</div>
 
-Another common way to inadvertently turn off optimization is to store the result of a function call in a variable and then return the result, such as:
+בדוגמה זו מוסיפים 1 לערך המוחזר מהפונקציה 
+<span dir="ltr">`doSomethingElse()`</span> 
+לפני שמחזירים את הערך הסופי וזה מספיק בשביל לא להפעיל אופטימיזציה. 
+
+דרך נוספת לבטל אופטימיזציה ללא כוונה היא שמירת התוצאה של הפונקציה בתוך משתנה ואז להחזיר את התוצאה, 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 "use strict";
 
 function doSomething() {
-    // not optimized - call isn't in tail position
+    // אין אופטימיזציה - הקריאה לפונקציה אינה מוחזרת מיד
     var result = doSomethingElse();
     return result;
 }
 ```
 
-This example cannot be optimized because the value of `doSomethingElse()` isn't immediately returned.
+</div>
 
-Perhaps the hardest situation to avoid is in using closures. Because a closure has access to variables in the containing scope, tail call optimization may be turned off. For example:
+הקוד בדוגמה לא יעבור אופטימיזציה כיוון שהערך המוחזר מהקריאה של
+<span dir="ltr">`doSomethingElse()`</span> 
+אינו מוחזר מיידית.
+
+מאחר ולפונקציות סגור
+<span dir="ltr">`(closures)`</span>  
+יש גישה למשתנים בתוך הסביבה העוטפת הדבר יכול לבטל אופטימיזציה. 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 "use strict";
@@ -2289,12 +2320,22 @@ function doSomething() {
     var num = 1,
         func = () => num;
 
-    // not optimized - function is a closure
+    // אין אופטימיזציה - פונקציית סגור
     return func();
 }
 ```
 
-The closure `func()` has access to the local variable `num` in this example. Even though the call to `func()` immediately returns the result, optimization can't occur due to referencing the variable `num`.
+</div>
+
+לפונקציות הסגור
+<span dir="ltr">`func()`</span>  
+יש גישה למשתנה הלוקאלי 
+`num`. 
+למרות שהקריאה לפונקציה 
+<span dir="ltr">`func()`</span>  
+מחזירה מיד את התוצאה, 
+לא ניתן לבצע אופטימיזציה בגלל השימוש במשתנה 
+`num`.
 
 ### How to Harness Tail Call Optimization
 
