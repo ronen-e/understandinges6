@@ -2094,9 +2094,20 @@ var result = values.sort((a, b) => a - b);
 <span dir="ltr">`sort()`, `map()`, `reduce()`</span> 
 ירוויחו כולן משימוש בפונקציות חץ שהופכות קוד מורכב למראית לקוד פשוט וקריא יותר.
 
-### No arguments Binding
+### אין קישור לאוביקט arguments
 
-Even though arrow functions don't have their own `arguments` object, it's possible for them to access the `arguments` object from a containing function. That `arguments` object is then available no matter where the arrow function is executed later on. For example:
+אף על פי שפונקציות חץ לא מקבלות גישה לאוביקט 
+`arguments`
+משלהן, אפשר שיעשו זאת לאוביקט 
+`arguments`
+מהפונקציה שעוטפת אותן. 
+אותו אוביקט 
+`arguments`
+ניתן לגישה ללא קשר למיקום בו רצה פונקציית החץ. 
+לדוגמה:
+
+
+<div dir="ltr">
 
 ```js
 function createArrowFunctionReturningFirstArg() {
@@ -2108,7 +2119,23 @@ var arrowFunction = createArrowFunctionReturningFirstArg(5);
 console.log(arrowFunction());       // 5
 ```
 
-Inside `createArrowFunctionReturningFirstArg()`, the `arguments[0]` element is referenced by the created arrow function. That reference contains the first argument passed to the `createArrowFunctionReturningFirstArg()` function. When the arrow function is later executed, it returns `5`, which was the first argument passed to `createArrowFunctionReturningFirstArg()`. Even though the arrow function is no longer in the scope of the function that created it, `arguments` remains accessible due to scope chain resolution of the `arguments` identifier.
+</div>
+
+בתוך הפונקציה 
+<span dir="ltr">`createArrowFunctionReturningFirstArg()`</span> 
+המשתנה בתוך
+`arguments[0]`
+נקרא על ידי פונקצית החץ. 
+אותו משתנה מכיל את הארגומנט הראשון ממסופק לפונקציה 
+<span dir="ltr">`createArrowFunctionReturningFirstArg()`</span>. 
+כאשר פונקצית החץ נקראת מאוחר יותר היא מחזירה את הערך 
+`5`
+שהיה ערך הארגומנט הראשון שהועבר לפונקציה
+<span dir="ltr">`createArrowFunctionReturningFirstArg()`</span>. 
+למרות שקוראים לפונקצית החץ מחוץ לסביבת הפונקציה שיצרה אותה במקור, 
+האוביקט 
+`arguments`
+נשאר נגיש הודות לכללי הגישה של משתנים בתוך סביבות בג׳אווהסקריפט.
 
 ### Identifying Arrow Functions
 
