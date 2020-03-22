@@ -2065,9 +2065,12 @@ var MyType = () => {},
 באמצעות שיטות כמו 
 <span dir="ltr">`call()`, `apply()`, `bind()`.</span> 
 
-### Arrow Functions and Arrays
+### פונקציות חץ ומערכים
 
-The concise syntax for arrow functions makes them ideal for use with array processing, too. For example, if you want to sort an array using a custom comparator, you'd typically write something like this:
+התחביר המקוצר עבור פונקציות חץ הופך אותן למתאימות במיוחד לשימוש בעיבוד מערכים. 
+לדוגמה, אם נרצה למיין מערך נכתוב בד״כ קוד כזה:
+
+<div dir="ltr">
 
 ```js
 var result = values.sort(function(a, b) {
@@ -2075,13 +2078,21 @@ var result = values.sort(function(a, b) {
 });
 ```
 
-That's a lot of syntax for a very simple procedure. Compare that to the more terse arrow function version:
+</div>
+
+זוהי כתיבה ארוכה עבור הליך פשוט. אילו היינו משתמשים בפונקציית חץ היינו כותבים כך:
+
+<div dir="ltr">
 
 ```js
 var result = values.sort((a, b) => a - b);
 ```
 
-The array methods that accept callback functions such as `sort()`, `map()`, and `reduce()` can all benefit from simpler arrow function syntax, which changes seemingly complex processes into simpler code.
+</div>
+
+פונקציות של מערך שמקבלות פונקציית קולבק כגון 
+<span dir="ltr">`sort()`, `map()`, `reduce()`</span> 
+ירוויחו כולן משימוש בפונקציות חץ שהופכות קוד מורכב למראית לקוד פשוט וקריא יותר.
 
 ### No arguments Binding
 
