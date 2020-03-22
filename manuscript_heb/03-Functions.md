@@ -2165,7 +2165,6 @@ console.log(comparator instanceof Function);    // true
 של הפונקציה לא ישתנה. 
 לדוגמה:
 
-
 <div dir="ltr">
 
 ```js
@@ -2201,9 +2200,15 @@ console.log(boundSum());                // 3
 פונקציות חץ מתאימות לשימוש במקומות בהם משתמשים כבר בפונקציה אנונימית כמו שנפוץ לעשות עם פונקציות קולבק.
 החלק הבא סוקר שינוי משמעותי נוסף באקמהסקריפט 6, הפעם מדובר בשינוי פנימי של השפה שאינו כולל תחביר חדש.
 
-## Tail Call Optimization
+## ייעול רקורסיית זנב
 
-Perhaps the most interesting change to functions in ECMAScript 6 is an engine optimization, which changes the tail call system. A *tail call* is when a function is called as the last statement in another function, like this:
+אחד השינויים המעניינים באקמהסקריפט 6 הינו ייעול מנוע הריצה שמשפר את השימוש ברקורסיית זנב.
+*רקורסיית זנב* 
+<span dir="ltr">`(tail call)`</span> 
+מתקבלת כאשר פונקציה נקראת בתור ההצהרה האחרונה של פונקציה, 
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 function doSomething() {
@@ -2211,7 +2216,11 @@ function doSomething() {
 }
 ```
 
-Tail calls as implemented in ECMAScript 5 engines are handled just like any other function call: a new stack frame is created and pushed onto the call stack to represent the function call. That means every previous stack frame is kept in memory, which is problematic when the call stack gets too large.
+</div>
+
+רקורסיות זנב באקמהסקריפט 5 מטופלות בדומה לקריאות פונקציה אחרות: 
+מקטע זכרון חדש נוצר ונדחף לתוך מחסנית הקריאות על מנת לייצג את הקריאה לפונקציה. 
+המשמעות היא שכל מקטע זכרון קודם נשמר בזכרון, דבר שיכול להפוך לבעיה כאשר מחסנית הקריאות גודלת יותר מדי.
 
 ### What's Different?
 
