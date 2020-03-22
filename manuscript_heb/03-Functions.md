@@ -2106,7 +2106,6 @@ var result = values.sort((a, b) => a - b);
 ניתן לגישה ללא קשר למיקום בו רצה פונקציית החץ. 
 לדוגמה:
 
-
 <div dir="ltr">
 
 ```js
@@ -2137,9 +2136,12 @@ console.log(arrowFunction());       // 5
 `arguments`
 נשאר נגיש הודות לכללי הגישה של משתנים בתוך סביבות בג׳אווהסקריפט.
 
-### Identifying Arrow Functions
+### זיהוי פונקציות חץ
 
-Despite the different syntax, arrow functions are still functions, and are identified as such. Consider the following code:
+למרות התחביר השונה, פונקציות חץ הן עדיין פונקציות, לא משנה כיצד הן מופיעות.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 var comparator = (a, b) => a - b;
@@ -2148,9 +2150,23 @@ console.log(typeof comparator);                 // "function"
 console.log(comparator instanceof Function);    // true
 ```
 
-The `console.log()` output reveals that both `typeof` and `instanceof` behave the same with arrow functions as they do with other functions.
+</div>
 
-Also like other functions, you can still use `call()`, `apply()`, and `bind()` on arrow functions, although the `this`-binding of the function will not be affected. Here are some examples:
+בדוגמה ניתן לראות כי
+`typeof` 
+ו 
+`instanceof` 
+מתייחסים אל פונקציות חץ כמו פונקציות רגילות
+
+בדומה לפונקציות רגילות גם על פונקציות חץ ניתן להשתמש ב 
+<span dir="ltr">`call()`, `apply()`, `bind()`</span>, 
+מלבד העובדה שהמשתנה 
+`this` 
+של הפונקציה לא ישתנה. 
+לדוגמה:
+
+
+<div dir="ltr">
 
 ```js
 var sum = (num1, num2) => num1 + num2;
@@ -2163,9 +2179,27 @@ var boundSum = sum.bind(null, 1, 2);
 console.log(boundSum());                // 3
 ```
 
-The `sum()` function is called using `call()` and `apply()` to pass arguments, as you'd do with any function. The `bind()` method is used to create `boundSum()`, which has its two arguments bound to `1` and `2` so that they don't need to be passed directly.
+</div>
 
-Arrow functions are appropriate to use anywhere you're currently using an anonymous function expression, such as with callbacks. The next section covers another major ECMAScript 6 development, but this one is all internal, and has no new syntax.
+בדוגמה זו הפונקציה
+<span dir="ltr">`sum()`</span>
+נקראת באמצעות
+<span dir="ltr">`call()`</span>
+וגם על ידי 
+<span dir="ltr">`apply()`</span> 
+ומקבלת ארגומנטים. 
+המתודה 
+<span dir="ltr">`bind()`</span> 
+משמשת כדי ליצור את הפונקציה 
+<span dir="ltr">`boundSum()`</span> 
+עם קישור ישיר לשני ארגומנטים
+`1` 
+ו
+`2` 
+בהתאמה, כך שאין צורך להעביר אותם בעת הקריאה לפונקציה.
+
+פונקציות חץ מתאימות לשימוש במקומות בהם משתמשים כבר בפונקציה אנונימית כמו שנפוץ לעשות עם פונקציות קולבק.
+החלק הבא סוקר שינוי משמעותי נוסף באקמהסקריפט 6, הפעם מדובר בשינוי פנימי של השפה שאינו כולל תחביר חדש.
 
 ## Tail Call Optimization
 
