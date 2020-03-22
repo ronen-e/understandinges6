@@ -2325,8 +2325,6 @@ function doSomething() {
 }
 ```
 
-</div>
-
 לפונקציות הסגור
 <span dir="ltr">`func()`</span>  
 יש גישה למשתנה הלוקאלי 
@@ -2337,9 +2335,13 @@ function doSomething() {
 לא ניתן לבצע אופטימיזציה בגלל השימוש במשתנה 
 `num`.
 
-### How to Harness Tail Call Optimization
+### שימוש באופטימיזציה של רקורסיית זנב
 
-In practice, tail call optimization happens behind-the-scenes, so you don't need to think about it unless you're trying to optimize a function. The primary use case for tail call optimization is in recursive functions, as that is where the optimization has the greatest effect. Consider this function, which computes factorials:
+ברמה הפרקטית, אופטימיזציה של רקורסיית זנב מתרחשת מאחורי הקלעים, כך שאין צורך לחשוב על כך אלא אם בכוונתם לייעל פונקציה. 
+השימוש העיקרי באופטימיזציה של רקורסיית זנב הינו בפונקציות רקורסיביות ממילא, שם יהיה לאופטימיזציה את האפקט המירבי. 
+נשתמש כדוגמה בפונקציה הבאה שמחשבת עצרת:
+
+<div dir="ltr">
 
 ```js
 function factorial(n) {
@@ -2348,15 +2350,30 @@ function factorial(n) {
         return 1;
     } else {
 
-        // not optimized - must multiply after returning
+        // אין אופטימיזציה - מתבצעת פעולת כפל לאחר חזרת הערך
         return n * factorial(n - 1);
     }
 }
 ```
 
-This version of the function cannot be optimized, because multiplication must happen after the recursive call to `factorial()`. If `n` is a very large number, the call stack size will grow and could potentially cause a stack overflow.
+</div>
 
-In order to optimize the function, you need to ensure that the multiplication doesn't happen after the last function call. To do this, you can use a default parameter to move the multiplication operation outside of the `return` statement. The resulting function carries along the temporary result into the next iteration, creating a function that behaves the same but *can* be optimized by an ECMAScript 6 engine. Here's the new code:
+צורה זו של הפונקציה לא יכולה לעבור אופטימיזציה, מכיוון שמתבצעת פעולת כפל לאחר הקריאה הרקורסיבית לפונקציה 
+<span dir="ltr">`factorial()`</span>. 
+אם המשתנה 
+`n` 
+הינו מספר גדול מאוד, 
+גודל מחסנית הקריאות יגדל ויוכל להוביל לשגיאת גלישת מחסנית
+<span dir="ltr">`stack overflow`</span>. 
+
+כדי לייעל את הפונקציה, יש לוודא שפעולת הכפל לא מתבצעת לאחר הקריאה האחרונה לפונקציה. 
+לשם כך ניתן להשתמש במשתנה שיוציא את פעולת הכפל מחוץ לפקודת 
+`return`.
+הפונקציה החדשה נושאת איתה את התוצאה הזמנית לקריאה הבא לפונקציה, וכך נוצרת פונקציה שמתנהגת בצורה דומה אך 
+*ניתנת לאופטימיזציה*.
+להלן הקוד:
+
+<div dir="ltr">
 
 ```js
 function factorial(n, p = 1) {
@@ -2366,15 +2383,27 @@ function factorial(n, p = 1) {
     } else {
         let result = n * p;
 
-        // optimized
+        // עובר אופטימיזציה
         return factorial(n - 1, result);
     }
 }
 ```
 
-In this rewritten version of `factorial()`, a second argument `p` is added as a parameter with a default value of 1. The `p` parameter holds the previous multiplication result so that the next result can be computed without another function call. When `n` is greater than 1, the multiplication is done first and then passed in as the second argument to `factorial()`. This allows the ECMAScript 6 engine to optimize the recursive call.
+</div>
 
-Tail call optimization is something you should think about whenever you're writing a recursive function, as it can provide a significant performance improvement, especially when applied in a computationally-expensive function.
+בגרסה חדשה זו של הפונקציה 
+<span dir="ltr">`factorial()`</span>. 
+התווסף הארגומנט 
+`p` 
+כפרמטר עם ערך התחלתי 1. 
+הפרמטר מקבל את תוצאת הכפל הקודמת. 
+כאשר המשתנה
+`n` 
+גדול מ-1 פעולת הכפל מתבצעת ומועברת בתור הארגומנט השני לפונקציה
+<span dir="ltr">`factorial()`</span>. 
+זה מאפשר למנוע הריצה של ג׳אווהסקריפט לבצע אופטימיזציה של הקריאה הרקורסיבית תחת אקמהסקריפט 6.
+
+אופ של רקורסיית זנב הינה דבר שכדאי לחשוב עליו בעת כתיבת פונקציה רקורסיבית, מכיוון והיא נותנת שיפור ביצועים משמעותי, בייחוד כאשר היא מתבצעת בסביבת קוד שדורש משאבים רבים בעת ריצתו.
 
 ## Summary
 
