@@ -2403,24 +2403,57 @@ function factorial(n, p = 1) {
 <span dir="ltr">`factorial()`</span>. 
 זה מאפשר למנוע הריצה של ג׳אווהסקריפט לבצע אופטימיזציה של הקריאה הרקורסיבית תחת אקמהסקריפט 6.
 
-אופ של רקורסיית זנב הינה דבר שכדאי לחשוב עליו בעת כתיבת פונקציה רקורסיבית, מכיוון והיא נותנת שיפור ביצועים משמעותי, בייחוד כאשר היא מתבצעת בסביבת קוד שדורש משאבים רבים בעת ריצתו.
+אופטימיזציה של רקורסיית זנב הינה דבר שכדאי לחשוב עליו בעת כתיבת פונקציה רקורסיבית, מכיוון והיא נותנת שיפור ביצועים משמעותי, בייחוד כאשר היא מתבצעת בסביבת קוד שדורש משאבים רבים בעת ריצתו.
 
-## Summary
+## סיכום
 
-Functions haven't undergone a huge change in ECMAScript 6, but rather, a series of incremental changes that make them easier to work with.
+פונקציות לא עברו שינוי גדול מאוד באקמהסקריפט 6, אלא עברו סדרה של שינויים הדרגתיים שהופכים אותן לקלות יותר לשימוש.
 
-Default function parameters allow you to easily specify what value to use when a particular argument isn't passed. Prior to ECMAScript 6, this would require some extra code inside the function, to both check for the presence of arguments and assign a different value.
+פרמטרים דיפולטיביים מאפשרי לנו להגדיר בקלות באיזה ערך להשתמש כאשר ארגומנט מסוים לא מועבר לפונקציה. קודם לאקמרסקריפט 6, הדבר היה דרוש קוד נוסף בתוך גוף הפונקציה, הן לבדוק את קיום הארגומנט והן לתת לו ערך. 
 
-Rest parameters allow you to specify an array into which all remaining parameters should be placed. Using a real array and letting you indicate which parameters to include makes rest parameters a much more flexible solution than `arguments`.
+פרמטרים מסוג רסט מאפשרים לנו להגדיר מערך שבו יהיו כל יתר הארגומנטים לפונקציה. 
+על ידי שימוש במערך אמיתי ובזכות האפשרות להגדיר בדיוק אלו פרמטרים לכלול מתקבל פתרון גמיש בהרבה מאשר אוביקט 
+`arguments`. 
 
-The spread operator is a companion to rest parameters, allowing you to deconstruct an array into separate parameters when calling a function. Prior to ECMAScript 6, there were only two ways to pass individual parameters contained in an array: by manually specifying each parameter or using `apply()`. With the spread operator, you can easily pass an array to any function without worrying about the `this` binding of the function.
+אופרטור הפיזור מתלווה לפרמטרים מסוג רסט, ומאפשר לנו לפצל מערך לפרמטרים נפרדים בעת קריאה לפונקציה. 
+לפני אקמהסקריפט 6, היו רק שתי דרכים להעביר פרמטרים נפרדים בתוך מערך: 
+על ידי הגדרה מפורשת עבור כל פרמטר עבור באמצעות המתודה 
+<span dir="ltr">`apply()`</span>. 
+בעזרת אופרטור הפיזור ניתן בקלות להעביר מערך לפונקציה מבלי להתייחס לערך 
+`this`
+שבתוך הפונקציה.
 
-The addition of the `name` property should help you more easily identify functions for debugging and evaluation purposes. Additionally, ECMAScript 6 formally defines the behavior of block-level functions so they are no longer a syntax error in strict mode.
+התוספת של התכונה
+`name`
+באופן כולל לפונקציות מאפשר בקלות לזהות פונקציות לצרכי פתרון שגיאות ושימוש כללי. בנוסף לכך, אקמהסקריפט 6 מגדירה באופן ברור את התנהגות פונקציות ברמת בלוק כך שהן לא נחשבות לשגיאת תחביר במצב קשיח.
 
-In ECMAScript 6, the behavior of a function is defined by `[[Call]]`, normal function execution, and `[[Construct]]`, when a function is called with `new`. The `new.target` metaproperty also allows you to determine if a function was called using `new` or not.
+באקמהסקריפט 6 התנהגותה של פונקציה מוגדרת על ידי התכונה הפנימית 
+<span dir="ltr">`[[Call]]`</span> 
+עבור הרצה רגילה של הפונקציה, 
+ועל ידי התכונה הפנימית 
+<span dir="ltr">`[[Construct]]`</span> 
+כאשר הפונקציה נקראת על ידי האופרטור 
+`new`.
+המטה-תכונה 
+<span dir="ltr">`new.target`</span> 
+מאפשרת לנו לקבוע עם הפונקציה נקראה באמצעות האופרטור
+`new`.
 
-The biggest change to functions in ECMAScript 6 was the addition of arrow functions. Arrow functions are designed to be used in place of anonymous function expressions. Arrow functions have a more concise syntax, lexical `this` binding, and no `arguments` object. Additionally, arrow functions can't change their `this` binding, and so can't be used as constructors.
+השינוי הגדול ביותר עבור פונקציות באקמהסקריפט 6 היה הוספת פונקציות חץ. פונקציות חץ נועדו במקור להחליף שימוש בפונקציות אנונימיות. יש להן תחביר מתומצת יותר, קישור 
+לקסיקלי
+למשתנה 
+`this` 
+ואין להן אוביקט 
+`arguments` 
+משלהן.
+בנוסף לכך, פונקציות חץ אינן מסוגלות לשנות את הקישור שלהן למשתנה 
+`this` 
+ולכן אינן יכולות לשמש בתור קונסטרקטור.
 
-Tail call optimization allows some function calls to be optimized in order to keep a smaller call stack, use less memory, and prevent stack overflow errors. This optimization is applied by the engine automatically when it is safe to do so, however, you may decide to rewrite recursive functions in order to take advantage of this optimization.
+אופטימיזציה של רקורסיית זנב מאפשרת לנו לבצע אופטימיזציה של סוגים מסוימים של קריאות לפונקציה על ידי שימוש במחסנית קריאות קטנה יותר, 
+שימוש בפחות זיכרון 
+ומניעת שגיאות של גלישת זיכרון. 
+האופטימיזציה מתבצעת באופן פנימי על ידי מנוע הריצה של ג׳אווהסקריפט כאשר הדבר אפשרי, 
+אך יחד עם זאת באפשרותך לשכתב פונקציות רקרוסיביות קיימות כדי לנצל את האופטימיזציה.
 
 </div>
