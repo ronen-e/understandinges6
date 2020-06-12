@@ -7,19 +7,36 @@ ECMAScript 6
 ECMAScript 6
 משפר את השימוש באוביקטים במספר דרכים, החל משינויי תחביר פשוטים ועד לדרכים חדשות לשנות אותם.
 
+## קטגוריות של אוביקטים
+
+
+ג׳אווהסקריפט משתמש בערב רב של טרמינולוגיה על מנת לתאר אוביקטים אשר מופיעים בשפה עצמה, בניגוד לאלו שמתווספים לסביבת ההרצה כמו שיש בדפדפן או ב 
+Node.js,
+ המפרט עבור
+ECMAScript 6
+נותן הגדרות מדויקות עבור כל קטגוריה שונה של אוביקטים. 
+חשוב מאוד להבין את הטרמינולוגיה הזו על מנת להשיג הבנה טובה של השפה עצמה. 
+ואלו הן קטגוריות האוביקטים:
+
+* *לאוביקטים רגילים*
+יש את כל ההתנהגויות הפנימיות ההתחלתיות עבור אוביקטים בג׳אווהסקריפט.
+* *לאוביקטים אקזוטיים* 
+יש התנהגות פנימית ששונה במידת מה מהתנהגות הרגילה
+* *אוביקטים סטנדרטים* 
+אלו הם אותם אוביקטים אשר מוגדרים על ידי
+ECMAScript 6 
+כמו 
+<span dir="ltr">`Array`, `Date`<span>, 
+וכדומה
+אוביקט סטנדרטי ייתכן שיהיה  רגיל או אקזוטי.
+* *אוביקטים מובנים* 
+נוכחים בסביבת הריצה של ג׳אווהסקריפט כאשר סקריפט כלשהו מתחיל לרוץ.
+כל האוביקטים הסטנדרטים הינם אוביקטים מובנים.
+
+במונחים אלו ייעשה שימוש נרחב בהמשך הספר על מנת להרחיב על האוביקטים השונים שמוגדרים תחת
+ECMAScript 6.
+
 </div>
-
-## Object Categories
-
-
-JavaScript uses a mix of terminology to describe objects found in the standard as opposed to those added by execution environments such as the browser or Node.js, and the ECMAScript 6 specification has clear definitions for each category of object. It's important to understand this terminology to have a good understanding of the language as a whole. The object categories are:
-
-* *Ordinary objects* Have all the default internal behaviors for objects in JavaScript.
-* *Exotic objects* Have internal behavior that differs from the default in some way.
-* *Standard objects* Are those defined by ECMAScript 6, such as `Array`, `Date`, and so on. Standard objects may be ordinary or exotic.
-* *Built-in objects* Are present in a JavaScript execution environment when a script begins to execute. All standard objects are built-in objects.
-
-I will use these terms throughout the book to explain the various objects defined by ECMAScript 6.
 
 ## Object Literal Syntax Extensions
 
