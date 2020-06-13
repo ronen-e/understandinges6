@@ -186,11 +186,16 @@ I> ערכה של תכונת
 הוא
 `"sayName"`
 
-</div>
+### שמות מחושבים עבור תכונות
 
-### Computed Property Names
+בגרסת 
+ECMAScript 5 
+וקודם לכן היה ניתן לחשב שם תכונה של אוביקט כאשר אותן תכונות היו מוגדרות על ידי סוגריים מרובעים ולא על ידי נקודה 
+(dot notation).
+הסוגריים המרובעים מאפשרים לנו לתת שם תכונה באמצעות משתנים או מחרוזות שמכילות ערכים שהיו גורמים לשגיאת תחביר לו היו משמשים כמזהה רגיל לשם התכונה.
+להלן דוגמה שממחישה זאת:
 
-ECMAScript 5 and earlier could compute property names on object instances when those properties were set with square brackets instead of dot notation. The square brackets allow you to specify property names using variables and string literals that may contain characters that would cause a syntax error if used in an identifier. Here's an example:
+<div dir="ltr">
 
 ```js
 var person = {},
@@ -203,9 +208,27 @@ console.log(person["first name"]);      // "Nicholas"
 console.log(person[lastName]);          // "Zakas"
 ```
 
-Since `lastName` is assigned a value of `"last name"`, both property names in this example use a space, making it impossible to reference them using dot notation. However, bracket notation allows any string value to be used as a property name, so assigning `"first name"` to `"Nicholas"` and "`last name"` to `"Zakas"` works.
+</div>
 
-Additionally, you can use string literals directly as property names in object literals, like this:
+מכיוון והמשתנה
+`lastName` 
+מקבל את הערך
+"last name"`,
+שני שמות התכונות בדוגמה לעיל מכילים רווח, 
+ולכן לא ניתן לקרוא להם על ידי שימוש בנקודה. 
+ואולם, שימוש בסוגריים מאפשר לכל ערך מחרוזת לשמש בתור שם תכונה, ובדוגמה לעיל מאפשר השמת הערך 
+`"Nicholas"` 
+לתכונה בשם
+`"first name"`
+והשמת הערך
+`"Zakas"`
+לתכונה בשם
+`"last name"`
+
+כמו כן, ניתן להשתמש במחרוזת עבור שם תכונה בתוך אוביקט. 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 var person = {
@@ -215,9 +238,21 @@ var person = {
 console.log(person["first name"]);      // "Nicholas"
 ```
 
-This pattern works for property names that are known ahead of time and can be represented with a string literal. If, however, the property name `"first name"` were contained in a variable (as in the previous example) or had to be calculated, then there would be no way to define that property using an object literal in ECMAScript 5.
+</div>
 
-In ECMAScript 6, computed property names are part of the object literal syntax, and they use the same square bracket notation that has been used to reference computed property names in object instances. For example:
+טכניקה זו עובדת היטב עבור שמות תכונות שידועים מראש וניתן לייצגם ע״י מחרוזת. ואולם, אילו התכונה 
+`"first name"`
+הייתה שמורה בתוך משתנה 
+(כמו בדוגמה הקודמת)
+או אם היה צורך לחשבה, אזי כלל לא הייתה קיימת דרך להגדירה בגרסת
+ECMAScript 5.
+
+בגרסת 
+ECMAScript 6, 
+שמות תכונות מחושבים הינם חלק מתחביר השפה, והם משתמשים בסוגריים מרובעים.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 var lastName = "last name";
@@ -231,7 +266,14 @@ console.log(person["first name"]);      // "Nicholas"
 console.log(person[lastName]);          // "Zakas"
 ```
 
-The square brackets inside the object literal indicate that the property name is computed, so its contents are evaluated as a string. That means you can also include expressions such as:
+</div>
+
+הסוגריים המרובעים בתוך אוביקט ליטראל מצביעים על היותה של התכונה בעל ערך מחושב, כך שערכה מחושב כמחרוזת.
+מכאן ניתן לכלול גם ביטויים 
+(expressions) 
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 var suffix = " name";
@@ -244,8 +286,16 @@ var person = {
 console.log(person["first name"]);      // "Nicholas"
 console.log(person["last name"]);       // "Zakas"
 ```
+</div>
 
-These properties evaluate to `"first name"` and `"last name"`, and those strings can be used to reference the properties later. Anything you would put inside square brackets while using bracket notation on object instances will also work for computed property names inside object literals.
+התכונות בדוגמה מקבלות את הערכים
+`"first name"`
+ו- 
+`"last name"`,
+ואותן מחרוזות יכולות לשמש על מנת להצביע על התכונות בהמשך. 
+כל ערך שניתן להכניס בתוך סוגריים מרובעים מתאים גם לשמות תכונה מחושבים בתוך אוביקט ליטראל.
+
+</div>
 
 ## New Methods
 
