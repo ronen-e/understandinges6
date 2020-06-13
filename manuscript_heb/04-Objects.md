@@ -552,7 +552,6 @@ console.log(receiver.name);     // "file.js"
 אינה תוספת גדולה עבור
 ECMAScript 6, 
 אך היא הופכת פונקציה נפוצה בספריות לפונקציה רשמית של השפה. 
-</div>
 
 A> ### עבודה עם תכונות גישה
 A>
@@ -563,6 +562,8 @@ A> מכיוון ש
 A> <span dir="ltr">`Object.assign()`</span>
 A> משתמשת באופרטור ההשמה, תכונת גישה בספק תהפוך לתכונת ערך במקבל.
 A> לדוגמה:
+A>
+A> <div dir="ltr">
 A>
 A> ```js
 A> var receiver = {},
@@ -579,8 +580,9 @@ A>
 A> console.log(descriptor.value);      // "file.js"
 A> console.log(descriptor.get);        // undefined
 A> ```
+A> </div>
 A>
-A> בקוד לעיל לאוביקט
+A> לאוביקט
 A> `supplier`
 A> יש תכונת גישה בשם
 A> `name`.
@@ -596,33 +598,84 @@ A> `"file.js"`
 A> לאחר הקריאה למתודה
 A> `Object.assign()`
 
-## Duplicate Object Literal Properties
+## כפילות בשמות תכונות
 
-ECMAScript 5 strict mode introduced a check for duplicate object literal properties that would throw an error if a duplicate was found. For example, this code was problematic:
+מצב קשיח
+בגרסת
+ECMAScript 5
+הכיל בתוכו בדיקה עבור תכונות בעל שם זהה שהייתה זורקת שגיאה בהימצא כפילות.
+הקוד בדוגמה הבאה נחשב לקוד בעייתי:
+
+<div dir="ltr">
 
 ```js
 "use strict";
 
 var person = {
     name: "Nicholas",
-    name: "Greg"        // syntax error in ES5 strict mode
+    name: "Greg"        // שגיאה במצב קשיח תחת גרסה 5 
 };
 ```
+</div>
 
-When running in ECMAScript 5 strict mode, the second `name` property causes a syntax error. But in ECMAScript 6, the duplicate property check was removed. Both strict and nonstrict mode code no longer check for duplicate properties. Instead, the last property of the given name becomes the property's actual value, as shown here:
+כאשר הקוד למעלה רץ במצב קשיח בגרסת
+ECMAScript 5,
+תכונת
+`name`
+השנייה גורמת לשגיאת תחביר
+(syntax error).
+אבל תחת גרסה
+ECMAScript 6,
+הבדיקה לגילוי כפילויות סולקה.
+גם הגרסה הרגילה וגם הגרסה הקשיחה לא בודקות כפילות בשם התכונה. 
+תחת זאת, התכונה האחרונה עבור אותו שם הופכת לערך הסופי של התכונה.
+כלומר - ״דורסת״ את התכונות לפניה בעלות אותו שם.
+
+<div dir="ltr">
 
 ```js
 "use strict";
 
 var person = {
     name: "Nicholas",
-    name: "Greg"        // no error in ES6 strict mode
+    name: "Greg"        // אין שגיאה במצב קשיח בגרסה 6 
 };
 
 console.log(person.name);       // "Greg"
 ```
+</div>
+בעת ריצה במצב קשיח בגרסת
+ECMAScript 5,
+תכונת 
 
-In this example, the value of `person.name` is `"Greg"` because that's the last value assigned to the property.
+השנייה זורקת שגיאת תחביר.
+ECMAScript 6
+ביטלה את בדיקת הכפילות.
+כך, גם מצב קשיח ומצב רגיל לא בודקים עבור כפילויות.
+במקום זאת, התכונה האחרונה באותו שם נותנת ערך סופי לתכונה. כפי שמודגם בקוד הבא:
+
+<div dir="ltr">
+
+
+```js
+"use strict";
+
+var person = {
+    name: "Nicholas",
+    name: "Greg"        // אין שגיאה במצב קשיח בגרסה 6
+};
+
+console.log(person.name);       // "Greg"
+```
+</div>
+
+בדוגמה לעיל, ערכו של 
+`person.name`
+הוא 
+`"Greg"` 
+מאחר וזהו הערך האחרון עבור אותה תכונה.
+
+</div>
 
 ## Own Property Enumeration Order
 
