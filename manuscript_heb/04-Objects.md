@@ -295,9 +295,25 @@ console.log(person["last name"]);       // "Zakas"
 ואותן מחרוזות יכולות לשמש על מנת להצביע על התכונות בהמשך. 
 כל ערך שניתן להכניס בתוך סוגריים מרובעים מתאים גם לשמות תכונה מחושבים בתוך אוביקט ליטראל.
 
+## מתודות חדשות
+
+אחד מיעדי האפיון של 
+ECMAScript
+החל מגרסת 
+ECMAScript 5
+היה הימנעות מהוספת פונקציות גלובליות או הוספת מתודות ל - 
+`Object.prototype`, 
+ובמקום זאת למצוא אוביקטים עליהם ניתן יהיה להוסיף מתודות חדשות. כתוצאה, אוביקט
+`Object`
+הגלובלי הוסיף אליו עוד מתודות כאשר אוביקטים אחרים לא נמצאו. 
+ECMAScript 6 
+הוסיפה מספר מתודות חדשות על אוביקט 
+`Object`
+הגלובלי שנועדו לפשט ביצוע משימות מסוימות.
+
 </div>
 
-## New Methods
+
 
 One of the design goals of ECMAScript beginning with ECMAScript 5 was to avoid creating new global functions or methods on `Object.prototype`, and instead try to find objects on which new methods should be available. As a result, the `Object` global has received an increasing number of methods when no other objects are more appropriate. ECMAScript 6 introduces a couple new methods on the `Object` global that are designed to make certain tasks easier.
 
