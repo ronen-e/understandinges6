@@ -19,15 +19,15 @@ ECMAScript 6
 ואלו הן קטגוריות האוביקטים:
 
 * *לאוביקטים רגילים*
-יש את כל ההתנהגויות הפנימיות ההתחלתיות עבור אוביקטים בג׳אווהסקריפט.
+יש את כל ההתנהגויות הפנימיות הרגילות עבור אוביקטים בג׳אווהסקריפט.
 * *לאוביקטים אקזוטיים* 
 יש התנהגות פנימית ששונה במידת מה מהתנהגות הרגילה
 * *אוביקטים סטנדרטים* 
-אלו הם אותם אוביקטים אשר מוגדרים על ידי
+ הם אותם אוביקטים אשר מוגדרים על ידי
 ECMAScript 6 
 כמו 
 <span dir="ltr">`Array`, `Date`<span>, 
-וכדומה
+וכדומה.
 אוביקט סטנדרטי ייתכן שיהיה  רגיל או אקזוטי.
 * *אוביקטים מובנים* 
 נוכחים בסביבת הריצה של ג׳אווהסקריפט כאשר סקריפט כלשהו מתחיל לרוץ.
@@ -45,13 +45,17 @@ JSON
 נבנה על פי אותו תחביר, וניתן למצוא אותו כמעט בכל קובץ ג׳אווהסקריפט באינטרנט. 
 אוביקט ליטראל כה פופולרי כיוון ומדובר דרך קלה וקצרה ליצירת אוביקטים שאחרת היו לוקחים מספר שורות קוד. 
 ECMAScript 6 
-מרחיב את התחביר במספר דרכים.
+מרחיב את התחביר הנוכחי במספר צורות.
 
-</div>
+### אתחול תכונות
 
-### Property Initializer Shorthand
+ב 
+ECMAScript 5
+ולפני כן, אוביקט ליטראל היה אוסף של זוגות
+שמות-ערכים. המשמעות הייתה שתיתכן כפילות בקוד בעת אתחול תכונות.
+לדוגמה:
 
-In ECMAScript 5 and earlier, object literals were simply collections of name-value pairs. That meant there could be some duplication when property values are initialized. For example:
+<div dir="ltr">
 
 ```js
 function createPerson(name, age) {
@@ -61,10 +65,36 @@ function createPerson(name, age) {
     };
 }
 ```
+</div>
 
-The `createPerson()` function creates an object whose property names are the same as the function parameter names. The result appears to be duplication of `name` and `age` even though one is the name of an object property while the other provides the value for that property. The key `name` in the returned object is assigned the value contained in the variable `name`, and the key `age` in the returned object is assigned the value contained in the variable `age`.
+הפונקציה
+<span dir="ltr">`createPerson()`</span>
+מייצרת אוביקט ששמות תכונותיו זהים לשמות הפרמטרים של הפונקציה. 
+ניתן לראות כפילות עבור  התכונות
+`name` 
+ו
+`age`,
+למרות שהמופע הראשון הינו שם התכונה והשני הינו ערכה.
+המזהה
+`name`
+באוביקט שנוצר מקבל את הערך של המשתנה
+`name`,
+והמזהה
+`age` 
+מקבל את הערך של המשתנה
+`age`.
 
-In ECMAScript 6, you can eliminate the duplication that exists around property names and local variables by using the *property initializer* shorthand. When an object property name is the same as the local variable name, you can simply include the name without a colon and value. For example, `createPerson()` can be rewritten for ECMAScript 6 as follows:
+ב
+ECMAScript 6,
+ניתן לייתר את הכפילות עבור שמות תכונות ושמות משתנים בעזרת שימוש בתחביר מקוצר בשם 
+*מאתחל התכונות*
+(*property initializer*).
+כאשר שם התכונה זהה לשם המשתנה הלוקאלי, ניתן לכתוב את השם ללא סימון נקודותיים וערך.
+לדוגמה, את הפונקציה 
+<span dir="ltr">`createPerson()`</span>
+ניתן לכתוב מחדש כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 function createPerson(name, age) {
@@ -74,10 +104,20 @@ function createPerson(name, age) {
     };
 }
 ```
+</div>
 
-When a property in an object literal only has a name, the JavaScript engine looks into the surrounding scope for a variable of the same name. If it finds one, that variable's value is assigned to the same name on the object literal. In this example, the object literal property `name` is assigned the value of the local variable `name`.
+כאשר תוכנה של אוביקט ליטראל מכילה רק שם, מנוע ג׳אווהסקריפט מחפש בסביבתו משתנה בעל אותו שם. 
+במידה ונמצא משתנה כזה, ערכו מושם לתכונה בעלת אותו שם בתוך האוביקט.
+בדוגמה לעיל, התכונה
+`name` 
+באוביקט שנוצר מקבלת את ערכו של המשתנה  
+`name`.
 
-This extension makes object literal initialization even more succinct and helps to eliminate naming errors. Assigning a property with the same name as a local variable is a very common pattern in JavaScript, making this extension a welcome addition.
+הרחבה זו מאפשרת כתיבת אוביקט ליטראל בצורה יותר מתומצתת ומפחיתה שגיאות במתן שמות. 
+השמת ערך משתנה לתכונה בעלת אותו שם היא טכניקה נפוצה, ומכאן שימושיות ההרחבה התחבירית החדשה.
+
+</div>
+
 
 ### Concise Methods
 
