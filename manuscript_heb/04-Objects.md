@@ -5,12 +5,11 @@ ECMAScript 6
 שמה דגש כבד על ייעול השימוש באוביקטים. יש בזה הגיון רב מאחר וכמעט כל ערך בג׳אווהסקריפט הינו סוג מסוים של אוביקט. בנוסף, מספר האוביקטים אשר מופיע בתוכנת ג׳אווהסקריפט ממוצעת ממשיך לגדול ככל שמורכבותן של אפליקציות ג׳אווהסקריפט גדלה. משמעות הדבר היא שתוכנות קיימות מייצרות אוביקטים נוספים כל הזמן. בד בבד עם הוספת אוביקטים מגיע הצורך להשתמש בהם באופן יעיל יותר.
 
 ECMAScript 6
-משפר את השימוש באוביקטים במספר דרכים, החל משינויי תחביר פשוטים ועד לדרכים חדשות לשנות אותם.
+משפרת את השימוש באוביקטים במספר דרכים, החל משינויי תחביר פשוטים ועד לדרכים חדשות לשנות אותם.
 
 ## קטגוריות של אוביקטים
 
-
-ג׳אווהסקריפט משתמש בערב רב של טרמינולוגיה על מנת לתאר אוביקטים אשר מופיעים בשפה עצמה, בניגוד לאלו שמתווספים לסביבת ההרצה כמו שיש בדפדפן או ב 
+ג׳אווהסקריפט משתמשת בערב רב של טרמינולוגיה על מנת לתאר אוביקטים אשר מופיעים בשפה, בניגוד לאלו שמתווספים לסביבת ההרצה כמו שיש בדפדפן או ב 
 Node.js,
  המפרט עבור
 ECMAScript 6
@@ -311,17 +310,41 @@ ECMAScript 6
 `Object`
 הגלובלי שנועדו לפשט ביצוע משימות מסוימות.
 
-</div>
+### מתודת Object.is
+כאשר משווים שני ערכים בג׳אווהסקריפט משתמשים בד״כ באופרטור
+(`==`)
+או לצורך השוואה עמוקה יותר - בסימן 
+(`===`).
+מפתחים רבים מעדיפים את האחרון, כדי להימנע מהשוואה בין סוגים שונים 
+(type coercion).
+גם השוואה עמוקה אינה מדויקת בכל המקרים.
+כך למשל הערכים
++0
+ו 
+-0
+נחשבים לזהים בעת שימוש באופרטור
+`===`, 
+אף על פי שהם מיוצגים בצורה שונה בתוך מנוע ריצה של ג׳אווהסקריפט.
+כמו כן, ההשוואה 
+`NaN === NaN`
+מחזירה את הערך 
+`false`, 
+ומכאן הצורך להשתמש בפונקציה הגלובלית
+<span dir="ltr">`isNaN()`</span>
+על מנת לזהות את הערך 
+`NaN`.
 
+ECMAScript 6 
+הוסיפה את המתודה
+<span dir="ltr">`Object.is()`</span>
+כדי לתת מענה למוזרויות השונות של סימן ההשוואה העמוקה.
+המתודה מקבלת שני ארגומנטים ומחזירה את הערך 
+`true`
+במידה והערכים להשוואה זהים.
+שני ערכים נחשבים זהים כאשר הם מאותו סוג ומאותו ערך.
+להלן מספר דוגמאות:
 
-
-One of the design goals of ECMAScript beginning with ECMAScript 5 was to avoid creating new global functions or methods on `Object.prototype`, and instead try to find objects on which new methods should be available. As a result, the `Object` global has received an increasing number of methods when no other objects are more appropriate. ECMAScript 6 introduces a couple new methods on the `Object` global that are designed to make certain tasks easier.
-
-### The Object.is() Method
-
-When you want to compare two values in JavaScript, you're probably used to using either the equals operator (`==`) or the identically equals operator (`===`). Many developers prefer the latter, to avoid type coercion during comparison. But even the identically equals operator isn't entirely accurate. For example, the values +0 and -0 are considered equal by `===` even though they are represented differently in the JavaScript engine. Also `NaN === NaN` returns `false`, which necessitates using `isNaN()` to detect `NaN` properly.
-
-ECMAScript 6 introduces the `Object.is()` method to make up for the remaining quirks of the identically equals operator. This method accepts two arguments and returns `true` if the values are equivalent. Two values are considered equivalent when they are of the same type and have the same value. Here are some examples:
+<div dir="ltr">
 
 ```js
 console.log(+0 == -0);              // true
@@ -339,8 +362,30 @@ console.log(5 === "5");             // false
 console.log(Object.is(5, 5));       // true
 console.log(Object.is(5, "5"));     // false
 ```
+</div>
 
-In many cases, `Object.is()` works the same as the `===` operator. The only differences are that +0 and -0 are considered not equivalent and `NaN` is considered equivalent to `NaN`. But there's no need to stop using equality operators altogether. Choose whether to use `Object.is()` instead of `==` or `===` based on how those special cases affect your code.
+לרוב, המתודה
+<span dir="ltr">`Object.is()`</span>
+תעבוד באופן זהה לאופרטור 
+`===`.
+ההבדלים היחידים הם שהערכים
++0 
+ו 
+-0
+נחשבים שונים והערך 
+`NaN`
+זהה ל
+`NaN`.
+אך אין זה אומר שיש להימנע משימוש באופרטורי השוואה.
+הבחירה בין השימוש בשיטת
+<span dir="ltr">`Object.is()`</span>
+במקום אופרטור
+`==`
+או אופרטור
+`===`
+תלויה באותם מקרים המושפעים בשוני בין השיטות ובדרך בה הוא משפיע על הקוד שלך.
+
+</div>
 
 ### The Object.assign() Method
 
