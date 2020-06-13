@@ -385,11 +385,17 @@ console.log(Object.is(5, "5"));     // false
 `===`
 תלויה באותם מקרים המושפעים בשוני בין השיטות ובדרך בה הוא משפיע על הקוד שלך.
 
-</div>
+### מתודת Object.assign
+טכניקת
+*מיקסין*
+(*Mixins*)
+הינה שיטה נפוצה לבניית אוביקטים בג׳אווהסקריפט.
+בעזרת מיקסין, אוביקט אחד מקבל תכונות ושיטות
+(properties and methods)
+מאוביקט אחר.
+ספריות רבות משתמשות בטכניקה דומה לזו שבדוגמה הבאה:
 
-### The Object.assign() Method
-
-*Mixins* are among the most popular patterns for object composition in JavaScript. In a mixin, one object receives properties and methods from another object. Many JavaScript libraries have a mixin method similar to this:
+<div dir="ltr">
 
 ```js
 function mixin(receiver, supplier) {
@@ -400,8 +406,20 @@ function mixin(receiver, supplier) {
     return receiver;
 }
 ```
+</div>
 
-The `mixin()` function iterates over the own properties of `supplier` and copies them onto `receiver` (a shallow copy, where object references are shared when property values are objects). This allows the `receiver` to gain new properties without inheritance, as in this code:
+הפונקציה
+<span dir="ltr">`mixin()`</span>
+עוברת על התכונות של
+`supplier`
+ומעתיקה אותם אל
+`receiver`
+(מה שנקרא ״עותק שטחי״, שבו תכונות שערכיהם הינם אוביקטים משותפים).
+בצורה זו מתאפשר ל 
+`receiver`
+לקבל תכונות חדשות ללא שימוש בהורשה, כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 function EventTarget() { /*...*/ }
@@ -416,14 +434,71 @@ mixin(myObject, EventTarget.prototype);
 
 myObject.emit("somethingChanged");
 ```
+</div>
 
-Here, `myObject` receives behavior from the `EventTarget.prototype` object. This gives `myObject` the ability to publish events and subscribe to them using the `emit()` and `on()` methods, respectively.
+בדוגמה לעיל, האוביקט
+`myObject`
+מעתיק התנהגות מתוך האוביקט
+`EventTarget.prototype`.
+על ידי זאת 
+`myObject` 
+יכול כעת לשדר אירועים ולהירשם אליהם באמצעות שימוש במתודות
+<span dir="ltr">`emit()`</span>
+ו
+<span dir="ltr">`on()`</span>
+בהתאמה.
 
-This pattern became popular enough that ECMAScript 6 added the `Object.assign()` method, which behaves the same way, accepting a receiver and any number of suppliers, and then returning the receiver. The name change from `mixin()` to `assign()` reflects the actual operation that occurs. Since the `mixin()` function uses the assignment operator (`=`), it cannot copy accessor properties to the receiver as accessor properties. The name `Object.assign()` was chosen to reflect this distinction.
+טכניקה זו הייתה כה נפוצה שבגרסת
+ECMAScript 6
+הוסיפו את מתודת
+<span dir="ltr">`Object.assign()`</span>,
+שמתנהגת באותה הצורה, ומקבלת כארגומנטים אוביקט ״מקבל״ ואז אוסף של ״ספקים״ ומחזיר את המקבל.
+שינוי השם
+<span dir="ltr">`assign()`</span>,
+במקום
+<span dir="ltr">`mixin()`</span>,
+נועד לשקף את הפעולה שמתבצעת. 
+מאחר והפונקציה
+<span dir="ltr">`mixin()`</span>,
+משתמשת באופרטור ההשמה
+(`=`), 
+היא לא יכולה להעתיק תכונות מסוג תכונות גישה
+(accessor properties, e.g `getters`)
+למקבל בתור תכונות גישה. רק בתור הערך שלהן.
+השם 
+<span dir="ltr">`Object.assign()`</span>,
+נועד לשקף את ההבחנה בין המצבים.
 
-I> Similar methods in various libraries may have other names for the same basic functionality; popular alternates include the `extend()` and `mix()` methods. There was also, briefly, an `Object.mixin()` method in ECMAScript 6 in addition to the `Object.assign()` method. The primary difference was that `Object.mixin()` also copied over accessor properties, but the method was removed due to concerns over the use of `super` (discussed in the "Easy Prototype Access with Super References" section of this chapter).
+I> מתודות דומות בספריות שונות משתמשות בשמות שונים עבור אותה התנהגות בסיסית. אלטרנטיבות נפוצות כוללות את
+המתודות
+<span dir="ltr">`extend()`</span>
+ו-
+<span dir="ltr">`mix()`</span>.
+לזמן קצר התקיימה גם מתודה בשם
+<span dir="ltr">`Object.mixin()`</span>,
+עבור גרסת
+ECMAScript 6
+בנוסף למתודה
+<span dir="ltr">`Object.assign()`</span>.
+ההבדל העיקרי היה ש
+<span dir="ltr">`Object.mixin()`</span>
+העתיקה תכונות מסוג תכונות גישה,
+אך המתודה סולקה עקב דאגות הקשורות לשימוש במזהה
+`super`
+(
+אשר יורחב עליו בהמשך בחלק על
+״גישה קלה לפרוטוטייפ באמצעות 
+super" 
+בפרק זה
+)
 
-You can use `Object.assign()` anywhere the `mixin()` function would have been used. Here's an example:
+ניתן להשתמש ב
+<span dir="ltr">`Object.assign()`</span>.
+בכל מקום שבו ניתן היה להשתמש בפונקציה
+<span dir="ltr">`mixin()`</span>.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function EventTarget() { /*...*/ }
@@ -438,8 +513,15 @@ Object.assign(myObject, EventTarget.prototype);
 
 myObject.emit("somethingChanged");
 ```
+</div>
 
-The `Object.assign()` method accepts any number of suppliers, and the receiver receives the properties in the order in which the suppliers are specified. That means the second supplier might overwrite a value from the first supplier on the receiver, which is what happens in this snippet:
+המתודה
+<span dir="ltr">`Object.assign()`</span>
+מקבלת כל מספר של ״ספקים״ ו״המקבל״ מעתיק את התכונות החדש לפי הסדר בו הופיעו הספקים.
+ומכאן, ספק שמופיע בהמשך יכול לדרוס ערך שהגיע מספק מוקדם יותר ברשימה, 
+כפי שקורה בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 var receiver = {};
@@ -457,14 +539,30 @@ Object.assign(receiver,
 console.log(receiver.type);     // "css"
 console.log(receiver.name);     // "file.js"
 ```
+</div>
 
-The value of `receiver.type` is `"css"` because the second supplier overwrote the value of the first.
+הערך של 
+`receiver.type`
+הוא
+`"css"`
+מאחר והספק השני דרס את ערכו של הספק הראשון
 
-The `Object.assign()` method isn't a big addition to ECMAScript 6, but it does formalize a common function found in many JavaScript libraries.
+התוספת של 
+<span dir="ltr">`Object.assign()`</span>
+אינה תוספת גדולה עבור
+ECMAScript 6, 
+אך היא הופכת פונקציה נפוצה בספריות לפונקציה רשמית של השפה. 
+</div>
 
-A> ### Working with Accessor Properties
+A> ### עבודה עם תכונות גישה
 A>
-A> Keep in mind that `Object.assign()` doesn't create accessor properties on the receiver when a supplier has accessor properties. Since `Object.assign()` uses the assignment operator, an accessor property on a supplier will become a data property on the receiver. For example:
+A> חשוב לזכור ש
+A> <span dir="ltr">`Object.assign()`</span>
+A> לא יוצרת תכונות גישה על המקבל כאשר הן מופיעות בספק.
+A> מכיוון ש 
+A> <span dir="ltr">`Object.assign()`</span>
+A> משתמשת באופרטור ההשמה, תכונת גישה בספק תהפוך לתכונת ערך במקבל.
+A> לדוגמה:
 A>
 A> ```js
 A> var receiver = {},
@@ -482,7 +580,21 @@ A> console.log(descriptor.value);      // "file.js"
 A> console.log(descriptor.get);        // undefined
 A> ```
 A>
-A> In this code, the `supplier` has an accessor property called `name`. After using the `Object.assign()` method, `receiver.name` exists as a data property with a value of `"file.js"` because `supplier.name` returned `"file.js"` when `Object.assign()` was called.
+A> בקוד לעיל לאוביקט
+A> `supplier`
+A> יש תכונת גישה בשם
+A> `name`.
+A> לאחר הפעלת המתודה
+A> <span dir="ltr">`Object.assign()`</span>, 
+A>`receiver.name` 
+A> קיים בתור תכונה עם הערך
+A>`"file.js"` 
+A> מכיוון ש
+A> `supplier.name`
+A> החזיר
+A> `"file.js"`
+A> לאחר הקריאה למתודה
+A> `Object.assign()`
 
 ## Duplicate Object Literal Properties
 
