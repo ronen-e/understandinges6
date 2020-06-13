@@ -116,12 +116,17 @@ function createPerson(name, age) {
 הרחבה זו מאפשרת כתיבת אוביקט ליטראל בצורה יותר מתומצתת ומפחיתה שגיאות במתן שמות. 
 השמת ערך משתנה לתכונה בעלת אותו שם היא טכניקה נפוצה, ומכאן שימושיות ההרחבה התחבירית החדשה.
 
-</div>
+### מתודות מקוצרות
 
+ECMAScript 6 
+משפר את צורת הכתיבה עבור יצירת מתודות באוביקט ליטראל.
+בגרסת
+ECMAScript 5
+ולפניה, היה חובה לפרט שם והגדרת פונקציה מלאה כדי להוסיף מתודה לאוביקט.
+לדוגמה:
 
-### Concise Methods
+<div dir="ltr">
 
-ECMAScript 6 also improves the syntax for assigning methods to object literals. In ECMAScript 5 and earlier, you must specify a name and then the full function definition to add a method to an object, as follows:
 
 ```js
 var person = {
@@ -131,8 +136,15 @@ var person = {
     }
 };
 ```
+</div>
 
-In ECMAScript 6, the syntax is made more concise by eliminating the colon and the `function` keyword. That means you can rewrite the previous example like this:
+בגרסת
+ECMAScript 6, 
+התחביר קוצר על ידי סילוק סימון נקודותיים והמילה
+`function`.
+כעת ניתן לכתוב את הדוגמה הקודמת כך:
+
+<div dir="ltr">
 
 ```js
 var person = {
@@ -143,9 +155,38 @@ var person = {
 };
 ```
 
-This shorthand syntax, also called *concise method* syntax, creates a method on the `person` object just as the previous example did. The `sayName()` property is assigned an anonymous function and has all the same characteristics as the ECMAScript 5 `sayName()` function. The one difference is that concise methods may use `super` (discussed later in the "Easy Prototype Access with Super References" section), while the nonconcise methods may not.
+</div>
 
-I> The `name` property of a method created using concise method shorthand is the name used before the parentheses. In the last example, the `name` property for `person.sayName()` is `"sayName"`.
+תחביר מקוצר זה, שנקרא תחביר 
+*מתודה מקוצרת*
+(*concise method*),
+מייצר מתודה על אוביקט
+`person` 
+כמו בדוגמה הקודמת.
+התכונה 
+<span dir="ltr">`sayName()`</span>
+מקבלת בתור ערך פונקציה, ויש לה את כל המאפיינים כמו הפונקציה
+<span dir="ltr">`sayName()`</span>
+בגרסת 
+ECMAScript 5.
+ההבדל היחיד הוא שמתודה מקוצרת יכולה להשתמש במזהה
+`super` 
+(
+אשר יורחב עליו בהמשך בחלק על
+״גישה קלה לפרוטוטייפ באמצעות 
+super" 
+)
+
+I> ערכה של תכונת
+`name` 
+של מתודה שנוצרה באמצעות תחביר מתודה מקוצרת הוא השם שמופיע לפני הסוגריים. בדוגמה האחרונה, ערך תכונת 
+`name` 
+עבור 
+<span dir="ltr">`person.sayName()`</span>
+הוא
+`"sayName"`
+
+</div>
 
 ### Computed Property Names
 
