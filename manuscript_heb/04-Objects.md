@@ -748,13 +748,18 @@ W> עבור לולאת
 ECMAScript 6,
 על ידי הגדרת סדר הספירה באופן ברור, מבטיח שקוד אשר מסתמך על סדר ספירה מסוים יעבוד בצורה תקינה.
 
+## פרוטוטיפ עוצמתי יותר
+פרוטוטיפים
+(Prototypes)
+מהווים את הבסיס להורשה בג׳אווהסקריפט, וגרסת
+ECMAScript 6 
+הוסיפה לו רבות.
+גרסאות מוקדמות של ג׳אווהסקריפט הגבילו בצורה מהותית את היכולת לעבוד איתו.
+אך ככל שהשפה התבגרה ויותר מפתחים למדו להכיר את התנהגותו, התברר שמפתחים רצו שליטה מוגברת על פרוטוטיפים ודרכים קלות יותר לעבוד איתם. כתוצאה מכך
+ECMAScript 6 
+הוסיפה מספר שיפורים לפרוטוטיפ
 
 </div>
-
-
-## More Powerful Prototypes
-
-Prototypes are the foundation of inheritance in JavaScript, and ECMAScript 6 continues to make prototypes more powerful. Early versions of JavaScript severely limited what could be done with prototypes. However, as the language matured and developers became more familiar with how prototypes work, it became clear that developers wanted more control over prototypes and easier ways to work with them. As a result, ECMAScript 6 introduced some improvements to prototypes.
 
 ### Changing an Object's Prototype
 
