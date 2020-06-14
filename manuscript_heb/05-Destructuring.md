@@ -1,6 +1,17 @@
-# Destructuring for Easier Data Access
+<div dir="rtl">
 
-Object and array literals are two of the most frequently used notations in JavaScript, and thanks to the popular JSON data format, they've become a particularly important part of the language. It's quite common to define objects and arrays, and then systematically pull out relevant pieces of information from those structures. ECMAScript 6 simplifies this task by adding *destructuring*, which is the process of breaking a data structure down into smaller parts. This chapter shows you how to harness destructuring for both objects and arrays.
+# פירוק לשם גישה קלה יותר לנתונים
+
+כתיבה מקוצרת של אוביקטים ומערכים מאוד נפוצה בג׳אווהסקריפט, והודות לפורמט הנתונים מסוג
+JSON,
+הפכה לחלק חשוב במיוחד של השפה. כיום אין זה נדיר להגדיר אוביקטים ומערכים ואז למשוך חתיכות מתוך אותם מבני נתונים.
+ECMAScript 6 
+מפשט פעולה זו ע״י הוספת יכולת 
+*פירוק*
+(*destructuring*), 
+שהיא פעולת פירוק מבנה נתונים לחלקים קטנים יותר. פרק זה מראה כיצד לפרק אוביקטים ומערכים.
+
+</div>
 
 ## Why is Destructuring Useful?
 
