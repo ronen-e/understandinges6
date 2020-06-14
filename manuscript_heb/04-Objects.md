@@ -759,13 +759,28 @@ ECMAScript 6
 ECMAScript 6 
 הוסיפה מספר שיפורים לפרוטוטיפ
 
-</div>
+### שינוי פרוטוטיפ עבור אוביקט
 
-### Changing an Object's Prototype
+דרך כלל, הפרוטוטיפ של אוביקט נקבע בעת יצירתו, או באמצעות בנאי (קונסטרקטור) או בעזרת  המתודה
+<span dir="ltr">`Object.create()`</span>.
+המחשבה שפרוטוטיפ של אוביקט אינו משתנה לאחר יצירתו הייתה מן ההנחות הגדולות ביותר של ג׳אווהסקריפט לפני
+ECMAScript 6.
+ECMAScript 5 
+אכן הוסיפה את המתודה
+<span dir="ltr">`Object.getPrototypeOf()`</span> 
+שהחזירה את הפרוטוטיפ של אוביקט נתון, אך לא הייתה קיימת דרך לשנות פרוטוטיפ של אוביקט לאחר יצירתו.
 
-Normally, the prototype of an object is specified when the object is created, via either a constructor or the `Object.create()` method. The idea that an object's prototype remains unchanged after instantiation was one of the biggest assumptions in JavaScript programming through ECMAScript 5. ECMAScript 5 did add the `Object.getPrototypeOf()` method for retrieving the prototype of any given object, but it still lacked a standard way to change an object's prototype after instantiation.
+ECMAScript 6 
+משנה את ההנחה הקודמת על ידי הוספת המתודה
+<span dir="ltr">`Object.setPrototypeOf()`</span>,
+שמאפשרת לנו לשנות את הפרוטוטיפ של כל אוביקט.
+המתודה
+<span dir="ltr">`Object.setPrototypeOf()`</span>,
+מקבלת שני ארגומנטים:
+האוביקט שעבורו יוגדר הפרוטוטיפ והאוביקט שיוגדר כפרוטוטיפ עבור הנ״ל.
+לדוגמה:
 
-ECMAScript 6 changes that assumption by adding the `Object.setPrototypeOf()` method, which allows you to change the prototype of any given object. The `Object.setPrototypeOf()` method accepts two arguments: the object whose prototype should change and the object that should become the first argument's prototype. For example:
+<div dir="ltr">
 
 ```js
 let person = {
@@ -790,10 +805,47 @@ Object.setPrototypeOf(friend, dog);
 console.log(friend.getGreeting());                      // "Woof"
 console.log(Object.getPrototypeOf(friend) === dog);     // true
 ```
+</div>
 
-This code defines two base objects: `person` and `dog`. Both objects have a `getGreeting()` method that returns a string. The object `friend` first inherits from the `person` object, meaning that `getGreeting()` outputs `"Hello"`. When the prototype becomes the `dog` object, `friend.getGreeting()` outputs `"Woof"` because the original relationship to `person` is broken.
+הקוד בדוגמה מגדיר שני אוביקטים בסיסיים:
+`person`
+ו
+`dog`.
+לשני האוביקטים מתודה בשם
+<span dir="ltr">`getGreeting()`</span>
+שמחזירה מחרוזת. האוביקט
+`friend`
+תחילה יורש מהאוביקט
+`person`, 
+כלומר - המתודה 
+<span dir="ltr">`getGreeting()`</span>
+תדפיס
+`"Hello"`. 
+כאשר הפרוטוטיפ משתנה לאוביקט
+`dog`
+אזי המתודה
+<span dir="ltr">`friend.getGreeting()`</span>
+תדפיס את המילה
+`"Woof"`
+מכיוון שהקישור לאוביקט
+`person`
+אינו קיים עוד.
 
-The actual value of an object's prototype is stored in an internal-only property called `[[Prototype]]`. The `Object.getPrototypeOf()` method returns the value stored in `[[Prototype]]` and `Object.setPrototypeOf()` changes the value stored in `[[Prototype]]`. However, these aren't the only ways to work with the value of `[[Prototype]]`.
+הקישור האמיתי עבור פרוטוטיפ כלשהו מצוי בתוך תכונה פנימית פרטית שנקראת
+`[[Prototype]]`.
+המתודה 
+<span dir="ltr">`Object.getPrototypeOf()`</span> 
+מחזירה את ערכה של
+`[[Prototype]]` 
+והמתודה
+<span dir="ltr">`Object.setPrototypeOf()`</span>
+משנה את ערכה של
+`[[Prototype]]`.
+ואולם, אלו אינן הדרכים היחידות לעבוד עם הערך השמור בתוך
+`[[Prototype]]`.
+
+
+</div>
 
 ### Easy Prototype Access with Super References
 
