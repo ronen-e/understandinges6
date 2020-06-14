@@ -656,7 +656,6 @@ ECMAScript 6
 
 <div dir="ltr">
 
-
 ```js
 "use strict";
 
@@ -675,19 +674,33 @@ console.log(person.name);       // "Greg"
 `"Greg"` 
 מאחר וזהו הערך האחרון עבור אותה תכונה.
 
-</div>
+## סדר ספירה של תכונות עצמיות 
 
-## Own Property Enumeration Order
+ECMAScript 5 
+לא הגדירה את סדר הספירה
+(enumeration order)
+עבור תכונות של אוביקט, והשאירה זאת לשיקול דעתו של יצרן מנוע הריצה של ג׳אווהסקריפט.
+לעומת זאת
+ECMAScript 6
+מגדירה באופן ברור את הסדר לפיו תכונות מוחזרות בעת ספירתן. זה משפיע על האופן בה תכונות מוחזרות בעת שימוש ב
+<span dir="ltr">`Object.getOwnPropertyNames()`</span>
+ו
+<span dir="ltr">`Reflect.ownKeys()`</span>
+(עליו יורחב בפרק 12).
+זה גם משפיע על הסדר לפיו תכונות מטופלות בעת קריאה למתודה
+<span dir="ltr">`Object.assign()`</span>.
 
-ECMAScript 5 didn't define the enumeration order of object properties, as it left this up to the JavaScript engine vendors. However, ECMAScript 6 strictly defines the order in which own properties must be returned when they are enumerated. This affects how properties are returned using `Object.getOwnPropertyNames()` and `Reflect.ownKeys` (covered in Chapter 12). It also affects the order in which properties are processed by `Object.assign()`.
+סדר הספירה עבור תכונות עצמיות
+(own properties)
+הוא:
 
-The basic order for own property enumeration is:
+1. כל המפתחות הנומריים בסדר עולה
+2. כל המפתחות מסוג מחרוזת (סטרינג) בסדר לפיו הוסיפו אותם לאוביקט
+3. כל המפתחות מסוג סמל (סימבול) בסדר לפיו הוסיפו אותם לאוביקט
 
-1. All numeric keys in ascending order
-2. All string keys in the order in which they were added to the object
-3. All symbol keys (covered in Chapter 6) in the order in which they were added to the object
+להלן דוגמה:
 
-Here's an example:
+<div dir="ltr">
 
 ```js
 var obj = {
@@ -703,12 +716,41 @@ obj.d = 1;
 
 console.log(Object.getOwnPropertyNames(obj).join(""));     // "012acbd"
 ```
+</div>
 
-The `Object.getOwnPropertyNames()` method returns the properties in `obj` in the order `0`, `1`, `2`, `a`, `c`, `b`, `d`. Note that the numeric keys are grouped together and sorted, even though they appear out of order in the object literal. The string keys come after the numeric keys and appear in the order that they were added to `obj`. The keys in the object literal itself come first, followed by any dynamic keys that were added later (in this case, `d`).
+המתודה
+<span dir="ltr">`Object.getOwnPropertyNames()`</span>
+מחזירה את התכונות של 
+`obj`
+לפי הסדר הבא:
+`0`, `1`, `2`, `a`, `c`, `b`, `d`.
+שימו לב שהמפתחות הנומריים מקובצים יחד וממוינים, אף על פי שבעת כתיבת האוביקט ליטראל הם אינם באותו סדר. 
+המפתחות מסוג מחרוזת מופיעים לאחר המפתחות הנומריים ובסדר שבו נכתבו.
+המפתחות שהוגדרו בעת הגדרת האוביקט באים קודם, ואחריהם יופיעו מפתחות דינמיים שנכתבו מאוחר יותר
+(
+במקרה זה המפתח
+`d`
+).
 
-W> The `for-in` loop still has an unspecified enumeration order because not all JavaScript engines implement it the same way. The `Object.keys()` method and `JSON.stringify()` are both specified to use the same (unspecified) enumeration order as `for-in`.
+W> עבור לולאת
+`for-in`
+עדיין קיים סדר ספירה לא מוגדר
+מכיוון שלא כל מנועי הריצה של ג׳אווהסקריפט מפעילים אותה באופן זהה.
+המתודות
+<span dir="ltr">`Object.keys()`</span>
+ו
+<span dir="ltr">`JSON.stringify()`</span>
+עובדות גם הן כמו לולאת 
+`for-in`
+בסדר ספירה לא מוגדר.
 
-While enumeration order is a subtle change to how JavaScript works, it's not uncommon to find programs that rely on a specific enumeration order to work correctly. ECMAScript 6, by defining the enumeration order, ensures that JavaScript code relying on enumeration will work correctly regardless of where it is executed.
+בעוד שסדר ספירה מוגדר מהווה שינוי עדין בשפה, אין זה נדיר למצוא תוכנות אשר מסתמכות על סדר ספירה מסוים בעת פעולתן.
+ECMAScript 6,
+על ידי הגדרת סדר הספירה באופן ברור, מבטיח שקוד אשר מסתמך על סדר ספירה מסוים יעבוד בצורה תקינה.
+
+
+</div>
+
 
 ## More Powerful Prototypes
 
