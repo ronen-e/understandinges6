@@ -844,12 +844,16 @@ console.log(Object.getPrototypeOf(friend) === dog);     // true
 ואולם, אלו אינן הדרכים היחידות לעבוד עם הערך השמור בתוך
 `[[Prototype]]`.
 
+### גישה קלה לפרוטוטיפ בעזרת super
+כפי שהוזכר קודם, לפרוטוטיפים תפקיד חשוב בג׳אווהסקריפט ועבודה רבה נעשתה כדי להקל על השימוש בם בגרסת
+ECMAScript 6.
+שיפור נוסף היה יצירת מצביעים בשם
+`super`,
+שמאפשרים גישה נוחה יותר לפרוטוטיפ.
+לפני כן, אם היינו רוצים לדרוס מתודה על אוביקט כך שהיא תקרא למתודה באותו שם של הפרוטוטיפ,
+היינו עושים את הדבר הבא:
 
-</div>
-
-### Easy Prototype Access with Super References
-
-As previously mentioned, prototypes are very important for JavaScript and a lot of work went into making them easier to use in ECMAScript 6. Another improvement is the introduction of `super` references, which make accessing functionality on an object's prototype easier. For example, to override a method on an object instance such that it also calls the prototype method of the same name, you'd do the following:
+<div dir="ltr">
 
 ```js
 let person = {
@@ -882,21 +886,68 @@ console.log(friend.getGreeting());                      // "Woof, hi!"
 console.log(Object.getPrototypeOf(friend) === dog);     // true
 ```
 
-In this example, `getGreeting()` on `friend` calls the prototype method of the same name. The `Object.getPrototypeOf()` method ensures the correct prototype is called, and then an additional string is appended to the output. The additional `.call(this)` ensures that the `this` value inside the prototype method is set correctly.
+</div>
 
-Remembering to use `Object.getPrototypeOf()` and `.call(this)` to call a method on the prototype is a bit involved, so ECMAScript 6 introduced `super`. At its simplest, `super` is a pointer to the current object's prototype, effectively the `Object.getPrototypeOf(this)` value. Knowing that, you can simplify the `getGreeting()` method as follows:
+בדוגמה לעיל,
+המתודה
+<span dir="ltr">`friend.getGreeting()`</span>
+קוראת למתודה באותו שם הקיימת על הפרוטוטיפ.
+המתודה
+<span dir="ltr">`Object.getPrototypeOf()`</span> 
+דואגת לקרוא לפרוטוטיפ הנכון ולהוסיף מחרוזת לפלט.
+התוספת של 
+<span dir="ltr">`.call(this)`</span> 
+דואגת שהערך של 
+`this`
+בתוך המתודה של הפרוטוטיפ יהיה הנכון.
+
+לקרוא למתודה של פרוטוטיפ  על ידי שימוש ב
+<span dir="ltr">`Object.getPrototypeOf()`</span> 
+ו
+<span dir="ltr">`.call(this)`</span> 
+יכול להיות מורכב ומעיק לכתיבה, ולכן 
+ECMAScript 6 
+הוסיפה את
+`super`.
+מבחינה עקרונית,
+
+הינו מצביע
+(pointer)
+לפרוטוטיפ הנוכחי עבור אוביקט,
+למעשה הוא משמש כצורה מקוצרת של
+<span dir="ltr">`Object.getPrototypeOf(this)`</span>.
+אפשר לכתוב את
+<span dir="ltr">`getGreeting()`</span>
+כך:
+
+<div dir="ltr">
 
 ```js
 let friend = {
     getGreeting() {
-        // in the previous example, this is the same as:
+        // עושה את אותה פעולה כמו בדוגמה הקודמת עבור
         // Object.getPrototypeOf(this).getGreeting.call(this)
         return super.getGreeting() + ", hi!";
     }
 };
 ```
+</div>
 
-The call to `super.getGreeting()` is the same as `Object.getPrototypeOf(this).getGreeting.call(this)` in this context. Similarly, you can call any method on an object's prototype by using a `super` reference, so long as it's inside a concise method. Attempting to use `super` outside of concise methods results in a syntax error, as in this example:
+הקריאה ל
+<span dir="ltr">`super.getGreeting()`</span>
+עושה כאן את אותו הדבר כמו
+<span dir="ltr">`Object.getPrototypeOf(this).getGreeting.call(this)`</span>.
+באופן דומה ניתן לקרוא לכל מתודה של פרוטוטיפ באמצעות
+`super`
+כל עוד הוא בתוך מתודה מקוצרת
+(concise method).
+ניסיון לקרוא ל
+`super`
+מחוץ למתודה מקוצרת זורק שגיאת תחביר
+(syntax error)
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let friend = {
@@ -906,10 +957,20 @@ let friend = {
     }
 };
 ```
+</div>
 
-This example uses a named property with a function, and the call to `super.getGreeting()` results in a syntax error because `super` is invalid in this context.
+הדוגמה לעיל משתמשת בתכונה שערכה הוא פונקציה, והקריאה ל
+<span dir="ltr">`super.getGreeting()`</span>
+זורקת שגיאה תחבירית מפני ש
+`super`
+אינו תקין בהקשר הזה.
+`super`
+מראה את כוחו כאשר יש רמות מרובות של ירושה, שכן, 
+<span dir="ltr">`Object.getPrototypeOf()`</span>.
+אינו פועל כמצופה בכל המקרים.
+לדוגמה:
 
-The `super` reference is really powerful when you have multiple levels of inheritance, because in that case, `Object.getPrototypeOf()` no longer works in all circumstances. For example:
+<div dir="ltr">
 
 ```js
 let person = {
@@ -934,10 +995,39 @@ console.log(person.getGreeting());                  // "Hello"
 console.log(friend.getGreeting());                  // "Hello, hi!"
 console.log(relative.getGreeting());                // error!
 ```
+</div>
 
-The call to `Object.getPrototypeOf()` results in an error when `relative.getGreeting()` is called. That's because `this` is `relative`, and the prototype of `relative` is the `friend` object. When `friend.getGreeting().call()` is called with `relative` as `this`, the process starts over again and continues to call recursively until a stack overflow error occurs.
+הקריאה ל
+<span dir="ltr">`Object.getPrototypeOf()`</span>.
+גורמת לשגיאה כאשר קוראים למתודה
+<span dir="ltr">`relative.getGreeting()`</span>.
+זה קורה מפני ש
+`this` 
+מצביע על
+`relative`,
+והפרוטוטיפ של 
+`relative`
+הינו 
+`friend`.
+כאשר
+<span dir="ltr">`friend.getGreeting().call()`</span>
+נקראת בזמן ש
+`this` 
+מצביע על
+`relative`,
+התהליך מתחיל מחדש וממשיך לקרוא לפונקציה באופן רקורסיבי עד שמתקבלת שגיאת מחסנית
+(stack overflow).
 
-That problem is difficult to solve in ECMAScript 5, but with ECMAScript 6 and `super`, it's easy:
+אין פתרון פשוט לבעיה בגרסת 
+
+אך בגרסת
+ECMAScript 6 
+בעזרת 
+`super`, 
+זה מאוד פשוט:
+
+
+<div dir="ltr">
 
 ```js
 let person = {
@@ -963,7 +1053,19 @@ console.log(friend.getGreeting());                  // "Hello, hi!"
 console.log(relative.getGreeting());                // "Hello, hi!"
 ```
 
-Because `super` references are not dynamic, they always refer to the correct object. In this case, `super.getGreeting()` always refers to `person.getGreeting()`, regardless of how many other objects inherit the method.
+</div>
+
+`super`
+אינו נקבע באופן דינמי ולכן תמיד יצביע לאוביקט הנכון. 
+במקרה שלנו, 
+<span dir="ltr">`super.getGreeting()`</span>
+תמיד מפנה ל
+<span dir="ltr">`person.getGreeting()`</span>,
+ללא קשר למספר האוביקטים שיורשים את המתודה.
+
+
+</div>
+
 
 ## A Formal Method Definition
 
