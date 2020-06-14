@@ -1063,32 +1063,71 @@ console.log(relative.getGreeting());                // "Hello, hi!"
 <span dir="ltr">`person.getGreeting()`</span>,
 ללא קשר למספר האוביקטים שיורשים את המתודה.
 
+## הגדרה רשמית עבור מתודה
 
-</div>
+עד גרסת
+ECMAScript 6, 
+המושג ״מתודה״ לא הוגדר בצורה רשמית. 
+מתודות היו תכונות של אוביקט שערכן היה פונקציה.
+ECMAScript 6
+מגדיר מתודה בצורה רשמית כפונקציה בעלת תכונה פנימית בשם
+`[[HomeObject]]` 
+שמצביעה על האוביקט אליו שייכת המתודה.
+לדוגמה:
 
-
-## A Formal Method Definition
-
-Prior to ECMAScript 6, the concept of a "method" wasn't formally defined. Methods were just object properties that contained functions instead of data. ECMAScript 6 formally defines a method as a function that has an internal `[[HomeObject]]` property containing the object to which the method belongs. Consider the following:
+<div dir="ltr">
 
 ```js
 let person = {
 
-    // method
+    // מתודה
     getGreeting() {
         return "Hello";
     }
 };
 
-// not a method
+// לא מתודה
 function shareGreeting() {
     return "Hi!";
 }
 ```
+</div>
 
-This example defines `person` with a single method called `getGreeting()`. The `[[HomeObject]]` for `getGreeting()` is `person` by virtue of assigning the function directly to an object. The `shareGreeting()` function, on the other hand, has no `[[HomeObject]]` specified because it wasn't assigned to an object when it was created. In most cases, this difference isn't important, but it becomes very important when using `super` references.
+הדוגמה לעיל מגדירה אוביקט
+`person` 
+בעל מתודה אחת בשם
+<span dir="ltr">`ֿgetGreeting()`</span>.
+הערך המושם בתוך
+`[[HomeObject]]`
+עבור המתודה
+<span dir="ltr">`ֿgetGreeting()`</span>.
+הינו
+`person` 
+מתוקף שיוך הפונקציה לאוביקט.
+מצד שני,
+הפונקציה
+<span dir="ltr">`shareGreeting()`</span>
+אינה בעלת ערך עבור התכונה הפנימית
+`[[HomeObject]]`
+מאחר והיא לא שויכה לאוביקט בזמן הגדרתה.
+ברוב המקרים ההבדל אינו חשוב, אך הופך לחשוב ביותר כאשר משתמשים ב
+`super`.
 
-Any reference to `super` uses the `[[HomeObject]]` to determine what to do. The first step is to call `Object.getPrototypeOf()` on the `[[HomeObject]]` to retrieve a reference to the prototype. Then, the prototype is searched for a function with the same name. Last, the `this` binding is set and the method is called. Here's an example:
+`super`
+משתמש בתכונה הפנימית
+`[[HomeObject]]`.
+השלב הראשון הינו לקרוא למתודה
+<span dir="ltr">`Object.getPrototypeOf()`</span>
+על הערך של
+`[[HomeObject]]`
+כדי לקבל את הפרוטוטיפ. 
+לאחר מכן מחפשים עליו פונקציה בעלת אותו השם.
+בסוף, נקבע הערך של-
+`this` 
+והמתודה נקראת.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let person = {
@@ -1107,8 +1146,28 @@ Object.setPrototypeOf(friend, person);
 
 console.log(friend.getGreeting());  // "Hello, hi!"
 ```
+</div>
 
-Calling `friend.getGreeting()` returns a string, which combines the value from `person.getGreeting()` with `", hi!"`. The `[[HomeObject]]` of `friend.getGreeting()` is `friend`, and the prototype of `friend` is `person`, so `super.getGreeting()` is equivalent to `person.getGreeting.call(this)`.
+הקריאה למתודה
+<span dir="ltr">`friend.getGreeting()`</span>
+מחזירה מחרוזת שמשלבת את הערך המוחזר מקריאת
+<span dir="ltr">`person.getGreeting()`</span>
+יחד עם המחרוזת
+`", hi!"`.
+ערך התכונה הפנימית
+`[[HomeObject]]`
+של
+<span dir="ltr">`friend.getGreeting()`</span>
+הוא
+`friend`
+והפרוטוטיפ של
+`friend`
+הוא
+person
+ומכאן
+<span dir="ltr">`super.getGreeting()`</span>
+פועלת כמו
+<span dir="ltr">`person.getGreeting.call(this)`</span>.
 
 ## Summary
 
