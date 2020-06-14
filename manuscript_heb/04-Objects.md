@@ -1169,16 +1169,52 @@ person
 פועלת כמו
 <span dir="ltr">`person.getGreeting.call(this)`</span>.
 
-## Summary
+## סיכום
+אוביקטים מהווים מרכז החיים של מתכנתים בג׳אווהסקריפט,
+וגרסת
+ECMAScript 6 
+הוסיפה מספר תוספות מבורכות לאוביקטים שהופכות את העבודה איתם לקלה יותר ונותנת להם יכולות חדשות.
 
-Objects are the center of programming in JavaScript, and ECMAScript 6 made some helpful changes to objects that both make them easier to deal with and more powerful.
+ECMAScript 6 
+ביצעה מספר שינויים למה שנקרא אוביקט ליטראל.
+הגדרות תכונה מקוצרות מקלות על הגדרת תכונות בעלות שם זהה למשתנים באותה סביבה.
+שמות מחושבים עבור תכונות מאפשרים לנו להגדיר ערכים לא רגילים בתור שמות של תכונות, אגב, יכולת שהייתה קיימת באופן חלקי גם קודם לכן.
+כתיבה קצרה עבור מתודות מאפשרת לך לכתוב פחות קוד על מנת להגדיר מתודה על אוביקט בעזרת השמטת 
+(:)
+ואת המילה
+`function`. 
+ECMAScript 6 
+מגמיש את הבדיקה במצב קשיח עבור כפילות בשם התכונות של אוביקט, כך שאפשר לשייך שתי תכונות בעלות אותו שם עבור אוביקט אחד מבלי לזרוק שגיאה.
 
-ECMAScript 6 makes several changes to object literals. Shorthand property definitions make assigning properties with the same names as in-scope variables easier. Computed property names allow you to specify non-literal values as property names, which you've already been able to do in other areas of the language. Shorthand methods let you type a lot fewer characters in order to define methods on object literals, by completely omitting the colon and `function` keyword. ECMAScript 6 loosens the strict mode check for duplicate object literal property names as well, meaning you can have two properties with the same name in a single object literal without throwing an error.
+המתודה 
+<span dir="ltr">`Object.assign()`</span>
+מקלה על שינוי מספר תכונות באוביקט בו זמנית. זה שיפור יעיל כשמשתמשים בטכניקת מיקסין
+(mixin pattern).
+המתודה 
+<span dir="ltr">`Object.is(()`</span>
+מבצעת בדיקת שוויון עמוק בעבור כל ערך, למעשה היא הופכת לגרסה בטוחה של האופרטור
+`===`
+כאשר מטפלים בערכים מיוחדים של ג׳אווהסקריפט.
 
-The `Object.assign()` method makes it easier to change multiple properties on a single object at once. This can be very useful if you use the mixin pattern. The `Object.is()` method performs strict equality on any value, effectively becoming a safer version of `===` when dealing with special JavaScript values.
+סדר הספירה של תכונות עצמיות מוגדר באופן ברור תחת
+ECMAScript 6.
+כאשר עוברים על תכונות,
+מפתחות נומריים תמיד באים ראשונים בסדר עולה כשבעקבותיהם באים מפתחות מסוג מחרוזת לפי סדר ההוספה ולאחר מכן באים מפתחות מסוג סמלים
+(symbol)
+לפי סדר ההוספה.
 
-Enumeration order for own properties is now clearly defined in ECMAScript 6. When enumerating properties, numeric keys always come first in ascending order followed by string keys in insertion order and symbol keys in insertion order.
+כעת ניתן לשנות את הפרוטוטיפ של אוביקט לאחר יצירתו,
+הודות למתודה
+<span dir="ltr">`Object.setPrototypeOf(()`</span>.
 
-It's now possible to modify an object's prototype after it's already created, thanks to ECMAScript 6's `Object.setPrototypeOf()` method.
+ולבסוף, ניתן להשתמש במילה
+`super` 
+כדי לקרוא למתודות על הפרוטוטיפ של אוביקט נתון.
+הקישור למשתנה
+`this`
+בתוך מתודה אשר נקראת באמצעות
+`super` 
+נקבע באופן אוטומטי לערך הנוכחי של 
+`this`.
 
-Finally, you can use the `super` keyword to call methods on an object's prototype. The `this` binding inside a method invoked using `super` is set up to automatically work with the current value of `this`.
+</div>
