@@ -11,28 +11,47 @@ ECMAScript 6
 (*destructuring*), 
 שהיא פעולת פירוק מבנה נתונים לחלקים קטנים יותר. פרק זה מראה כיצד לפרק אוביקטים ומערכים.
 
-</div>
+## כיצד מועילה לנו פעולת הפירוק?
 
-## Why is Destructuring Useful?
+בגרסת 
+ECMAScript 5
+וקודם לכן,
+הצורך לחלץ נתונים מתוך אוביקטים ומערכים יכול היה להוביל לכתיבה מרובה של קוד כמעט זהה לחלוטין לקודמו, אך ורק בשביל להעביר נתונים מסוימים אל תוך משתנים מקומיים.
+לדוגמה:
 
-In ECMAScript 5 and earlier, the need to fetch information from objects and arrays could lead to a lot of code that looks the same, just to get certain data into local variables. For example:
+<div dir="ltr">
 
 ```js
 let options = {
-        repeat: true,
-        save: false
-    };
+    repeat: true,
+    save: false
+};
 
-// extract data from the object
+// חילוץ נתונים מתוך האוביקט
 let repeat = options.repeat,
     save = options.save;
 ```
 
-This code extracts the values of `repeat` and `save` from the `options` object and stores that data in local variables with the same names. While this code looks simple, imagine if you had a large number of variables to assign; you would have to assign them all one by one. And if there was a nested data structure to traverse to find the information instead, you might have to dig through the entire structure just to find one piece of data.
+</div>
 
-That's why ECMAScript 6 adds destructuring for both objects and arrays. When you break a data structure into smaller parts, getting the information you need out of it becomes much easier. Many languages implement destructuring with a minimal amount of syntax to make the process simpler to use. The ECMAScript 6 implementation actually makes use of syntax you're already familiar with: the syntax for object and array literals.
+הקוד לעיל מחלץ את הערכים
+`repeat`
+ו
+`save` 
+מתוך האוביקט בשם
+`options` 
+ושומר אותם במשתנים מקומיים עם שם זהה. בעוד שהקוד נדמה פשוט, ניתן לשער מה מתרחש כאשר קיים מספר רב של משתנים. 
+במקרה כזה יש צורך לבצע השמה עבור כל אחד ואחד מהם בנפרד, אחד אחרי השני.
+ובמידה והמידע נמצא עמוק בתוך מבנה נתונים פנימי
+(nested data structure)
+היה צורך לסרוק את כל מבנה הנתונים על מנת למצוא נתון אחד.
 
-## Object Destructuring
+מסיבה זו הוסיפו את היכולת לפרק אוביקטים ומערכים בגרסת
+ECMAScript 6.
+כאשר מפרקים מבנה נתונים לחלקים קטנים יותר, הדבר מקל על השגת המבוקש. שפות שונות משתמשות בשיטות פירוק עם תחביר מינימליסטי כדי לפשט את התהליך.
+המימוש של
+ECMAScript 6
+משתמש בתחביר מוכר: זה של כתיבת אוביקטים ומערכים.
 
 Object destructuring syntax uses an object literal on the left side of an assignment operation. For example:
 
