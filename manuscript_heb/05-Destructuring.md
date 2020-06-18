@@ -53,7 +53,10 @@ ECMAScript 6.
 ECMAScript 6
 משתמש בתחביר מוכר: זה של כתיבת אוביקטים ומערכים.
 
-Object destructuring syntax uses an object literal on the left side of an assignment operation. For example:
+## פירוק אוביקטים
+
+התחביר עבור פירוק מערכים משתמש באוביקט ליטראל בצד השמאלי של אופרציית ההשמה. לדוגמה:
+<div dir="ltr">
 
 ```js
 let node = {
@@ -67,11 +70,39 @@ console.log(type);      // "Identifier"
 console.log(name);      // "foo"
 ```
 
-In this code, the value of `node.type` is stored in a variable called `type` and the value of `node.name` is stored in a variable called `name`. This syntax is the same as the object literal property initializer shorthand introduced in Chapter 4. The identifiers `type` and `name` are both declarations of local variables and the properties to read the value from on the `node` object.
+</div>
 
-A> #### Don't Forget the Initializer
+בקוד לעיל, ערכו של 
+`node.type` 
+שמור במשתנה  
+`type` 
+וערכו של 
+`node.name`
+שמור במשתנה  
+`name`.
+צורת הכתיבה זהה לצורה המקוצרת לאתחול תכונה שהופיעה בפרק 4. 
+המזהים
+`type`
+ו- 
+ `name`
+שניהם נחשבים להגדרות משתנים מקומיים,
+כמו גם שמות התכונות שייקראו מתוך אוביקט
+`node`.
+
+A> #### אל תשכחו את אתחול הערך
 A>
-A>When using destructuring to declare variables using `var`, `let`, or `const`, you must supply an initializer (the value after the equals sign). The following lines of code will all throw syntax errors due to a missing initializer:
+A> כאשר משתמשים בפעולת פירוק על מנת להגדיר משתנים מסוג
+A> `var`, `let`, 
+A> או
+A> `const`,
+A> חובה לספק מה שנקרא מאתחל הערך
+A> (initializer),
+A> זהו הערך שבא אחרי סימן ההשוואה
+A> (`=`).
+A> השורות הבאות בקוד יגרמו כולן לזריקת שגיאות תחביר בגלל היעדר מאתחל ערך:
+A>
+A><div dir="ltr">
+A>
 A>
 A>```js
 A>// syntax error!
@@ -83,8 +114,18 @@ A>
 A>// syntax error!
 A>const { type, name };
 A>```
+A></div>
 A>
-A>While `const` always requires an initializer, even when using nondestructured variables, `var` and `let` only require initializers when using destructuring.
+A> בעוד אשר שמשתנה מסוג
+A> `const`
+A> תמיד דורש מאתחל לערך, אפילו בעת הגדרת משתנה רגילה, ולא רק בפירוק, משתנים מסוג
+A> `var` 
+A> ו- 
+A> `let` 
+A> דורשים אתחול לערכם רק בעת פעולת פירוק.
+
+
+</div>
 
 #### Destructuring Assignment
 
