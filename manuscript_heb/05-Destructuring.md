@@ -56,6 +56,7 @@ ECMAScript 6
 ## פירוק אוביקטים
 
 התחביר עבור פירוק מערכים משתמש באוביקט ליטראל בצד השמאלי של אופרציית ההשמה. לדוגמה:
+
 <div dir="ltr">
 
 ```js
@@ -124,12 +125,12 @@ A> ו-
 A> `let` 
 A> דורשים אתחול לערכם רק בעת פעולת פירוק.
 
+#### השמה בפירוק
 
-</div>
+הדוגמאות שהוצגו עד עתה הגדירו משתנים. 
+אך ניתן  לבצע השמה באמצעות פעולת פירוק. כך למשל, ניתן לשנות ערכי משתנים לאחר הגדרתם, כמו בדוגמה הבאה:
 
-#### Destructuring Assignment
-
-The object destructuring examples so far have used variable declarations. However, it's also possible to use destructuring in assignments. For instance, you may decide to change the values of variables after they are defined, as follows:
+<div dir="ltr">
 
 ```js
 let node = {
@@ -139,16 +140,40 @@ let node = {
     type = "Literal",
     name = 5;
 
-// assign different values using destructuring
+// השמת ערכים באמצעות פירוק אוביקט
 ({ type, name } = node);
 
 console.log(type);      // "Identifier"
 console.log(name);      // "foo"
 ```
 
-In this example, `type` and `name` are initialized with values when declared, and then two variables with the same names are initialized with different values. The next line uses destructuring assignment to change those values by reading from the `node` object. Note that you must put parentheses around a destructuring assignment statement. That's because an opening curly brace is expected to a be a block statement, and a block statement cannot appear on the left side of an assignment. The parentheses signal that the next curly brace is not a block statement and should be interpreted as an expression, allowing the assignment to complete.
+</div>
 
-A destructuring assignment expression evaluates to the right side of the expression (after the `=`). That means you can use a destructuring assignment expression anywhere a value is expected. For instance, passing a value to a function:
+בדוגמה לעיל, המשתנים
+`type` 
+ו- 
+`name` 
+מאותחלים עם ערכים בעת הגדרתם ולאחר מכן שני משתנים בעלי אותו שם מאותחלים עם ערכים שונים.
+השורה הבאה משתמשת בהשמה דרך פעולת פירוק
+(destructuring assignment) 
+כדי לשנות את אותם ערכים על ידי קריאת האוביקט 
+`node`. 
+שים לב לסוגריים שחובה לשים מסביב לפעולת הפירוק. 
+הסיבה לכך היא שמבחינת התחביר, סוגרים מסולסלים פותחים
+(`{`)
+נחשבים לתחילת בלוק של קוד
+(block statement). 
+אך בלוק של קוד אינו יכול להופיע בצידה השמאלי של פעולת השמה.
+הסוגרים מסמנים לנו שהסוגרים המסולסלים אינם תחילת בלוק של קוד ויש להתייחס אליהם בתור ביטוי
+(expression), 
+וכך ניתן לבצע את פעולת ההשמה.
+
+פעולת הפירוק מחשבת ומקבלת את ערכו של צדו הימני של הביטוי
+(החלק שלאחר סימן 
+`=`). 
+המשמעות היא שניתן להשתמש בפעולת השמה בעזרת פירוק בכל מקום שבו מצפים לקבל ערך. כך למשל ניתן להעביר ערך אל תוך פונקציה:
+
+<div dir="ltr">
 
 ```js
 let node = {
@@ -168,9 +193,39 @@ console.log(type);      // "Identifier"
 console.log(name);      // "foo"
 ```
 
-The `outputInfo()` function is called with a destructuring assignment expression. The expression evaluates to `node` because that is the value of the right side of the expression. The assignment to `type` and `name` both behave as normal and `node` is passed into `outputInfo()`.
+</div>
 
-W> An error is thrown when the right side of the destructuring assignment expression (the expression after `=`) evaluates to `null` or `undefined`. This happens because any attempt to read a property of `null` or `undefined` results in a runtime error.
+הפונקציה
+<span dir="ltr">`outputInfo()`</span>
+נקראת עם ביטוי השמה על ידי פירוק
+(destructuring assignment expression). 
+הביטוי מקבל את הערך עבור המשתנה
+`node` 
+מכיוון וזה ערך הצד הימני של הביטוי.
+ההשמה עבור המשתנים
+`type` 
+ו- 
+`name` 
+מתבצעת כרגיל והמשתנה
+`node` 
+מועבר כארגומנט לפונקציה
+<span dir="ltr">`outputInfo()`</span>.
+
+W> שגיאה תיזרק במידה וצידו הימני של ביטוי השמה על ידי פירוק
+(החלק שלאחר סימן 
+`=`) 
+מקבלת את הערכים
+`null` 
+או 
+`undefined`.
+זה קורה מכיוון שכל ניסיון לקרוא תכונה בערך מסוג
+`null` 
+או 
+`undefined`
+זורק שגיאת ריצה
+(runtime error).
+</div>
+
 
 #### Default Values
 
