@@ -294,11 +294,17 @@ console.log(value);     // true
 `value` 
 משתמש בערך הדיפולטיבי. זה עובד בצורה דומה לערכי פרמטר דיפולטיביים עבור פונקציות כפי שהוסבר בפרק 3.
 
-</div>
+#### השמה למשתנים בעלי שמות שונים
+עד עתה, כל דוגמה השתמשה בשמות התכונות על האוביקט בתור שמות המשתנים. כך למשך, הערך עבור
+`node.type`
+נשמר במשתנה בשם
+`type`.
+זה טוב כל עוד ברצונכם להשתמש באותו שם, אבל מה אם לא?
+לגרסת
 
-#### Assigning to Different Local Variable Names
+יש צורת תחביר שמאפשר השמת ערכים למשתנים בעלי שם שונה, והתחביר דומה במראהו לזה של אתחול תכונה על אוביקט. לדוגמה:
 
-Up to this point, each example destructuring assignment has used the object property name as the local variable name; for example, the value of `node.type` was stored in a `type` variable. That works well when you want to use the same name, but what if you don't? ECMAScript 6 has an extended syntax that allows you to assign to a local variable with a different name, and that syntax looks like the object literal nonshorthand property initializer syntax. Here's an example:
+<div dir="ltr">
 
 ```js
 let node = {
@@ -311,10 +317,29 @@ let { type: localType, name: localName } = node;
 console.log(localType);     // "Identifier"
 console.log(localName);     // "foo"
 ```
+</div>
 
-This code uses destructuring assignment to declare the `localType` and `localName` variables, which contain the values from the `node.type` and `node.name` properties, respectively. The syntax `type: localType` says to read the property named `type` and store its value in the `localType` variable. This syntax is effectively the opposite of traditional object literal syntax, where the name is on the left of the colon and the value is on the right. In this case, the name is on the right of the colon and the location of the value to read is on the left.
+הקוד בדוגמה משתמש בהשמה ע״י פירוק על מנת להגדיר את המשתנים
+`localType`
+ו-
+ `localName`,
+ שמכילים את ערכי התכונות
+`node.type`
+ו- 
+`node.name`,
+בהתאמה.
+התחביר
+`type: localType`
+מורה על קריאת התכונה בשם 
+`node.type`
+ולשמור את ערכה במשתנה
+`localType`.
+התחביר הנ״ל הינו למעשה ההיפך מהתחביר הרגיל לכתיבת אוביקט ליטראל, שבו שם התכונה נמצא משמאל לסימן הנקודותיים והערך מצידו הימני. במקרה שלנו, שם המשתנה מופיע מימין לסימן הנקודותיים ומיקום הערך על האוביקט נמצא מצידו השמאלי.
 
-You can add default values when using a different variable name, as well. The equals sign and default value are  still placed after the local variable name. For example:
+באפשרותכם להוסיף ערכים דיפולטיביים כאשר משתמשים בשמות שונים.
+סימן ההשוואה והערך הדיפולטיבי עדיין ממוקמים לאחר שם המשתנה. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let node = {
@@ -326,12 +351,24 @@ let { type: localType, name: localName = "bar" } = node;
 console.log(localType);     // "Identifier"
 console.log(localName);     // "bar"
 ```
+</div>
 
-Here, the `localName` variable has a default value of `"bar"`. The variable is assigned its default value because there's no `node.name` property.
+בדוגמה זו, למשתנה
+`localName`
+יש את הערך הדיפולטיבי 
+`"bar"`.
+המשתנה יקבל את הערך הדיפולטיבי מכיוון והתכונה 
+`node.name`
+אינה קיימת.
 
-So far, you've seen how to deal with destructuring of an object whose properties are primitive values. Object destructuring can also be used to retrieve values in nested object structures.
+בינתיים, ראינו כיצד לבצע פירוק לאוביקט שתכונותיו מקבלות ערכים פשוטים. פירוק אוביקטים יכול לשמש כדי לקבל ערכים בתוך אוביקט מקונן
+(nested object structures).
 
 #### Nested Object Destructuring
+
+</div>
+
+
 
 By using a syntax similar to object literals, you can navigate into a nested object structure to retrieve just the information you want. Here's an example:
 
