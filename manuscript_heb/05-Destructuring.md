@@ -455,11 +455,13 @@ A> כדי להגדיר ערך דיפולטיבי ולא להשתמש בסימן
 A> `:` 
 A> שמשמש לקביעת מיקום. ייתכן שתחביר כזה יהיה בלתי תקין בעתיד, אך כרגע יש להיזהר ממנו.
 
-</div>
 
-## Array Destructuring
 
-Array destructuring syntax is very similar to object destructuring; it just uses array literal syntax instead of object literal syntax. The destructuring operates on positions within an array, rather than the named properties that are available in objects. For example:
+## פירוק מערכים
+
+תחביר עבור פירוק מערכים דומה לזה של פירוק אוביקטים. הוא פשוט משתמש בתחביר של כתיבת מערך במקום זה של כתיבת  אוביקט ליטראל. פעולת הפירוק עובדת על מיקומים בתוך המערך במקום לעבוד על תכונות בתוך האוביקט. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let colors = [ "red", "green", "blue" ];
@@ -469,10 +471,23 @@ let [ firstColor, secondColor ] = colors;
 console.log(firstColor);        // "red"
 console.log(secondColor);       // "green"
 ```
+</div>
 
-Here, array destructuring pulls out the values `"red"` and `"green"` from the `colors` array and stores them in  the `firstColor` and `secondColor` variables. Those values are chosen because of their position in the array; the actual variable names could be anything. Any items not explicitly mentioned in the destructuring pattern are ignored. Keep in mind that the array itself isn't changed in any way.
+בדוגמה לעיל, פירוק על המערך מושך את הערכים
+`"red"` 
+ו-
+`"green"`
+מתוך המערך בשם
+`colors`
+ושומר אותם במשתנים
+`firstColor` 
+ו-
+`secondColor`.
+הערכים הללו נבחרו בשל מיקומם בתוך המערך. שמות המשתנים היו יכולים להיות כל שם. כל פריט במערך שאין אליו התייחסות - מתעלמים ממנו. המערך עצמו אינו מושפע מפעולת הפירוק.
 
-You can also omit items in the destructuring pattern and only provide variable names for the items you're interested in. If, for example, you just want the third value of an array, you don't need to supply variable names for the first and second items. Here's how that works:
+ניתן להתעלם מפריטים קיימים בעת הפירוק ולתת שמות רק עבור פריטים שאנו מעוניינים בהם. אם למשל היינו רוצים רק את הערך במיקום השלישי במערך, אין צורך לספק שמות עבור הפריט הראשון והשני. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let colors = [ "red", "green", "blue" ];
@@ -482,9 +497,20 @@ let [ , , thirdColor ] = colors;
 console.log(thirdColor);        // "blue"
 ```
 
-This code uses a destructuring assignment to retrieve the third item in `colors`. The commas preceding `thirdColor` in the pattern are placeholders for the array items that come before it. By using this approach, you can easily pick out values from any number of slots in the middle of an array without needing to provide variable names for them.
+</div>
 
-W> Similar to object destructuring, you must always provide an initializer when using array destructuring with `var`, `let`, or `const`.
+הקוד בדוגמה לעיל משתמש בפעולת פירוק כדי לקבל את הפריט השלישי במערך
+`colors`.
+סימוני הפסיק לפני השם
+`thirdColor` 
+משמשים בתור סמנים לפריטים במערך שבאים לפניו.
+
+W> בדומה לפירוק אוביקטים, חובה לספק מאתחל ערך כאשר מפרקים מערך, על ידי שימוש במזהה מסוג
+`var`, `let`, 
+או
+`const`.
+
+</div>
 
 #### Destructuring Assignment
 
