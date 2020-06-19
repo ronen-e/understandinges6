@@ -361,16 +361,13 @@ console.log(localName);     // "bar"
 `node.name`
 אינה קיימת.
 
-בינתיים, ראינו כיצד לבצע פירוק לאוביקט שתכונותיו מקבלות ערכים פשוטים. פירוק אוביקטים יכול לשמש כדי לקבל ערכים בתוך אוביקט מקונן
+בינתיים, ראינו כיצד לבצע פירוק לאוביקט שתכונותיו מקבלות ערכים פשוטים. פירוק אוביקטים יכול לשמש כדי לקבל ערכים בתוך אוביקט פנימי 
 (nested object structures).
 
-#### Nested Object Destructuring
+#### פירוק עבור אוביקטים פנימיים
+בעזרת כתיבה הדומה לזו של אוביקט ליטראל, ניתן לנווט בתוך אוביקט פנימי על מנת לקבל את הנתונים הרצויים. לדוגמה:
 
-</div>
-
-
-
-By using a syntax similar to object literals, you can navigate into a nested object structure to retrieve just the information you want. Here's an example:
+<div dir="ltr">
 
 ```js
 let node = {
@@ -393,10 +390,19 @@ let { loc: { start }} = node;
 console.log(start.line);        // 1
 console.log(start.column);      // 1
 ```
+</div>
 
-The destructuring pattern in this example uses curly braces to indicate that the pattern should descend into the property named `loc` on `node` and look for the `start` property. Remember from the last section that whenever there's a colon in a destructuring pattern, it means the identifier before the colon is giving a location to inspect, and the right side assigns a value. When there's a curly brace after the colon, that indicates that the destination is nested another level into the object.
+טכניקת הפירוק בקוד בדוגמה לעיל משתמש בסוגריים מסולסלים כדי להורות לפעולת הפירוק לנווט לתכונה בשם
+`loc`
+שבאוביקט
+`node`
+ולתור אחר התכונה
+`start`.
+היכן שקיים סימן נקודותיים באופרציית פירוק, המשמעות שהמזהה לפני הסימן משמש לקביעת המיקום לבדיקה והצד הימני משמש לקביעת הערך. כאשר רואים סוגריים מסולסלים לאחר סימן נקודותיים המשמעות היא שהיעד הסופי הוא פנימי בתוך האוביקט.
 
-You can go one step further and use a different name for the local variable as well:
+ניתן אף לתת שם אחר למשתנה:
+
+<div dir="ltr">
 
 ```js
 let node = {
@@ -420,10 +426,17 @@ let { loc: { start: localStart }} = node;
 console.log(localStart.line);   // 1
 console.log(localStart.column); // 1
 ```
+</div>
 
-In this version of the code, `node.loc.start` is stored in a new local variable called `localStart`. Destructuring patterns can be nested to an arbitrary level of depth, with all capabilities available at each level.
+בדוגמה לעיל, הערך בתוך
+`node.loc.start` 
+שמור במשתנה בשם 
+`localStart`.
+פירוק יכול להתבצע בכל רמת עומק, ובכל רמה גישה מלאה ליכולות המלאות של פעולת הפירוק.
 
-Object destructuring is very powerful and has a lot of options, but array destructuring offers some unique capabilities that allow you to extract information from arrays.
+פירוק אוביקטים היא פעולה עוצמתית בעלת אפשרויות רבות, אך פירוק של מערכים מוסיף מספר יכולות מיוחדות שמאפשרות לחלץ נתונים מתוך מערכים.
+
+</div>
 
 A> #### Syntax Gotcha
 A>
