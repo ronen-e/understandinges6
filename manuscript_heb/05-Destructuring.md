@@ -224,12 +224,17 @@ W> שגיאה תיזרק במידה וצידו הימני של ביטוי השמ
 `undefined`
 זורק שגיאת ריצה
 (runtime error).
-</div>
 
 
-#### Default Values
+#### ערכים דיפולטיביים
 
-When you use a destructuring assignment statement, if you specify a local variable with a property name that doesn't exist on the object, then that local variable is assigned a value of `undefined`. For example:
+כאשר משתמשים בפקודת השמה על ידי פירוק 
+(destructuring assignment statement), 
+אם מציינים משתנה עבור תכונה שאינה קיימת על האוביקט, אזי אותו משתנה מקבל את הערך
+`undefined`.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let node = {
@@ -243,10 +248,22 @@ console.log(type);      // "Identifier"
 console.log(name);      // "foo"
 console.log(value);     // undefined
 ```
+</div>
 
-This code defines an additional local variable called `value` and attempts to assign it a value. However, there is no corresponding `value` property on the `node` object, so the variable is assigned the value of `undefined` as expected.
+הקוד בדוגמה האחרונה מגדיר משתנה בשם
+`value` 
+ומנסה לבצע השמת ערך אליו. ואולם, אין בנמצא תכונה על האוביקט
+`node` 
+באותו שם, ולכן המשתנה מקבל את הערך
+ `undefined` 
+כמצופה.
+`undefined`.
 
-You can optionally define a default value to use when a specified property doesn't exist. To do so, insert an equals sign (`=`) after the property name and specify the default value, like this:
+ניתן להגדיר ערך התחלתי דיפולטיבי עבור תכונה ספציפית שאינה מוגדרת. כדי לעשות זאת יש להשתמש בסימן ההשוואה
+(`=`) 
+לאחר שם התכונה ואז להגדיר את הערך ההתחלתי. כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let node = {
@@ -261,7 +278,23 @@ console.log(name);      // "foo"
 console.log(value);     // true
 ```
 
-In this example, the variable `value` is given `true` as a default value. The default value is only used if the property is missing on `node` or has a value of `undefined`. Since there is no `node.value` property, the variable `value` uses the default value. This works similarly to the default parameter values for functions, as discussed in Chapter 3.
+</div>
+
+בדוגמה זו, המשתנה
+`value` 
+מקבל את הערך
+`true`
+בתור ערך דיפולטיבי. הערך הדיפולטיבי יתקבל רק במידה והתכונה אינה קיימת על האוביקט
+`node` 
+או בעלת ערך
+`undefined`.
+מאחר ואין תכונה מסוג
+`node.value` 
+המשתנה
+`value` 
+משתמש בערך הדיפולטיבי. זה עובד בצורה דומה לערכי פרמטר דיפולטיביים עבור פונקציות כפי שהוסבר בפרק 3.
+
+</div>
 
 #### Assigning to Different Local Variable Names
 
