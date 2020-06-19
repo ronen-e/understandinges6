@@ -436,18 +436,26 @@ console.log(localStart.column); // 1
 
 פירוק אוביקטים היא פעולה עוצמתית בעלת אפשרויות רבות, אך פירוק של מערכים מוסיף מספר יכולות מיוחדות שמאפשרות לחלץ נתונים מתוך מערכים.
 
-</div>
-
-A> #### Syntax Gotcha
+A> #### בעיות תחביר
 A>
-A>Be careful when using nested destructuring because you can inadvertently create a statement that has no effect. Empty curly braces are legal in object destructuring, however, they don't do anything. For example:
+A> יש להיזהר ממצב שבו יוצרים פקודה חסרת משמעות בעת פירוק עמוק. סוגריים מסולסלים ריקים נחשבים לתחביר תקין בעת פירוק אוביקט, אך הינם חסרי משמעות. לדוגמה:
+A>
+A> <div dir="ltr">
 A>
 A>```js
-A>// no variables declared!
+A>// אין הגדרת משתנה!
 A>let { loc: {} } = node;
 A>```
-A>
-A>There are no bindings declared in this statement. Due to the curly braces on the right, `loc` is used as a location to inspect rather than a binding to create. In such a case, it's likely that the intent was to use `=` to define a default value rather than `:` to define a location. It's possible that this syntax will be made illegal in the future, but for now, this is a gotcha to look out for.
+A> </div>
+A> בקוד למעלה לא מתבצע קישור בין תכונה למשתנה. בגלל הסוגריים המסולסלים בצד ימין, השם
+A> `loc` 
+A> משמש לניווט ולא בתור משתנה. במקרה כזה סביר שהכוונה הייתה להשתמש בסימן
+A> `=`
+A> כדי להגדיר ערך דיפולטיבי ולא להשתמש בסימן
+A> `:` 
+A> שמשמש לקביעת מיקום. ייתכן שתחביר כזה יהיה בלתי תקין בעתיד, אך כרגע יש להיזהר ממנו.
+
+</div>
 
 ## Array Destructuring
 
