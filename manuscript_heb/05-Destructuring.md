@@ -726,7 +726,7 @@ ECMAScript 6,
 <div dir="ltr">
 
 ```js
-// cloning an array in ECMAScript 6
+// שכפול מערך באקמהסקריפט 6
 let colors = [ "red", "green", "blue" ];
 let [ ...clonedColors ] = colors;
 
@@ -743,15 +743,13 @@ console.log(clonedColors);      //"[red,green,blue]"
 <span dir="ltr">`concat()`</span>
 זוהי יכולת שימושית שכדאי להכיר.
 
-
 W> פריטים מסוג רסט חייבים להיות הרשומה האחרונה בפעולת הפירוק ואסור שיבוא פסיק אחריה. שימוש בפסיק לאחר הגדרת פריטים מסוג רסט נחשב לשגיאה תחבירית
 
+## פירוק מעורב
 
-</div>
+פירוק אוביקטים ומערכים יכול לעבוד ביחד כדי ליצור ביטויים מורכבים. על ידי כך ניתן לחלץ מתוך מבנה נתונים מסויים אך ורק את הנתונים החשובים לנו מתוך עירוב של אוביקטים ומערכים. לדוגמה:
 
-## Mixed Destructuring
-
-Object and array destructuring can be used together to create more complex expressions. In doing so, you are able to extract just the pieces of information you want from any mixture of objects and arrays. For example:
+<div dir="ltr">
 
 ```js
 let node = {
@@ -780,7 +778,29 @@ console.log(start.column);      // 1
 console.log(startIndex);        // 0
 ```
 
-This code extracts `node.loc.start` and `node.range[0]` into `start` and `startIndex`, respectively. Keep in mind that `loc:` and `range:` in the destructured pattern are just locations that correspond to properties in the `node` object. There is no part of `node` that cannot be extracted using destructuring when you use a mix of object and array destructuring. This approach is particularly useful for pulling values out of JSON configuration structures without navigating the entire structure.
+</div>
+
+הקוד לעיל מבצע השמה של הערכים
+<span dir="ltr">`node.loc.start`</span>
+ו-
+<span dir="ltr">`node.range[0]`</span>
+למשתנים
+`start`
+ו-
+`startIndex`,
+בהתאמה.
+יש לזכור שהביטויים
+`loc:`
+ו-
+`range:`
+בפעולת הפירוק הם רק מיקומים עבור תכונות באוביקט
+`node`.
+גישה זו שימושית מאוד לשליפת ערכים מתוך מבנה נתונים בצורת
+JSON
+מבלי הצורך לסקור את  המבנה כולו.
+
+</div>
+
 
 ## Destructured Parameters
 
