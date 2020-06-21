@@ -455,8 +455,6 @@ A> כדי להגדיר ערך דיפולטיבי ולא להשתמש בסימן
 A> `:` 
 A> שמשמש לקביעת מיקום. ייתכן שתחביר כזה יהיה בלתי תקין בעתיד, אך כרגע יש להיזהר ממנו.
 
-
-
 ## פירוק מערכים
 
 תחביר עבור פירוק מערכים דומה לזה של פירוק אוביקטים. הוא פשוט משתמש בתחביר של כתיבת מערך במקום זה של כתיבת  אוביקט ליטראל. פעולת הפירוק עובדת על מיקומים בתוך המערך במקום לעבוד על תכונות בתוך האוביקט. לדוגמה:
@@ -510,11 +508,11 @@ W> בדומה לפירוק אוביקטים, חובה לספק מאתחל ערך
 או
 `const`.
 
-</div>
+#### השמה על ידי פירוק
 
-#### Destructuring Assignment
+ניתן להשתמש בפירוק מערכים בכדי לבצע השמה, אך בניגוד לפירוק אוביקט אין צורך לעטוף את הביטוי בסוגריים. לדוגמה:
 
-You can use array destructuring in the context of an assignment, but unlike object destructuring, there is no need to wrap the expression in parentheses. For example:
+<div dir="ltr">
 
 ```js
 let colors = [ "red", "green", "blue" ],
@@ -527,12 +525,22 @@ console.log(firstColor);        // "red"
 console.log(secondColor);       // "green"
 ```
 
-The destructured assignment in this code works in a similar manner to the last array destructuring example. The only difference is that `firstColor` and `secondColor` have already been defined. Most of the time, that's probably all you'll need to know about array destructuring assignment, but there's a little bit more to it that you will probably find useful.
+</div>
 
-Array destructuring assignment has a very unique use case that makes it easier to swap the values of two variables. Value swapping is a common operation in sorting algorithms, and the ECMAScript 5 way of swapping variables involves a third, temporary variable, as in this example:
+ההשמה על ידי פירוק בקוד לעיל מתבצעת באופן דומה לדוגמה הקודמת שעסקה בפירוק מערך. ההבדל היחידי הינו שהמשתנים
+`firstColor` 
+ו- 
+`secondColor`
+כבר הוגדרו מבעוד מועד. במרבית המקרים אין צורך לדעת יותר מעבר לכך בעת פירוק מערכים. אך במקצת המקרים יש דבר נוסף שיועיל לנו.
+
+פירוק מערכים מאפשר במצב מסוים להחליף את ערכם של שני משתנים. החלפת ערכים היא פעולה נפוצה בפעולות מיון, ושיטת החלפת הערכים בגרסת 
+ECMAScript 5
+מערבת משתנה שלישי זמני כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
-// Swapping variables in ECMAScript 5
+// החלפת מערכים בגרסת אקמהסקריפט 5
 let a = 1,
     b = 2,
     tmp;
@@ -545,10 +553,21 @@ console.log(a);     // 2
 console.log(b);     // 1
 ```
 
-The intermediate variable `tmp` is necessary in order to swap the values of `a` and `b`. Using array destructuring assignment, however, there's no need for that extra variable. Here's how you can swap variables in ECMAScript 6:
+</div>
+
+המשתנה הזמני
+`tmp`
+נחוץ על מנת להחליף את ערכי
+`a`
+ו-
+`b`.
+באמצעות פירוק מערכים , אין צורך במשתנה הנוסף. בדוגמה הבאה נראה כיצד ניתן להחליף ערכים בגרסת
+ECMAScript 6:
+
+<div dir="ltr">
 
 ```js
-// Swapping variables in ECMAScript 6
+// החלפת ערכים בגרסת אקמהסקריפט 6
 let a = 1,
     b = 2;
 
@@ -558,7 +577,24 @@ console.log(a);     // 2
 console.log(b);     // 1
 ```
 
-The array destructuring assignment in this example looks like a mirror image. The left side of the assignment (before the equals sign) is a destructuring pattern just like those in the other array destructuring examples. The right side is an array literal that is temporarily created for the swap. The destructuring happens on the temporary array, which has the values of `b` and `a` copied into its first and second positions. The effect is that the variables have swapped values.
+</div>
+
+פעולת ההשמה על ידי פירוק בדוגמה לעיל נראית כמו השתקפות בראי. הצד השמאלי של ההשמה
+(לפני סימן ההשוואה)
+מראה שימוש בפירוק בדומה לדוגמאות הקודמות עבור פירוק מערכים.
+הצד הימני הינו מערך שנוצר באופן זמני לצורך פעולת ההחלפה. 
+הפירוק מתרחש על המערך הזמני, שמכיל בתוכו את הערכים
+`a`
+ו-
+`b`
+אשר מועתקים למיקום הראשון והשני במערך, בהתאמה.
+התוצאה היא שערכי המשתנים הוחלפו זה בזה.
+
+W> בדומה לפעולת השמה על ידי פירוק באוביקט, גם כאן תיזרק שגיאה במידה וצידה הימני של פעולת ההשמה מכיל את הערכים 
+`null` 
+או
+`undefined`.
+
 
 W> Like object destructuring assignment, an error is thrown when the right side of an array destructured assignment expression evaluates to `null` or `undefined`.
 
