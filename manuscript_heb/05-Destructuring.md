@@ -596,11 +596,13 @@ W> בדומה לפעולת השמה על ידי פירוק באוביקט, גם 
 `undefined`.
 
 
-W> Like object destructuring assignment, an error is thrown when the right side of an array destructured assignment expression evaluates to `null` or `undefined`.
+#### ערכים דיפולטיביים
 
-#### Default Values
+ניתן להגדיר ערך דיפולטיבי עבור כל מיקום ספציפי במערך. הערך הדיפולטיבי ישמש כאשר הפריט במיקום הנתון אינו קיים או בעל הערך 
+`undefined`.
+לדוגמה:
 
-Array destructuring assignment allows you to specify a default value for any position in the array, too. The default value is used when the property at the given position either doesn't exist or has the value `undefined`. For example:
+<div dir="ltr">
 
 ```js
 let colors = [ "red" ];
@@ -611,7 +613,20 @@ console.log(firstColor);        // "red"
 console.log(secondColor);       // "green"
 ```
 
-In this code, the `colors` array has only one item, so there is nothing for `secondColor` to match. Since there is a default value, `secondColor` is set to `"green"` instead of `undefined`.
+</div>
+
+בקוד לעיל למערך 
+`colors`
+פריט אחד בלבד, ולכן אין ערך תואם במערך עבור 
+`secondColor`.
+מכיוון ונתון ערך דיפולטיבי, המשתנה
+`secondColor`
+מקבל את הערך
+`"green"` 
+במקום את הערך
+`undefined`.
+
+#### פירוק מערכים פנימיים
 
 ניתן לבצע פירוק עמוק במערכים פנימיים בצורה דומה לזו של פירוק אוביקטים פנימיים. על ידי שימוש בתחביר פירוק פנימי בתוך התבנית העוטפת, פעולת הפירוק תמשיך אל תוך המערך הפנימי. לדוגמה:
 
