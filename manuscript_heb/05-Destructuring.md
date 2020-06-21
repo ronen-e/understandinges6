@@ -613,14 +613,14 @@ console.log(secondColor);       // "green"
 
 In this code, the `colors` array has only one item, so there is nothing for `secondColor` to match. Since there is a default value, `secondColor` is set to `"green"` instead of `undefined`.
 
-#### Nested Destructuring
+ניתן לבצע פירוק עמוק במערכים פנימיים בצורה דומה לזו של פירוק אוביקטים פנימיים. על ידי שימוש בתחביר פירוק פנימי בתוך התבנית העוטפת, פעולת הפירוק תמשיך אל תוך המערך הפנימי. לדוגמה:
 
-You can destructure nested arrays in a manner similar to destructuring nested objects. By inserting another array pattern into the overall pattern, the destructuring will descend into a nested array, like this:
+<div dir="ltr">
 
 ```js
 let colors = [ "red", [ "green", "lightgreen" ], "blue" ];
 
-// later
+// לאחר מכן
 
 let [ firstColor, [ secondColor ] ] = colors;
 
@@ -628,7 +628,19 @@ console.log(firstColor);        // "red"
 console.log(secondColor);       // "green"
 ```
 
-Here, the `secondColor` variable refers to the `"green"` value inside the `colors` array. That item is contained within a second array, so the extra square brackets around `secondColor` in the destructuring pattern are necessary. As with objects, you can nest arrays arbitrarily deep.
+</div>
+
+בדוגמה זו, המשתנה בשם
+`secondColor`
+מתייחס לערך
+`"green"`
+בתוך מערך
+`colors` 
+הפריט הנ״ל מוכל בתוך מערך נוסף, ומכאן הצורך בסוגריים המרובעים מסביב למשתנה
+`secondColor`.
+בדוגמה לאוביקטים ניתן לבצע פירוק פנימי בכל רמת עומק.
+
+</div>
 
 #### Rest Items
 
