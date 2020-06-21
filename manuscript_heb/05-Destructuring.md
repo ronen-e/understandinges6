@@ -655,11 +655,20 @@ console.log(secondColor);       // "green"
 `secondColor`.
 בדוגמה לאוביקטים ניתן לבצע פירוק פנימי בכל רמת עומק.
 
-</div>
+#### פריטים מסוג רסט
 
-#### Rest Items
+פרק 3 הציג פרמטרים מסוג רסט 
+(rest parameters)
+עבור פונקציות.
+עבור פירוק מערכים קיימת התייחסות למושג 
+*פריטים מסוג רסט*
+(*rest items*).
+פריטים מסוג רסט משתמשים בתחביר בצורת
+`...` 
+כדי לבצע השמת ערכים של יתר הפריטים במערך למשתנה מסוים. 
+לדוגמה:
 
-Chapter 3 introduced rest parameters for functions, and array destructuring has a similar concept called *rest items*. Rest items use the `...` syntax to assign the remaining items in an array to a particular variable. Here's an example:
+<div dir="ltr">
 
 ```js
 let colors = [ "red", "green", "blue" ];
@@ -672,19 +681,49 @@ console.log(restColors[0]);     // "green"
 console.log(restColors[1]);     // "blue"
 ```
 
-The first item in `colors` is assigned to `firstColor`, and the rest are assigned into a new `restColors` array. The `restColors` array, therefore, has two items: `"green"` and `"blue"`. Rest items are useful for extracting certain items from an array and keeping the rest available, but there's another helpful use.
+</div>
 
-A glaring omission from JavaScript arrays is the ability to easily create a clone. In ECMAScript 5, developers frequently used the `concat()` method as an easy way to clone an array. For example:
+ערך הפריט הראשון במערך
+`colors`
+עובר למשתנה
+`firstColor`,
+והיתר מועברים 
+לתוך מערך חדש בשם
+`restColors`.
+המערך 
+`restColors`
+יכיל 2 פריטים
+`"green"`
+ו-
+`"blue"`.
+ פריטים מסוג רסט שימושיים עבור השגת פריטים מסוימים מתוך מערך ושמירת היתר זמינים לשימוש, אך קיים שימוש נוסף.
+
+בעיה קיימת עבור מערכים בג׳אווהסקריפט הינה היעדר היכולת לשכפל מערך בקלות. בגרסת 
+ECMAScript 5,
+מפתחים היו נוהגים להשתמש במתודה 
+<span dir="ltr">`concat()`</span>
+על מנת לשכפל מערך. לדוגמה:
+
+
+<div dir="ltr">
 
 ```js
-// cloning an array in ECMAScript 5
+// שכפול מערך באקמהסקריפט 5
 var colors = [ "red", "green", "blue" ];
 var clonedColors = colors.concat();
 
-console.log(clonedColors);      //"[red,green,blue]"
+console.log(clonedColors);      // "[red,green,blue]"
 ```
 
-While the `concat()` method is intended to concatenate two arrays together, calling it without an argument returns a clone of the array. In ECMAScript 6, you can use rest items to achieve the same thing through syntax intended to function that way. It works like this:
+</div>
+
+בעוד שהמתודה 
+<span dir="ltr">`concat()`</span>
+נועדה לחבר שני מערכים, במידה וקוראים לה ללא ארגומנט היא תחזיר עותק של המערך. בגרסת
+ECMAScript 6,
+ניתן להשתמש בפריטים מסוג רסט על מנת להשיג אותה תוצאה ובעזרת תחביר שנועד לכך. זה עובד כך:
+
+<div dir="ltr">
 
 ```js
 // cloning an array in ECMAScript 6
@@ -694,9 +733,21 @@ let [ ...clonedColors ] = colors;
 console.log(clonedColors);      //"[red,green,blue]"
 ```
 
-In this example, rest items are used to copy values from the `colors` array into the `clonedColors` array. While it's a matter of perception as to whether this technique makes the developer's intent clearer than using the `concat()` method, this is a useful ability to be aware of.
+</div>
 
-W> Rest items must be the last entry in the destructured array and cannot be followed by a comma. Including a comma after rest items is a syntax error.
+בדוגמה זו, פריטים מסוג רסט משמשים אותנו להעתקת ערכים מן המערך
+`colors`
+לתוך המערך
+`clonedColors`.
+בעוד שמדובר בעניין של השקפה לגבי השאלה האם טכניקה זו ברורה יותר בעניין כוונת המפתח שכתב את הקוד מאשר שימוש במתודה
+<span dir="ltr">`concat()`</span>
+זוהי יכולת שימושית שכדאי להכיר.
+
+
+W> פריטים מסוג רסט חייבים להיות הרשומה האחרונה בפעולת הפירוק ואסור שיבוא פסיק אחריה. שימוש בפסיק לאחר הגדרת פריטים מסוג רסט נחשב לשגיאה תחבירית
+
+
+</div>
 
 ## Mixed Destructuring
 
