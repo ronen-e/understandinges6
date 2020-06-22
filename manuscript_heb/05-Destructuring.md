@@ -799,15 +799,17 @@ console.log(startIndex);        // 0
 JSON
 מבלי הצורך לסקור את  המבנה כולו.
 
-</div>
+## פירוק פרמטרים
+
+לפעולת הפירוק קיים שימוש מועיל במיוחד כאשר מעבירים ארגומנטים לפונקציה. כאשר פונקציה בג׳אווהסקריפט מקבלת מספר רב של פרמטרים אופציונליים, טכניקה נפוצה היא ליצור אוביקט עבור אותן אפשרויות, בד״כ בשם
+`options`,
+והוא אוביקט שתכונותיו מגדירות באופן מפורש את הפרמטרים האפשריים, כמו בדוגמה הבאה:
 
 
-## Destructured Parameters
-
-Destructuring has one more particularly helpful use case, and that is when passing function arguments. When a JavaScript function takes a large number of optional parameters, one common pattern is to create an `options` object whose properties specify the additional parameters, like this:
+<div dir="ltr">
 
 ```js
-// properties on options represent additional parameters
+// תכונות על הארגומנט האחרון מייצגות פרמטרים נוספים
 function setCookie(name, value, options) {
 
     options = options || {};
@@ -817,23 +819,40 @@ function setCookie(name, value, options) {
         domain = options.domain,
         expires = options.expires;
 
-    // code to set the cookie
+    // קוד להגדרת ״עוגיה״
 }
 
-// third argument maps to options
+// הארגומנט השלישי ממופה לאפשרויות נוספות
 setCookie("type", "js", {
     secure: true,
     expires: 60000
 });
 ```
-Many JavaScript libraries contain `setCookie()` functions that look similar to this one. In this function, the `name` and `value` arguments are required, but `secure`, `path`, `domain`, and `expires` are not. And since there is no priority order for the other data, it's efficient to just have an `options` object with named properties, rather than list extra named parameters. This approach works, but now you can't tell what input the function expects just by looking at the function definition; you need to read the function body.
 
-Destructured parameters offer an alternative that makes it clearer what arguments a function expects. A destructured parameter uses an object or array destructuring pattern in place of a named parameter. To see this in action, look at this rewritten version of the `setCookie()` function from the last example:
+</div>
+
+ספריות ג׳אווהסקריפט רבות מכילות פונקציות בשם
+<span dir="ltr">`setCookie()`</span>
+שדומות במראה לזו שבדוגמה האחרונה. בפונקציה זו הארגומנטים
+`name` 
+ו-
+`value`
+חיוניים אך
+`secure`, `path`, `domain`, `expires`
+אינן חיוניות. ומכיוון ואין סדר עדיפות לנתונים הנוספים עדיף להוסיף אוביקט
+`options`
+עבורן מאשר לייצר פרמטרים נוספים לפונקציה. הגישה עובדת היטב, אך עתה לא ניתן לדעת למה מצפה הפונקציה רק על ידי מבט בחתימת הפונקציה, כעת חובה לקרוא את גוף הפונקציה כדי להבין אותה.
+
+פירוק פרמטרים מספק לנו דרך לכתוב בצורה ברורה יותר לאילו ארגומנטים הפונקציה מצפה. פרמטר שעובר פעולת פירוק משתמש בטכניקת פירוק אוביקט או פירוק מערך במקום פרמטר בעל שם. על מנת לראות זאת בפעולה ניתן לסקור את הגרסה המשוכתבת של הפונקציה 
+<span dir="ltr">`setCookie()`</span>
+מהדוגמה הקודמת:
+
+<div dir="ltr">
 
 ```js
 function setCookie(name, value, { secure, path, domain, expires }) {
 
-    // code to set the cookie
+    // קוד לכתיבת ״עוגיה״
 }
 
 setCookie("type", "js", {
@@ -842,9 +861,17 @@ setCookie("type", "js", {
 });
 ```
 
-This function behaves similarly to the previous example, but now, the third argument uses destructuring to pull out the necessary data. The parameters outside the destructured parameter are clearly expected, and at the same time, it's clear to someone using `setCookie()` what options are available in terms of extra arguments. And of course, if the third argument is required, the values it should contain are crystal clear. The destructured parameters also act like regular parameters in that they are set to `undefined` if they are not passed.
+</div>
 
-A>Destructured parameters have all of the capabilities of destructuring that you've learned so far in this chapter. You can use default values, mix object and array patterns, and use variable names that differ from the properties you're reading from.
+פונקציה זו מתנהגת בצורה דומה לדוגמה הקודמת, אך עתה, הארגומנט השלישי משתמש בפעולת פירוק בכדי לשלוף את הנתונים. הפרמטרים מחוץ לתבנית הפירוק הינם כאלו שמצפים לקבלם ובאותה עת, גם ברור למי שמשתמש בפונקציה
+<span dir="ltr">`setCookie()`</span>
+אילו אפשרויות נוספות זמינות להם מבחינת ארגומנטים נוספים. במידה ונחוץ ארגומנט שלישי אזי הערכים שעוברים פירוק ברורים לנו. הפרמטרים המפורקים פועלים כמו פרמטרים רגילים בכך שהם מאותחים לערך 
+`undefined`
+במידה ואינם מקבלים ערך אחר.
+
+A> פרמטרים מפורקים מקבלים את כל יכולות פעולת הפירוק שלמדתנו עד כה. ניתן להשתמש בערכים דיפולטיביים, לערבב צורות פירוק של אוביקטים ומערכים, כמו גם להשתמש בשמות משתנים שונים משמות התכונות אותן קוראים.
+
+</div>
 
 ### Destructured Parameters are Required
 
