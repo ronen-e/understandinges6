@@ -871,31 +871,51 @@ setCookie("type", "js", {
 
 A> פרמטרים מפורקים מקבלים את כל יכולות פעולת הפירוק שלמדתנו עד כה. ניתן להשתמש בערכים דיפולטיביים, לערבב צורות פירוק של אוביקטים ומערכים, כמו גם להשתמש בשמות משתנים שונים משמות התכונות אותן קוראים.
 
-</div>
+### פרמטרים בפעולת פירוק כפרמטר חובה
 
-### Destructured Parameters are Required
+היבט מעניין של שימוש בפרמטרים של פעולת פירוק הוא שנזרקת שגיאה כאשר לא מעבירים אותם לפונקציה. בדוגמה הבאה הקריאה לפונקציה
+<span dir="ltr">`setCookie()`</span>
 
-One quirk of using destructured parameters is that, by default, an error is thrown when they are not provided in a function call. For instance, this call to the `setCookie()` function in the last example throws an error:
+תגרום לשגיאה:
+
+<div dir="ltr">
 
 ```js
 // Error!
 setCookie("type", "js");
 ```
 
-The third argument is missing, and so it evaluates to `undefined` as expected. This causes an error because destructured parameters are really just a shorthand for destructured declaration. When the `setCookie()` function is called, the JavaScript engine actually does this:
+</div>
+
+הארגומנט השלישי חסר, ולכן ערכו ייחשב בתור
+`undefined`
+כמצופה מכל פרמטר חסר. זה גורם לשגיאה מכיוון שפרמטרים בפעולת פירוק הינם אך ורק צורת כתיבה מקוצרת לפעולת הפירוק. כאשר הפונקציה
+<span dir="ltr">`setCookie()`</span>
+נקראת, מה שמנוע הג׳אווהסקריפט עושה הוא:
+
+<div dir="ltr">
 
 ```js
 function setCookie(name, value, options) {
 
     let { secure, path, domain, expires } = options;
 
-    // code to set the cookie
+    // שאר הפונקציה
 }
 ```
+</div>
 
-Since destructuring throws an error when the right side expression evaluates to `null` or `undefined`, the same is true when the third argument isn't passed to the `setCookie()` function.
+מאחר ופעולת פירוק זורקת שגיאה כאשר הצד הימני של הביטוי מקבל את הערך
+`null` 
+או
+ `undefined`,
+הדבר קורה גם כאשר הארגומנט השלישי לא מועבר לפונקציה
+<span dir="ltr">`setCookie()`</span>.
 
-If you want the destructured parameter to be required, then this behavior isn't all that troubling. But if you want the destructured parameter to be optional, you can work around this behavior by providing a default value for the destructured parameter, like this:
+אם נרצה לדאוג שהפרמטר המפורק יהיה נדרש, הבעיה אינה מהותית. אך במידה ונחליט שהפרמטר המפורק הינו פרמטר רשות, ניתן לפתור את הבעיה על ידי מתן ערך דיפולטיבי, בדומה לדוגמה הבאה:
+
+
+<div dir="ltr">
 
 ```js
 function setCookie(name, value, { secure, path, domain, expires } = {}) {
@@ -904,7 +924,19 @@ function setCookie(name, value, { secure, path, domain, expires } = {}) {
 }
 ```
 
-This example provides a new object as the default value for the third parameter. Providing a default value for the destructured parameter means that the `secure`, `path`, `domain`, and `expires` will all be `undefined` if the third argument to `setCookie()` isn't provided, and no error will be thrown.
+</div>
+
+הדוגמה לעיל מספקת  אוביקט חדש בתור ערך דיפולטיבי לפרמטר השלישי. מתן ערך דיפולטיבי לפרמטר המפורק משמעו שהערכים עבור 
+`secure`, `path`, `domain`, `expires` 
+יהיו כולם
+`undefined`
+במידה והארגומנט השלישי לפונקציה
+<span dir="ltr">`setCookie()`</span>
+חסר ולא תיזרק שגיאה.
+
+
+</div>
+
 
 ### Default Values for Destructured Parameters
 
