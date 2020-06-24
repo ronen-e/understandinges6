@@ -934,13 +934,11 @@ function setCookie(name, value, { secure, path, domain, expires } = {}) {
 <span dir="ltr">`setCookie()`</span>
 חסר ולא תיזרק שגיאה.
 
+### ערכים דיפולטיביים לפרמטרים מפורקים
 
-</div>
+ניתן להגדיר ערכים דיפולטיביים עבור פרמטרים מפורקים בדיוק כמו עבור פעולת פירוק רגילה. פשוט הוסיפו את סימן ההשוואה לאחר הפרמטר וכתבו את הערך הדיפולטיבי. לדוגמה:
 
-
-### Default Values for Destructured Parameters
-
-You can specify destructured default values for destructured parameters just as you would in destructured assignment. Just add the equals sign after the parameter and specify the default value. For example:
+<div dir="ltr">
 
 ```js
 function setCookie(name, value,
@@ -956,9 +954,9 @@ function setCookie(name, value,
 }
 ```
 
-Each property in the destructured parameter has a default value in this code, so you can avoid checking to see if a given property has been included in order to use the correct value. Also, the entire destructured parameter has a default value of an empty object, making the parameter optional. This does make the function declaration look a bit more complicated than usual, but that's a small price to pay for ensuring each argument has a usable value.
+</div>
 
-## Summary
+לכל תכונה בפרמטר המפורק קיים ערך דיפולטיבי, ולכן אין צורך לבצע בדיקה כדי לוודא שערך מסויים הועבר לפונקציה לפני שמשתמשים בו. כמו כן, לפרמטר המפורק עצמו יש ערך דיפולטיבי של אוביקט ריק, מה שהופך את הפרמטר לפרמטר רשות. אכן, הפונקציה נראית יותר מורכבת מן הרגיל, אך זהו מחיר קטן לשלם בעד הבטחון שלכל ארגומנט יש ערך ניתן לשימוש.
 
 Destructuring makes working with objects and arrays in JavaScript easier. Using the familiar object literal and array literal syntax, you can pick data structures apart to get at just the information you're interested in. Object patterns allow you to extract data from objects while array patterns let you extract data from arrays.
 
