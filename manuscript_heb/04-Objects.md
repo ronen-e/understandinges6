@@ -1,4 +1,5 @@
 <div dir="rtl">
+
 # הרחבת פונקציונליות של אוביקטים
 
 ECMAScript 6
@@ -644,10 +645,11 @@ var person = {
 console.log(person.name);       // "Greg"
 ```
 </div>
+
 בעת ריצה במצב קשיח בגרסת
 ECMAScript 5,
 תכונת 
-
+`name` 
 השנייה זורקת שגיאת תחביר.
 ECMAScript 6
 ביטלה את בדיקת הכפילות.
@@ -909,8 +911,8 @@ console.log(Object.getPrototypeOf(friend) === dog);     // true
 ECMAScript 6 
 הוסיפה את
 `super`.
-מבחינה עקרונית,
-
+ עקרונית,
+`super`
 הינו מצביע
 (pointer)
 לפרוטוטיפ הנוכחי עבור אוביקט,
