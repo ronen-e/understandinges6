@@ -958,10 +958,25 @@ function setCookie(name, value,
 
 לכל תכונה בפרמטר המפורק קיים ערך דיפולטיבי, ולכן אין צורך לבצע בדיקה כדי לוודא שערך מסויים הועבר לפונקציה לפני שמשתמשים בו. כמו כן, לפרמטר המפורק עצמו יש ערך דיפולטיבי של אוביקט ריק, מה שהופך את הפרמטר לפרמטר רשות. אכן, הפונקציה נראית יותר מורכבת מן הרגיל, אך זהו מחיר קטן לשלם בעד הבטחון שלכל ארגומנט יש ערך ניתן לשימוש.
 
-Destructuring makes working with objects and arrays in JavaScript easier. Using the familiar object literal and array literal syntax, you can pick data structures apart to get at just the information you're interested in. Object patterns allow you to extract data from objects while array patterns let you extract data from arrays.
+## סיכום
 
-Both object and array destructuring can specify default values for any property or item that is `undefined` and both throw errors when the right side of an assignment evaluates to `null` or `undefined`. You can also navigate deeply nested data structures with object and array destructuring, descending to any arbitrary depth.
+פעולת הפירוק מייעלת את העבודה עם אוביקטים ומערכים בג׳אווהסקריפט. שימוש בתחביר מוכר עבור כתיבת אוביקט ליטראל ומערך ליטראלי מאפשר לנו לשלוף את הנתונים הדרושים לנו בקלות ובמהירות.
 
-Destructuring declarations use `var`, `let`, or `const` to create variables and must always have an initializer. Destructuring assignments are used in place of other assignments and allow you to destructure into object properties and already-existing variables.
+פעולת פירוק, הן בעבור אוביקטים והן בעבור מערכים , יכולה להגדיר ערכים דיפולטיביים עבור כל תכונה או פריט בעל הערך
+`undefined`
+ובשני המצבים היא זורקת שגיאה כאשר הצד הימני של הפעולה מקבל את הערך 
+`null`
+או
+`undefined`.
+ניתן גם לנווט בתוך מבני נתונים עמוקים לכל עומק.
 
-Destructured parameters use the destructuring syntax to make "options" objects more transparent when used as function parameters. The actual data you're interested in can be listed out along with other named parameters. Destructured parameters can be array patterns, object patterns, or a mixture, and you can use all of the features of destructuring.
+פעולות פירוק משתמשות במשתנים מסוג 
+`var`, `let`, `const`
+וחייבות לאתחל אותם. פעולות פירוק שמבצעות השמה יכולות להחליף פעולות השמה אחרות ומאפשרות לבצע השמה אל תוך משתנים שכבר הוגדרו קודם לפעולה.
+
+פרמטרים מפורקים משתמשים בתחביר הפירוק כדי ליצור אוביקטים מסוג ״אופציות״
+("options")
+שקופים יותר בעת שימוש בתור פרמטרים לפונקציה. הנתונים שבהם מעוניינים יכולים לקבל שם לצד פרמטרים אחרים בעלי שם שעומדים לבדם.
+פרמטרים מפורקים יכולים להיות מערכים, אוביקטים או שילוב שלהם, וניתן לבצע עליהם את כל היבטי הפירוק.
+
+</div>
