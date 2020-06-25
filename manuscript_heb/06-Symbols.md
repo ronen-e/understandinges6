@@ -1,8 +1,26 @@
-# Symbols and Symbol Properties
+<div dir="rtl">
 
-Symbols are a primitive type introduced in ECMAScript 6, joining the existing primitive types: strings, numbers, booleans, `null`, and `undefined`. Symbols began as a way to create private object members, a feature JavaScript developers wanted for a long time. Before symbols, any property with a string name was easy to access regardless of the obscurity of the name, and the "private names" feature was meant to let developers create non-string property names. That way, normal techniques for detecting these private names wouldn't work.
+# סימבול ותכונותיו
 
-The private names proposal eventually evolved into ECMAScript 6 symbols, and this chapter will teach you how to use symbols effectively. While the implementation details remained the same (that is, they added non-string values for property names), the goal of privacy was dropped. Instead, symbol properties are categorized separately from other object properties.
+סימבול הוא סוג ערך פרימיטיבי 
+(primitive type)
+שהופיע בגרסת 
+ECMAScript 6,
+והצטרף לערכים הפרימיטיביים הקיימים: מחרוזות, בוליאנים, מספרים, 
+`null`, 
+ו-
+`undefined`. 
+סימבולים החלו בתור דרך ליצור איברים פרטי בתוך אוביקט, יכולת שמפתחי ג׳אווהסקריפט רצו זה זמן רב. לפני סימבולים, כל תכונה הייתה נגישה בקלות ויכולת ה״משתנים הפרטיים״ נועדה לאפשר למפתחים לייצר שמות תכונה שאינם מסוג מחרוזת. 
+בצורה זו, שיטות קיימות לזהות את השמות הפרטיים הללו לא יעבדו.
+
+ההצעה ליצירת שמות פרטיים התפתחה לסימבול של 
+ECMAScript 6
+ובפרק זה נלמד כיצד להשתמש בסימבולים. בעוד שצורת המימוש נותרה כשהייתה
+(כלומר, הוסיפו ערך שאינו מחרוזת לתכונות אוביקטים)
+השאיפה לאיברים פרטיים לא התקיימה. במקום זאת תכונות בעלות ערך סימבול משוייכות לקבוצה אחרת מתכונות אחרות.
+
+</div>
+
 
 ## Creating Symbols
 
