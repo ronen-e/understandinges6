@@ -275,15 +275,21 @@ jQuery
 עבור כל המזהים שהוא יוצר, וכך נקבל מזהים כדוגמת
 <span dir="ltr">`"jquery.element"`</span>.
 
+## אילוץ סימבול
 
-</div>
+אילוץ ערכים הינו חלק משמעותי בג׳אווהסקריפט, וקיימת מידה רבה של גמישות ביכולת השפה לשנות ערך מסוג אחד לסוג אחר. ואולם סימבול אינו גמיש במיוחד בכל הנוגע לאילוץ ערכים מכיוון שלערכים מסוג אחר אין מקבילה לסימבול. באופן ספציפי, לא ניתן לאלץ סימבול למחרוזת או מספר כך שלא ניתן להשתמש בהם בלי כוונה בתור תכונות רגילות כאשר מצפים מהם להתנהג כסימבולים.
 
+הדוגמאות בפרק זה קוראות ל 
+<span dir="ltr">`console.log()`</span>
+כדי להדפיס את הסימבול וזה עובד היטב כיוון ו
+<span dir="ltr">`console.log()`</span>
+קוראת ל
+<span dir="ltr">`String()`</span>
+על הסימבול כדי לייצר פלט בעל משמעות. ניתן להשתמש ב
+<span dir="ltr">`String()`</span>
+באופן ישיר כדי לקבל את אותה תוצאה. לדוגמה:
 
-## Symbol Coercion
-
-Type coercion is a significant part of JavaScript, and there's a lot of flexibility in the language's ability to coerce one data type into another. Symbols, however, are quite inflexible when it comes to coercion because other types lack a logical equivalent to a symbol. Specifically, symbols cannot be coerced into strings or numbers so that they cannot accidentally be used as properties that would otherwise be expected to behave as symbols.
-
-The examples in this chapter have used `console.log()` to indicate the output for symbols, and that works because `console.log()` calls `String()` on symbols to create useful output. You can use `String()` directly to get the same result. For instance:
+<div dir="rtl">
 
 ```js
 let uid = Symbol.for("uid"),
@@ -292,21 +298,51 @@ let uid = Symbol.for("uid"),
 console.log(desc);              // "Symbol(uid)"
 ```
 
-The `String()` function calls `uid.toString()` and the symbol's string description is returned. If you try to concatenate the symbol directly with a string, however, an error will be thrown:
+</div>
+
+הפונקציה
+<span dir="ltr">`String()`</span>
+קוראת ל
+<span dir="ltr">`uid.toString()`</span>
+ומחזירה את תיאור הסימבול. אם ננסה לשרשר את הסימבול ישירות עם מחרוזות תיזרק שגיאה.
+
+<div dir="rtl">
+
 
 ```js
 let uid = Symbol.for("uid"),
-    desc = uid + "";            // error!
+    desc = uid + "";            // שגיאה!
 ```
 
-Concatenating `uid` with an empty string requires that `uid` first be coerced into a string. An error is thrown when the coercion is detected, preventing its use in this manner.
+</div>
 
-Similarly, you cannot coerce a symbol to a number. All mathematical operators cause an error when applied to a symbol. For example:
+שרשור 
+`uid`
+יחד עם מחרוזת ריקה מחייב לאלץ את 
+`uid`
+לערך מסוג מחרוזת קודם לכן. שגיאה נזרקת כאשר אילוץ של הסימבול מתרחש וכך נמנעת הפעולה.
+
+באופן דומה, לא ניתן לאלץ סימבול לערך מסוג מספר. כל האופרטורים המתמטיים גורמים לשגיאה כאשר הם פועלים על סימבול. לדוגמה:
+
+<div dir="rtl">
+
 
 ```js
 let uid = Symbol.for("uid"),
     sum = uid / 1;            // error!
 ```
+
+</div>
+
+הדוגמה לעיל מנסה לבצע פעולת חילוק של הסימול במכנה 1 , מה שגורם לשגיאה. שגיאה נזרקת ללא קשר לזהות האופרטור המתמטי
+(אופרטורים לוגים לא זורקים שגיאה כיוון שסימבול נחשב שווה לערך
+ `true`, 
+ בדיוק כמו כל ערך רגיל שאינו ריק בג׳אווהסקריפט
+).
+
+</div>
+
+
 
 This example attempts to divide the symbol by 1, which causes an error. Errors are thrown regardless of the mathematical operator used (logical operators do not throw an error because all symbols are considered equivalent to `true`, just like any other non-empty value in JavaScript).
 
