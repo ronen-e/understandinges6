@@ -19,12 +19,19 @@ ECMAScript 6
 (כלומר, הוסיפו ערך שאינו מחרוזת לתכונות אוביקטים)
 השאיפה לאיברים פרטיים לא התקיימה. במקום זאת תכונות בעלות ערך סימבול משוייכות לקבוצה אחרת מתכונות אחרות.
 
-</div>
 
+## יצירת סימבולים
 
-## Creating Symbols
+לסימבול מעמד ייחודי בקרב ערכים פרימיטיביים של ג׳אווהסקריפט בכך שהם היחידים שאין להם צורת כתיבה ישירה כמו למשל
+`true` 
+עבור ערך בוליאני
+או
+`42` 
+עבור מספרים. ניתן ליצור סימבול בעזרת הפונקציה הגלובלית
+`Symbol` 
+כמו בדוגמה הבאה:
 
-Symbols are unique among JavaScript primitives in that they don't have a literal form, like `true` for booleans or `42` for numbers. You can create a symbol by using the global `Symbol` function, as in this example:
+<div dir="rtl">
 
 ```js
 let firstName = Symbol();
@@ -34,11 +41,27 @@ person[firstName] = "Nicholas";
 console.log(person[firstName]);     // "Nicholas"
 ```
 
-Here, the symbol `firstName` is created and used to assign a new property on the `person` object. That symbol must be used each time you want to access that same property. Naming the symbol variable appropriately is a good idea, so you can easily tell what the symbol represents.
+</div>
 
-W> Because symbols are primitive values, calling `new Symbol()` throws an error when called. You can create an instance of `Symbol` via `new Object(yourSymbol)` as well, but it's unclear when this capability would be useful.
+בדוגמה לעיל, הסימבול
+`firstName` 
+נוצר ומשתמשים בו כדי לבצע השמה של תכונה חדשה על האוביקט
+`person`. 
+חובה להשתמש בסימבול הנ״ל בכל פעם שרוצים לגשת לאותה תכונה. זה רעיון טוב לתת שם לסימבול, כדי לדעת מה הוא מייצג.
 
-The `Symbol` function also accepts an optional argument that is the description of the symbol. The description itself cannot be used to access the property, but is used for debugging purposes. For example:
+W> מאחר וסימבולים הינם ערכים פרימיטיביים, קריאה ל
+<span dir="ltr">`new Symbol()`</span>
+זורקת שגיאה. ניתן ליצור מופע אוביקט מסוג של 
+`Symbol`
+בעזרת
+<span dir="ltr">`new Object(yourSymbol)`</span>
+אבל לא ברור אם יש לכך שימוש.
+
+הפונקציה
+`Symbol`
+מקבלת ארגומנט אופציונלי שמתאר את הסימבול. התיאור עצמו לא יכול לשמש לגשת לתכונה אך משמש למטרות דיבאג. לדוגמה:
+
+<div dir="rtl">
 
 ```js
 let firstName = Symbol("first name");
@@ -51,7 +74,24 @@ console.log(person[firstName]);             // "Nicholas"
 console.log(firstName);                     // "Symbol(first name)"
 ```
 
-A symbol's description is stored internally in the `[[Description]]` property. This property is read whenever the symbol's `toString()` method is called either explicitly or implicitly. The `firstName` symbol's `toString()` method is called implictly by `console.log()` in this example, so the description gets printed to the log. It is not otherwise possible to access `[[Description]]` directly from code. I recommended always providing a description to make both reading and debugging symbols easier.
+</div>
+
+תיאור הסימבול נשמר בתכונה הפנימית
+`[[Description]]`.
+התכונה נקראת בכל פעם שמתודת 
+<span dir="ltr">`toString()`</span>
+של הסימבול נקראת, באופן ישיר או עקיף.
+בדוגמה לעיל, מתודת 
+<span dir="ltr">`toString()`</span>
+של הסימבול
+`firstName`
+נקראת באופן עקיף על ידי
+<span dir="ltr">`console.log()`</span>
+והתיאור מודפס כפלט. אין דרך אחרת לגשת ל
+`[[Description]]`
+ישירות מהקוד. מומלץ תמיד לספק תיאור לסימבול בכדי להקל על קריאתו ועל פעולת דיבאג שלו
+
+</div>
 
 A> ### Identifying Symbols
 A>
