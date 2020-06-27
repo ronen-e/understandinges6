@@ -91,18 +91,31 @@ console.log(firstName);                     // "Symbol(first name)"
 `[[Description]]`
 ישירות מהקוד. מומלץ תמיד לספק תיאור לסימבול בכדי להקל על קריאתו ועל פעולת דיבאג שלו
 
-</div>
-
-A> ### Identifying Symbols
+A> ### זיהוי סימבול
 A>
-A>Since symbols are primitive values, you can use the `typeof` operator to determine if a variable contains a symbol. ECMAScript 6 extends `typeof` to return `"symbol"` when used on a symbol. For example:
+A>מפני שסימבולים הינם ערכים פרימיטיביים ניתן להשתמש באופרטור
+A>`typeof`
+A>כדי לבדוק אם למשתנה יש ערך מסוג סימבול.
+A>ECMAScript 6 
+A>מרחיבה את האופרטור
+A>`typeof`
+A>כך שיחזיר
+A>`"symbol"`
+A>כאשר הוא פועל על סימבול. לדוגמה:
+A><div dir="rtl">
 A>
 A>```js
 A>let symbol = Symbol("test symbol");
 A>console.log(typeof symbol);         // "symbol"
 A>```
 A>
-A>While there are other indirect ways of determining whether a variable is a symbol, the `typeof` operator is the most accurate and preferred technique.
+A></div>
+A>
+A>אמנם קיימות שיטות עקיפות לבדוק אם משתנה הוא מסוג סימבול, A>השימוש באופרטור
+A>`typeof`
+A>הינו ללא ספק השיטה המועדפת והמועדפת ביותר.
+
+</div>
 
 ## Using Symbols
 
