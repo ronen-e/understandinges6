@@ -10,15 +10,14 @@ ECMAScript 6,
 `null`, 
 ו-
 `undefined`. 
-סימבולים החלו בתור דרך ליצור איברים פרטי בתוך אוביקט, יכולת שמפתחי ג׳אווהסקריפט רצו זה זמן רב. לפני סימבולים, כל תכונה הייתה נגישה בקלות ויכולת ה״משתנים הפרטיים״ נועדה לאפשר למפתחים לייצר שמות תכונה שאינם מסוג מחרוזת. 
+סימבולים החלו בתור דרך ליצור איברים פרטיים בתוך אוביקט, יכולת שמפתחי ג׳אווהסקריפט רצו מזה זמן רב. לפני סימבולים, כל תכונה הייתה נגישה בקלות ויכולת ה״משתנים הפרטיים״ נועדה לאפשר למפתחים לייצר שמות תכונה שאינם מסוג מחרוזת. 
 בצורה זו, שיטות קיימות לזהות את השמות הפרטיים הללו לא יעבדו.
 
 ההצעה ליצירת שמות פרטיים התפתחה לסימבול של 
 ECMAScript 6
 ובפרק זה נלמד כיצד להשתמש בסימבולים. בעוד שצורת המימוש נותרה כשהייתה
 (כלומר, הוסיפו ערך שאינו מחרוזת לתכונות אוביקטים)
-השאיפה לאיברים פרטיים לא התקיימה. במקום זאת תכונות בעלות ערך סימבול משוייכות לקבוצה אחרת מתכונות אחרות.
-
+השאיפה לאיברים פרטיים לא התקיימה. במקום זאת תכונות בעלות ערך סימבול משוייכות לקבוצה אחרת מזו של תכונות אחרות.
 
 ## יצירת סימבולים
 
@@ -115,21 +114,29 @@ A>אמנם קיימות שיטות עקיפות לבדוק אם משתנה הו�
 A>`typeof`
 A>הינו ללא ספק השיטה המועדפת והמועדפת ביותר.
 
-</div>
+## שימוש בסימבולים
 
-## Using Symbols
+ניתן להשתמש בסימבול בכל מקום שבו ניתן להשתמש בשם תכונה מחושב
+(computed property name).
+כבר ראינו סימון בסוגריים
+(bracket notation)
+ביחד עם סימבולים בפרק זה אבל אפשר להשתמש בסימבולים בתכונות אוביקטים מחושבות וגם בקריאה לפונקציות
+<span dir="ltr">`Object.defineProperty()`</span>
+ו-
+<span dir="ltr">`Object.defineProperties()`</span>
+כמו בדוגמה הבאה:
 
-You can use symbols anywhere you'd use a computed property name. You've already seen bracket notation used with symbols in this chapter, but you can use symbols in computed object literal property names as well as with `Object.defineProperty()` and `Object.defineProperties()` calls, such as:
+<div dir="rtl">
 
 ```js
 let firstName = Symbol("first name");
 
-// use a computed object literal property
+// שימוש בשם תכונה מחושב
 let person = {
     [firstName]: "Nicholas"
 };
 
-// make the property read only
+// הפיכת התכונה לקריאה בלבד
 Object.defineProperty(person, firstName, { writable: false });
 
 let lastName = Symbol("last name");
@@ -145,9 +152,23 @@ console.log(person[firstName]);     // "Nicholas"
 console.log(person[lastName]);      // "Zakas"
 ```
 
-This example first uses a computed object literal property to create the `firstName` symbol property. The following line then sets the property to be read-only. Later, a read-only `lastName` symbol property is created using the `Object.defineProperties()` method. A computed object literal property is used once again, but this time, it's part of the second argument to the `Object.defineProperties()` call.
+</div>
 
-While symbols can be used in any place that computed property names are allowed, you'll need to have a system for sharing these symbols between different pieces of code in order to use them effectively.
+הדוגמה לעיל משתמש בשם תכונה מחושב כדי ליצור תכונה בעלת מזהה מסוג סימבול
+`firstName`.
+השורה הבאה מגדירה את התכונה לקריאה בלבד.
+לאחר מכן תכונה מסוג סימבול
+`lastName`
+מוגדרת בעזרת המתודה
+<span dir="ltr">`Object.defineProperties()`</span>.
+תכונה מחושבת של אוביקט נוצרת שוב אך הפעם כחלק מהארגומנט השני בקריאה לפונקציה
+<span dir="ltr">`Object.defineProperties()`</span>.
+
+אמנם ניתן להגדיר סימבולים בכל פעם שניתן להשתמש בתכונות בעל שם מחושב, יש צורך במערכת שיתוף סימבולים באזורי קוד שונים על מנת להשתמש בהם בצורה אפקטיבית.
+
+
+
+</div>
 
 ## Sharing Symbols
 
