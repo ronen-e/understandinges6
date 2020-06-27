@@ -166,15 +166,20 @@ console.log(person[lastName]);      // "Zakas"
 
 אמנם ניתן להגדיר סימבולים בכל פעם שניתן להשתמש בתכונות בעל שם מחושב, יש צורך במערכת שיתוף סימבולים באזורי קוד שונים על מנת להשתמש בהם בצורה אפקטיבית.
 
+## שיתוף סימבולים
 
+ייתכן ונרצה שאזורים שונים בקוד ישתמשו באותם סימבולים. 
+לדוגמה, נניח שקיימים שני אוביקטים שונים בקוד שמתמשים באותה תכונה מסוג סימבול כדי לייצג מזהה ייחודי. מעקב אחר סימבולים על פני קבצים רבים יכול להיות קשה ורצוף שגיאות. בדיוק מסיבה זו גרסת
+ECMAScript 6
+מספקת מרשם סימבול גלובלי שניתן לגשת אליו בכל עת.
 
-</div>
+כדי לייצר סימבול משותף יש להשתמש במתודה
+<span dir="ltr">`Symbol.for()()`</span>.
+המתודה
+<span dir="ltr">`Symbol.for()()`</span>.
+מקבלת פרמטר יחיד שהוא מזהה מסוג מחרוזת עבור הסימבול שנרצה ליצור. אותו פרמטר משמש גם בתור תיאור הסימבול. לדוגמה:
 
-## Sharing Symbols
-
-You may find that you want different parts of your code to use the same symbols. For example, suppose you have two different object types in your application that should use the same symbol property to represent a unique identifier. Keeping track of symbols across files or large codebases can be difficult and error-prone. That's why ECMAScript 6 provides a global symbol registry that you can access at any point in time.
-
-When you want to create a symbol to be shared, use the `Symbol.for()` method instead of calling the `Symbol()` method. The `Symbol.for()` method accepts a single parameter, which is a string identifier for the symbol you want to create. That parameter is also used as the symbol's description. For example:
+<div dir="rtl">
 
 ```js
 let uid = Symbol.for("uid");
@@ -186,7 +191,19 @@ console.log(object[uid]);       // "12345"
 console.log(uid);               // "Symbol(uid)"
 ```
 
-The `Symbol.for()` method first searches the global symbol registry to see if a symbol with the key `"uid"` exists. If so, the method returns the existing symbol. If no such symbol exists, then a new symbol is created and registered to the global symbol registry using the specified key. The new symbol is then returned. That means subsequent calls to `Symbol.for()` using the same key will return the same symbol, as follows:
+</div>
+
+המתודה
+<span dir="ltr">`Symbol.for()`</span>
+תחילה מחפשת בתוך מרשם הסימבול הגלובלי אחר המזהה 
+`"uid"`.
+במידה ונמצא המזהה המבוקש המתודה מחזירה את הסימבול עבורו. 
+במידה ואין סימבול קיים אזי נוצר סימבול חדש ונרשם במרשם הגלובלי עם המפתח הנתון. הסימבול החדש מוחזר לאחר יצירתו. קריאות נוספות למתודה
+<span dir="ltr">`Symbol.for()`</span>
+עם אותו מפתח יחזירו את אותו סימבול, לדוגמה:
+
+
+<div dir="rtl">
 
 ```js
 let uid = Symbol.for("uid");
@@ -204,9 +221,21 @@ console.log(object[uid2]);      // "12345"
 console.log(uid2);              // "Symbol(uid)"
 ```
 
-In this example, `uid` and `uid2` contain the same symbol and so they can be used interchangeably. The first call to `Symbol.for()` creates the symbol, and the second call retrieves the symbol from the global symbol registry.
+</div>
 
-Another unique aspect of shared symbols is that you can retrieve the key associated with a symbol in the global symbol registry by calling the `Symbol.keyFor()` method. For example:
+בדוגמה לעיל, 
+`uid` 
+ו-
+`uid2`
+מצביעים לאותו סימבול ולכן יכולים לשמש באופן זהה. הקריאה הראשונה למתודה
+<span dir="ltr">`Symbol.for()`</span>
+יוצרת את הסימבול והקריאה השנייה מחזירה את הסימבול מהמרשם הגלובלי.
+
+היבט ייחודי נוסף של סימבולים משותפים הוא שניתן להחזיר את המזהה המקושר עם אותו סימבול במרשם הסימבול הגלובלי על ידי קריאת המתודה
+<span dir="ltr">`Symbol.keyFor()`</span>. 
+לדוגמה:
+
+<div dir="rtl">
 
 ```js
 let uid = Symbol.for("uid");
@@ -219,9 +248,36 @@ let uid3 = Symbol("uid");
 console.log(Symbol.keyFor(uid3));   // undefined
 ```
 
-Notice that both `uid` and `uid2` return the `"uid"` key. The symbol `uid3` doesn't exist in the global symbol registry, so it has no key associated with it and `Symbol.keyFor()` returns `undefined`.
+</div>
 
-W> The global symbol registry is a shared environment, just like the global scope. That means you can't make assumptions about what is or is not already present in that environment. Use namespacing of symbol keys to reduce the likelihood of naming collisions when using third-party components. For example, jQuery code might use `"jquery."` to prefix all keys, for keys like `"jquery.element"` or similar.
+גם
+`uid`
+וגם
+`uid2`
+מחזירים את המזהה
+`"uid"`.
+הסימבול
+`uid3`
+אינו קיים במרשם הסימבולים הגלובלי, ולכן אין מזהה שמקושר איתו והקריאה למתודה
+<span dir="ltr">`Symbol.keyFor()`</span>. 
+מחזירה את הערך
+`undefined`.
+
+W> מרשם הסימבולים הגלובלי נחשב לסביבה משותפת, בדיוק כמו הסביבה הגלובלית
+(global scope).
+לכן, לא ניתן להניח הנחות לגבי מה שקיים או לא באותה הסביבה.  
+יש להשתמש במרחב שמות עבור מזהה סימבולים
+<span dir="ltr">(namespacing of symbol keys)</span>
+כדי להפחית את הסיכוי להתנגשויות בשמות המזהים כאשר משתמשים ברכיבים חיצונים צד שלישי. לדוגמה, קוד של 
+jQuery
+יכול להשתמש בקידומת
+`"jquery."`
+עבור כל המזהים שהוא יוצר, וכך נקבל מזהים כדוגמת
+<span dir="ltr">`"jquery.element"`</span>.
+
+
+</div>
+
 
 ## Symbol Coercion
 
