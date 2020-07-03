@@ -334,21 +334,35 @@ let uid = Symbol.for("uid"),
 
 </div>
 
-הדוגמה לעיל מנסה לבצע פעולת חילוק של הסימול במכנה 1 , מה שגורם לשגיאה. שגיאה נזרקת ללא קשר לזהות האופרטור המתמטי
+הדוגמה לעיל מנסה לבצע פעולת חילוק של הסימול במכנה 1 , מה שגורם לשגיאה. השגיאה נזרקת ללא קשר לזהות האופרטור המתמטי
 (אופרטורים לוגים לא זורקים שגיאה כיוון שסימבול נחשב שווה לערך
  `true`, 
  בדיוק כמו כל ערך רגיל שאינו ריק בג׳אווהסקריפט
 ).
 
+## תכונות אוביקט מסוג סימבול
+
+המתודות
+<span dir="ltr">`Object.keys()`</span>
+ו-
+<span dir="ltr">`Object.getOwnPropertyNames()`</span>
+יכולות לשלוף את כל שמות התכונות באוביקט. הראשונה מחזירה את כל שמות התכונות הניתנות לספירה
+(enumerable),
+והאחרונה מחזירה את כל התכונות ללא קשר ליכולת הספירה שלהן. אף אחת מהן אינה מחזירה תכונות מסוג סימבול, וזאת כדי לשמור על צורת פעולתן מגרסת 
+ECMAScript 5
+באופן זהה. במקום זאת המתודה
+<span dir="ltr">`Object.getOwnPropertySymbols()`</span>
+נוספה לגרסת
+ECMAScript 6 
+כדי לאפשר לנו לקרוא תכונות מסוג סימבול מאוביקט
+
+הערך המוחזר מ 
+<span dir="ltr">`Object.getOwnPropertySymbols()`</span>
+הוא מערך של תכונות מסוג סימבול המשויכות לאוביקט
+(own property symbols).
+לדוגמה:
+
 </div>
-
-
-
-This example attempts to divide the symbol by 1, which causes an error. Errors are thrown regardless of the mathematical operator used (logical operators do not throw an error because all symbols are considered equivalent to `true`, just like any other non-empty value in JavaScript).
-
-## Retrieving Symbol Properties
-
-The `Object.keys()` and `Object.getOwnPropertyNames()` methods can retrieve all property names in an object. The former method returns all enumerable property names, and the latter returns all properties regardless of enumerability. Neither method returns symbol properties, however, to preserve their ECMAScript 5 functionality. Instead, the `Object.getOwnPropertySymbols()` method was added in ECMAScript 6 to allow you to retrieve property symbols from an object.
 
 The return value of `Object.getOwnPropertySymbols()` is an array of own property symbols. For example:
 
