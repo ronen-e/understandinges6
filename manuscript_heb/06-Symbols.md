@@ -362,9 +362,7 @@ ECMAScript 6
 (own property symbols).
 לדוגמה:
 
-</div>
-
-The return value of `Object.getOwnPropertySymbols()` is an array of own property symbols. For example:
+<div dir="rtl">
 
 ```js
 let uid = Symbol.for("uid");
@@ -379,33 +377,87 @@ console.log(symbols[0]);            // "Symbol(uid)"
 console.log(object[symbols[0]]);    // "12345"
 ```
 
-In this code, `object` has a single symbol property called `uid`. The array returned from `Object.getOwnPropertySymbols()` is an array containing just that symbol.
+</div>
 
-All objects start with zero own symbol properties, but objects can inherit symbol properties from their prototypes. ECMAScript 6 predefines several such properties, implemented using what are called well-known symbols.
+בקוד לעיל, לאוביקט
+`object`
+יש תכונת סימבול עם השם 
+`uid`.
+המערך שמוחזרת מ
+<span dir="ltr">`Object.getOwnPropertySymbols()`</span>
+הוא מערך שמכיל אך ורק את הסימבול הזה.
 
-## Exposing Internal Operations with Well-Known Symbols
+אוביקטים נוצרים ללא תכונות מסוג סימבול, אך יכולים לרשת 
+אותן מהפרוטוטיפ שלהם. 
+ECMAScript 6
+מגדירה מספר תכונות כאלו שמיושמות בעזרת מה שנקרא סימבולים ידועים
+(well-known symbols).
 
-A central theme for ECMAScript 5 was exposing and defining some of the "magic" parts of JavaScript, the parts that developers couldn't emulate at the time. ECMAScript 6 carries on that tradition by exposing even more of the previously internal logic of the language, primarily by using symbol prototype properties to define the basic behavior of certain objects.
+## חשיפת מנגנונים פנימיים באמצעות סימבולים ידועים
 
-ECMAScript 6 has predefined symbols called *well-known symbols* that represent common behaviors in JavaScript that were previously considered internal-only operations. Each well-known symbol is represented by a property on the `Symbol` object, such as `Symbol.create`.
+תכלית מרכזית בגרסת
+ECMAScript 5 
+היתה חשיפת והגדרת חלק מאותם חלקים ״קסומים״ בג׳אווהסקריפט, אותם חלקים שמפתחים לא יכולים היו לחקות באותו זמן.
+ECMAScript 6 
+ממשיכה באותו קו מחשבה על ידי חשיפה נרחבת יותר של מנגנונים פנימיים
+של השפה, בעיקר על ידי שימוש בתכונות מסוג סימבול על מנת להגדיר התנהגות של אוביקטים מסוימים.
 
-The well-known symbols are:
+ECMAScript 6
+הגדירה מספר סימבולים שנקראים 
+*סימבולים ידועים*
+(*well-known symbols*)
+אשר מייצגים התנהגות בג׳אווהסקריפט שקודם לכן הייתה פנימית לשפה ולא חשופה למפתחים. כל סימבול ידוע מיוצג על ידי תכונה על אוביקט
+`Symbol`,
+למשל 
+`Symbol.create`
 
-* `Symbol.hasInstance` - A method used by `instanceof` to determine an object's inheritance.
-* `Symbol.isConcatSpreadable` - A Boolean value indicating that `Array.prototype.concat()` should flatten the collection's elements if the collection is passed as a parameter to `Array.prototype.concat()`.
-* `Symbol.iterator` - A method that returns an iterator. (Iterators are covered in Chapter 8.)
-* `Symbol.match` - A method used by `String.prototype.match()` to compare strings.
-* `Symbol.replace` - A method used by `String.prototype.replace()` to replace substrings.
-* `Symbol.search` - A method used by `String.prototype.search()` to locate substrings.
-* `Symbol.species` - The constructor for making derived objects. (Derived objects are covered in Chapter 9.)
-* `Symbol.split` - A method used by `String.prototype.split()` to split up strings.
-* `Symbol.toPrimitive` - A method that returns a primitive value representation of an object.
-* `Symbol.toStringTag` - A string used by `Object.prototype.toString()` to create an object description.
-* `Symbol.unscopables` - An object whose properties are the names of object properties that should not be included in a `with` statement.
+הסימבולים הידועים הם:
 
-Some commonly used well-known symbols are discussed in the following sections, while others are discussed throughout the rest of the book to keep them in the correct context.
+* `Symbol.hasInstance` - מתודה שמשמשת את הפקודה
+ `instanceof`
+ כדי לבדוק ירושה של האוביקט.
+* `Symbol.isConcatSpreadable` -  ערך בוליאני שלפיו יוחלט האם המתודה
+<span dir="ltr">`Array.prototype.concat()`</span>
+תשטח את האלמנטים בתוך הקבוצה כאשר הקבוצה מועברת בתור פרמטר אל
+<span dir="ltr">`Array.prototype.concat()`</span>.
 
-I> Overwriting a method defined with a well-known symbol changes an ordinary object to an exotic object because this changes some internal default behavior. There is no practical impact to your code as a result, it just changes the way the specification describes the object.
+* `Symbol.iterator` - מתודה שמחזירה איטרטור. 
+(ראה פרק 8)
+* `Symbol.match` - מתודה שמשמשת את
+<span dir="ltr">`String.prototype.match()`</span>
+על מנת לבצע השוואה בין מחרוזות
+
+* `Symbol.replace` - מתודה שמשמשת את
+<span dir="ltr">`String.prototype.replace()`</span>
+להחליף בין מחרוזות פנימיות
+
+* `Symbol.search` - מתודה שמשמשת את
+<span dir="ltr">`String.prototype.search()`</span>
+ לאתר מחרוזות פנימיות
+
+* `Symbol.species` - הקונסטרקור ליצירת אוביקטים מורשים
+(
+<span dir="ltr">Derived objects</span>,
+ראה פרק 9.
+)
+
+* `Symbol.split` - מתודה שמשמשת את
+<span dir="ltr">`String.prototype.split()`</span>
+ לפיצול מחרוזות
+
+* `Symbol.toPrimitive` - מתודה שמחזירה ייצוג של אוביקט כערך פשוט
+* `Symbol.toStringTag` - מחרוזת שמשתמשת את
+<span dir="ltr">`Object.prototype.toString()`</span>
+כדי ליצור תיאור של אוביקט
+
+* `Symbol.unscopables` - אוביקט שתכונותיו הן שמות של תכונות שלא ייכללו בפקודת
+`with`
+
+מספר סימבולים ידועים יוסברו בפרק זה בעוד שאחרות יוסברו בפרקים אחרים כדי לשמור אותם בתוך ההקשר המתאים.
+
+I> דריסת מתודה שהוגדרה באמצעות סמל ידוע משנה אוביקט רגיל אל אוביקט אקזוטי, מכיוון שהדבר גורם לשינוי בהתנהגות פנימית. אין לכך השפעה מעשית על הקוד, זה פשוט משנה את הצורה שבה השפה מתייחסת לאוביקט.
+
+</div>
 
 ### The Symbol.hasInstance Property
 
