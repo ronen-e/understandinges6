@@ -716,32 +716,52 @@ I> אפשר גם להגדיר את
 <span dir="ltr">`concat()`</span>.
 תת מחלקות מופיעות בפרק 8.
 
-</div>
+### Symbol.match, Symbol.replace, Symbol.search, Symbol.split
 
-### The Symbol.match, Symbol.replace, Symbol.search, and Symbol.split Symbols
+מחרוזות וביטויים רגולריים תמיד היו קרובים זה לזה בג׳אווהסקריפט. עבור מחרוזת יש מספר מתודות שמקבלות ביטוי רגולרי בתור ארגומנטים
 
-Strings and regular expressions have always had a close relationship in JavaScript. The string type, in particular, has several methods that accept regular expressions as arguments:
+* `match(regex)` - קובעת מתי מחרוזות תואמת לביטוי רגולרי
+* `replace(regex, replacement)` - מחליפה התאמות לביטוי רגולרי עם
+`replacement`
+* `search(regex)` - מאתרת התאמה לביטוי רגולרי בתוך המחרוזת
+* `split(regex)` - מפצלת מחרוזת למערך לפי התאמה לביטוי רגולרי
 
-* `match(regex)` - Determines whether the given string matches a regular expression
-* `replace(regex, replacement)` - Replaces regular expression matches with a `replacement`
-* `search(regex)` - Locates a regular expression match inside the string
-* `split(regex)` - Splits a string into an array on a regular expression match
+לפני 
+ECMAScript 6,
+הצורה שבה מתודות אלו עבדו עם ביטויים רגולריים לא הייתה חשופה עבור מפתחים, ולא הייתה דרך לחקות ביטויים רגולריים באמצעות אוביקטים שהוגדרו על ידי המפתחים עצמם.
+ECMAScript 6 
+מגדירה ארבעה סימבולים שתואמים לארבעת המתודות הללו, למעשה היא מייצאת את ההתנהגות הקיימת לאוביקט הקיים מסוג 
+`RegExp`.
 
-Prior to ECMAScript 6, the way these methods interacted with regular expressions was hidden from developers, leaving no way to mimic regular expressions using developer-defined objects. ECMAScript 6 defines four symbols that correspond to these four methods, effectively outsourcing the native behavior to the `RegExp` builtin object.
+הסימבולים
+`Symbol.match`, `Symbol.replace`, `Symbol.search`, `Symbol.split`
+מייצגים מתודות במקום הארגומנט שמקבל ביטוי רגולרי בקריאה למתודות
+<span dir="ltr">`match()`</span>,
+<span dir="ltr">`replace()`</span>,
+<span dir="ltr">`search()`</span>,
+<span dir="ltr">`split()`</span>,
+בהתאמה. ארבעת התכונות מסוג סימבול מוגדרות בעבור האוביקט
+`RegExp.prototype`
+בצורה הדיפולטיבית שבה המתודות הללו אמורות לעבוד.
 
-The `Symbol.match`, `Symbol.replace`, `Symbol.search`, and `Symbol.split` symbols represent methods on the regular expression argument that should be called on the first argument to the `match()` method, the `replace()` method, the `search()` method, and the `split()` method, respectively. The four symbol properties are defined on `RegExp.prototype` as the default implementation that the string methods should use.
+ניתן ליצור אוביקט לשימוש עם מתודות האלו של מחרוזות בצורה שדומה לשימוש בביטויים רגולריים. לשם כך יש להשתמש בפונקציות הסימבול הבאות:
 
-Knowing this, you can create an object to use with the string methods in a way that is similar to regular expressions. To do, you can use the following symbol functions in code:
+* `Symbol.match` - פונקציה שמקבלת ארגומט מסוג מחרוזת ומחזירה מערך של תוצאות או את הערך
+`null`
+במידה ולא נמצאה כל תוצאה
+* `Symbol.replace` - פונקציה שמקבלת ארגומנט מסוג מחרוזת ומחרוזת נוספת לצורך החלפה, ומחזירה מחרוזת.
+* `Symbol.search` - פונקציה שמקבלת ארגומנט מסוג מחרוזת ומחזירה את האינדקס הנומרי של ההתאמה או את הערך
+(-1)
+במידה ולא נמצאה התאמה.
+* `Symbol.split` - פונקציה שמקבלת ארגומנט מסוג מחרוזת ומחזירה מערך שמכיל חתיכות של המחרוזת לאחר שפוצלו לפי ההתאמה
 
-* `Symbol.match` - A function that accepts a string argument and returns an array of matches, or `null` if no match is found.
-* `Symbol.replace` - A function that accepts a string argument and a replacement string, and returns a string.
-* `Symbol.search` - A function that accepts a string argument and returns the numeric index of the match, or -1 if no match is found.
-* `Symbol.split` - A function that accepts a string argument and returns an array containing pieces of the string split on the match.
+היכולת להגדיר תכונות אלו על אוביקט מאפשרת לנו ליצור אוביקטים שמשתמשים בהתאמה לפי תבנית רגולרית ללא שימוש בביטויים רגולריים ולהשתמש באותם אוביקטים במתודות שמצפות לקבל ביטויים רגולריים כארגומנטים. להלן דוגמה שמראה את הסימבולים הנ״ל בפעולה:
 
-The ability to define these properties on an object allows you to create objects that implement pattern matching without regular expressions and use them in methods that expect regular expressions. Here's an example that shows these symbols in action:
+
+<div dir="ltr">
 
 ```js
-// effectively equivalent to /^.{10}$/
+// /^.{10}$/
 let hasLengthOf10 = {
     [Symbol.match]: function(value) {
         return value.length === 10 ? [value] : null;
@@ -786,9 +806,24 @@ console.log(split1);            // ["Hello world"]
 console.log(split2);            // ["", ""]
 ```
 
-The `hasLengthOf10` object is intended to work like a regular expression that matches whenever the string length is exactly 10. Each of the four methods on `hasLengthOf10` is implemented using the appropriate symbol, and then the corresponding methods on two strings are called. The first string, `message1`, has 11 characters and so it will not match; the second string, `message2`, has 10 characters and so it will match. Despite not being a regular expression, `hasLengthOf10` is passed to each string method and used correctly due to the additional methods.
+</div>
 
-While this is a simple example, the ability to perform more complex matches than are currently possible with regular expressions opens up a lot of possibilities for custom pattern matchers.
+האוביקט
+`hasLengthOf10`
+נועד לעבוד כמו ביטוי רגולרי שתואם למחרוזת בעלת אורך של 10 בדיוק. כל אחת מארבעת המתודות על האוביקט
+`hasLengthOf10`
+ממומשת בעזרת הסימבול המתאים, ואז המתודות המקבילות על שתי מחרוזות נקראות. המחרוזת הראשונה, 
+`message1`
+בעלת 11 תווים ולכן אינה תואמת. המחרוזת השנייה,
+`message2`
+בעלת 10 תווים ולכן תהיה התאמה.
+למרות שאינו ביטוי רגולרי, האוביקט
+`hasLengthOf10`
+מועבר כארגומנט לכל מתודה של מחרוזת ונעשה בו שימוש נכון בזכות המתודות החדשות מסוג סימבול שהוספנו לו.
+
+הדוגמה שהוצגה הינה דוגמה פשוטה. אך קיימת עתה היכולת לבצע התאמות מורכבות יותר מאלו שניתן לבצע בעזרת ביטויים רגולריים.
+
+</div>
 
 ### The Symbol.toPrimitive Method
 
