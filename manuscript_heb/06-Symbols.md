@@ -607,11 +607,13 @@ W> ניתן לשנות את ההתנהגות הדיפולטיבית של
 `Symbol.hasInstance`
 על פונקציות שהמפתח כתב בעצמו ורק כאשר יש בכך צורך.
 
-</div>
+### Symbol.isConcatSpreadable
 
-### The Symbol.isConcatSpreadable Symbol
+למערכים בג׳אווהסקריפט יש מתודת
+<span dir="ltr">`concat()`</span>
+שנועדה לחבר שני מערכים יחד. להלן דוגמה לשימוש בה:
 
-JavaScript arrays have a `concat()` method designed to concatenate two arrays together. Here's how that method is used:
+<div dir="ltr">
 
 ```js
 let colors1 = [ "red", "green" ],
@@ -621,7 +623,18 @@ console.log(colors2.length);    // 4
 console.log(colors2);           // ["red","green","blue","black"]
 ```
 
-This code concatenates a new array to the end of `colors1` and creates `colors2`, a single array with all items from both arrays. However, the `concat()` method can also accept nonarray arguments and, in that case, those arguments are simply added to the end of the array. For example:
+</div>
+
+הקוד בדוגמה מחבר מערך חדש לסוף המערך בשם
+`colors1`
+ויוצר את המערך
+`colors2`,
+מערך עם כל האלמנטים משני המערכים. 
+המתודה
+<span dir="ltr">`concat()`</span>
+יכולה לקבל ארגומנטים שאינם מערכים ובמקרה שכזה, הם יתווספו כמות שהם לסוף המערך. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let colors1 = [ "red", "green" ],
@@ -631,9 +644,34 @@ console.log(colors2.length);    // 5
 console.log(colors2);           // ["red","green","blue","black","brown"]
 ```
 
-Here, the extra argument `"brown"` is passed to `concat()` and it becomes the fifth item in the `colors2` array. Why is an array argument treated differently than a string argument? The JavaScript specification says that arrays are automatically split into their individual items and all other types are not. Prior to ECMAScript 6, there was no way to adjust this behavior.
+</div>
 
-The `Symbol.isConcatSpreadable` property is a boolean value indicating that an object has a `length` property and numeric keys, and that its numeric property values should be added individually to the result of a `concat()` call. Unlike other well-known symbols, this symbol property doesn't appear on any standard objects by default. Instead, the symbol is available as a way to augment how `concat()` works on certain types of objects, effectively short-circuiting the default behavior. You can define any type to behave like arrays do in a `concat()` call, like this:
+בדוגמה זו הארגומנט
+`"brown"`
+מועבר אל
+<span dir="ltr">`concat()`</span>
+והופך לאלמנט החמישי במערך
+`colors2`.
+מדוע ארגומנט שהוא מערך מקבל יחס שונה מזה של ארגמונט מסוג מחרוזת? 
+האפיון של השפה קובע שמערכים מפוצלים לאלמנטים בודדים בעוד שסוגים אחרים לא. עד לגרסת
+ECMAScript 6,
+לא הייתה דרך לשנות התנהגות זו.
+
+התכונה
+`Symbol.isConcatSpreadable`
+הינה ערך בוליאני שמייצג כי לאוביקט יש תכונה בשם 
+`length`
+ותכונות שהמזהה שלהן הינו מספר ושערכי אותן תכונות צריכים להתווסף בנפרד כל אחת לתוצאת הקריאה למתודה
+<span dir="ltr">`concat()`</span>.
+בניגוד לסימבולים ידועים אחרים התכונה הזו אינה מופיעה על אוביקט רגיל בעת יצירתו. במקום זאת הסימבול קיים כדרך לשנות את הצורה בה 
+<span dir="ltr">`concat()`</span>.
+עובדת על אוביקטים מסוימים, ולמעשה דורסת את ההתנהגות הדיפולטיבית.
+ניתן להגדיר עבור כל סוג משתנה כך שינהג כמו מערך בעת קריאה למתודה
+<span dir="ltr">`concat()`</span>.
+כמו בדוגמה הבאה:
+
+
+<div dir="ltr">
 
 ```js
 let collection = {
@@ -649,9 +687,36 @@ console.log(messages.length);    // 3
 console.log(messages);           // ["Hi","Hello","world"]
 ```
 
-The `collection` object in this example is set up to look like an array: it has a `length` property and two numeric keys. The `Symbol.isConcatSpreadable` property is set to `true` to indicate that the property values should be added as individual items to an array. When `collection` is passed to the `concat()` method, the resulting array has `"Hello"` and `"world"` as separate items after the `"Hi"` element.
+</div>
 
-I> You can also set `Symbol.isConcatSpreadable` to `false` on array subclasses to prevent items from being separated by `concat()` calls. Subclassing is discussed in Chapter 8.
+האוביקט 
+`collection`
+בדוגמה לעיל נראה כמו מערך: יש לו תכונה בשם
+`length`
+ושני מזהים נומריים. התכונה
+`Symbol.isConcatSpreadable`
+מוגדרת עם הערך
+`true`
+כדי להבטיח שערכים יתווספו בתור אלמנטים נפרדים למערך. כאשר
+`collection`
+מועבר כארגומנט למתודה
+<span dir="ltr">`concat()`</span>,
+המערך החדש מכיל את הערכים 
+`"Hello"` 
+ו-
+`"world"`
+כערכים נפרדים לאחר הערך
+`"Hi"` 
+
+I> אפשר גם להגדיר את 
+`Symbol.isConcatSpreadable`
+עם הערך
+`false`
+עבור תת מחלקות של מערך כדי למנוע מאלמנטים להיות מופרדים על ידי קריאה למתודה
+<span dir="ltr">`concat()`</span>.
+תת מחלקות מופיעות בפרק 8.
+
+</div>
 
 ### The Symbol.match, Symbol.replace, Symbol.search, and Symbol.split Symbols
 
