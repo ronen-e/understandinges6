@@ -30,7 +30,7 @@ ECMAScript 6
 `Symbol` 
 כמו בדוגמה הבאה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let firstName = Symbol();
@@ -60,7 +60,7 @@ W> מאחר וסימבולים הינם ערכים פרימיטיביים, קר�
 `Symbol`
 מקבלת ארגומנט אופציונלי שמתאר את הסימבול. התיאור עצמו לא יכול לשמש לגשת לתכונה אך משמש למטרות דיבאג. לדוגמה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let firstName = Symbol("first name");
@@ -101,7 +101,7 @@ A>`typeof`
 A>כך שיחזיר
 A>`"symbol"`
 A>כאשר הוא פועל על סימבול. לדוגמה:
-A><div dir="rtl">
+A><div dir="ltr">
 A>
 A>```js
 A>let symbol = Symbol("test symbol");
@@ -126,7 +126,7 @@ A>הינו ללא ספק השיטה המועדפת והמועדפת ביותר.
 <span dir="ltr">`Object.defineProperties()`</span>
 כמו בדוגמה הבאה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let firstName = Symbol("first name");
@@ -179,7 +179,7 @@ ECMAScript 6
 <span dir="ltr">`Symbol.for()()`</span>.
 מקבלת פרמטר יחיד שהוא מזהה מסוג מחרוזת עבור הסימבול שנרצה ליצור. אותו פרמטר משמש גם בתור תיאור הסימבול. לדוגמה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let uid = Symbol.for("uid");
@@ -203,7 +203,7 @@ console.log(uid);               // "Symbol(uid)"
 עם אותו מפתח יחזירו את אותו סימבול, לדוגמה:
 
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let uid = Symbol.for("uid");
@@ -235,7 +235,7 @@ console.log(uid2);              // "Symbol(uid)"
 <span dir="ltr">`Symbol.keyFor()`</span>. 
 לדוגמה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let uid = Symbol.for("uid");
@@ -289,7 +289,7 @@ jQuery
 <span dir="ltr">`String()`</span>
 באופן ישיר כדי לקבל את אותה תוצאה. לדוגמה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let uid = Symbol.for("uid"),
@@ -306,7 +306,7 @@ console.log(desc);              // "Symbol(uid)"
 <span dir="ltr">`uid.toString()`</span>
 ומחזירה את תיאור הסימבול. אם ננסה לשרשר את הסימבול ישירות עם מחרוזות תיזרק שגיאה.
 
-<div dir="rtl">
+<div dir="ltr">
 
 
 ```js
@@ -324,7 +324,7 @@ let uid = Symbol.for("uid"),
 
 באופן דומה, לא ניתן לאלץ סימבול לערך מסוג מספר. כל האופרטורים המתמטיים גורמים לשגיאה כאשר הם פועלים על סימבול. לדוגמה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 
 ```js
@@ -362,7 +362,7 @@ ECMAScript 6
 (own property symbols).
 לדוגמה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let uid = Symbol.for("uid");
@@ -457,27 +457,62 @@ ECMAScript 6
 
 I> דריסת מתודה שהוגדרה באמצעות סמל ידוע משנה אוביקט רגיל אל אוביקט אקזוטי, מכיוון שהדבר גורם לשינוי בהתנהגות פנימית. אין לכך השפעה מעשית על הקוד, זה פשוט משנה את הצורה שבה השפה מתייחסת לאוביקט.
 
-</div>
 
-### The Symbol.hasInstance Property
+### Symbol.hasInstance
 
-Every function has a `Symbol.hasInstance` method that determines whether or not a given object is an instance of that function. The method is defined on `Function.prototype` so that all functions inherit the default behavior for the `instanceof` property and the method is nonwritable and nonconfigurable as well as nonenumerable, to ensure it doesn't get overwritten by mistake.
+לכל פונקציה יש מתודה עם המזהה
+`Symbol.hasInstance`
+שקובעת האם אוביקט מסוים הוא מופע של אותה פונקציה. המתודה מוגדרת על
+`Function.prototype`
+ולכן כל הפונקציות יורשות את ההתנהגות הדיפולטיבית עבור התכונה
+`instanceof` 
+והמתודה אינה ניתנת לכתיבה, שינוי ומניה,
+(nonwritable, nonconfigurable, nonenumerable)
+כדי לוודא שלא תידרס בטעות על ידי קוד אחר.
 
-The `Symbol.hasInstance` method accepts a single argument: the value to check. It returns true if the value passed is an instance of the function. To understand how `Symbol.hasInstance` works, consider the following code:
+המתודה
+`Symbol.hasInstance`
+מקבלת ארגומנט אחד: הערך שאותו יש לבדוק. היא מחזירה
+`true`
+אם הערך נחשב למופע של הפונקציה.
+כדי להבין איך
+`Symbol.hasInstance`
+עובדת, מוצג הקוד בדוגמה הבאה:
+
+
+<div dir="ltr">
+
 
 ```js
 obj instanceof Array;
 ```
 
-This code is equivalent to:
+</div>
+
+הקוד זהה למעשה ל:
+
+<div dir="ltr">
 
 ```js
 Array[Symbol.hasInstance](obj);
 ```
 
-ECMAScript 6 essentially redefined the `instanceof` operator as shorthand syntax for this method call. And now that there's a method call involved, you can actually change how `instanceof` works.
+</div>
 
-For instance, suppose you want to define a function that claims no object as an instance. You can do so by hardcoding the return value of `Symbol.hasInstance` to `false`, such as:
+ECMAScript 6
+למעשה מגדירה מחדש את האופרטור
+`instanceof`
+בתור תחביר מקוצר לקריאת המתודה הזו. וכעת כאשר מדובר בקריאה לפונקציה ניתן לשנות את הדרך שבה האופרטור
+`instanceof`
+עובד.
+
+נניח שהיינו רוצים להגדיר פונקציה שאף אוביקט אינו נחשב למופע שלה. ניתן לעשות זאת על ידי שינוי הערך המוחזר מן
+`Symbol.hasInstance`
+לערך
+`false`. 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function MyObject() {
@@ -495,9 +530,27 @@ let obj = new MyObject();
 console.log(obj instanceof MyObject);       // false
 ```
 
-You must use `Object.defineProperty()` to overwrite a nonwritable property, so this example uses that method to overwrite the `Symbol.hasInstance` method with a new function. The new function always returns `false`, so even though `obj` is actually an instance of the `MyObject` class, the `instanceof` operator returns `false` after the `Object.defineProperty()` call.
+</div>
 
-Of course, you can also inspect the value and decide whether or not a value should be considered an instance based on any arbitrary condition. For instance, maybe numbers with values between 1 and 100 are to be considered instances of a special number type. To achieve that behavior, you might write code like this:
+חייבים להשתמש במתודה
+<span dir="ltr">`Object.defineProperty()`</span>
+כדי לכתוב לתכונה שהוגדרה לקריאה בלבד, ולכן הדוגמה משתמשת במתודה זו כדי לשכתב את המתודה
+`Symbol.hasInstance`
+ולהחליפה בפונקציה חדשה. הפונקציה החדשה תמיד מחזירה את הערך
+`false`,
+כך שגם אם 
+`obj`
+הינו למעשה מופע של 
+`MyObject`
+האופרטור
+`instanceof`
+יחזיר 
+`false`.
+
+כמובן, ניתן גם לבדוק את הערך והחליט האם מדובר במופע של קונסטרקטור מסוים על סמך תנאי מסוים. לדוגמה ייתכן כי מספרים בעלי ערך בין 1 עד 100 נחשבים למופע של סוג מסוים. כדי לממש התנהגות זו תוכל לכתוב קוד דומה לזה שבדוגמה הבאה:
+
+
+<div dir="ltr">
 
 ```js
 function SpecialNumber() {
@@ -517,9 +570,44 @@ console.log(two instanceof SpecialNumber);    // true
 console.log(zero instanceof SpecialNumber);   // false
 ```
 
-This code defines a `Symbol.hasInstance` method that returns `true` if the value is an instance of `Number` and also has a value between 1 and 100. Thus, `SpecialNumber` will claim `two` as an instance even though there is no directly defined relationship between the `SpecialNumber` function and the `two` variable. Note that the left operand to `instanceof` must be an object to trigger the `Symbol.hasInstance` call, as nonobjects cause `instanceof` to simply return `false` all the time.
+</div>
 
-W> You can also overwrite the default `Symbol.hasInstance` property for all builtin functions such as the `Date` and `Error` functions. This isn't recommended, however, as the effects on your code can be unexpected and confusing. It's a good idea to only overwrite `Symbol.hasInstance` on your own functions and only when necessary.
+הקוד בדוגמא מגדיר מתודה 
+`Symbol.hasInstance`
+שמחזירה
+`true`
+אם הערך הוא מופע של
+`Number`
+וגם נמצא בין 1 ל 100.
+לכן 
+`SpecialNumber`
+יתייחס למשתנה
+`two`
+כאל מופע שלו למרות שאין קשר ישיר בין הפונקציה 
+`SpecialNumber`
+והמשתנה
+`two`.
+שימו לב שהאופרנד השמאלי לאופרטור 
+`instanceof`
+חייב להיות אוביקט על מנת להפעיל את הקריאה למתודה
+`Symbol.hasInstance`,
+מכיוון שמשתנה שאינו אוביקט יגרום לאופרטור
+`instanceof`
+להחזיר
+`false`
+באופן קבוע.
+
+W> ניתן לשנות את ההתנהגות הדיפולטיבית של 
+`Symbol.hasInstance`
+עבור כל הפונקציות המוגדרות מראש כמו למשל
+`Date`
+ו-
+`Error`. 
+הדבר אינו מומלץ מכיוון וההשפעה על הקוד יכול להיות בלתי צפויה ומבלבלת. מומלץ לדרוס את המתודה
+`Symbol.hasInstance`
+על פונקציות שהמפתח כתב בעצמו ורק כאשר יש בכך צורך.
+
+</div>
 
 ### The Symbol.isConcatSpreadable Symbol
 
