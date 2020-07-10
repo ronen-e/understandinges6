@@ -479,7 +479,6 @@ I> דריסת מתודה שהוגדרה באמצעות סמל ידוע משנה 
 `Symbol.hasInstance`
 עובדת, מוצג הקוד בדוגמה הבאה:
 
-
 <div dir="ltr">
 
 
@@ -821,33 +820,81 @@ console.log(split2);            // ["", ""]
 `hasLengthOf10`
 מועבר כארגומנט לכל מתודה של מחרוזת ונעשה בו שימוש נכון בזכות המתודות החדשות מסוג סימבול שהוספנו לו.
 
-הדוגמה שהוצגה הינה דוגמה פשוטה. אך קיימת עתה היכולת לבצע התאמות מורכבות יותר מאלו שניתן לבצע בעזרת ביטויים רגולריים.
+הדוגמה שהוצגה הינה דוגמה פשוטה. אך ניתן לבצע התאמות מורכבות יותר.
 
-</div>
+### Symbol.toPrimitive
 
-### The Symbol.toPrimitive Method
+ג׳אווהסקריפט מנסה באופן תדיר ובצורה עקיפה להמיר אוביקטים לערכים פרימיטיביים בזמן ביצוע פעולות מסוימות. לדוגמה, כאשר משווים מחרוזת לאוביקט באמצעות אופרטור השוואה כפולה
+(`==`),
+האוביקט מומר לערך פרימיטיבי לפני ההשוואה. הערך הפרימיטיבי הנ״ל היה עד עתה חלק מפעולה פנימית, אך 
+ECMAScript 6
+חושפת את הערך ומאפשרת שינויו בעזרת המתודה
+`Symbol.toPrimitive`
 
-JavaScript frequently attempts to convert objects into primitive values implicitly when certain operations are applied. For instance, when you compare a string to an object using the double equals (`==`) operator, the object is converted into a primitive value before comparing. Exactly what primitive value should be used was previously an internal operation, but ECMAScript 6 exposes that value (making it changeable) through the `Symbol.toPrimitive` method.
+המתודה
+`Symbol.toPrimitive`
+מוגדרת על הפרוטוטייפ של כל סוג סטנדרטי ומתארת מה קורה כאשר אוביקט מומר לערך פרימיטיבי. כאשר יש צורך בהמרה לערך פרימיטיבי, מתבצעת קריאה למתודה עם ארגומנט אחד, שנקרה
+`hint`
+באפיון השפה.
+לארגומנט 
+`hint`
+שלושה ערכים אפשריים.
+במידה וערכו של 
+`hint`
+הינו
+`"number"`
+המתודה
+`Symbol.toPrimitive`
+צריכה להחזיר מספר. אם
+`hint`
+הינו 
+`"string"`
+אז המתודה תחזיר מחרוזת, ואם ערכו
+`"default"`
+אז אין העדפה מיוחדת בעניין סוג הערך המוחזר.
 
-The `Symbol.toPrimitive` method is defined on the prototype of each standard type and prescribes what should happen when the object is converted into a primitive. When a primitive conversion is needed, `Symbol.toPrimitive` is called with a single argument, referred to as `hint` in the specification. The `hint` argument is one of three string values. If `hint` is `"number"` then `Symbol.toPrimitive` should return a number. If `hint` is `"string"` then a string should be returned, and if it's `"default"` then the operation has no preference as to the type.
+עבור רוב האוביקטים הסטנדרטים, מצב ״מספר״ מבטא את ההתנהגות הבאה לפי הסדר:
 
-For most standard objects, number mode has the following behaviors, in order by priority:
+1. קריאה למתודה
+`valueOf()`,
+ואם התוצאה הינה ערך פרימיטיבי הוא מוחזר.
+1. אחרת, תתבצע קריאה למתודה
+`toString()`, 
+ואם התוצאה הינה ערך פרימיטיבי הוא יוחזר.
+1. אחרת, תיזרק שגיאה.
 
-1. Call the `valueOf()` method, and if the result is a primitive value, return it.
-1. Otherwise, call the `toString()` method, and if the result is a primitive value, return it.
-1. Otherwise, throw an error.
+באופן דומה, עבור רוב האוביקטים הסטנדרטים מצב ״מחרוזת״ מבטא את ההתנהגות הבאה:
 
-Similarly, for most standard objects, the behaviors of string mode have the following priority:
+1. קריאה למתודה
+`toString()`,
+ואם התוצאה הינה ערך פרימיטיבי הוא מוחזר.
+1. אחרת, תתבצע קריאה למתודה
+`valueOf()`, 
+ואם התוצאה הינה ערך פרימיטיבי הוא יוחזר.
+1. אחרת, תיזרק שגיאה.
 
-1. Call the `toString()` method, and if the result is a primitive value, return it.
-1. Otherwise, call the `valueOf()` method, and if the result is a primitive value, return it.
-1. Otherwise, throw an error.
+ברוב המקרים אוביקטים סטנדרטים מתייחסים למצב דיפולטיבי כמו למצב ״מספרי״
+(
+מלבד 
+`Date`,
+שמתייחס למצב דיפולטיבי כמו למצב ״מחרוזת״
+).
+על ידי הגדרת המתודה
+`Symbol.toPrimitive`
+ניתן לעקוף את ההתנהגויות הדיפולטיביות של המרה לערך פרימיטיבי.
 
-In many cases, standard objects treat default mode as equivalent to number mode (except for `Date`, which treats default mode as equivalent to string mode). By defining an `Symbol.toPrimitive` method, you can override these default coercion behaviors.
+I> מצב דיפולטיבי משמש רק עובר האופרטורים
+`==`, `+`,
+וכאשר מעבירים ארגומנט בודד לקונסטרקטור
+`Date`.
+רוב הפעולות משתמשות במצב ״מחרוזת״ או מצב ״מספר״
 
-I> Default mode is only used for the `==` operator, the `+` operator, and when passing a single argument to the `Date` constructor. Most operations use string or number mode.
+כדי לעקוף את התנהגות ההמרה הדיפולטיבית ניתן להגדיר מתודה עבור המזהה 
+`Symbol.toPrimitive`. 
+לדוגמה:
 
-To override the default conversion behaviors, use `Symbol.toPrimitive` and assign a function as its value. For example:
+
+<div dir="ltr">
 
 ```js
 function Temperature(degrees) {
@@ -858,7 +905,7 @@ Temperature.prototype[Symbol.toPrimitive] = function(hint) {
 
     switch (hint) {
         case "string":
-            return this.degrees + "\u00b0"; // degrees symbol
+            return this.degrees + "\u00b0"; // סמל מעלות לטמפרטורה
 
         case "number":
             return this.degrees;
@@ -875,9 +922,53 @@ console.log(freezing / 2);              // 16
 console.log(String(freezing));          // "32°"
 ```
 
-This script defines a `Temperature` constructor and overrides the default `Symbol.toPrimitive` method on the prototype. A different value is returned depending on whether the `hint` argument indicates string, number, or default mode (the `hint` argument is filled in by the JavaScript engine). In string mode, the `Symbol.toPrimitive` method returns the temperature with the Unicode degrees symbol. In number mode, it returns just the numeric value, and in default mode, it appends the word "degrees" after the number.
+</div>
 
-Each of the log statements triggers a different `hint` argument value. The `+` operator triggers default mode by setting `hint` to `"default"`, the `/` operator triggers number mode by setting `hint` to `"number"`, and the `String()` function triggers string mode by setting `hint` to `"string"`. Returning different values for all three modes is possible, it's much more common to set the default mode to be the same as string or number mode.
+הקוד מגדיר קונסטרקטור בשם
+`Temperature` 
+ועוקף את המתודה 
+`Symbol.toPrimitive`
+שנמצאת על הפרוטוטיפ. ערך שונה מוחזר בהתאם לערך הארגומנט 
+`hint`
+שמצביע על מצב מסוג ״מספר״, ״מחרוזת״ או מצב דיפולטיבי
+(
+הארגומנט
+`hint`
+מתקבל באמצעות מנוע הריצה של ג׳אווהסקריפט
+).
+במצב מחרוזת, המתודה
+`Symbol.toPrimitive`
+מחזירה את הטמפרטורה עם סמל המעלות בסולם
+Unicode.
+במצב מספרי היא מחזירה רק את הערך הנומרי,
+ובמצב דיפולטיבי, היא  מוסיפה את המילה
+"degrees"
+אחרי הערך המספרי.
+
+כל אחת מפקודות ההדפסה מייצרת ערך שונה לארגומנט 
+`hint`.
+האופרטור
+`+`
+מפעיל מצב דיפולטיבי ומגדיר את ערך הארגומנט
+`hint`
+לערך
+`"default"`,
+האופרטור
+`/`
+מפעיל מצב מספרי ומגדיר את ערך הארגומנט 
+`hint`
+לערך 
+`"number"`,
+והפונקציה
+<span dir="ltr">`String()`</span>
+מפעילה מצב מחרוזת ומגדירה את ערך הארגומנט 
+`hint`
+לערך 
+ `"string"`.
+החזרת ערכים שונים עבור כל שלושת המצבים אפשרית, אך נפוץ יותר להגדיר את המצב הדיפולטיבי כך שיהיה זהה למצב מספרי או מצב מחרוזת.
+
+
+</div>
 
 ### The Symbol.toStringTag Symbol
 
