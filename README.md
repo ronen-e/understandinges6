@@ -4,7 +4,7 @@
 
 מאת ניקולאס סי. זאקאס
 
-![Creative Commons License](http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png)
+[![Creative Commons License](http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png)](https://creativecommons.org/licenses/by-nc-nd/3.0/)
 
 ECMAScript 6
 מהווה את השינוי הגדול ביותר שעבר על מה שידוע לנו כ
