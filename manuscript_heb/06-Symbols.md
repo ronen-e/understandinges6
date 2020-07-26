@@ -1205,17 +1205,27 @@ console.log(Object.prototype.toString.call(values));    // "[object Magic]"
 מחזירה את הערך
 `"[object Magic]"`.
 בעוד שאני ממליץ לא לשנות אוביקטים מובנים בדרך זו אין משהו בשפה שמונע זאת מאיתנו.
-</div>
 
-### The Symbol.unscopables Symbol
+### Symbol.unscopables 
 
-The `with` statement is one of the most controversial parts of JavaScript. Originally designed to avoid repetitive typing, the `with` statement later became roundly criticized for making code harder to understand and for negative performance implications as well as being error-prone.
+פקודת
+`with`
+הינה אחד מהחלקים היותר שנויים במחלוקת.
+במקור היא נועדה להימנע מהקלדה עודפת. היא קיבלה ביקורת בתור פקודה שמקשה על הבנת הקוד ובגלל השלכות על ביצועים שליליים כמו גם היותה מועדת לשגיאות.
 
-As a result, the `with` statement is not allowed in strict mode; that restriction also affects classes and modules, which are strict mode by default and have no opt-out.
+כתוצאה מכך הפקודה
+`with`
+אינה מורשית לשימוש במצב קשיח.
+המגבלה משפיעה גם על מחלקות ומודולים, שפועלות במצב קשיח באופן דיפולטיבי.
 
-While future code will undoubtedly not use the `with` statement, ECMAScript 6 still supports `with` in nonstrict mode for backwards compatibility and, as such, had to find ways to allow code that does use `with` to continue to work properly.
+בעוד שקוד עתידי לא ישתמש בפקודת 
+`with`
+הפקודה עדיין נתמכת באקמהסקריפט 6 במצב רגיל למען תאימות לאחור, ולכן היה צורך למצוא דרכים שמאפשרות שימוש תקין בקוד שמשתמש בפקודה
+`with`.
 
-To understand the complexity of this task, consider the following code:
+כדי להבין את מורכבות המשימה חשוב על הדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let values = [1, 2, 3],
@@ -1229,15 +1239,66 @@ with(colors) {
 
 console.log(colors);    // ["red", "green", "blue", "black", 1, 2, 3]
 ```
+</div>
 
-In this example, the two calls to `push()` inside the `with` statement are equivalent to `colors.push()` because the `with` statement added `push` as a local binding. The `color` reference refers to the variable created outside the `with` statement, as does the `values` reference.
+בדוגמה לעיל, 2 הקריאות לפונקציה
+<span dir="ltr">`push()`</span>
+בתוך פקודת
+`with`
+זהות לשימוש ב
+<span dir="ltr">`colors.push()`</span>
+מכיוון שפקודת
+`with`
+הוסיפה את המזהה
+`push`
+בתור מזהה מקומי. הקישור למזהה
+`color`
+הינו עבור המשתנה שנוצר מחוץ לפקודת
+`with`
+כך גם לגבי הקישור למזהה
+`values`.
 
-But ECMAScript 6 added a `values` method to arrays. (The `values` method is discussed in detail in Chapter 7, "Iterators and Generators.") That would mean in an ECMAScript 6 environment, the `values` reference inside the `with` statement should refer not to the local variable `values`, but to the array's `values` method, which would break the code. This is why the `Symbol.unscopables` symbol exists.
+אך אקמהסקריפט 6 הוסיפה את המתודה
+`values`
+למערכים.
+(
+    המתודה 
+    `values`
+    מוסברת בהרחבה בפרק 7,
+    ״איטרטורים וגנרטורים״.
+)
+המשמעות היא שבסביבת אקמהסקריפט 6 המזהה 
+`values`
+בתוך פקודת 
+`with`
+יציבע על המתודה 
+`values`
+ולא על המשתנה המקומי בשם 
+`values`, 
+מה שישבור את הקוד.
+זו הסיבה לקיומו של הסימבול
+`Symbol.unscopables`.
 
-The `Symbol.unscopables` symbol is used on `Array.prototype` to indicate which properties shouldn't create bindings inside of a `with` statement. When present, `Symbol.unscopables` is an object whose keys are the identifiers to omit from `with` statement bindings and whose values are `true` to enforce the block. Here's the default `Symbol.unscopables` property for arrays:
+הסימבול
+`Symbol.unscopables`
+נמצא בשימוש על האוביקט
+`Array.prototype`
+כדי להחליט אילו תכונות לא צריכות לייצר מזהים בתוך פקודת
+`with`
+כאשר הוא מופיע,
+`Symbol.unscopables`
+הינו אוביקט ששמות תכונותיו הינן המזהים שיושמטו מפקודת 
+`with`
+ושהערך עבורן הוא
+`true`.
+כך נראית התכונה הדיפולטיבית
+`Symbol.unscopables`
+עבור מערכים:
+
+</div>
 
 ```js
-// built into ECMAScript 6 by default
+// קיים באקמהסקריפט 6 באופן מובנה
 Array.prototype[Symbol.unscopables] = Object.assign(Object.create(null), {
     copyWithin: true,
     entries: true,
@@ -1249,7 +1310,30 @@ Array.prototype[Symbol.unscopables] = Object.assign(Object.create(null), {
 });
 ```
 
-The `Symbol.unscopables` object has a `null` prototype, which is created by the `Object.create(null)` call, and contains all of the new array methods in ECMAScript 6. (These methods are covered in detail in Chapter 7, "Iterators and Generators," and Chapter 9, "Arrays.") Bindings for these methods are not created inside a `with` statement, allowing old code to continue working without any problem.
+<div dir="ltr">
+
+האוביקט 
+`Symbol.unscopables`
+בעל פרוטוטיפ מסוג
+`null`,
+שנוצר על ידי קריאה ל
+<span dir="ltr">`Object.create(null)`</span>
+ומכילה את כל המתודות החדשות של מערכים באקמהסקריפט 6.
+(
+    המתודות מוסברות בפרק 7,
+    ״איטרטורים וגנרטורים״,
+    ובפרק 9,
+    ״מערכים״.
+)
+מזהים עבור מתודות אלו לא נוצרים בתוך פקודת
+`with`
+וכך מתאפשר לקוד ישן לעבוד מבלי ליצור בעיות.
+
+בעקרון, לא יהיה צורך להגדיר את
+`Symbol.unscopables`
+עבור אוביקטים משלנו אלא אם משתמשים בפקודת
+`with`
+ומבצעים שינויים לאוביקט קיים
 
 In general, you shouldn't need to define `Symbol.unscopables` for your objects unless you use the `with` statement and are making changes to an existing object in your code base.
 
