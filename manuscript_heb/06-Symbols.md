@@ -1188,7 +1188,6 @@ console.log(Object.prototype.toString.call(me));    // "[object Array]"
 
 <div dir="ltr">
 
-
 ```js
 Array.prototype[Symbol.toStringTag] = "Magic";
 
@@ -1335,16 +1334,29 @@ Array.prototype[Symbol.unscopables] = Object.assign(Object.create(null), {
 `with`
 ומבצעים שינויים לאוביקט קיים
 
-In general, you shouldn't need to define `Symbol.unscopables` for your objects unless you use the `with` statement and are making changes to an existing object in your code base.
+## סיכום
 
-## Summary
+סימבול הוא סוג חדש של ערך פרימיטיבי בג׳אווהסקריפט ומשמשים ליצור תכונות שלא ניתן לגשת אליהן מבלי להשתמש בסימבול עצמו.
 
-Symbols are a new type of primitive value in JavaScript and are used to create properties that can't be accessed without referencing the symbol.
+בעוד שאינן באמת תכונות פרטיות, קשה יותר לשנותן באופן לא מכוון והם יותר מתאימים להרצת קוד שזקוק לרמה מסוימת של הגנה מפני מפתחים אחרים.
 
-While not truly private, these properties are harder to accidentally change or overwrite and are therefore suitable for functionality that needs a level of protection from developers.
+ניתן לספק עבור סימבולים תיאור שמקל על זיהוי ערכי סימבולים. קיים מרשם סימבולים גלובלי שמאפשר לנו להשתמש בסימבולים משותפים בחלקים שונים בקוד על ידי שימוש באותו תיאור. בדרך זו, אותו סימבול יכול לשמש עבור אותה סיבה במספר מקומות.
 
-You can provide descriptions for symbols that allow for easier identification of symbol values. There is a global symbol registry that allows you to use shared symbols in different parts of code by using the same description. In this way, the same symbol can be used for the same reason in multiple places.
+מתודות כמו
+<span dir="ltr">`Object.keys()`</span>
+או
+<span dir="ltr">`Object.getOwnPropertyNames()`</span>
+לא מחזירות סימבולים.
+לכן נוספה מתודה חדשה באקמהסקריפט 6 כדי לאפשר שליפת תכונות מסוג סימבול. עדיין ניתן לשנות תכונות מסוג סימבול על ידי שימוש במתודות 
+<span dir="ltr">`Object.defineProperty()`</span>
+ו-
+<span dir="ltr">`Object.defineProperties()`</span>.
 
-Methods like `Object.keys()` or `Object.getOwnPropertyNames()` don't return symbols, so a new method called `Object.getOwnPropertySymbols()` was added in ECMAScript 6 to allow retrieval of symbol properties. You can still make changes to symbol properties by calling the `Object.defineProperty()` and `Object.defineProperties()` methods.
+סימבולים מוכרים מגדירים התנהגות שבעבר נחשבה להתנהגות פנימית
+עבור אוביקטים ומשתמשים בסימבולים במרחב הגלובלי, כמו למשל
+`Symbol.hasInstance`. 
+הסימבולים הללו משתמשים בקידומת 
+`Symbol.` 
+באפיון השפה ומאפשרים למפתחים לשנות התנהגות רגילה בעבור אוביקטים במגוון דרכים.
 
-Well-known symbols define previously internal-only functionality for standard objects and use globally-available symbol constants, such as the `Symbol.hasInstance` property. These symbols use the prefix `Symbol.` in the specification and allow developers to modify standard object behavior in a variety of ways.
+</div>
