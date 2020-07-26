@@ -967,18 +967,35 @@ Unicode.
  `"string"`.
 החזרת ערכים שונים עבור כל שלושת המצבים אפשרית, אך נפוץ יותר להגדיר את המצב הדיפולטיבי כך שיהיה זהה למצב מספרי או מצב מחרוזת.
 
+### Symbol.toStringTag
 
-</div>
+אחת הבעיות המעניינות יותר בג׳אווהסקריפט הייתה קיומן של מספר סביבות הרצה גלובליות. זה קורה בדפדפנים כאשר דף מכיל דף אחר, למשל על ידי שימוש בתגית
+`iframe`, 
+כאשר כל דף מכיל סביבת הרצה משלו. במרבית המקרים הדבר אינו יוצר בעיה, מכיוון ונתונים יכולים לעבור בין הסביבות ללא סיבה לדאגה. הבעיה מופיעה כאשר מנסים לזהות את סוג האוביקט לאחר שהועבר בין סביבות שונות.
 
-### The Symbol.toStringTag Symbol
+הדוגמה הנפוצה לבעיה היא העברת מערך מתוך 
+iframe 
+אל הדף המכיל או להיפך.
+מבחינת הטרמינולוגיה של אקמהסקריפט 6 ה-
+iframe
+והדף המכיל אותה נחשבים כל אחד בנפרד בתור *מרחב ריצה*
+(*realm*)
+עצמאי שנחשב לסביבת הרצה עבור ג׳אווהסקריפט.
+לכל מרחב ריצה את המרחב הגלובלי שלו ועותק נפרד של אוביקטים גלובלים. בכל מרחב ריצה שבו מוגדר המערך, הוא אכן מערך. אך כאשר הוא מועבר למרחב ריצה שונה קריאה לפעולה
+`instanceof Array`
+מחזירה את הערך
+`false` 
+מפני שהמערך נוצר על ידי קונסטרקטור ממרחב ריצה שונה והמזהה
+`Array` 
+מייצג את הקונסטרקטור ממרחב הריצה הנוכחי.
 
-One of the most interesting problems in JavaScript has been the availability of multiple global execution environments. This occurs in web browsers when a page includes an iframe, as the page and the iframe each have their own execution environments. In most cases, this isn't a problem, as data can be passed back and forth between the environments with little cause for concern. The problem arises when trying to identify what type of object you're dealing with after the object has been passed between different environments.
+#### פתרון בעיית הזיהוי בצורה עקיפה
 
-The canonical example of this issue is passing an array from an iframe into the containing page or vice-versa. In ECMAScript 6 terminology, the iframe and the containing page each represent a different *realm* which is an execution environment for JavaScript. Each realm has its own global scope with its own copy of global objects. In whichever realm the array is created, it is definitely an array. When it's passed to a different realm, however, an `instanceof Array` call returns `false` because the array was created with a constructor from a different realm and `Array` represents the constructor in the current realm.
+מפתחים מצאו שיטה טובה לזהות מערכים. הם גילו שקריאה למתודה
+`toString()` 
+על אוביקט מחזירה תמיד את אותו ערך. לכן ספריות ג׳אווהסקריפט רבות מכילות פונקציה כמו הפונקציה בדוגמה הבאה:
 
-#### A Workaround for the Identification Problem
-
-Faced with this problem, developers soon found a good way to identify arrays. They discovered that by calling the standard `toString()` method on the object, a predictable string was always returned. Thus, many JavaScript libraries began including a function like this:
+<div dir="ltr">
 
 ```js
 function isArray(value) {
@@ -988,11 +1005,35 @@ function isArray(value) {
 console.log(isArray([]));   // true
 ```
 
-This may look a bit roundabout, but it worked quite well for identifying arrays in all browsers. The `toString()` method on arrays isn't useful for identifying an object because it returns a string representation of the items the object contains. But the `toString()` method on `Object.prototype` had a quirk: it included internally-defined name called `[[Class]]` in the returned result. Developers could use this method on an object to retrieve what the JavaScript environment thought the object's data type was.
+</div>
 
-Developers quickly realized that since there was no way to change this behavior, it was possible to use the same approach to distinguish between native objects and those created by developers. The most important case of this was the ECMAScript 5 `JSON` object.
+זה אולי נראה כמו פתרון עקום, אבל הוא אכן פתר את בעיית זיהוי המערכים בכל הדפדפנים. המתודה 
+<span dir="ltr">`toString()`</span>
+של מערך אינה יעילה לזיהוי אוביקט מכיוון שהיא מחזירה ייצוג כמחרוזת תווים של הפריטים שאותו אוביקט מכיל. אך המתודה
+<span dir="ltr">`toString()`</span>
+ששייכת לאוביקט
+`Object.prototype`
+כוללת בתוכה פרמטר פנימי בשם
+`[[Class]]`
+בתוצאה. 
+מפתחים היו מסוגלים להשתמש במתודה זו על אוביקט על מנת להציג את מה שסביבת הריצה החשיבה לסוג האוביקט.
 
-Prior to ECMAScript 5, many developers used Douglas Crockford's *json2.js*, which creates a global `JSON` object. As browsers started to implement the `JSON` global object, figuring out whether the global `JSON` was provided by the JavaScript environment itself or through some other library became necessary. Using the same technique I showed with the `isArray()` function, many developers created functions like this:
+לא הייתה דרך לשנות התנהגות זו. היה ניתן להשתמש בשיטה כדי להבדיל בין אוביקטים של השפה ואלו שנוצרו על ידי מפתחים.
+המקרה החשוב ביותר של נושא זה היה אוביקט 
+`JSON`
+של אקמהסקריפט 5.
+
+לפני אקמהסקריפט 5, מפתחים רבים השתמשו בקובץ 
+*json2.js*
+של דאגלס קרוקפורד שיצר אוביקט גלובלי. כאשר דפדפנים החלו לממש בעצמם את האוביקט 
+הגלובלי
+`JSON` 
+היה נחוץ לדעת האם אותו אוביקט נוצר על ידי הסביבה עצמה או על ידי ספריה חיצונית. 
+בעזרת שימוש באותה טכניקה שהראיתי קודם עם הפונקציה
+<span dir="ltr">`isArray()`</span>,
+מפתחים יצרו פונקציות כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 function supportsNativeJSON() {
@@ -1001,13 +1042,38 @@ function supportsNativeJSON() {
 }
 ```
 
-The same characteristic of `Object.prototype` that allowed developers to identify arrays across iframe boundaries also provided a way to tell if `JSON` was the native `JSON` object or not. A non-native `JSON` object would return `[object Object]` while the native version returned `[object JSON]` instead. This approach became the de facto standard for identifying native objects.
+</div>
 
-#### The ECMAScript 6 Answer
+אותן תכונות של 
+`Object.prototype
+שאפשרו למפתחים לזהות מערכים בין תגיות 
+iframe 
+אפשרו לדעת האם 
+`JSON`
+היה אוביקט מובנה בסביבה או לא.
+אוביקט שאינו מובנה יחזיר
+`[object Object]`
+בעוד שגרסה מובנית תחזיר
+`[object JSON]`.
+טכניקה זו הפכה לשיטה סטנדרטית לזיהוי אוביקטים מובנים.
 
-ECMAScript 6 redefines this behavior through the `Symbol.toStringTag` symbol. This symbol represents a property on each object that defines what value should be produced when `Object.prototype.toString.call()` is called on it. For an array, the value that function returns is explained by storing `"Array"` in the `Symbol.toStringTag` property.
+#### ECMAScript 6
 
-Likewise, you can define the `Symbol.toStringTag` value for your own objects:
+אקמהסקריפט 6 נותנת גישה להתנהגות זו בעזרת הסימבול
+`Symbol.toStringTag`.
+הסימבול מייצג תכונה של כל אוביקט שמגדירה את הערך שיוחזר בקריאה לפונקציה
+<span dir="ltr">`Object.prototype.toString.call()`</span>
+על האוביקט.
+בעבור מערך הערך שמוחזר מהפונקציה שמור בערך 
+`"Array"`
+עבור התכונה
+`Symbol.toStringTag`
+
+באופן דומה, ביכולתך להגדיר את הערך של הסימבול
+`Symbol.toStringTag`
+עבור אוביקטים משלך:
+
+<div dir="ltr">
 
 ```js
 function Person(name) {
@@ -1021,8 +1087,27 @@ let me = new Person("Nicholas");
 console.log(me.toString());                         // "[object Person]"
 console.log(Object.prototype.toString.call(me));    // "[object Person]"
 ```
+</div>
 
-In this example, a `Symbol.toStringTag` property is defined on `Person.prototype` to provide the default behavior for creating a string representation. Since `Person.prototype` inherits the `Object.prototype.toString()` method, the value returned from `Symbol.toStringTag` is also used when calling the `me.toString()` method. However, you can still define your own `toString()` method that provides a different behavior without affecting the use of the `Object.prototype.toString.call()` method. Here's how that might look:
+בדוגמה לעיל, התכונה בשם
+`Symbol.toStringTag`
+מוגדרת בעבור
+`Person.prototype`
+כדי לייצר את ההתנהגות הרצויה עבור ייצוג בתור מחרוזת. מכיוון שהאוביקט
+`Person.prototype`
+יורש את המתודה
+<span dir="ltr">`Object.prototype.toString()`</span>,
+הערך המוחזר מקריאה ל 
+`Symbol.toStringTag`
+משמש גם בקריאה לפונקציה
+<span dir="ltr">`me.toString()`</span>.
+ואולם, ניתן להגדיר מתודה בשם
+<span dir="ltr">`toString()`</span>
+משלנו שיכולה לממש התנהגות שונה מבלי להשפיע על המתודה
+<span dir="ltr">`Object.prototype.toString.call()`</span>.
+כך זה יכול להיראות כדוגמה:
+
+<div dir="ltr">
 
 ```js
 function Person(name) {
@@ -1041,11 +1126,35 @@ console.log(me.toString());                         // "Nicholas"
 console.log(Object.prototype.toString.call(me));    // "[object Person]"
 ```
 
-This code defines `Person.prototype.toString()` to return the value of the `name` property. Since `Person` instances no longer inherit the `Object.prototype.toString()` method, calling `me.toString()` exhibits a different behavior.
+</div>
 
-I> All objects inherit `Symbol.toStringTag` from `Object.prototype` unless otherwise specified. The string `"Object"` is the default property value.
+הקוד לעיל מגדיר את הפונקציה
+<span dir="ltr">`Person.prototype.toString`</span>
+כך שתחזיר את הערך השמור בתכונה
+`name`.
+מכיוון ש 
+`Person`
+כבר לא משתמש באופן דיפולטיבי במתודה
+<span dir="ltr">`Object.prototype.toString()`</span>,
+קריאה ל 
+<span dir="ltr">`me.toString()`</span>.
+מחזירה תוצאה שונה.
 
-There is no restriction on which values can be used for `Symbol.toStringTag` on developer-defined objects. For example, nothing prevents you from using `"Array"` as the value of the `Symbol.toStringTag` property, such as:
+I> כל האוביקטים יורשים את
+`Symbol.toStringTag`
+מהאוביקט
+`Object.prototype`
+אלא אם מצוין אחרת.
+הערך הדיפולטיבי עבור התכונה הינו המחרוזת
+`"Object"`.
+
+אין הגבלה על הערכים שיכולים לשמש עבור התכונה
+`Symbol.toStringTag`
+על אוביקטים שנוצרו על ידינו. כך לדוגמה שום דבר לא מונע מאיתנו להשתמש בערך 
+`"Array"
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 function Person(name) {
@@ -1063,10 +1172,22 @@ let me = new Person("Nicholas");
 console.log(me.toString());                         // "Nicholas"
 console.log(Object.prototype.toString.call(me));    // "[object Array]"
 ```
+</div>
 
-The result of calling `Object.prototype.toString()` is `"[object Array]"` in this code, which is the same result you'd get from an actual array. This highlights the fact that `Object.prototype.toString()` is no longer a completely reliable way of identifying an object's type.
+התוצאה של קריאה למתודה
+<span dir="ltr">`Object.prototype.toString()`</span>,
+היא
+`"[object Array]"`,
+שהיא אותה תוצאה שתתקבל ממערך אמיתי. זה ממחיש את העובדה שהמתודה
+<span dir="ltr">`Object.prototype.toString()`</span>,
+כבר אינה דרך אמינה לזהות את סוג האוביקט.
 
-Changing the string tag for native objects is also possible. Just assign to `Symbol.toStringTag` on the object's prototype, like this:
+שינוי ייצוג המחרוזת עבור אוביקטים מובנים גם הוא אפשרי. רק צריך להגדיר את 
+`Symbol.toStringTag`
+על הפרוטוטיפ של אותו אוביקט, כמו בדוגמה הבאה:
+
+<div dir="ltr">
+
 
 ```js
 Array.prototype[Symbol.toStringTag] = "Magic";
@@ -1075,8 +1196,16 @@ let values = [];
 
 console.log(Object.prototype.toString.call(values));    // "[object Magic]"
 ```
+</div>
 
-Even though `Symbol.toStringTag` is overwritten for arrays in this example, the call to `Object.prototype.toString()` results in `"[object Magic]"` instead. While I recommended not changing built-in objects in this way, there's nothing in the language that forbids doing so.
+לאחר שהתכונה
+`Symbol.toStringTag`
+משתנה עבור מערכים כמו בדוגמה לעיל, הקריאה לפונקציה
+<span dir="ltr">`Object.prototype.toString()`</span>,
+מחזירה את הערך
+`"[object Magic]"`.
+בעוד שאני ממליץ לא לשנות אוביקטים מובנים בדרך זו אין משהו בשפה שמונע זאת מאיתנו.
+</div>
 
 ### The Symbol.unscopables Symbol
 
