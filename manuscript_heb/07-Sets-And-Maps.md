@@ -1,12 +1,35 @@
-# Sets and Maps
+<div dir="rtl">
 
-JavaScript only had one type of collection, represented by the `Array` type, for most of its history (though some may argue all non-array objects are just collections of key-value pairs, their intended use was, originally quite different from arrays). Arrays are used in JavaScript just like arrays in other languages, but the lack of other collection options meant arrays were often used as queues and stacks, as well. Since arrays only use numeric indices, developers used non-array objects whenever a non-numeric index was necessary. That technique led to custom implementations of sets and maps using non-array objects.
+# סטים ומפות
 
-A *set* is a list of values that cannot contain duplicates. You typically don't access individual items in a set like you would items in an array; instead, it's much more common to just check a set to see if a value is present. A *map* is a collection of keys that correspond to specific values. As such, each item in a map stores two pieces of data, and values are retrieved by specifying the key to read from. Maps are frequently used as caches, for storing data to be quickly retrieved later. While ECMAScript 5 didn't formally have sets and maps, developers worked around this limitation using non-array objects, too.
+לג׳אווהסקריפט היה במקור רק סוג אחד של אוסף, 
+(collection)
+שמיוצג על ידי האוביקט
+`Array`
+(
+    למרות שחלק יטענו שכל האוביקטים שאינם מערכים הינם אך ורק אוספים של זוגות של מזהה-וערך,
+    מטרת השימוש שלהם הייתה במקור שונה מאוד מזו של מערכים
+).
+מערכים משמשים בג׳אווהסקריפט בדיוק כמו מערכים בשפות אחרות, אבל היעדר יכולות של מערכים כאלו הוביל לכך שמערכים שימשו תמיד בתור מבני נתונים מסוג תור או ערימה
+(
+    stacks & queues
+).
+מכיוון ולמערכים יש אינדקס נומרי מפתחים השתמשו באוביקטים מסוג אחר בכל פעם שהיה צורך באינדקס מסוג אחר. טכניקה זו הובילה למימושים עצמאיים של סטים ומפות בעזרת אוביקטים שאינם מערכים.
 
-ECMAScript 6 added sets and maps to JavaScript, and this chapter discusses everything you need to know about these two collection types.
+*סט* 
+*(Set)*
+הינו רשימת ערכים שאינם יכולים להכיל כפילויות.
+בדרך כלל לא ניגשים לפריטים בודדים בתוך סט כמו שעושים לפריטים בתוך מערך. במקום זאת נפוץ יותר לבדוק בסט האם הערך קיים.
+*מפה*
+(*Map*)
+היא אוסף של מזהים שתואמים לערכים מסוימים. כל פריט במפה מכיל 2 חתיכות מידע, וערכים נשלפים לפי המזהה.
+מפות משמשות לרוב בתוך זכרון מטמון, עבור מידע שנועד לשליפה מהירה בהמשך. בעוד שאקמהסקריפט 5 לא הגדירה סטים ומפות באופן רשמי, מפתחים מימשו זאת בעצמם באמצעות אוביקטים שאינם מערכים.
 
-First, I will discuss the workarounds developers used to implement sets and maps before ECMAScript 6, and why those implementations were problematic. After that important background information, I will cover how sets and maps work in ECMAScript 6.
+אקמהסקריפט 6 הוסיפה סטים ומפות לשפת ג׳אווהסקריפט ופרק זה דן בכל מה שעליכם לדעת על שני סוגי האוספים הללו.
+
+תחילה אדון בשיטות השונות שמפתחים השתמשו על מנת לממש סטים ומפות לפני אקמהסקריפט 6, ומדוע המימושים האלו היו בעייתיים. לאחר מכן ארחיב כיצד סטים ומפות פועלים באקמהסקריפט 6.
+
+</div>
 
 ## Sets and Maps in ECMAScript 5
 
