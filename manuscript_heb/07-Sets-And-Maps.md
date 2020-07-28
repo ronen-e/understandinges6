@@ -207,15 +207,23 @@ I> בג׳אווהסקריפט קיים האופרטור
 למרות זאת, מפתחים רבים עדיין משתמשים בקוד בצורה שגויה כבדוגמה האחרונה במקום להשתמש באופרטור
 `in`.
 
-</div>
+## סטים באקמהסקריפט 6
 
-## Sets in ECMAScript 6
+אקמהסקריפט 6 מוסיפה סוג משתנה בשם
+`Set`
+שנחשב לרשימה מוסדרת של ערכים ללא כפילויות.
+סטים מאפשרים גישה מהירה למידע שבתוכם.
 
-ECMAScript 6 adds a `Set` type that is an ordered list of values without duplicates. Sets allow fast access to the data they contain, adding a more efficient manner of tracking discrete values.
+### יצירת סטים והוספת פריטים
 
-### Creating Sets and Adding Items
+סטים נוצרים באמצעות פקודת
+<span dir="ltr">`new Set()`</span>
+ופריטים נוספים לסט על ידי קריאת המתודה
+<span dir="ltr">`add()`</span>.
+ניתן לראות כמה פריטים קיימים בסט על ידי בדיקת התכונה
+`size`:
 
-Sets are created using `new Set()` and items are added to a set by calling the `add()` method. You can see how many items are in a set by checking the `size` property:
+<div dir="ltr">
 
 ```js
 let set = new Set();
@@ -225,7 +233,23 @@ set.add("5");
 console.log(set.size);    // 2
 ```
 
-Sets do not coerce values to determine whether they are the same. That means a set can contain both the number `5` and the string `"5"` as two separate items. (The only exception is that -0 and +0 are considered to be the same.) You can also add multiple objects to the set, and those objects will remain distinct:
+</div>
+
+סטים לא מאלצים ערכים לסוג אחר של ערך כדי לבדוק אם הם זהים. כלומר סט יכול להכיל הן את המספר
+`5`
+והן את המחרוזת
+`"5"`
+בתור פריטים נפרדים.
+(
+    היוצא דופן היחיד הוא שהערכים
+    -0
+    והערך
+    +0
+    נחשבים זהים
+)
+ניתן להוסיף אוביקטים לסט ואותם אוביקטים יישארו נבדלים מהשאר:
+
+<div dir="ltr">
 
 ```js
 let set = new Set(),
@@ -238,31 +262,66 @@ set.add(key2);
 console.log(set.size);    // 2
 ```
 
-Because `key1` and `key2` are not converted to strings, they count as two unique items in the set. (Remember, if they were converted to strings, they would both be equal to `"[object Object]"`.)
+</div>
 
-If the `add()` method is called more than once with the same value, all calls after the first one are effectively ignored:
+מכיוון והאוביקטים
+`key1`
+ו-
+`key2`
+לא מומרים למחרוזות, הם נחשבים לשני פריטים נבדלים בסט.
+(
+    אם הם היו מומרים למחרוזות, שניהם היו שווים לערך
+    `"[object Object]"`
+)
+
+אם המתודה
+<span dir="ltr">`add()`</span>
+נקראת יותר מפעם אחת עם אותו ערך, כל יתר הקריאות לאחר הראשונה אינן משפיעות:
+
+<div dir="ltr">
 
 ```js
 let set = new Set();
 set.add(5);
 set.add("5");
-set.add(5);     // duplicate - this is ignored
+set.add(5);     // כפילות - מתעלמים
 
 console.log(set.size);    // 2
 ```
 
-You can initialize a set using an array, and the `Set` constructor will ensure that only unique values are used. For instance:
+</div>
+
+ניתן לאתחל סט באמצעות מערך, והקונסטרקטור יבטיח שרק ערכים ייחודיים יופיעו בתוצאה. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let set = new Set([1, 2, 3, 4, 5, 5, 5, 5]);
 console.log(set.size);    // 5
 ```
 
-In this example, an array with duplicate values is used to initialize the set. The number `5` only appears once in the set even though it appears four times in the array. This functionality makes converting existing code or JSON structures to use sets easy.
+</div>
 
-I> The `Set` constructor actually accepts any iterable object as an argument. Arrays work because they are iterable by default, as are sets and maps. The `Set` constructor uses an iterator to extract values from the argument. (Iterables and iterators are discussed in detail in Chapter 8.)
+בדוגמה לעיל, מערך עם כפילויות משמש לאתחול הסט. המספר
 
-You can test which values are in a set using the `has()` method, like this:
+מופיע בסט רק פעם אחת למרות שהוא מופיע 4 פעמים במערך. ההתנהגות הזו מקלה על המרת קוד קיים או נתונים מסוג
+JSON
+לסטים.
+
+I> הקונסטרקטור של
+`Set`
+מקבל כל אוביקט איטרבילי כארגומנט. מערכים מתקבלים כיוון שהם איטרבילים, כמו גם סטים ומפות. הקונסטרקטור 
+`Set`
+משתמש באיטרטור כדי לשלוף ערכים מתוך הארגומנט.
+(
+    איטרטורים ואיטרבילים מוסברים בהרחבה בפרק 8
+)
+
+ניתן לבדוק אלו ערכים נמצאים בתוך סט בעזרת המתודה
+<span dir="ltr">`has()`</span>,
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let set = new Set();
@@ -273,7 +332,15 @@ console.log(set.has(5));    // true
 console.log(set.has(6));    // false
 ```
 
-Here, `set.has(6)` would return false because the set doesn't have that value.
+</div>
+
+בדוגמה לעיל קריאה לפונקציה
+<span dir="ltr">`set.has(6)`</span>
+תחזיר את הערך
+false
+מפני שלסט אין את הערך 6
+
+</div>
 
 ### Removing Values
 
