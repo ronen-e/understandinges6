@@ -89,14 +89,11 @@ console.log(value);         // "bar"
 `foo`.
 בניגוד לסט, מפות משמשות בעיקר לשליפת אינפורמציה ולא רק לבדיקת קיום המזהה.
 
+## הבעיות בשיטות הקודמות
 
+בעוד שאין בעיה להשתמש בסט ומפה במצבים פשוטים, הדבר מסתבך כאשר נתקלים במגבלות של שימוש בתכונות אוביקט. לדוגמה, מכיוון שכל תכונה חייבות להיות בעלת מזהה מסוג מחרוזת, יש לוודא ששני מזהים נפרדים אינם בעלי אותו ערך. ראה בדוגמה הבאה:
 
-</div>
-
-
-## Problems with Workarounds
-
-While using objects as sets and maps works okay in simple situations, the approach can get more complicated once you run into the limitations of object properties. For example, since all object properties must be strings, you must be certain no two keys evaluate to the same string. Consider the following:
+<div dir="ltr">
 
 ```js
 let map = Object.create(null);
@@ -106,7 +103,19 @@ map[5] = "foo";
 console.log(map["5"]);      // "foo"
 ```
 
-This example assigns the string value `"foo"` to a numeric key of `5`. Internally, that numeric value is converted to a string, so `map["5"]` and `map[5]` actually reference the same property. That internal conversion can cause problems when you want to use both numbers and strings as keys. Another problem arises when using objects as keys, like this:
+</div>
+
+הדוגמה לעיל מבצעת השמה של הערך
+`"foo"`
+למזהה הנומרי
+`5`.
+הערך הנומרי מומר למחרוזת, ולכן גם
+`map["5"]`
+וגם
+`map[5]`
+למעשה מתייחסים לאותה תכונה. ההמרה הזו יכולה ליצור בעיות כאשר רוצים להשתמש גם במספרים וגם במחרוזות בתור מזהים. בעיה נוספת צצה כאשר משתמשים באוביקטים בתור מזהים, כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let map = Object.create(null),
@@ -118,28 +127,87 @@ map[key1] = "foo";
 console.log(map[key2]);     // "foo"
 ```
 
-Here, `map[key2]` and `map[key1]` reference the same value. The objects `key1` and `key2` are converted to strings because object properties must be strings. Since `"[object Object]"` is the default string representation for objects, both `key1` and `key2` are converted to that string. This can cause errors that may not be obvious because it's logical to assume that different object keys would, in fact, be different.
+</div>
 
-The conversion to the default string representation makes it difficult to use objects as keys. (The same problem exists when trying to use an object as a set.)
+בדוגמה לעיל גם 
+`map[key2]`
+וגם
+`map[key1]`
+מצביעים על אותו ערך. האוביקטים
+`key1`
+ו-
+`key2`
+מומרים למחרוזות כיוון שתכונות אוביקט תמיד מיוצגות בתור מחרוזות. מכיוון שהערך 
+`"[object Object]"`
+הינו הערך הדיפולטיבי לייצוג אוביקט כמחרוזת, גם 
+`key1`
+וגם 
+`key2`
+מומרים לאותה מחרוזת. זה יכול ליצור שגיאות כאשר לא מודעים לתופעה.
 
-Maps with a key whose value is falsy present their own particular problem, too. A falsy value is automatically converted to false when used in situations where a boolean value is required, such as in the condition of an `if` statement. This conversion alone isn't a problem--so long as you're careful as to how you use values. For instance, look at this code:
+ההמרה הדיפולטיבית למחרוזת מקשה על השימוש באוביקט בתור מזהה.
+(אותה בעיה קיימת גם כאשר מנסים להשתמש באוביקט בתור סט)
+
+מפות עם מזהים שערכם ״שקרי״ גם הן עם בעיה משלהן.
+ערך ״שקרי״ מומר לערך
+`false`
+במצבים בהם דרוש ערך בוליאני, כמו בתנאים בתוך בתוך פקודת
+`if`. 
+ההמרה לבדה אינה הבעיה כל עוד נזהרים בשימוש בערכים.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let map = Object.create(null);
 
 map.count = 1;
 
-// checking for the existence of "count" or a nonzero value?
+// בדיקת קיום של המזהה
+// "count"
+// או בדיקת קיום של ערך שאינו אפס?
 if (map.count) {
     // ...
 }
 ```
+</div>
 
-This example has some ambiguity as to how `map.count` should be used. Is the `if` statement intended to check for the existence of `map.count` or that the value is nonzero? The code inside the `if` statement will execute because the value 1 is truthy. However, if `map.count` is 0, or if `map.count` doesn't exist, the code inside the `if` statement would not be executed.
+בדוגמה לעיל קיימת חוסר בהירות לגבי השימוש של
+`map.count`.
+האם תנאי
+ `if`
+נועד לבדוק את נוכחות המזהה
+`map.count`
+או שמא נועד לבדוק שהערך איננו 0?
+הקוד בתוך תנאי 
+`if`
+ירוץ מכיוון שהערך
+`1`
+נחשב ערך ״אמת״ תחת תנאי
+ `if`.
+אם הערך עבור 
+`map.count`
+הוא 0, או אם
+`map.count`
+לא קיים,
+הקוד בתוך תנאי
+`if`
+לא ירוץ.
 
-These are difficult problems to identify and debug when they occur in large applications, which is a prime reason that ECMAScript 6 adds both sets and maps to the language.
+אלו הן בעיות קשות לזיהוי ופתרון כאשר הן קורות במערכות גדולת, וזוהי סיבה מספיק טובה לכך שאקמהסקריפט 6 מוסיפה לשפה סטים ומפות.
 
-I> JavaScript has the `in` operator that returns `true` if a property exists in an object without reading the value of the object. However, the `in` operator also searches the prototype of an object, which makes it only safe to use when an object has a `null` prototype. Even so, many developers still incorrectly use code as in the last example rather than using `in`.
+I> בג׳אווהסקריפט קיים האופרטור
+`in`
+שמחזיר את הערך
+`true`
+במידה ותכונה קיימת על אוביקט מבלי אף לקרוא את הערך. אך האופרטור
+`in`
+גם מחפש בתוך הפרוטוטיפ של האוביקט מה שהופך אותו לבטוח לשימוש רק כאשר לאוביקט יש את הפרוטוטיפ 
+`null`
+למרות זאת, מפתחים רבים עדיין משתמשים בקוד בצורה שגויה כבדוגמה האחרונה במקום להשתמש באופרטור
+`in`.
+
+</div>
 
 ## Sets in ECMAScript 6
 
