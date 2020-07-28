@@ -591,12 +591,14 @@ console.log(noDuplicates);      // [1,2,3,4,5]
 <span dir="ltr">`eliminateDuplicates()`</span>,
 הסט משמש בתור תווך זמני לסינון הכפילויות לפני יצירת מערך חדש ללא כפילויות.
 
-</div>
+### סט חלש
 
+`Set`
+יכול להיקרא בתור סט חזק, בגלל האופן בה הוא שומר מצביעים לאוביקט. אוביקט ששמור שתוך סט מייצר את אותה תופעה כמו שמירת האוביקט בתוך משתנה. כל עוד קיים מצביע לאותו מופע של 
+`Set` 
+לא ניתן לשחרר את הזכרון ולאסוף את האוביקט לפח האשפה. לדוגמה:
 
-### Weak Sets
-
-The `Set` type could alternately be called a strong set, because of the way it stores object references. An object stored in an instance of `Set` is effectively the same as storing that object inside a variable. As long as a reference to that `Set` instance exists, the object cannot be garbage collected to free memory. For example:
+<div dir="ltr">
 
 ```js
 let set = new Set(),
@@ -605,18 +607,47 @@ let set = new Set(),
 set.add(key);
 console.log(set.size);      // 1
 
-// eliminate original reference
+// ביטול המצביע המקורי
 key = null;
 
 console.log(set.size);      // 1
 
-// get the original reference back
+// שחזור המצביע המקורי
 key = [...set][0];
 ```
 
-In this example, setting `key` to `null` clears one reference of the `key` object, but another remains inside `set`. You can still retrieve `key` by converting the set to an array with the spread operator and accessing the first item. That result is fine for most programs, but sometimes, it's better for references in a set to disappear when all other references disappear. For instance, if your JavaScript code is running in a web page and wants to keep track of DOM elements that might be removed by another script, you don't want your code holding onto the last reference to a DOM element. (That situation is called a *memory leak*.)
+</div>
 
-To alleviate such issues, ECMAScript 6 also includes *weak sets*, which only store weak object references and cannot store primitive values. A *weak reference* to an object does not prevent garbage collection if it is the only remaining reference.
+בדוגמה זו, הגדרת 
+`key`
+לערך
+`null`
+מסלקת מצביע אחד של האוביקט
+`key`
+אבל מצביע אחר נשאר בתוך 
+`set`.
+עדיין אפשר לחלץ את 
+`key`
+על ידי המרת הסט למערך בעזרת אופרטור הפיזור וקריאת הפריט הראשון. התוצאה עובדת היטב בעבור רוב הפעמים, אבל לפעמים נעדיף שמצביעים בתוך סט ייעלמו כאשר מצביעים מחוץ לסט ייעלמו. למשל, אם הקוד שלנו רץ בתוך דפדפן ונרצה לעקוב אחר אלמנטים ב 
+DOM
+שאולי יימחקו על ידי סקריפט אחר, לא נרצה שהקוד שלנו יחזיק את המצביע האחרון לאלמנט
+DOM
+(
+    המצב הזה נקרא
+    *דליפת זכרון*,
+    או באנגלית
+    *memory leak*
+)
+
+כדי להתגבר על בעיות אלו אקמהסקריפט 6 הוסיפה לשפה מה שנקרא
+*סט חלש*
+(*weak set*)
+ששומר בתוכו מצביעים חלשים ואינו יכול לשמור ערכים פרימיטיביים.
+*מצביע חלש*
+(*weak reference*)
+לאוביקט לא מונע איסוף זבל במידה והוא המצביע היחיד שנותר.
+
+</div>
 
 #### Creating a Weak Set
 
