@@ -340,11 +340,17 @@ console.log(set.has(6));    // false
 false
 מפני שלסט אין את הערך 6
 
-</div>
+### הסרת ערכים
 
-### Removing Values
+ניתן להסיר ערכים מסט. ניתן להסיר ערך בודד על ידי המתודה 
+<span dir="ltr">`delete()`</span>
 
-It's also possible to remove values from a set. You can remove single value by using the `delete()` method, or you can remove all values from the set by calling the `clear()` method. This code shows both in action:
+או להסיר את כל הערכים מהסט בעזרת המתודה
+<span dir="ltr">`clear`</span>
+
+הדוגמה הבאה מראה שימוש של שתי השיטות:
+
+<div dir="ltr">
 
 ```js
 let set = new Set();
@@ -364,9 +370,25 @@ console.log(set.has("5"));  // false
 console.log(set.size);      // 0
 ```
 
-After the `delete()` call, only `5` is gone; after the `clear()` method executes, `set` is empty.
+</div>
 
-All of this amounts to a very easy mechanism for tracking unique ordered values. However, what if you want to add items to a set and then perform some operation on each item? That's where the `forEach()` method comes in.
+לאחר הקריאה למתודה
+<span dir="ltr">`delete()`</span>
+רק הערך
+
+נמחק.
+לאחר הקריאה למתודה
+<span dir="ltr">`clear()`</span>
+אנו רואים שהמשתנה 
+`set`
+התרוקן מערכים.
+
+כל המתואר לעיל מעניק לנו מנגנון קל לשימוש עבור סידור ערכים ייחודיים.
+אך מה אם נרצה להוסיף פריטים לסט ואז לבצע פעולה על כל פריט? כאן נכנסת לפעולה המתודה
+<span dir="ltr">`forEach()`</span>.
+
+
+</div>
 
 ### The forEach() Method for Sets
 
