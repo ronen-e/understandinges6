@@ -20,6 +20,7 @@
 *(Set)*
 הינו רשימת ערכים שאינם יכולים להכיל כפילויות.
 בדרך כלל לא ניגשים לפריטים בודדים בתוך סט כמו שעושים לפריטים בתוך מערך. במקום זאת נפוץ יותר לבדוק בסט האם הערך קיים.
+
 *מפה*
 (*Map*)
 היא אוסף של מזהים שתואמים לערכים מסוימים. כל פריט במפה מכיל 2 חתיכות מידע, וערכים נשלפים לפי המזהה.
@@ -29,40 +30,69 @@
 
 תחילה אדון בשיטות השונות שמפתחים השתמשו על מנת לממש סטים ומפות לפני אקמהסקריפט 6, ומדוע המימושים האלו היו בעייתיים. לאחר מכן ארחיב כיצד סטים ומפות פועלים באקמהסקריפט 6.
 
-</div>
+## סטים ומפות באקמהסקריפט 5
 
-## Sets and Maps in ECMAScript 5
+באקמהסקריפט 5, מפתחים חיקו סטים ומפות על ידי שימוש בתכונות אוביקט, כמו בדוגמה הבאה:
 
-In ECMAScript 5, developers mimicked sets and maps by using object properties, like this:
+<div dir="ltr">
 
 ```js
 let set = Object.create(null);
 
 set.foo = true;
 
-// checking for existence
+// בדיקה שהערך קיים
 if (set.foo) {
 
-    // do something
+    // קוד
 }
 ```
 
-The `set` variable in this example is an object with a `null` prototype, ensuring that there are no inherited properties on the object. Using object properties as unique values to be checked is a common approach in ECMAScript 5. When a property is added to the `set` object, it is set to `true` so conditional statements (such as the `if` statement in this example) can easily check whether the value is present.
+</div>
 
-The only real difference between an object used as a set and an object used as a map is the value being stored. For instance, this example uses an object as a map:
+המשתנה
+`set`
+בדוגמה הזו הוא אוביקט עם הפרוטוטיפ
+`null`,
+ובכך מוודא שאין תכונות מורשות על האוביקט. שימוש בתכונות אוביקט בתור ערכים ייחודיים לבדיקה נמצא בשימוש נפוץ באקמהסקריפט 5. כאשר תכונה מתווספת לאוביקט
+`set`
+היא מקבלת את הערך
+`true`
+כך שפקודות תנאי
+(
+    כמו פקודת
+    `if`
+    בדוגמה לעיל
+)
+יוכלו לבדוק בקלות האם הערך נוכח על האוביקט.
+
+ההבדל האמיתי היחידי בין שימוש באוביקט בתור סט ושימוש באוביקט בתור מפה הינו הערך השמור. כך למשל, הדוגמה הבאה משתמשת באוביקט בתור מפה.
+
+<div dir="ltr">
 
 ```js
 let map = Object.create(null);
 
 map.foo = "bar";
 
-// retrieving a value
+// שליפת ערך
 let value = map.foo;
 
 console.log(value);         // "bar"
 ```
 
-This code stores a string value `"bar"` under the key `foo`. Unlike sets, maps are mostly used to retrieve information, rather than just checking for the key's existence.
+</div>
+
+הקוד לעיל שומר את ערך המחרוזת
+`"bar"`
+תחת המזהה
+`foo`.
+בניגוד לסט, מפות משמשות בעיקר לשליפת אינפורמציה ולא רק לבדיקת קיום המזהה.
+
+
+
+</div>
+
 
 ## Problems with Workarounds
 
