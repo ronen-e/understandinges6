@@ -544,11 +544,17 @@ processor.process(set);
 <span dir="ltr">`forEach()`</span>
 מאפשרת לנו לעבוד על ערכים באופן סדרתי, לא ניתן לגשת לערך באמצעות אינדקס נומרי כמו שניתן לעשות במערך. אם צריך לעשות זאת, הפתרון הטוב ביותר הוא להפוך את הסט למערך.
 
-</div>
+### המרת סט למערך
 
-### Converting a Set to an Array
+קל להמיר מערך לסט כיוון שניתן להעביר מערך כמות שהוא לתוך קונסטרטור
+`Set`.
+קל גם להמיר סט למערך על ידי שימוש באופרטור הפיזור
+(spread operator).
+פרק 3 הציג את אופרטור הפיזור
+(`...`)
+בתור דרך לפצל פריטים במערך לפרמטרים נפרדים בקריאה לפונקציה. ניתן גם להשתמש באופרטור הפיזור על אוביקט איטרבילי, כמו סט, כדי להפוך אותם למערך. לדוגמה:
 
-It's easy to convert an array into a set because you can pass the array to the `Set` constructor. It's also easy to convert a set back into an array using the spread operator. Chapter 3 introduced the spread operator (`...`) as a way to split items in an array into separate function parameters. You can also use the spread operator to work on iterable objects, such as sets, to convert them into arrays. For example:
+<div dir="ltr">
 
 ```js
 let set = new Set([1, 2, 3, 3, 3, 4, 5]),
@@ -557,9 +563,16 @@ let set = new Set([1, 2, 3, 3, 3, 4, 5]),
 console.log(array);             // [1,2,3,4,5]
 ```
 
-Here, a set is initially loaded with an array that contains duplicates. The set removes the duplicates, and then the items are placed into a new array using the spread operator. The set itself still contains the same items (`1`, `2`, `3`, `4`, and `5`) it received when it was created. They've just been copied to a new array.
+</div>
 
-This approach is useful when you already have an array and want to create an array without duplicates. For example:
+בדוגמה זו סט נוצר על ידי העברת מערך שמכיל כפילויות. הסט מסלק את הכפילויות ואז הפריטים מושמים לתוך מערך חדש בעזרת אופרטור הפיזור. הסט עצמו עדיין מכיל את אותם הפריטים
+(`1`, `2`, `3`, `4`, `5`)
+שקיבל כאשר נוצר. 
+הם פשוט הועתקו לתוך מערך חדש.
+
+הטכניקה הזו שימושית כאשר יש לנו כבר מערך ורוצים להסיר ממנו כפילויות. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function eliminateDuplicates(items) {
@@ -572,7 +585,14 @@ let numbers = [1, 2, 3, 3, 3, 4, 5],
 console.log(noDuplicates);      // [1,2,3,4,5]
 ```
 
-In the `eliminateDuplicates()` function, the set is just a temporary intermediary used to filter out duplicate values before creating a new array that has no duplicates.
+</div>
+
+בתוך הפונקציה
+<span dir="ltr">`eliminateDuplicates()`</span>,
+הסט משמש בתור תווך זמני לסינון הכפילויות לפני יצירת מערך חדש ללא כפילויות.
+
+</div>
+
 
 ### Weak Sets
 
