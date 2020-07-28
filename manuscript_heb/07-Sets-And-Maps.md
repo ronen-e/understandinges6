@@ -387,26 +387,49 @@ console.log(set.size);      // 0
 אך מה אם נרצה להוסיף פריטים לסט ואז לבצע פעולה על כל פריט? כאן נכנסת לפעולה המתודה
 <span dir="ltr">`forEach()`</span>.
 
+### forEach
 
-</div>
+אם התרגלתם לעבוד עם מערכים, אז ייתכן שאתם כבר מכירים את המתודה
+<span dir="ltr">`forEach()`</span>.
+של מערך.
+אקמהסקריפט 5 הוסיפה את
+<span dir="ltr">`forEach()`</span>
+כדי לאפשר מעבר על כל פריט במערך מבלי להגדיר לולאות
+`for`.
+המתודה הפכה לפופולרית בקרב מפתחים ולכן המתודה קיימת גם בסט ופועלת באותו אופן.
 
-### The forEach() Method for Sets
+המתודה 
+<span dir="ltr">`forEach()`</span>
+מקבלת פונקציית קולבק שמקבלת 3 ארגומנטים
 
-If you're used to working with arrays, then you may already be familiar with the `forEach()` method. ECMAScript 5 added `forEach()` to arrays to make working on each item in an array without setting up a `for` loop easier. The method proved popular among developers, and so the same method is available on sets and works the same way.
+1. הערך הבא בסט
+1. אותו ערך כמו הארגומנט הראשון
+1. הסט ממנו מגיע הערך
 
-The `forEach()` method is passed a callback function that accepts three arguments:
+ההבדל בין גרסת
+<span dir="ltr">`forEach()`</span>
+של סט לבין זו של מערך היא שהארגומנט הראשון והשני בפונקציית הקולבק זהים. זו אינה טעות וקיימת סיבה טובה לכך.
 
-1. The value from the next position in the set
-1. The same value as the first argument
-1. The set from which the value is read
+אוביקטים אחרים בעלי מתודת
+<span dir="ltr">`forEach()`</span>
+(מערכים ומפות)
+מעבירים 3 ארגומנטים לפונקציית הקולבק. 2 הארגומנטים הראשונים עבור מערכים ומפות הם הערך והמזהה
+(האינדקס הנומרי בעבור מערכים).
 
-The strange difference between the set version of `forEach()` and the array version is that the first and second arguments to the callback function are the same. While this might look like a mistake, there's a good reason for the behavior.
+לסט אין מזהים עבור הערכים. האנשים מאחורי אקמהסקריפט 6 היו יכולים להגדיר את פונקציית הקולבק בגרסת
 
-The other objects that have `forEach()` methods (arrays and maps) pass three arguments to their callback functions. The first two arguments for arrays and maps are the value and the key (the numeric index for arrays).
+של סט כך שתקבל 2 ארגומנטים, אבל רצו לשמור את פונקציית הקולבק שתשמור על חתימה זהה לגרסאות האחרות. לכן הוחלט שכל ערך בתוך סט ייחשב בתור מזהה וגם בתור ערך. ולכן הארגומנט הראשון זהה לארגומנט השני בתוך 
+<span dir="ltr">`forEach()`</span>
+של סט, וזאת כדי לשמור על התנהגות שתואמת למתודות
+<span dir="ltr">`forEach()`</span>
+האחרות על מערך ומפה
 
-Sets do not have keys, however. The people behind the ECMAScript 6 standard could have made the callback function in the set version of `forEach()` accept two arguments, but that would have made it different from the other two. Instead, they found a way to keep the callback function the same and accept three arguments: each value in a set is considered to be both the key and the value. As such, the first and second argument are always the same in `forEach()` on sets to keep this functionality consistent with the other `forEach()` methods on arrays and maps.
+מלבד ההבדל שתואר לעיל לגבי הארגומנטים, שימוש ב 
+<span dir="ltr">`forEach()`</span>
+של סט הינו זהה לזה שיש במערך.
+לדוגמה:
 
-Other than the difference in arguments, using `forEach()` is basically the same for a set as it is for an array. Here's some code that shows the method at work:
+<div dir="ltr">
 
 ```js
 let set = new Set([1, 2]);
@@ -417,7 +440,20 @@ set.forEach(function(value, key, ownerSet) {
 });
 ```
 
-This code iterates over each item in the set and outputs the values passed to the `forEach()` callback function. Each time the callback function executes, `key` and `value` are the same, and `ownerSet` is always equal to `set`. This code outputs:
+</div>
+
+הקוד עובר על כל פריט בסט ומדפיס את הערכים שמועברים לפונקציית הקולבק. כל פעם שהפונקציה רצה, 
+`key` 
+ו-
+`value`
+זהים,
+ו-
+`ownerSet`
+שווה לערך של
+`set`.
+התוצאה של הקוד היא:
+
+<div dir="ltr">
 
 ```
 1 1
@@ -426,7 +462,17 @@ true
 true
 ```
 
-Also the same as arrays, you can pass a `this` value as the second argument to `forEach()` if you need to use `this` in your callback function:
+</div>
+
+בדומה למערכים, ניתן להעביר ערך עבור
+`this`
+בתור הארגומנט השני של
+<span dir="ltr">`forEach()`</span>
+שישמש בתור הערך של 
+`this`
+בתוך פונקציית הקולבק:
+
+<div dir="ltr">
 
 ```js
 let set = new Set([1, 2]);
@@ -445,7 +491,28 @@ let processor = {
 processor.process(set);
 ```
 
-In this example, the `processor.process()` method calls `forEach()` on the set and passes `this` as the `this` value for the callback. That's necessary so `this.output()` will correctly resolve to the `processor.output()` method. The `forEach()` callback function only makes use of the first argument, `value`, so the others are omitted. You can also use an arrow function to get the same effect without passing the second argument, like this:
+</div>
+
+בדוגמה זו, המתודה
+<span dir="ltr">`processor.process()`</span>
+קוראת למתודה
+<span dir="ltr">`forEach()`</span>
+של הסט ומעבירה את 
+`this`
+הנוכחי בתור הערך שישמש בתור 
+`this`
+בתוך פונקציית הקולבק.
+זה הכרחי על מנת שהקוד
+<span dir="ltr">`this.output()`</span>
+יתייחס למתודה
+<span dir="ltr">`processor.output()`</span>.
+פונקציית הקולבק של
+<span dir="ltr">`forEach()`</span>
+משתמשת רק בארגומנט הראשון,
+`value`,
+ולכן הארגומנטים האחרים הושמטו. ניתן גם להשתמש בפונקציית חץ כדי להשיג את אותו אפקט מבלי להעביר ארגומנט שני, כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let set = new Set([1, 2]);
@@ -462,9 +529,22 @@ let processor = {
 processor.process(set);
 ```
 
-The arrow function in this example reads `this` from the containing `process()` function, and so it should correctly resolve `this.output()` to a `processor.output()` call.
+</div>
 
-Keep in mind that while sets are great for tracking values and `forEach()` lets you work on each value sequentially, you can't directly access a value by index like you can with an array. If you need to do so, then the best option is to convert the set into an array.
+פונקציית החץ בדוגמה לעיל קוראת את הערך
+`this`
+מתוך פונקציית 
+<span dir="ltr">`process()`</span>
+העוטפת ולכן היא תתייחס בתוכה לקוד
+<span dir="ltr">`this.output()`</span>
+כמו אל קריאה לפונקציה
+<span dir="ltr">`processor.output()`</span>.
+
+יש לזכור שאף על פי שסטים נותנים פתרון מצוין למעקב אחר ערכים והמתודה 
+<span dir="ltr">`forEach()`</span>
+מאפשרת לנו לעבוד על ערכים באופן סדרתי, לא ניתן לגשת לערך באמצעות אינדקס נומרי כמו שניתן לעשות במערך. אם צריך לעשות זאת, הפתרון הטוב ביותר הוא להפוך את הסט למערך.
+
+</div>
 
 ### Converting a Set to an Array
 
