@@ -647,17 +647,22 @@ DOM
 (*weak reference*)
 לאוביקט לא מונע איסוף זבל במידה והוא המצביע היחיד שנותר.
 
-</div>
+#### יצירת סט חלש
 
-#### Creating a Weak Set
+סט חלש נוצר בעזרת הקונסטרקטור
+`WeakSet`
+ויש לו את המתודות
+<span dir="ltr">`add()`, `has()`, `delete()`</span>.
+הדוגמה הבאה מדגימה שימוש בשלושת המתודות:
 
-Weak sets are created using the `WeakSet` constructor and have an `add()` method, a `has()` method, and a `delete()` method. Here's an example that uses all three:
+
+<div dir="ltr">
 
 ```js
 let set = new WeakSet(),
     key = {};
 
-// add the object to the set
+// הוספת אוביקט לסט
 set.add(key);
 
 console.log(set.has(key));      // true
@@ -667,7 +672,11 @@ set.delete(key);
 console.log(set.has(key));      // false
 ```
 
-Using a weak set is a lot like using a regular set. You can add, remove, and check for references in the weak set. You can also seed a weak set with values by passing an iterable to the constructor:
+</div>
+
+שימוש בסט חלש דומה מאוד לשימוש בסט רגיל. ניתן להוסיף, להסיר ולבדוק קיום מצביעים בסט חלש. ניתן גם לאתחל סט חלש עם ערכים על ידי העברת אוביקט איטרבילי לקונסטרקטור:
+
+<div dir="ltr">
 
 ```js
 let key1 = {},
@@ -677,8 +686,16 @@ let key1 = {},
 console.log(set.has(key1));     // true
 console.log(set.has(key2));     // true
 ```
+</div>
 
-In this example, an array is passed to the `WeakSet` constructor. Since this array contains two objects, those objects are added into the weak set. Keep in mind that an error will be thrown if the array contains any non-object values, since `WeakSet` can't accept primitive values.
+בדוגמה לעיל, מערך מועבר לקונסטרקטור 
+`WeakSet`.
+מכיוון והמערך מכיל שני אוביקטים, שניהם מתווספים לסט החלש. זכרו שתיזרק שגיאה אם המערך יכיל ערך שאינו אוביקט, מאחר והקונסטרקטור
+`WeakSet`
+לא מקבל ערכים פרימיטיביים.
+
+</div>
+
 
 #### Key Differences Between Set Types
 
