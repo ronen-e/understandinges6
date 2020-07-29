@@ -914,14 +914,14 @@ console.log(map.size);          // 0
 <span dir="ltr">`clear()`</span>
 היא הדרך המהירה ביותר להסיר את כל הנתונים מהמפה, אבל קיימת גם דרך לאתחל מפה עם כמות נתונים גדולה.
 
+### אתחול מפה
 
+בדומה לסט, ניתן לאתחל מפה עם נתונים על ידי העברת מערך לקונסטרקטור
+`Map`.
+כל פריט במערך חייב להיות בעצמו מערך כאשר הפריט הראשון במערך הפנימי הוא המזהה והפריט השני הוא הערך המקושר לאותו מזהה. המפה עצמה היא מערך של אותם מערכים קטנים בני 2 פריטים.
+לדוגמה:
 
-</div>
-
-
-### Map Initialization
-
-Also similar to sets, you can initialize a map with data by passing an array to the `Map` constructor. Each item in the array must itself be an array where the first item is the key and the second is that key's corresponding value. The entire map, therefore, is an array of these two-item arrays, for example:
+<div dir="ltr">
 
 ```js
 let map = new Map([["name", "Nicholas"], ["age", 25]]);
@@ -933,7 +933,19 @@ console.log(map.get("age"));    // 25
 console.log(map.size);          // 2
 ```
 
-The keys `"name"` and `"age"` are added into `map` through initialization in the constructor. While the array of arrays may look a bit strange, it's necessary to accurately represent keys, as keys can be any data type. Storing the keys in an array is the only way to ensure they aren't coerced into another data type before being stored in the map.
+</div>
+
+המזהים
+`"name"`
+ו-
+`"age"`
+התווספו ל
+`map`
+על ידי אתחול הקונסטרקטור.
+בעוד שמערך של מערכים נראה קצת מוזר, הוא נחוץ למען ייצוג מדויק של מזהים, כיוון שמזהה יכול להיות מכל סוג נתון.
+שמירת המזהים בתוך מערך היא הדרך היחידה לוודא שהם לא מומרים לסוג נתונים אחר לפני שמירה בתוך המפה.
+
+</div>
 
 ### The forEach Method on Maps
 
