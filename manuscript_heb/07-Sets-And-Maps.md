@@ -694,39 +694,68 @@ console.log(set.has(key2));     // true
 `WeakSet`
 לא מקבל ערכים פרימיטיביים.
 
-</div>
+#### הבדלים מהותיים בין סוגי סטים
 
+ההבדל המהותי ביותר בין סט חלש לסט רגיל הוא המצביע החלש עבור אוביקט. להלן דוגמה שממחישה את ההבדל:
 
-#### Key Differences Between Set Types
-
-The biggest difference between weak sets and regular sets is the weak reference held to the object value. Here's an example that demonstrates that difference:
+<div dir="ltr">
 
 ```js
 let set = new WeakSet(),
     key = {};
 
-// add the object to the set
+// הוספת האוביקט לסט
 set.add(key);
 
 console.log(set.has(key));      // true
 
-// remove the last strong reference to key, also removes from weak set
+// הסרת המצביע החזק למזהה, מסיר גם מתוך הסט החלש
 key = null;
 ```
 
-After this code executes, the reference to `key` in the weak set is no longer accessible. It is not possible to verify its removal because you would need one reference to that object to pass to the `has()` method. This can make testing weak sets a little confusing, but you can trust that the reference has been properly removed by the JavaScript engine.
+</div>
 
-These examples show that weak sets share some characteristics with regular sets, but there are some key differences. Those are:
+לאחר שהקוד רץ המצביע של
+`key`
+בסט החלש אינו נגיש עוד. בלתי אפשרי לוודא שהוא אכן הוסר כיוון שהדבר יצריך מצביע אחד לפחות שיועבר למתודה
+<span dir="ltr">`has()`</span>.
+לכן הכנת טסטים לסט חלש יכולה להיות מבלבלת, אך ניתן לסמוך על מנוע הריצה של ג׳אווהסקריפט שיעשה את עבודתו נאמנה.
 
-1. In a `WeakSet` instance, the `add()` method throws an error when passed a non-object (`has()` and `delete()` always return `false` for non-object arguments).
-1. Weak sets are not iterables and therefore cannot be used in a `for-of` loop.
-1. Weak sets do not expose any iterators (such as the `keys()` and `values()` methods), so there is no way to programmatically determine the contents of a weak set.
-1. Weak sets do not have a `forEach()` method.
-1. Weak sets do not have a `size` property.
+הדוגמאות הללו מראות שלסט חלש מאפיינים דומים לסט רגיל, אך יש מספר הבדלים מהותיים. ואלו הם:
 
-The seemingly limited functionality of weak sets is necessary in order to properly handle memory. In general, if you only need to track object references, then you should use a weak set instead of a regular set.
+1. במופע של  
+`WeakSet`
+המתודה
+<span dir="ltr">`add()`</span>.
+זורקת שגיאה כאשר היא מקבלת ערך שאינו אוביקט
+(
+    <span dir="ltr">`has()`</span>
+    ו-
+    <span dir="ltr">`delete()`</span>
+    מחזירים את הערך
+    `false`
+    עבור ארגומנט שאינו אוביקט
+)
 
-Sets give you a new way to handle lists of values, but they aren't useful when you need to associate additional information with those values. That's why ECMAScript 6 also adds maps.
+1. סט חלש אינו איטרבילי ולכן לא יכול לשמש כערך עבור לולאת
+`for-of`
+1. סט חלש לא חושף איטרטורים למפתחים
+(
+    כמו מתודות בסגנון
+    <span dir="ltr">`keys()`, `values()`</span>
+)
+כך שאין דרך עבור מפתחים לבחון את תוכן הסט
+1. לסט חלש אין את מתודת
+<span dir="ltr">`forEach()`</span>
+
+1. לסט חלש אין את התכונה
+`size`
+
+היכולות המוגבלות למראה של סט חלש נחוצות כדי לטפל בבעיות זיכרון. באופן עקרוני, אם ברצונכם רק לעקוב אחר מצביעים לאוביקטים, עדיף להשתמש בסט חלש יותר מאשר סט רגיל.
+
+סט נותן לנו דרך חדשה לטפל ברשימות ערכים, אך אינו שימושי במיוחד כאשר רוצים לקשר מידע נוסף עם אותם ערכים. מסיבה זו בדיוק אקמהסקריפט 6 מוסיפה גם מפות בנוסף לסטים.
+
+</div>
 
 ## Maps in ECMAScript 6
 
