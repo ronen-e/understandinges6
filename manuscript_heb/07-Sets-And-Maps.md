@@ -655,7 +655,6 @@ DOM
 <span dir="ltr">`add()`, `has()`, `delete()`</span>.
 הדוגמה הבאה מדגימה שימוש בשלושת המתודות:
 
-
 <div dir="ltr">
 
 ```js
@@ -755,13 +754,27 @@ key = null;
 
 סט נותן לנו דרך חדשה לטפל ברשימות ערכים, אך אינו שימושי במיוחד כאשר רוצים לקשר מידע נוסף עם אותם ערכים. מסיבה זו בדיוק אקמהסקריפט 6 מוסיפה גם מפות בנוסף לסטים.
 
-</div>
+## מפות באקמהסקריפט 6
 
-## Maps in ECMAScript 6
+האוביקט המובנה החדש
+`Map`
+באקמהסקריפט 6
+מייצג רשימה מוסדרת של זוגות מזהה-ערך, כאשר גם המזהה וגם הערך יכולים להיות מכל סוג. בדיקת שוויון עבור מזהה נקבעת באותה צורה כמו עבור אוביקטים מסוג
+`Set`,
+כך שאפשר להשתמש במזהה הנומרי
+`5`
+כמו גם במזהה מחרוזת
+`"5"`
+מכיוון והם נחשבים לסוגים שונים. זה שונה מאוד משימוש בתכונות אוביקט בתור מזהים, מאחר ותכונות אוביקט תמיד מומרות למחרוזות.
 
-The ECMAScript 6 `Map` type is an ordered list of key-value pairs, where both the key and the value can have any type. Keys equivalence is determined by using the same approach as `Set` objects, so you can have both a key of `5` and a key of `"5"` because they are different types. This is quite different from using object properties as keys, as object properties always coerce values into strings.
+ניתן להוסיף פריטים למפה בעזרת המתודה
+<span dir="ltr">`set()`</span>
+שאליה מעבירים מזהה ואת הערך המקושר אליו. ניתן בהמשך לשלוף ערך מהמפה על ידי העברת המזהה למתודה
+<span dir="ltr">`get()`</span>
+לדוגמה:
 
-You can add items to maps by calling the `set()` method and passing it a key and the value to associate with the key. You can later retrieve a value by passing the key to the `get()` method. For example:
+
+<div dir="ltr">
 
 ```js
 let map = new Map();
@@ -772,9 +785,26 @@ console.log(map.get("title"));      // "Understanding ES6"
 console.log(map.get("year"));       // 2016
 ```
 
-In this example, two key-value pairs are stored. The `"title"` key stores a string while the `"year"` key stores a number. The `get()` method is called later to retrieve the values for both keys. If either key didn't exist in the map, then `get()` would have returned the special value `undefined` instead of a value.
+</div>
 
-You can also use objects as keys, which isn't possible when using object properties to create a map in the old workaround approach. Here's an example:
+בדוגמה לעיל נשמרים שני זוגות מזהה-ערך.
+המזהה
+`"title"`
+מקושר לערך מחרוזת
+בעוד שהמזהה
+`"year"`
+מקושר לערך נומרי.
+המתודה
+<span dir="ltr">`get()`</span>
+נקראת כדי לשלוף את הערכים המקושרים לשני המזהים. במידה ומזהה אינו קיים 
+<span dir="ltr">`get()`</span>
+תחזיר את הערך המיוחד
+`undefined`.
+
+ניתן להשתמש באוביקטים בתור מזהים, מה שלא אפשר לעשות כאשר משתמשים בתכונות אוביקט בגישה הישנה.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let map = new Map(),
@@ -788,17 +818,33 @@ console.log(map.get(key1));         // 5
 console.log(map.get(key2));         // 42
 ```
 
-This code uses the objects `key1` and `key2` as keys in the map to store two different values. Because these keys are not coerced into another form, each object is considered unique. This allows you to associate additional data with an object without modifying the object itself.
+</div>
 
-### Map Methods
+הקוד בדוגמה משתמש באוביקטים
+`key1` 
+ו-
+`key2`
+בתור מזהים במפה שמקושרים אל ערכים שונים. מכיוון והמזהים לא מומרים לסוג ערך אחר, כל אוביקט נחשב ייחודי.
+זה מאפשר לנו לקשר נתונים נוספים לאוביקט מבלי לשנות את האוביקט עצמו.
 
-Maps share several methods with sets. That is intentional, and it allows you to interact with maps and sets in similar ways. These three methods are available on both maps and sets:
+### מתודות של מפה
 
-* `has(key)` - Determines if the given key exists in the map
-* `delete(key)` - Removes the key and its associated value from the map
-* `clear()` - Removes all keys and values from the map
+למפה יש מספר מתודות משותפות עם סט. זה נעשה בכוונה, ומאפשר לנו לעבוד עם מפה ועם סט בצורה דומה. שלוש המתודות הבאות זמינות במפה וגם בסט:
 
-Maps also have a `size` property that indicates how many key-value pairs it contains. This code uses all three methods and `size` in different ways:
+* <span dir="ltr">`has(key)`</span> -
+בודקת האם מזהה נתון מופיע במפה
+* <span dir="ltr">`delete(key)`</span> -
+מסירה את המזהה והערך המקושר אליו מתוך המפה
+* <span dir="ltr">`clear()`</span> -
+מסירה את כל המזהים והערכים מתוך המפה
+
+למפה יש תכונה בשם
+`size`
+שערכה שווה למספר זוגות מזהה-ערך שהיא מכילה.
+הדוגמה הבאה משתמשת ב-3 המתודות ובתכונה
+`size`
+
+<div dir="ltr">
 
 ```js
 let map = new Map();
@@ -827,9 +873,51 @@ console.log(map.size);          // 0
 
 ```
 
-As with sets, the `size` property always contains the number of key-value pairs in the map. The `Map` instance in this example starts with the `"name"` and `"age"` keys, so `has()` returns `true` when passed either key. After the `"name"` key is removed by the `delete()` method, the `has()` method returns `false` when passed `"name"` and the `size` property indicates one less item. The `clear()` method then removes the remaining key, as indicated by `has()` returning `false` for both keys and `size` being 0.
+</div>
 
-The `clear()` method is a fast way to remove a lot of data from a map, but there's also a way to add a lot of data to a map at one time.
+כמו בסט, התכונה
+`size`
+תמיד מכילה את מספר זוגות מזהה-ערך שבמפה. מופע 
+`Map`
+בדוגמה זו מתחיל עם המזהים 
+`"name"`
+ו-
+`"age"`,
+לכן המתודה
+<span dir="ltr">`has()`</span>
+מחזירה
+`true`
+כאשר היא מקבלת כארגומנט כל אחד מהמזהים. לאחר שהמזהה
+`"name"`
+מסולק על ידי מתודת
+<span dir="ltr">`delete()`</span>
+המתודה
+<span dir="ltr">`has()`</span>
+מחזירה את הערך
+`false`
+כאשר היא מקבלת כארגומנט את הערך
+`"name"`
+והתכונה
+`size`
+מראה שפריט אחד הוסר. המתודה
+<span dir="ltr">`clear()`</span>
+מסירה את המזהה הנותר, כפי שניתן לראות מהמתודה
+<span dir="ltr">`has()`</span>
+שמחזירה
+`false`
+עבור שני המזהים
+והתכונה
+`size`
+ששווה ל-0
+
+המתודה
+<span dir="ltr">`clear()`</span>
+היא הדרך המהירה ביותר להסיר את כל הנתונים מהמפה, אבל קיימת גם דרך לאתחל מפה עם כמות נתונים גדולה.
+
+
+
+</div>
+
 
 ### Map Initialization
 
