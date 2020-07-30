@@ -1102,12 +1102,17 @@ DOM
 <span dir="ltr">`get()`</span>. 
 המפה החלשה חוסמת את הגישה לערך שהיה מקושר לאותו מזהה, וכאשר משחרר הזכרון רץ, הזכרון שנתפס על ידי אותו ערך ישוחרר.
 
+#### אתחול מפה חלשה
 
-</div>
+כדי לאתחל מפה חלשה, יש להעביר מערך של מערכים לתוך הקונסטרקטור
+`WeakMap`.
+ממש כמו באתחול מפה רגילה, כל מערך פנימי צריך להכיל שני פריטים, כאשר הפריט הראשון הינו אוביקט שאינו
+`null`
+והפריט השני הוא הערך
+(מכל סוג נתונים).
+לדוגמה:
 
-#### Weak Map Initialization
-
-To initialize a weak map, pass an array of arrays to the `WeakMap` constructor. Just like initializing a regular map, each array inside the containing array should have two items, where the first item is the non-null object key and the second item is the value (any data type). For example:
+<div dir="ltr">
 
 ```js
 let key1 = {},
@@ -1120,9 +1125,20 @@ console.log(map.has(key2));     // true
 console.log(map.get(key2));     // 42
 ```
 
-The objects `key1` and `key2` are used as keys in the weak map, and the `get()` and `has()` methods can access them. An error is thrown if the `WeakMap` constructor receives a non-object key in any of the key-value pairs.
+</div>
 
-#### Weak Map Methods
+האוביקטים 
+`key1`
+ו-
+`key2`
+משמשים בתור מזהים במפה החלשה והמתודות
+<span dir="ltr">`get()`</span>
+ו-
+<span dir="ltr">`has()`</span>.
+תיזרק שגיאה אם הקונסטרקטור
+`WeakMap`
+מקבל מזהה שאינו אוביקט באחד מזוגות מזהה-ערך.
+
 
 Weak maps have only two additional methods available to interact with key-value pairs. There is a `has()` method to determine if a given key exists in the map and a `delete()` method to remove a specific key-value pair. There is no `clear()` method because that would require enumerating keys, and like weak sets, that isn't possible with weak maps. This example uses both the `has()` and `delete()` methods:
 
