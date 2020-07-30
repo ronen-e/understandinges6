@@ -945,17 +945,28 @@ console.log(map.size);          // 2
 בעוד שמערך של מערכים נראה קצת מוזר, הוא נחוץ למען ייצוג מדויק של מזהים, כיוון שמזהה יכול להיות מכל סוג נתון.
 שמירת המזהים בתוך מערך היא הדרך היחידה לוודא שהם לא מומרים לסוג נתונים אחר לפני שמירה בתוך המפה.
 
-</div>
+### מתודת forEach של מפה
 
-### The forEach Method on Maps
+מתודת
+<span dir="ltr">`forEach()`</span>
+במפה דומה ל 
+<span dir="ltr">`forEach()`</span>
+של סט ושל מערך, בכך שהיא מקבלת כארגומנט פונקציית קולבק שמקבלת 3 ארגומנטים:
 
-The `forEach()` method for maps is similar to `forEach()` for sets and arrays, in that it accepts a callback function that receives three arguments:
+1. הערך הבא של המפה לפי סדר ההשמה
+1. המזהה עבור אותו ערך
+1. המפה שממנה נקרא הערך
 
-1. The value from the next position in the map
-1. The key for that value
-1. The map from which the value is read
+הארגומנטים הללו עבור פונקציית הקולבק תואמים להתנהגות המתודה
 
-These callback arguments more closely match the `forEach()` behavior in arrays, where the first argument is the value and the second is the key (corresponding to a numeric index in arrays). Here's an example:
+במערכים, היכן שהארגומנט הראשון הוא הערך והשני הוא המזהה
+(
+    שנחשב לאינדקס נומרי במערכים
+).
+ראו דוגמה:
+
+
+<div dir="ltr">
 
 ```js
 let map = new Map([ ["name", "Nicholas"], ["age", 25]]);
@@ -966,7 +977,21 @@ map.forEach(function(value, key, ownerMap) {
 });
 ```
 
-The `forEach()` callback function outputs the information that is passed to it. The `value` and `key` are output directly, and `ownerMap` is compared to `map` to show that the values are equivalent. This outputs:
+</div>
+
+פונקציית הקולבק עבור
+<span dir="ltr">`forEach()`</span>
+מדפיסה את מה שמועבר לתוכה. 
+`value`
+ו-
+`key`
+מודפסים באופן ישיר,
+ואילו
+`ownerMap`
+עובר השוואה אל
+`map`
+כדי להראות שהערכים זהים.
+הפלט יהיה:
 
 ```
 name Nicholas
@@ -975,7 +1000,19 @@ age 25
 true
 ```
 
-The callback passed to `forEach()` receives each key-value pair in the order in which the pairs were inserted into the map. This behavior differs slightly from calling `forEach()` on arrays, where the callback receives each item in order of numeric index.
+פונקציית הקולבק עבור
+<span dir="ltr">`forEach()`</span>
+מקבלת כל זוג מזהה-ערך לפי הסדר שבו הוכנסו לתוך המפה. התנהגות זו שונה במקצת מהצורה שבה
+<span dir="ltr">`forEach()`</span>
+עובדת במערך, שם פונקציית הקולבק מקבלת כל פריט לפי סדר האינדקס הנומרי.
+
+I> ניתן להעביר ארגומנט שני אל
+<span dir="ltr">`forEach()`</span>
+עבור ערך
+`this`
+בתוך פונקציית הקולבק. קריאה כזו לפונקציה תעבוד באותה צורה כמו הגרסה של
+<span dir="ltr">`forEach()`</span>
+שנמצאת על סט
 
 I> You can also provide a second argument to `forEach()` to specify the `this` value inside the callback function. A call like that behaves the same as the set version of the `forEach()` method.
 
