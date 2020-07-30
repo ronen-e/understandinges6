@@ -1014,17 +1014,38 @@ I> ניתן להעביר ארגומנט שני אל
 <span dir="ltr">`forEach()`</span>
 שנמצאת על סט
 
-I> You can also provide a second argument to `forEach()` to specify the `this` value inside the callback function. A call like that behaves the same as the set version of the `forEach()` method.
+### מפה חלשה
 
-### Weak Maps
+מפה חלשה עבור מפות היא כמו סט חלש עבור סטים: דרך לשמור על מצביע חלש לאוביקט.
+בתוך
+*מפה חלשה*
+(*weak map*),
+כל מזהה חייב להיות אוביקט
+(נזרקת שגיאה אם מנסים להשתמש במזהה שאיננו אוביקט),
+ואותם מצביעים נשמרים באופן חלש כך שאינם מפריעים לשחרור זיכרון
+(garbage collection). 
+כאשר אין עוד מצביעים למזהה בתוך מפה חלשה גם מחוצה למפה, הזוג מזהה-ערך מסולק מהמפה החלשה.
 
-Weak maps are to maps what weak sets are to sets: they're a way to store weak object references. In *weak maps*, every key must be an object (an error is thrown if you try to use a non-object key), and those object references are held weakly so they don't interfere with garbage collection. When there are no references to a weak map key outside a weak map, the key-value pair is removed from the weak map.
+הדרך היעילה ביותר להשתמש במפה חלשה היא עבור יצירת אוביקט שמשויך לאלמנט 
+DOM
+מסוים בדף אינטרנט. לדוגמה, מספר ספריות ג׳אווהסקריפט עבור הדפדפן שומרות בזכרון אוביקט משלהן עבור כל אלמנט
+DOM
+שמצביעים עליו בספריה, והמיפוי בין האוביקטים נשמר בזכרון פנימי.
 
-The most useful place to employ weak maps is when creating an object related to a particular DOM element in a web page. For example, some JavaScript libraries for web pages maintain one custom object for every DOM element referenced in the library, and that mapping is stored in a cache of objects internally.
+החלק הבעייתי בשיטה זו הוא לקבוע מתי אלמנט 
+DOM
+לא מופיע בדף, כדי שהספריה תוכל למחוק את האוביקט המקושר אליו. אחרת הספריה תמשיך לשמור על המצביע לאותו אלמנט גם לאחר שאין בו צורך מה שיגרום לבעיית דליפת זכרון. שמירת המצביע לאותו אלמנט
+DOM
+בעזרת מפה חלשה עדיין יאפשר לספריה לקשר אוביקט עצמאי עם כל אלמנט 
+DOM
+והמפה החלשה תסלק באופן אוטומטי כל אוביקט במפה ברגע שאלמנט
+DOM
+המקושר אינו קיים.
 
-The difficult part of this approach is determining when a DOM element no longer exists in the web page, so that the library can remove its associated object. Otherwise, the library would hold onto the DOM element reference past the reference's usefulness and cause a memory leak. Tracking the DOM elements with a weak map would still allow the library to associate a custom object with every DOM element, and it could automatically destroy any object in the map when that object's DOM element no longer exists.
+I> חשוב לשים לב שרק מזהים במפה חלשה נחשבים למצביעים חלשים.
+היחס לערכים הוא כרגיל. אוביקט ששמור בתור ערך במפה חלשה ימנע שחרור זכרון גם אם כל שאר המצביעים יימחקו.
 
-I> It's important to note that only weak map keys, and not weak map values, are weak references. An object stored as a weak map value will prevent garbage collection if all other references are removed.
+</div>
 
 #### Using Weak Maps
 
