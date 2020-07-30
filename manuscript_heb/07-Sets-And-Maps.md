@@ -1045,11 +1045,23 @@ DOM
 I> חשוב לשים לב שרק מזהים במפה חלשה נחשבים למצביעים חלשים.
 היחס לערכים הוא כרגיל. אוביקט ששמור בתור ערך במפה חלשה ימנע שחרור זכרון גם אם כל שאר המצביעים יימחקו.
 
-</div>
+#### שימוש במפה חלשה
 
-#### Using Weak Maps
+אוביקט מסוג
+`WeakMap`
+באקמהסקריפט הינו רשימה לא מסודרת של זוגות מזהה-ערך, כאשר המזהה חייב להיות אוביקט שאינו
+`null`
+והערך יכול להיות מכל סוג. הממשק עבור
+`WeakMap`
+דומה מאוד לזה של 
+`Map`
+בכך שהמתודות
+<span dir="ltr">`set()`</span>
+ו-
+<span dir="ltr">`get()`</span>
+משמשות אותנו להוסיף ולשלוף מידע, בהתאמה.
 
-The ECMAScript 6 `WeakMap` type is an unordered list of key-value pairs, where a key must be a non-null object and a value can be of any type. The interface for `WeakMap` is very similar to that of `Map` in that `set()` and `get()` are used to add and retrieve data, respectively:
+<div dir="ltr">
 
 ```js
 let map = new WeakMap(),
@@ -1060,16 +1072,38 @@ map.set(element, "Original");
 let value = map.get(element);
 console.log(value);             // "Original"
 
-// remove the element
+// הסרת האלמנט
 element.parentNode.removeChild(element);
 element = null;
 
-// the weak map is empty at this point
+// המפה החלשה ריקה בנקודה זו
 ```
 
-In this example, one key-value pair is stored. The `element` key is a DOM element used to store a corresponding string value. That value is then retrieved by passing in the DOM element to the `get()` method. When the DOM element is later removed from the document and the variable referencing it is set to `null`, the data is also removed from the weak map.
+</div>
 
-Similar to weak sets, there is no way to verify that a weak map is empty, because it doesn't have a `size` property. Because there are no remaining references to the key, you can't retrieve the value by calling the `get()` method, either. The weak map has cut off access to the value for that key, and when the garbage collector runs, the memory occupied by the value will be freed.
+בדוגמה זו, אנו שומרים זוג מזהה-ערך יחיד.
+המזהה
+`element`
+הינו אלמנט
+DOM
+שמשמש לשמירת ערך מחרוזת. הערך הזה נשלף על ידי העברת אלמנט
+DOM
+למתודה
+<span dir="ltr">`get()`</span>. 
+כאשר אלמנט ה
+DOM
+מוסר מהמסמך והמשתנה שמצביע עליו משתנה לערך
+`null`,
+הערך המשויך גם הוא מסולק מהמפה החלשה.
+
+בדומה לסט חלש, אין דרך לוודא שמפה חלשה ריקה, כיוון שאין לה את התכונה
+`size`. 
+מכיון שאין מצביעים נותרים עבור המזהה, גם לא ניתן לשלוף את הערך על ידי שימוש במתודה
+<span dir="ltr">`get()`</span>. 
+המפה החלשה חוסמת את הגישה לערך שהיה מקושר לאותו מזהה, וכאשר משחרר הזכרון רץ, הזכרון שנתפס על ידי אותו ערך ישוחרר.
+
+
+</div>
 
 #### Weak Map Initialization
 
