@@ -1139,8 +1139,20 @@ console.log(map.get(key2));     // 42
 `WeakMap`
 מקבל מזהה שאינו אוביקט באחד מזוגות מזהה-ערך.
 
+#### מתודות של מפה חלשה
 
-Weak maps have only two additional methods available to interact with key-value pairs. There is a `has()` method to determine if a given key exists in the map and a `delete()` method to remove a specific key-value pair. There is no `clear()` method because that would require enumerating keys, and like weak sets, that isn't possible with weak maps. This example uses both the `has()` and `delete()` methods:
+למפה חלשה יש רק שתי מתודות נוספות שמאפשרות אינטרקציה עם זוגות מזהה-ערך. יש מתודת 
+<span dir="ltr">`has()`</span>
+שקובעת עם מזהה נתון מופיע במפה ומתודת
+<span dir="ltr">`delete()`</span>
+שנועדה לסלק זוג מזהה-ערך נתון. אין מתודת
+<span dir="ltr">`clear()`</span>
+מכיון וזה דורש ריצה על מזהים, ובדומה לסט חלש, זה לא אפשרי עבור מפה חלשה. הדוגמה הבאה משתמשת במתודות
+<span dir="ltr">`has()`</span>
+ו-
+<span dir="ltr">`delete()`</span>
+
+<div dir="ltr">
 
 ```js
 let map = new WeakMap(),
@@ -1156,7 +1168,27 @@ console.log(map.has(element));   // false
 console.log(map.get(element));   // undefined
 ```
 
-Here, a DOM element is once again used as the key in a weak map. The `has()` method is useful for checking to see if a reference is currently being used as a key in the weak map. Keep in mind that this only works when you have a non-null reference to a key. The key is forcibly removed from the weak map by the `delete()` method, at which point `has()` returns `false` and `get()` returns `undefined`.
+</div>
+
+בדוגמה לעיל משתמשים שוב באלמנט
+DOM
+בתור מזהה במפה חלשה. המתודה
+<span dir="ltr">`has()`</span>
+עוזרת לבדוק האם מצביע לאוביקט משמש כמזהה בתוך מפה חלשה. זכרו שזה עובד רק כאשר משתמשים במצביע שאיננו הערך
+null.
+המזהה מסולק מהמפה החלשה בעזרת המתודה
+<span dir="ltr">`delete()`</span>,
+ומאותו רגע המתודה
+<span dir="ltr">`has()`</span>
+מחזירה
+`false`
+והמתודה
+<span dir="ltr">`get()`</span>
+מחזירה
+`undefined`.
+
+
+</div>
 
 #### Private Object Data
 
