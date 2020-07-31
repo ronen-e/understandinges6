@@ -1187,12 +1187,21 @@ null.
 מחזירה
 `undefined`.
 
+#### משתנה פרטי באוביקט
 
-</div>
+למרות שרוב המפתחים חושבים על מפות חלשות בהקשר לאלמנטים ב
 
-#### Private Object Data
+קיימות אפשרויות רבות לשימוש בהן
+(
+    וללא ספק, יש עוד שעדיין לא התגלו
+).
+שימוש אפשרי אחד למפה חלשה הוא שמירת מידע פרטי לאוביקטים.
+כל תכונות אוביקט חשופות
+(public)
+באקמהסקריפט 6, ולכן צריך לחשוב ביצירתיות כדי לדאוג שמידע לא יהיה חשוף. 
+למשל הדוגמה הבאה:
 
-While most developers consider the main use case of weak maps to be associated data with DOM elements, there are many other possible uses (and no doubt, some that have yet to be discovered). One practical use of weak maps is to store data that is private to object instances. All object properties are public in ECMAScript 6, and so you need to use some creativity to make data accessible to objects, but not accessible to everything. Consider the following example:
+<div dir="ltr">
 
 ```js
 function Person(name) {
@@ -1204,9 +1213,22 @@ Person.prototype.getName = function() {
 };
 ```
 
-This code uses the common convention of a leading underscore to indicate that a property is considered private and should not be modified outside the object instance. The intent is to use `getName()` to read `this._name` and not allow the `_name` value to change. However, there is nothing standing in the way of someone writing to the `_name` property, so it can be overwritten either intentionally or accidentally.
+</div>
 
-In ECMAScript 5, it's possible to get close to having truly private data, by creating an object using a pattern such as this:
+הקוד לעיל משתמש במוסכמת למתן שמות של קו תחתון מקדים
+<span dir="ltr">(leading underscore)</span>
+כדי לייצג תכונה פרטית שלא צריך לשנות מחוץ לאוביקט. הכוונה בקוד היא להשתמש במתודה
+<span dir="ltr">`getName()`</span>
+כדי לקרוא את ערך
+<span dir="ltr">`this._name`</span>
+ולא לאפשר שינוי מבחוץ שלו. אך אין שום מניעה לכתוב לתכונה
+`_name`
+ישירות, כך שאפשר לשכתב אותה בכוונה או בשוגג.
+
+באקמהסקריפט 5, ניתן לממש משתנים פרטיים בעזרת טכניקה כמו זו:
+
+
+<div dir="ltr">
 
 ```js
 var Person = (function() {
@@ -1229,12 +1251,52 @@ var Person = (function() {
     return Person;
 }());
 ```
+</div>
 
-This example wraps the definition of `Person` in an IIFE that contains two private variables, `privateData` and `privateId`. The `privateData` object stores private information for each instance while `privateId` is used to generate a unique ID for each instance. When the `Person` constructor is called, a nonenumerable, nonconfigurable, and nonwritable `_id` property is added.
+הדוגמה לעיל עוטפת את ההגדרה של קונסטרטור
+`Person`
+בתוך 
+IIFE
+שמכיל שני משתנים פרטיים,
+`privateData` 
+ו-
+`privateId`.
+האוביקט בשם
+`privateData`
+מכיל מידע פרטי עבור כל מופע של הקונסטרקטור בעוד שהמשתנה
+`privateId`
+משמש ליצור מזהה ייחודי עבור כל מופע.
+כאשר הקונסטרקטור
+`Person`
+נקרא,
+נוצרת על האוביקט תכונה שאינה ניתנת לשינוי בשם
+`_id`.
 
-Then, an entry is made into the `privateData` object that corresponds to the ID for the object instance; that's where the `name` is stored. Later, in the `getName()` function, the name can be retrieved by using `this._id` as the key into `privateData`. Because `privateData` is not accessible outside of the IIFE, the actual data is safe, even though `this._id` is exposed publicly.
+בהמשך, מוסיפים תכונה לתוך האוביקט
+`privateData`
+שתואם למזהה הייחודי של האוביקט. התכונה שומרת על ערך המשתנה
+`name`.
+מאוחר יותר, בפונקציה
+<span dir="ltr">`getName()`</span>,
+ניתן לשלוף את השם באמצעות שימוש ב 
+`this._id`
+בתור המזהה עבור
+`privateData`.
+מאחר והמשתנה
 
-The big problem with this approach is that the data in `privateData` never disappears because there is no way to know when an object instance is destroyed; the `privateData` object will always contain extra data. This problem can be solved by using a weak map instead, as follows:
+אינו נגיש מחוצה ל
+IIFE,
+המידע עצמו בטוח משינוי, אפילו ש 
+`this._id`
+חשוף לשינוי.
+
+הבעיה בטכניקה זו היא שהמידע בתוך המשתנה
+`privateData`
+לא נמחק לעולם מכיוון שאין דרך לדעת מתי מופע של אוביקט נמחק. האוביקט
+`privateData`
+תמיד יכיל מידע עודף במקרה שכזה. ניתן לפתור את הבעיה באמצעות שימוש במפה חלשה, כפי שרואים בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let Person = (function() {
@@ -1253,7 +1315,31 @@ let Person = (function() {
 }());
 ```
 
-This version of the `Person` example uses a weak map for the private data instead of an object. Because the `Person` object instance itself can be used as a key, there's no need to keep track of a separate ID. When the `Person` constructor is called, a new entry is made into the weak map with a key of `this` and a value of an object containing private information. In this case, that value is an object containing only `name`. The `getName()` function retrieves that private information by passing `this` to the `privateData.get()` method, which fetches the value object and accesses the `name` property. This technique keeps the private information private, and destroys that information whenever an object instance associated with it is destroyed.
+</div>
+
+הגרסה הזו של 
+`Person`
+משתמשת במפה חלשה עבור מידע פרטי במקום אוביקט. מפני שאוביקט מסוג
+`Person`
+יכול לשמש בתור מזהה למפה אין צורך לעקוב אחר מספר זהות ייחודי. כאשר הקונסטרקטור
+`Person`
+נקרא, נרשמת רשומה חדשה במפה החלשה עם המזהה
+`this`
+והערך הוא אוביקט שמכיל מידע פרטי. במקרה זה הערך הוא אוביקט שמכיל רק אתֿ
+`name`.
+הפונקציה
+<span dir="ltr">`getName()`</span>,
+מחזירה את המידע הפרטי על ידי העברת
+`this`
+למתודה
+<span dir="ltr">`privateData.get()`</span>,
+ששולפת את האוביקט וניגשת לתכונת 
+`name`.
+השיטה הזו שומרת על המידע הפרטי ומוחקת את המידע כאשר המופע של 
+`Person`
+שמקושר איתו נמחק.
+
+</div>
 
 #### Weak Map Uses and Limitations
 
