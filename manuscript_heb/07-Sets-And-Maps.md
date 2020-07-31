@@ -1355,22 +1355,36 @@ let Person = (function() {
 
 כמובן, אם נרצה להשתמש במזהים שאינם אוביקט, מפות רגילות הן הברירה היחידה.
 
-#### Weak Map Uses and Limitations
+## סיכום
 
-When deciding whether to use a weak map or a regular map, the primary decision to consider is whether you want to use only object keys. Anytime you're going to use only object keys, then the best choice is a weak map. That will allow you to optimize memory usage and avoid memory leaks by ensuring that extra data isn't kept around after it's no longer accessible.
+אקמהסקריפט 6 הכניסה סט ומפה באופן רשמי לג׳אווהסקריפט. עד אז, מפתחים השתמשו באוביקטים רגילים כדי לדמות סט ומפה, ולרוב נתקלו בבעיות בגלל המגבלות הקיימות בשימוש בתכונות אוביקט בתור מזהים.
 
-Keep in mind that weak maps give you very little visibility into their contents, so you can't use the `forEach()` method, the `size` property, or the `clear()` method to manage the items. If you need some inspection capabilities, then regular maps are a better choice. Just be sure to keep an eye on memory usage.
+סט הוא רשימה מוסדרת של ערכים ייחודיים, ערכים אינם מומרים לסוג אחר כדי לבצע השוואה לערכים אחרים. סט מסיר כפילויות ברשימה באופן אוטומטי, וכך ניתן לסנן כפילויות החוצה מתוך מערך ולהחזיר את התוצאה. סט לא יורש ממערך ולכן לא ניתן לגשת באופן אקראי לערכיו. במקום זאת ניתן להשתמש במתודה
+<span dir="ltr">`has()`</span>,
+כדי לקבוע אם ערך נמצא בסט וניתן להשתמש בתכונה
+`size`
+כדי לבדוק את מספר הערכים בסט. הסוג
+`Set`
+יכול להשתמש במתודה
+<span dir="ltr">`forEach()`</span>,
+כדי לעבור על כל ערך במערך בלולאה.
 
-Of course, if you only want to use non-object keys, then regular maps are your only choice.
+סט חלש הוא סוג מיוחד של סט שמכיל רק אוביקטים. האוביקטים נשמרים באמצעות מצביעים חלשים, כלומר שפריט בתוך סט חלש לא יחסום שחרור זיכרון במידה ואותו פריט נשאר המצביע היחיד לאוביקט נתון. תוכן של סט חלש לא יכול להיבחן עקב בעיות של ניהול זיכרון, ולכן מומלץ להשתמש בסט חלש רק עבור שמירת אוביקטים בקבוצה.
 
-## Summary
+מפה היא רשימה מוסדרת של זוגות מזהה-ערך כאשר המזהה יכול להיות מכל סוג נתונים. בדומה לסט, המזהים אינם מומרים לסוג ערך אחר על מנת לבצע השוואה למזהים אחרים, כלומר ניתן להשתמש במזהה נומרי
+`5`
+יחד עם מזהה מחרוזת
+`"5"`
+בתור שני מזהים נפרדים. ערך מכל סוג נתון יכול להיות מקושר עם מזהה באמצעות המתודה
+<span dir="ltr">`set()`</span>,
+ואותו ערך יכול להישלף מהמפה בהמשך באמצעות המתודה 
+<span dir="ltr">`get()`</span>,
+למפה יש גם את התכונה
+`size`
+ואת המתודה
+<span dir="ltr">`forEach()`</span>,
+כדי לאפשר גישה קלה יותר לפריטים.
 
-ECMAScript 6 formally introduces sets and maps into JavaScript. Prior to this, developers frequently used objects to mimic both sets and maps, often running into problems due to the limitations associated with object properties.
+מפה חלשה היא סוג מיוחד של מפה שיכול להכיל רק מזהים מסוג אוביקט. כמו בסט חלש, המזהה נחשב למצביע חלש ולא מונע שחרור זיכרון. כאשר מזהה עובר תהליך שחרור זכרון, הערך המזוהה עימו גם מסולק מהמפה החלשה. היבט זה של ניהול זיכרון הופך מפה חלשה למתאימה במיוחד לקישור מידע נוסף לאוביקטים שהשימוש בהם מנוהל מחוץ לקוד שניגש אליהם.
 
-Sets are ordered lists of unique values. Values are not coerced to determine equivalence. Sets automatically remove duplicate values, so you can use a set to filter an array for duplicates and return the result. Sets aren't subclasses of arrays, so you cannot randomly access a set's values. Instead, you can use the `has()` method to determine if a value is contained in the set and the `size` property to inspect the number of values in the set. The `Set` type also has a `forEach()` method to process each set value.
-
-Weak sets are special sets that can contain only objects. The objects are stored with weak references, meaning that an item in a weak set will not block garbage collection if that item is the only remaining reference to an object. Weak set contents can't be inspected due to the complexities of memory management, so it's best to use weak sets only for tracking objects that need to be grouped together.
-
-Maps are ordered key-value pairs where the key can be any data type. Similar to sets, keys are not coerced to determine equivalence, which means you can have a numeric key `5` and a string `"5"` as two separate keys. A value of any data type can be associated with a key using the `set()` method, and that value can later be retrieved by using the `get()` method. Maps also have a `size` property and a `forEach()` method to allow for easier item access.
-
-Weak maps are a special type of map that can only have object keys. As with weak sets, an object key reference is weak and doesn't prevent garbage collection when it's the only remaining reference to an object. When a key is garbage collected, the value associated with the key is also removed from the weak map. This memory management aspect makes weak maps uniquely suited for correlating additional information with objects whose lifecycles are managed outside of the code accessing them.
+</div>
