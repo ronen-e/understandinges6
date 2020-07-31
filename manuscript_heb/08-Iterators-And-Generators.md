@@ -51,15 +51,41 @@ for (var i = 0, len = colors.length; i < len; i++) {
 `for`
 נוטה לייצר שגיאות נוספות כאשר קוד דומה נכתב במספר מקומות. איטרטורים נועדו לפתור בעיה זו.
 
-</div>
+## מהם איטרטורים?
 
-## What are Iterators?
+איטרטורים הם אוביקטים אשר מממשים ממשק ספציפי שתוכנן עבור איטרציה. כל איטרטור מממש מתודת
+<span dir="ltr">`next()`</span>
+שמחזירה תוצאה שגם היא אוביקט.
+לאוביקט התוצאה יש שתי תכונות:
+`value`,
+שמייצגת את הערך הבא, ותכונת
+`done`, 
+בעלת ערך בוליאני שערכו
+`true`
+כאשר אין עוד ערכים להחזיר. האיטרטור שומר על מצביע פנימי למקום בתוך אוסף הערכים ובכל קריאה למתודה
+<span dir="ltr">`next()`</span>
+יחזיר את הערך הבא.
 
-Iterators are just objects with a specific interface designed for iteration. All iterator objects have a `next()` method that returns a result object. The result object has two properties: `value`, which is the next value, and `done`, which is a boolean that's `true` when there are no more values to return. The iterator keeps an internal pointer to a location within a collection of values and with each call to the `next()` method, it returns the next appropriate value.
+אם קוראים למתודה
+<span dir="ltr">`next()`</span>
+לאחר שהערך האחרון כבר הוחזר, המתודה מחזירה תוצאה עם התכונה
+`done`
+בעלת ערך
+`true`
+והתכונה
+`value`
+מכילה את 
+*ערך החזרה*
+(*return value*)
+.עבור האיטרטור
+ערך החזרה אינו חלק מאוסף הנתונים, אלא יותר מעין חתיכה אחרונה של מידע קשור, או שיקבל את הערך 
+`undefined`
+כערך דיפולטיבי.
+ערך החזרה של איטרטור דומה לערך החזרה של פונקציה בכך שהוא מהווה דרך להעביר מידע למי שקרא לאיטרטור.
 
-If you call `next()` after the last value has been returned, the method returns `done` as `true` and `value` contains the *return value* for the iterator. That return value is not part of the data set, but rather a final piece of related data, or `undefined` if no such data exists. An iterator's return value is similar to a function's return value in that it's a final way to pass information to the caller.
+בהתחשב באמור לעיל, יצירת איטרטור באקמהסקריפט 5 היא עניין פשוט:
 
-With that in mind, creating an iterator using ECMAScript 5 is fairly straightforward:
+<div dir="ltr">
 
 ```js
 function createIterator(items) {
@@ -91,12 +117,37 @@ console.log(iterator.next());           // "{ value: undefined, done: true }"
 // for all further calls
 console.log(iterator.next());           // "{ value: undefined, done: true }"
 ```
+</div>
 
-The `createIterator()` function returns an object with a `next()` method. Each time the method is called, the next value in the `items` array is returned as `value`. When `i` is 3, `done` becomes `true` and the ternary conditional operator that sets `value` evaluates to `undefined`. These two results fulfill the special last case for iterators in ECMAScript 6, where `next()` is called on an iterator after the last piece of data has been used.
+הפונקציה
+<span dir="ltr">`createIterator()`</span>
+מחזירה אוביקט עם מתודת
+<span dir="ltr">`next()`</span>
+כל פעם שהמתודה נקראת היא מחזירה את הערך הבא במערך
+`items`
+בתור ערך התכונה
+`value`. 
+כאשר
+`i`
+שווה ל-3,
+`done`
+מקבל את הערך
+`true`
+וערכו של 
+`value`
+משתנה לערך
+`undefined`.
+התוצאות הללו מקיימות את התנאי עבור איטרטורים באקמהסקריפט 6, לגבי הקריאה למתודה 
+<span dir="ltr">`next()`</span>
+על איטרטור לאחר שהערך האחרון באוסף הוחזר.
 
-As this example shows, writing iterators that behave according to the rules laid out in ECMAScript 6 is a bit complex.
+כפי שהדוגמה הקודמת ממחישה, כתיבת איטרטורים שמתנהגים בהתאם לכללים שהוגדרו באקמהסקריפט 6
+יכולה להיות עניין מורכב.
 
-Fortunately, ECMAScript 6 also provides generators, which make creating iterator objects much simpler.
+למזלנו, אקמהסקריפט 6 מספקת לנו גנרטורים, שהופכים יצירת איטרטורים לעניין פשוט.
+
+
+</div>
 
 ## What Are Generators?
 
