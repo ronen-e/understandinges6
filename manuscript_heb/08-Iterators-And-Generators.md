@@ -1,8 +1,23 @@
-# Iterators and Generators
+<div dir="rtl">
 
-Many programming languages have shifted from iterating over data with `for` loops, which require initializing variables to track position in a collection, to using iterator objects that programmatically return the next item in a collection. Iterators make working with collections of data easier, and ECMAScript 6 adds iterators to JavaScript. When coupled with new array methods and new types of collections (such as sets and maps), iterators are key for efficient data processing, and you will find them in many parts of the language. There's a new `for-of` loop that works with iterators, the spread (`...`) operator uses iterators, and iterators even make asynchronous programming easier.
+# איטרטורים וגנרטורים
 
-This chapter covers the many uses of iterators, but first, it's important to understand the history behind why iterators were added to JavaScript.
+שפות תכנות רבות עברו מאיטרציה על נתונים באמצעות לולאות
+
+שדורשות אתחול משתנים על מנת לעקוב אחר מיקום הפריטים באוסף, לשימוש באוביקטים מסוג איטרטור שמתוכנתים להחזיר את הפריט הבא ברשימה. איטרטורים מקלים על עבודה עם אוספים של מידע, ואקמהסקריפט 6
+מוסיפה איטרטורים לג׳אווהסקריפט. בשילוב עם מתודות חדשות עבור מערך ואוספים מסוגים חדשים
+(כמו סט ומפה),
+איטרטורים חיוניים לעיבוד נתונים יעיל ומוצאים אותם בחלקים רבים של השפה. ראו לדוגמה את לולאת
+`for-of`
+שעובדת עם איטרטורים,
+את אופרטור הפיזור
+(`...`)
+שמשתמש באיטרטורים,
+ואיטרטורים גם מקלים על תכנות אסינכרוני.
+
+הפרק הזה מרחיב על השימושים הרבים של איטרטורים, אך קודם, חשוב להבין את הסיבה למה הוסיפו איטרטורים לג׳אווהסקריפט.
+
+</div>
 
 ## The Loop Problem
 
