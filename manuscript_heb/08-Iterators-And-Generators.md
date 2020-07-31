@@ -15,13 +15,13 @@
 שמשתמש באיטרטורים,
 ואיטרטורים גם מקלים על תכנות אסינכרוני.
 
-הפרק הזה מרחיב על השימושים הרבים של איטרטורים, אך קודם, חשוב להבין את הסיבה למה הוסיפו איטרטורים לג׳אווהסקריפט.
+הפרק הזה מרחיב על השימושים הרבים של איטרטורים, אך קודם, חשוב להבין את הסיבה מדוע הוסיפו איטרטורים לג׳אווהסקריפט.
 
-</div>
+## בעיית הלולאה
 
-## The Loop Problem
+אם אי פעם כתבתם קוד בג׳אווהסקריפט, קרוב לוודאי שכתבתם קוד דומה לדוגמה הבאה:
 
-If you've ever programmed in JavaScript, you've probably written code that looks like this:
+<div dir="ltr">
 
 ```js
 var colors = ["red", "green", "blue"];
@@ -31,9 +31,27 @@ for (var i = 0, len = colors.length; i < len; i++) {
 }
 ```
 
-This standard `for` loop tracks the index into the `colors` array with the `i` variable. The value of `i` increments each time the loop executes if `i` isn't larger than the length of the array (stored in `len`).
+</div>
 
-While this loop is fairly straightforward, loops grow in complexity when you nest them and need to keep track of multiple variables. Additional complexity can lead to errors, and the boilerplate nature of the `for` loop lends itself to more errors as similar code is written in multiple places. Iterators are meant to solve that problem.
+לולאת 
+`for`
+הסטנדרטית עוקבת אחר האינדקס במערך
+`colors`
+באמצעות המשתנה
+`i`.
+ערכו של 
+`i`
+גדל כל פעם שהלולאה רצה כל עוד אינו גדול יותר מאורך המערך
+(
+    שנשמר במשתנה
+    `len`
+).
+
+למרות שמדובר בלולאה פשוטה, לולאות גדלות במורכבותן כאשר משתמשים בלולאות פנימיות ונוצר צורך לעקוב אחר מספר משתנים. מורכבות גדולה יותר יכולה להוביל לשגיאות, והטבע השבלוני של לולאת
+`for`
+נוטה לייצר שגיאות נוספות כאשר קוד דומה נכתב במספר מקומות. איטרטורים נועדו לפתור בעיה זו.
+
+</div>
 
 ## What are Iterators?
 
