@@ -146,34 +146,85 @@ console.log(iterator.next());           // "{ value: undefined, done: true }"
 
 למזלנו, אקמהסקריפט 6 מספקת לנו גנרטורים, שהופכים יצירת איטרטורים לעניין פשוט.
 
+## מהם גנרטורים?
 
-</div>
+*גנרטור*
+(*generator*) 
+הוא פונקציה שמחזירה איטרטור. פונקציות מסוג גנרטור מסומנות בכוכב
+(`*`)
+לאחר המילה השמורה
+`function`
+ומשתמשות במילה השמורה
+`yield`.
+זה לא חשוב אם הכוכב מופיע מיד לאחר המילה
+`function`
+או אם יש רווח ביניהם, כפי שרואים בדוגמה הבאה:
 
-## What Are Generators?
 
-A *generator* is a function that returns an iterator. Generator functions are indicated by a star character (`*`) after the `function` keyword and use the new `yield` keyword. It doesn't matter if the star is directly next to `function` or if there's some whitespace between it and the `*` character, as in this example:
+<div dir="ltr">
 
 ```js
-// generator
+// גנרטור
 function *createIterator() {
     yield 1;
     yield 2;
     yield 3;
 }
 
-// generators are called like regular functions but return an iterator
+// קוראים לגנרטור כמו פונקציה רגילה אבל מוחזר איטרטור
 let iterator = createIterator();
 
 console.log(iterator.next().value);     // 1
 console.log(iterator.next().value);     // 2
 console.log(iterator.next().value);     // 3
 ```
+</div>
 
-The `*` before `createIterator()` makes this function a generator. The `yield` keyword, also new to ECMAScript 6, specifies values the resulting iterator should return when `next()` is called, in the order they should be returned. The iterator generated in this example has three different values to return on successive calls to the `next()` method: first `1`, then `2`, and finally `3`. A generator gets called like any other function, as shown when `iterator` is created.
+הסימון 
+`*`
+לפני
+<span dir="ltr">`createIterator()`</span>
+הופך את הפונקציה לגנרטור. המילה השמורה
+`yield`
+שגם היא תוספת חדשה לאקמהסקריפט 6, מייצגת ערכים שהאיטרטור יחזיר בעת הקריאה למתודה
+<span dir="ltr">`next()`</span>,
+לפי הסדר בו יש להחזיר אותם. לאיטרטור שנוצר בדוגמה זו יש שלושה ערכים שונים להחזיר בעת קריאה למתודה
+<span dir="ltr">`next()`</span>:
+תחילה
+`1`,
+ואז
+`2`,
+ולבסוף
+`3`.
+קוראים לגנרטור בדיוק כמו כל פונקציה אחרת, כפי שראינו כאשר נוצר המשתנה
+`iterator`.
 
-Perhaps the most interesting aspect of generator functions is that they stop execution after each `yield` statement. For instance, after `yield 1` executes in this code, the function doesn't execute anything else until the iterator's `next()` method is called. At that point, `yield 2` executes. This ability to stop execution in the middle of a function is extremely powerful and leads to some interesting uses of generator functions (discussed in the "Advanced Iterator Functionality" section).
+אחד ההיבטים המעניינים ביותר של גנרטורים הוא שהם משהים את הרצת הקוד לאחר כל פקודת
+`yield`.
+למשל, לאחר שהפקודה
+`yield 1`
+רצה, הפונקציה לא תמשיך לרוץ עד אשר המתודה 
+<span dir="ltr">`next()`</span>
+של האיטרטור תיקרא שוב.
+בנקודה זו הפקודה
+`yield 2`
+תרוץ. יכולת זו להשהות את הרצת הקוד באמצע הפונקציה בעלת פוטנציאל גדול ומובילה למספר שימושים מעניינים לגנרטורים
+(
+    נדון בהם בסעיף
+    ״יכולות איטרטור מתקדמות״
+).
 
-The `yield` keyword can be used with any value or expression, so you can write generator functions that add items to iterators without just listing the items one by one. For example, here's one way you could use `yield` inside a `for` loop:
+המילה השמורה
+`yield` 
+יכולה לשמש עבור כל ערך או ביטוי
+(expression),
+ולכן ניתן לכתוב גנרטורים שמוסיפים פריטים לאיטרטורים מבלי לציין את הפריטים אחד אחר השני. להלן דוגמה בה ניתן להשתמש ב
+`yield` 
+בתוך לולאת
+`for`:
+
+
+<div dir="ltr">
 
 ```js
 function *createIterator(items) {
@@ -189,15 +240,37 @@ console.log(iterator.next());           // "{ value: 2, done: false }"
 console.log(iterator.next());           // "{ value: 3, done: false }"
 console.log(iterator.next());           // "{ value: undefined, done: true }"
 
-// for all further calls
+// עבור כל קריאה נוספת
 console.log(iterator.next());           // "{ value: undefined, done: true }"
 ```
+</div>
 
-This example passes an array called `items` to the `createIterator()` generator function. Inside the function, a `for` loop yields the elements from the array into the iterator as the loop progresses. Each time `yield` is encountered, the loop stops, and each time `next()` is called on `iterator`, the loop picks up with the next `yield` statement.
+הדוגמה לעיל מעבירה מערך בשם
+`items`
+לגנרטור
+<span dir="ltr">`createIterator()`</span>.
+בתוך הפונקציה לולאת 
+`for`
+מעבירה פריטים מהמערך לאיטרטור ככל שהלולאה מתקדמת. כל פעם שהלולאה מגיעה לפקודת
+`yield`
+הלולאה נעצרת, וכל פעם שהמשתנה
+`iterator`
+קורא למתודה
+<span dir="ltr">`next()`</span>.
+הלולאה ממשיכה לפקודת 
+`yield`
+הבאה.
 
-Generator functions are an important feature of ECMAScript 6, and since they are just functions, they can be used in all the same places. The rest of this section focuses on other useful ways to write generators.
+גנרטורים הם תוספת חשובה באקמהסקריפט 6, ומכיוון והם פונקציות לכל דבר, הם יכולים לעבוד באותם מקומות. יתר הפרק מתמקד בדרכים שימושיות אחרות לכתוב גנרטורים.
 
-W> The `yield` keyword can only be used inside of generators. Use of `yield` anywhere else is a syntax error, including functions that are inside of generators, such as:
+
+W> המילה השמורה
+
+יכולה לעבוד רק בתוך גנרטורים. שימוש ב
+
+בכל מקום אחר נחשב לשגיאה תחבירית, וזה תקף גם עבור פונקציות שמוגדרות בתוך גנרטור, כמו למשל:
+
+W><div dir="ltr">
 W>
 W> ```js
 W> function *createIterator(items) {
@@ -209,8 +282,20 @@ W>         yield item + 1;
 W>     });
 W> }
 W> ```
-W>
-W> Even though `yield` is technically inside of `createIterator()`, this code is a syntax error because `yield` cannot cross function boundaries. In this way, `yield` is similar to `return`, in that a nested function cannot return a value for its containing function.
+W> למרות שפקודת
+W> `yield`
+W> נמצאת בתוך גנרטור נזרקת שגיאת תחסיר מכיוון שפקודת 
+W> `yield`
+W> אינה יכולה לחצות גבולות פונקציה. מבחינה זו
+W> `yield`
+W> דומה לפקודת
+W> `return`,
+W> בכך שפונקציה פנימית אינה יכולה להחזיר ערך עבור הפונקציה החיצונית.
+
+</div>
+
+
+</div>
 
 ### Generator Function Expressions
 
