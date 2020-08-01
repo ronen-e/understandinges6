@@ -616,13 +616,13 @@ I> החלק
 ״גנרטורים פנימיים״
 בהמשך מתאר גישה שונה להשתמש באיטרטור של אוביקט אחר.
 
-עברנו על מספר שימושים לאיטרטור המובנה של מערך, אך יש איטרטורים מובנים נוספים שקיימים באקמהסקריפט 6 ומקלים על עבודה עם אוספי מידע. 
+עברנו על מספר שימושים לאיטרטור המובנה של מערך, אך יש איטרטורים מובנים נוספים שקיימים באקמהסקריפט 6 ומקלים על עבודה עם אוספי מידע.
+
+## איטרטורים מובנים
+
+איטרטורים הינם חלק חשוב של אקמהסקריפט 6, ולכן איננו צריכים ליצור איטרטורים עבור סוגי נתונים מובנים רבים. השפה כוללת אותם באופן דיפולטיבי. צריך ליצור איטרטורים רק כאשר האיטרטורים המובנים לא נותנים מענה מספק. דבר שיקרה לרוב כאשר מגדירים אוביקטים או מחלקות משלנו. אחרת, ניתן להסתמך על איטרטורים מובנים. האיטרטורים הנפוצים ביותר בשימוש הם אלו שפועלים על אוספי מידע.
 
 </div>
-
-## Built-in Iterators
-
-Iterators are an important part of ECMAScript 6, and as such, you don't need to create your own iterators for many built-in types; the language includes them by default. You only need to create iterators when the built-in iterators don't serve your purpose, which will most frequently be when defining your own objects or classes. Otherwise, you can rely on built-in iterators to do your work. Perhaps the most common iterators to use are those that work on collections.
 
 ### Collection Iterators
 
