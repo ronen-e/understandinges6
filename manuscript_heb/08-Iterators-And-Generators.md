@@ -265,12 +265,13 @@ console.log(iterator.next());           // "{ value: undefined, done: true }"
 
 
 W> המילה השמורה
-
-יכולה לעבוד רק בתוך גנרטורים. שימוש ב
-
-בכל מקום אחר נחשב לשגיאה תחבירית, וזה תקף גם עבור פונקציות שמוגדרות בתוך גנרטור, כמו למשל:
-
-W><div dir="ltr">
+W> `yield`
+W> יכולה לעבוד רק בתוך גנרטורים. שימוש ב
+W> `yield`
+W> בכל מקום אחר נחשב לשגיאה תחבירית, וזה תקף גם עבור פונקציות 
+W> שמוגדרות בתוך גנרטור, כמו למשל:
+W> 
+W> <div dir="ltr">
 W>
 W> ```js
 W> function *createIterator(items) {
@@ -290,16 +291,20 @@ W> אינה יכולה לחצות גבולות פונקציה. מבחינה זו
 W> `yield`
 W> דומה לפקודת
 W> `return`,
-W> בכך שפונקציה פנימית אינה יכולה להחזיר ערך עבור הפונקציה החיצונית.
+W> בכך שפונקציה פנימית אינה יכולה להחזיר ערך עבור הפונקציה 
+W> החיצונית.
 
 </div>
 
+###  גנרטורים כביטוי קוד
 
-</div>
+ניתן ליצור גנרטור כביטוי רק על ידי כתיבת כוכב
+(`*`)
+בין המילה 
+`function`
+לבין הסוגריים הפותחים. לדוגמה:
 
-### Generator Function Expressions
-
-You can use function expressions to create generators by just including a star (`*`) character between the `function` keyword and the opening parenthesis. For example:
+<div dir="ltr">
 
 ```js
 let createIterator = function *(items) {
@@ -319,9 +324,24 @@ console.log(iterator.next());           // "{ value: undefined, done: true }"
 console.log(iterator.next());           // "{ value: undefined, done: true }"
 ```
 
-In this code, `createIterator()` is a generator function expression instead of a function declaration. The asterisk goes between the `function` keyword and the opening parentheses because the function expression is anonymous. Otherwise, this example is the same as the previous version of the `createIterator()` function, which also used a `for` loop.
+</div>
+ 
+בדוגמה לעיל, הפונקציה
+<span dir="ltr">`createIterator()`</span>.
+נחשבת לביטוי פונקציה 
+(generator function expression)
+ולא הגדרת פונקציה
+(function declaration).
+הכוכב מופיע בין המילה השמורה
+`function`
+לבין הסוגר הפותח מכיוון שביטוי הפונקציה הוא אנונימי. מלבד הבדל זה הדוגמה זהה לגרסה הקודמת של הפונקציה
+<span dir="ltr">`createIterator()`</span>
+שגם היא השתמשה בלולאת 
+`for`.
 
-I> Creating an arrow function that is also a generator is not possible.
+I> לא ניתן ליצור פונקציה חץ שהיא גם גנרטור
+
+</div>
 
 ### Generator Object Methods
 
