@@ -341,11 +341,12 @@ console.log(iterator.next());           // "{ value: undefined, done: true }"
 
 I> לא ניתן ליצור פונקציה חץ שהיא גם גנרטור
 
-</div>
+### מתודות מסוג גנרטור
 
-### Generator Object Methods
+מכיוון שגנרטורים הם פונקציות, אפשר להוסיף אותם לאוביקטים. לדוגמה, אפשר ליצור גנרטור באוביקט ליטראל באקמהסקריפט 5 באמצעות ביטוי פונקציה
+(function expression):
 
-Because generators are just functions, they can be added to objects, too. For example, you can make a generator in an ECMAScript 5-style object literal with a function expression:
+<div dir="ltr">
 
 ```js
 var o = {
@@ -360,7 +361,13 @@ var o = {
 let iterator = o.createIterator([1, 2, 3]);
 ```
 
-You can also use the ECMAScript 6 method shorthand by prepending the method name with a star (`*`):
+</div>
+
+אפשר להשתמש בתחביר המקוצר למתודה של אקמהסקריפט 6 באמצעות הוספת כוכב
+(`*`)
+לפני שם המתודה:
+
+<div dir="ltr">
 
 ```js
 var o = {
@@ -375,7 +382,15 @@ var o = {
 let iterator = o.createIterator([1, 2, 3]);
 ```
 
-These examples are functionally equivalent to the example in the "Generator Function Expressions" section; they just use different syntax. In the shorthand version, because the `createIterator()` method is defined with no `function` keyword, the star is placed immediately before the method name, though you can leave whitespace between the star and the method name.
+</div>
+
+הדוגמאות הנ״ל מתנהגות כמו הדוגמה בסעיף ״גנרטורים כביטוי קוד״. רק התחביר שונה. בגרסה המקוצרה, מפני שהמתודה
+<span dir="ltr">`createIterator()`</span>
+מוגדרת ללא המילה השמורה
+`function`, 
+הכוכב מופיע מיד לפני שם המתודה, למרות שניתן לשים רווחים בין הכוכב לבין שם המתודה.
+
+</div>
 
 ## Iterables and for-of
 
