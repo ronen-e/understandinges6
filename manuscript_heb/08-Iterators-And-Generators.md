@@ -390,17 +390,44 @@ let iterator = o.createIterator([1, 2, 3]);
 `function`, 
 הכוכב מופיע מיד לפני שם המתודה, למרות שניתן לשים רווחים בין הכוכב לבין שם המתודה.
 
-</div>
+## איטרבילים ו for-of
 
-## Iterables and for-of
+אוביקט בעל קשר הדוק לאיטרטור הוא אוביקט
+*איטרבילי*
+(*iterable*), 
+אוביקט עם התכונה
+`Symbol.iterator`.
+הסימבול המובנה
+`Symbol.iterator`
+מפנה לפונקציה שמחזירה איטרטור עבור אוביקט נתון. כל האוביקטים שנחשבים לאוסף
+(מערך, סט ומפה)
+ומחרוזות הם איטרבילים באקמהסקריפט 6 ולכן מוגדר עבורם איטרטור מובנה. אוביקטים איטרבילים משמשים בתוספת החדשה של אקמהסקריפט:
+לולאת
+`for-of`.
 
-Closely related to iterators, an *iterable* is an object with a `Symbol.iterator` property. The well-known `Symbol.iterator` symbol specifies a function that returns an iterator for the given object. All collection objects (arrays, sets, and maps) and strings are iterables in ECMAScript 6 and so they have a default iterator specified. Iterables are designed to be used with a new addition to ECMAScript: the `for-of` loop.
+I> כל האיטרטורים שנוצרים על ידי גנרטור הם איטרביליים, מפני שגנרטורים מגדירים את התכונה
+`Symbol.iterator`
+כברירת מחדל.
 
-I> All iterators created by generators are also iterables, as generators assign the `Symbol.iterator` property by default.
+בתחילת הפרק, הוזכרה הבעיה של מעקב אחר אינדקס בתוך לולאת
+`for`
+איטרטורים הם הצעד הראשון לפתרון הבעיה. לולאת 
+`for-of`
+היא הצעד הבא: היא מייתרת את הצורך לעקוב אחר אינדקס בתוך אוסף, וכך מתאפשר לנו להתמקד רק בעבודה עם תוכן האוסף.
 
-At the beginning of this chapter, I mentioned the problem of tracking an index inside a `for` loop. Iterators are the first part of the solution to that problem. The `for-of` loop is the second part: it removes the need to track an index into a collection entirely, leaving you free to focus on working with the contents of the collection.
+לולאת 
+`for-of`
+קוראת למתודה
+<span dir="ltr">`next()`</span>
+של איטרטור בכל איטרציה של הלולאה ושומרת את 
+`value`
+שמגיע מאוביקט התוצאה בתוך משתנה. הלולאה ממשיכה לעשות זאת עד אשר אוביקט התוצאה מחזיר את הערך
+`true`
+עבור התכונה
+`done`.
+לדוגמה:
 
-A `for-of` loop calls `next()` on an iterable each time the loop executes and stores the `value` from the result object in a variable. The loop continues this process until the returned object's `done` property is `true`. Here's an example:
+<div dir="ltr">
 
 ```js
 let values = [1, 2, 3];
@@ -410,7 +437,9 @@ for (let num of values) {
 }
 ```
 
-This code outputs the following:
+</div>
+
+הקוד בדוגמה מייצר את הפלט הבא:
 
 ```
 1
@@ -418,11 +447,57 @@ This code outputs the following:
 3
 ```
 
-This `for-of` loop first calls the `Symbol.iterator` method on the `values` array to retrieve an iterator. (The call to `Symbol.iterator` happens behind the scenes in the JavaScript engine itself.) Then `iterator.next()` is called, and the `value` property on the iterator's result object is read into `num`. The `num` variable is first 1, then 2, and finally 3. When `done` on the result object is `true`, the loop exits, so `num` is never assigned the value of `undefined`.
+לולאת
+`for-of`
+תחילה קוראת למתודה 
+`Symbol.iterator`
+על המערך
+`values`
+כדי להשיג איטרטור
+(
+    הקריאה ל-
+    `Symbol.iterator`
+    מתרחשת מאחורי הקלעים על ידי מנוע הריצה עצמו
+).
+לאחר מכן קוראים ל-
+<span dir="ltr">`iterator.next()`</span>
+והתכונה
+`value`
+של אוביקט התוצאה מועברת לתוך המשתנה
+`num`.
+המשתנה 
+`num`
+מקבל תחילה את הערך 1,
+לאחר מכן את הערך 2
+ולבסוף את הערך 3. 
+הלולאה מפסיקה לרוץ
+כאשר התכונה 
+`done`
+על אוביקט התוצאה מקבלת את הערך
+`true`,
+ולכן
+`num`
+לא יקבל את הערך
+`undefined`.
 
-If you are simply iterating over values in an array or collection, then it's a good idea to use a `for-of` loop instead of a `for` loop. The `for-of` loop is generally less error-prone because there are fewer conditions to keep track of. Save the traditional `for` loop for more complex control conditions.
+אם נרצה רק לעבור על פריטים בתוך מערך או אוסף, אז מומלץ להשתמש בלולאת
+`for-of`
+במקום לולאת 
+`for`
+לולאת 
+`for-of`
+פחות נוטה לבעיות מפני שיש פחות ערכים לבדוק. עדיף לשמור את לולאת
+`for`
+עבור מצבים יותר מורכבים.
 
-W> The `for-of` statement will throw an error when used on, a non-iterable object, `null`, or `undefined`.
+W> לולאת 
+`for-of`
+תזרוק שגיאה כאשר היא מופעלת על אוביקט שאינו איטרבילי
+`null`,
+או 
+`undefined`.
+
+</div>
 
 ### Accessing the Default Iterator
 
