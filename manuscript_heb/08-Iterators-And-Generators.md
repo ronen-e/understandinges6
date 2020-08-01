@@ -497,11 +497,13 @@ W> לולאת
 או 
 `undefined`.
 
-</div>
+### גישה לאיטרטור הדיפולטיבי
 
-### Accessing the Default Iterator
+ניתן להשתמש ב
+`Symbol.iterator`
+כדי לגשת לאיטרטור הדיפולטיבי של אוביקט, כמו בדוגמה הבאה:
 
-You can use `Symbol.iterator` to access the default iterator for an object, like this:
+<div dir="ltr">
 
 ```js
 let values = [1, 2, 3];
@@ -513,9 +515,18 @@ console.log(iterator.next());           // "{ value: 3, done: false }"
 console.log(iterator.next());           // "{ value: undefined, done: true }"
 ```
 
-This code gets the default iterator for `values` and uses that to iterate over the items in the array. This is the same process that happens behind-the-scenes when using a `for-of` loop.
+</div>
 
-Since `Symbol.iterator` specifies the default iterator, you can use it to detect whether an object is iterable as follows:
+הקוד בדוגמה משיג את האיטרטור הדיפולטיבי עבור
+`values`
+ומשתמש בו כדי לעבור על הפריטים במערך. זהו אותו תהליך שמתרחש מאחורי הקלעים בעת שימוש בלולאת
+`for-of`.
+
+מכיוון ש 
+`Symbol.iterator`
+מגדיר את האיטרטור הדיפולטיבי בעבור אוביקט, ניתן להשתמש כדי לדעת האם אוביקט הוא איטרבילי כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 function isIterable(object) {
@@ -530,9 +541,23 @@ console.log(isIterable(new WeakMap())); // false
 console.log(isIterable(new WeakSet())); // false
 ```
 
-The `isIterable()` function simply checks to see if a default iterator exists on the object and is a function. The `for-of` loop does a similar check before executing.
+</div>
 
-So far, the examples in this section have shown ways to use `Symbol.iterator` with built-in iterable types, but you can also use the `Symbol.iterator` property to create your own iterables.
+הפונקציה
+<span dir="ltr">`isIterable()`</span>
+בודקת האם קיים איטרטור דיפולטיבי על האוביקט והאם מדובר בפונקציה.
+לולאת 
+`for-of`
+מבצעת פעולה דומה לפני ריצה.
+
+עד עתה, הדוגמאות בחלק זה הציגו דרכים להשתמש ב 
+`Symbol.iterator`
+יחד עם אוביקטים איטרבילים מובנים, אך ניתן להשתמש ב 
+`Symbol.iterator`
+כדי ליצור אוביקטים איטרבילים משלכם.
+
+
+</div>
 
 ### Creating Iterables
 
