@@ -556,12 +556,13 @@ console.log(isIterable(new WeakSet())); // false
 `Symbol.iterator`
 כדי ליצור אוביקטים איטרבילים משלכם.
 
+### יצירת אוביקטים איטרבילים
 
-</div>
+אוביקטים חדשים שנוצרים על ידי מפתחים אינם איטרבילים כברירת מחדל, אך ניתן להפוך אותם לכאלה באמצעות הגדרת התכונה 
+`Symbol.iterator`
+שמצביעה על גנרטור. לדוגמה:
 
-### Creating Iterables
-
-Developer-defined objects are not iterable by default, but you can make them iterable by creating a `Symbol.iterator` property containing a generator. For example:
+<div dir="ltr">
 
 ```js
 let collection = {
@@ -583,7 +584,9 @@ for (let x of collection) {
 }
 ```
 
-This code outputs the following:
+</div>
+
+הקוד מייצר את הפלט הבא:
 
 ```
 1
@@ -591,11 +594,31 @@ This code outputs the following:
 3
 ```
 
-First, the example defines a default iterator for an object called `collection`. The default iterator is created by the `Symbol.iterator` method, which is a generator (note the star still comes before the name). The generator then uses a `for-of` loop to iterate over the values in `this.items` and uses `yield` to return each one. Instead of manually iterating to define values for the default iterator of `collection` to return, the `collection` object relies on the default iterator of `this.items` to do the work.
+ראשית, הקוד בדוגמה מגדיר איטרטור דיפולטיבי עבור אוביקט בשם
+`collection`.
+האיטרטור הדיפולטיבי נוצר על ידי המתודה
+`Symbol.iterator`
+שהיא גנרטור
+(שימו לב שהכוכב עדיין בא לפני שם הפונקציה).
+הגנרטור משתמש בלולאת 
+`for-of`
+כדי לעבור על הערכים בתוך
+`this.items`
+ומשתמש ב 
+`yield`
+כדי להחזיר כל אחד מהם. במקום לבצע איטרציה ידנית עבור כל ערך שיוחזר, אוביקט
+`collection`.
+מסתמך על האיטרטור הדיפולטיבי של 
+`this.items`
+כדי לבצע את פעולתו.
 
-I> "Delegating Generators" later in this chapter describes a different approach to using the iterator of another object.
+I> החלק
+״גנרטורים פנימיים״
+בהמשך מתאר גישה שונה להשתמש באיטרטור של אוביקט אחר.
 
-Now you've seen some uses for the default array iterator, but there are many more iterators built in to ECMAScript 6 to make working with collections of data easy.
+עברנו על מספר שימושים לאיטרטור המובנה של מערך, אך יש איטרטורים מובנים נוספים שקיימים באקמהסקריפט 6 ומקלים על עבודה עם אוספי מידע. 
+
+</div>
 
 ## Built-in Iterators
 
