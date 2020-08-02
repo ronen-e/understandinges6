@@ -688,9 +688,13 @@ for (let entry of data.entries()) {
 `for-of`
 כדי לעבור על הפריטים. הפלט מראה כיצד המזהים והערכים מוחזרים בזוגות עבור כל אוביקט.
 
-#### The values() Iterator
+#### <span dir="ltr">values()</span>
 
-The `values()` iterator simply returns values as they are stored in the collection. For example:
+האיטרטור 
+<span dir="ltr">`values()`</span>
+מחזיר ערכים כפי שהם שמורים באוסף המידע. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let colors = [ "red", "green", "blue" ];
@@ -713,7 +717,9 @@ for (let value of data.values()) {
 }
 ```
 
-This code outputs the following:
+</div>
+
+הקוד מייצר את הפלט הבא:
 
 ```
 "red"
@@ -726,7 +732,13 @@ This code outputs the following:
 "ebook"
 ```
 
-Calling the `values()` iterator, as in this example, returns the exact data contained in each collection without any information about that data's location in the collection.
+קריאה לאיטרטור 
+<span dir="ltr">`values()`</span>
+מחזירה את המידע השמור בכל אוסף מידע מבלי צורך לדעת לגבי מיקום המידע באוסף המידע.
+
+
+
+</div>
 
 #### The keys() Iterator
 
