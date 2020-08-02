@@ -736,13 +736,22 @@ for (let value of data.values()) {
 <span dir="ltr">`values()`</span>
 מחזירה את המידע השמור בכל אוסף מידע מבלי צורך לדעת לגבי מיקום המידע באוסף המידע.
 
+#### <span dir="ltr">keys()</span>
 
+האיטרטור 
+<span dir="ltr">`keys()`</span>
+מחזיר כל מזהה שקיים באוסף המידע. עבור מערך הוא יחזיר אינדקס נומרי, ואף פעם לא יחזיר תכונות עצמיות 
+(own properties)
+של המערך. עבור סט המזהים מקבלים אותו הערך כמו הערכים המקושרים עימם ולכן
+<span dir="ltr">`keys()`</span>
+וגם 
+<span dir="ltr">`values()`</span>
+יחזירו
+את אותו איטרטור. עבור מפה האיטרטור
+<span dir="ltr">`keys()`</span>
+מחזיר כל מזהה ייחודי. להלן דוגמה שממחישה את השימוש בשלושת הצורות:
 
-</div>
-
-#### The keys() Iterator
-
-The `keys()` iterator returns each key present in a collection. For arrays, it only returns numeric keys, never other own properties of the array. For sets, the keys are the same as the values, and so `keys()` and `values()` return the same iterator. For maps, the `keys()` iterator returns each unique key. Here's an example that demonstrates all three:
+<div dir="ltr">
 
 ```js
 let colors = [ "red", "green", "blue" ];
@@ -765,7 +774,10 @@ for (let key of data.keys()) {
 }
 ```
 
-This example outputs the following:
+</div>
+
+הדוגמה לעיל תייצר את הפלט הבא:
+
 
 ```
 0
@@ -778,7 +790,24 @@ This example outputs the following:
 "format"
 ```
 
-The `keys()` iterator fetches each key in `colors`, `tracking`, and `data`, and those keys are printed from inside the three `for-of` loops. For the array object, only numeric indices are printed, which would still happen even if you added named properties to the array. This is different from the way the `for-in` loop works with arrays, because the `for-in` loop iterates over properties rather than just the numeric indices.
+האיטרטור
+<span dir="ltr">`keys()`</span>
+מחזיר כל מזהה במשתנים
+`colors`, `tracking`, ו- `data`,
+ואותם מזהים מודפסים בתוך שלושת לולאות
+`for-of`.
+עבור מערך מודפס האינדקס הנומרי, גם אם היינו מוסיפים תכונות בעלות שם ייחודי
+(named properties).
+זה שונה מהדרך שבה לולאת
+`for-in`
+עובדת עם מערך מכיוון שלולאת
+`for-in`
+סופרת תכונות נוספות מעבר לאינדקסים נומריים.
+
+
+
+</div>
+
 
 #### Default Iterators for Collection Types
 
