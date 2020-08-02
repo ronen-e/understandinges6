@@ -632,13 +632,19 @@ I> החלק
 
 ניתן להחזיר איטרטור לאוסף מידע על ידי קריאה לאחת המתודות הללו.
 
-You can retrieve an iterator for a collection by calling one of these methods.
+#### <span dir="ltr">entries()</span>
 
-#### The entries() Iterator
+האיטרטור עבור
+<span dir="ltr">`entries()`</span>
+מחזיר מערך בן שני פריטים כל פעם שקוראים ל 
+<span dir="ltr">`next()`</span>.
+המערך מייצג את המזהה ואת הערך עבור כל פריט באוסף במידע. עבור מערך, הפריט הראשון הינו האינדקס הנומרי. עבור סט, הפריט הראשון הוא גם הערך
+(ערכים נחשבים גם למזהים בסט). 
+עבור מפה הפריט הראשון הוא המזהה.
 
-The `entries()` iterator returns a two-item array each time `next()` is called. The two-item array represents the key and value for each item in the collection. For arrays, the first item is the numeric index; for sets, the first item is also the value (since values double as keys in sets); for maps, the first item is the key.
+להלן מספר דוגמאות:
 
-Here are some examples that use this iterator:
+<div dir="ltr">
 
 ```js
 let colors = [ "red", "green", "blue" ];
@@ -661,7 +667,9 @@ for (let entry of data.entries()) {
 }
 ```
 
-The `console.log()` calls give the following output:
+</div>
+
+הפלט ייראה כך:
 
 ```
 [0, "red"]
@@ -674,7 +682,11 @@ The `console.log()` calls give the following output:
 ["format", "ebook"]
 ```
 
-This code uses the `entries()` method on each type of collection to retrieve an iterator, and it uses `for-of` loops to iterate the items. The console output shows how the keys and values are returned in pairs for each object.
+הדוגמה משתמשת במתודה
+<span dir="ltr">`entries()`</span>
+עבור כל אוסף מידע כדי להשיג איטרטור, והיא משתמשת בלולאת
+`for-of`
+כדי לעבור על הפריטים. הפלט מראה כיצד המזהים והערכים מוחזרים בזוגות עבור כל אוביקט.
 
 #### The values() Iterator
 
