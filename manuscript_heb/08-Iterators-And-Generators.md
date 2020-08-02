@@ -622,15 +622,15 @@ I> החלק
 
 איטרטורים הינם חלק חשוב של אקמהסקריפט 6, ולכן איננו צריכים ליצור איטרטורים עבור סוגי נתונים מובנים רבים. השפה כוללת אותם באופן דיפולטיבי. צריך ליצור איטרטורים רק כאשר האיטרטורים המובנים לא נותנים מענה מספק. דבר שיקרה לרוב כאשר מגדירים אוביקטים או מחלקות משלנו. אחרת, ניתן להסתמך על איטרטורים מובנים. האיטרטורים הנפוצים ביותר בשימוש הם אלו שפועלים על אוספי מידע.
 
-</div>
+### איטרטורים עבור אוספי מידע
 
-### Collection Iterators
+באקמהסקריפט 6 קיימים שלושה סוגים של אוביקטים שמייצגים אוספי מידע: מערך, סט ומפה. לכל השלושה יש את האיטרטורים המובנים הבאים שעוזרים לנו לנווט בתוך תוכן האוסף.
 
-ECMAScript 6 has three types of collection objects: arrays, maps, and sets. All three have the following built-in iterators to help you navigate their content:
+* `entries()` - מחזיר איטרטור שערכיו הם זוגות מזהה-ערך
+* `values()` - מחזיר איטרטור שערכיו הם ערכי אוסף המידע
+* `keys()` - מחזיר איטרטור שערכיו הם המזהים שבאוסף במידע
 
-* `entries()` - Returns an iterator whose values are a key-value pair
-* `values()` - Returns an iterator whose values are the values of the collection
-* `keys()` - Returns an iterator whose values are the keys contained in the collection
+ניתן להחזיר איטרטור לאוסף מידע על ידי קריאה לאחת המתודות הללו.
 
 You can retrieve an iterator for a collection by calling one of these methods.
 
