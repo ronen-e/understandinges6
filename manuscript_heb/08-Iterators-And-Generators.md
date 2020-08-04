@@ -804,14 +804,20 @@ for (let key of data.keys()) {
 `for-in`
 סופרת תכונות נוספות מעבר לאינדקסים נומריים.
 
+#### איטרטורים מובנים עבור אוספי מידע
 
+לכל סוג אוסף מידע יש איטרטור מובנה דיפולטיבי שנקרא על ידי לולאת 
+`for-of`
+כברירת מחדל אלא אם צוין במפורש איטרטור אחר.
+המתודה
+<span dir="ltr">`values()`</span>
+נותנת את האיטרטור הדיפולטיבי עבור מערך וסט, בעוד שהמתודה
+<span dir="ltr">`entries()`</span>
+מחזירה לנו את האיטרטור הדיפולטיבי עבור מפה. האיטרטורים הדיפולטיביים הללו מספקים איטרציה קלה יותר בלולאות 
+`for-of`
+ראו למשל את הדוגמה הבאה:
 
-</div>
-
-
-#### Default Iterators for Collection Types
-
-Each collection type also has a default iterator that is used by `for-of` whenever an iterator isn't explicitly specified. The `values()` method is the default iterator for arrays and sets, while the `entries()` method is the default iterator for maps. These defaults make using collection objects in `for-of` loops a little easier. For instance, consider this example:
+<div dir="ltr">
 
 ```js
 let colors = [ "red", "green", "blue" ];
@@ -821,23 +827,24 @@ let data = new Map();
 data.set("title", "Understanding ECMAScript 6");
 data.set("format", "print");
 
-// same as using colors.values()
+// colors.values()
 for (let value of colors) {
     console.log(value);
 }
 
-// same as using tracking.values()
+// tracking.values()
 for (let num of tracking) {
     console.log(num);
 }
 
-// same as using data.entries()
+// data.entries()
 for (let entry of data) {
     console.log(entry);
 }
 ```
+</div>
 
-No iterator is specified, so the default iterator functions will be used. The default iterators for arrays, sets, and maps are designed to reflect how these objects are initialized, so this code outputs the following:
+לא מצוין במפורש איטרטור, ולכן האיטרטור הדיפולטיבי ישמש בקוד. האיטרטורים הדיפולטיביים עבור מערך, סט ומפה תוכננו לשקף את אופי האתחול שלהם, ולכן הפלט ייראה כך:
 
 ```
 "red"
@@ -850,25 +857,41 @@ No iterator is specified, so the default iterator functions will be used. The de
 ["format", "print"]
 ```
 
-Arrays and sets return their values by default, while maps return the same array format that can be passed into the `Map` constructor. Weak sets and weak maps, on the other hand, do not have built-in iterators. Managing weak references means there's no way to know exactly how many values are in these collections, which also means there's no way to iterate over them.
+מערך וסט מחזירים את הערכים שלהם כברירת מחדל, בעוד שמפות מחזירות את אותו מערך שמועבר לקונסטרטור
+`Map`.
+בניגוד לכך, סט חלש, כמו גם מפה חלשה, לא מקבלים איטרטור מובנה. ניהול מצביעים חלשים משמעותו שאין דרך לדעת כמה ערכים נמצאים באוסף המידע, ומכאן אין אפשרות לבצע איטרציה עליהם.
 
-A> ### Destructuring and for-of Loops
-A>
-A> The behavior of the default iterator for maps is also helpful when used in `for-of` loops with destructuring, as in this example:
-A>
+A> ### פעולת פירוק ולולאות for-of
+A> 
+A> התנהגות האיטרטור המובנה במפה עוזרת לנו כאשר משתמשים בו בלולאת
+A> `for-of`
+A> יחד עם פעולת פירוק, כמו בדוגמה הבאה:
+A> 
+A> <div dir="ltr">
+A> 
 A> ```js
 A> let data = new Map();
 A>
 A> data.set("title", "Understanding ECMAScript 6");
 A> data.set("format", "ebook");
 A>
-A> // same as using data.entries()
+A> // data.entries()
 A> for (let [key, value] of data) {
 A>     console.log(key + "=" + value);
 A> }
 A> ```
-A>
-A> The `for-of` loop in this code uses a destructured array to assign `key` and `value` for each entry in the map. In this way, you can easily work with keys and values at the same time without needing to access a two-item array or going back to the map to fetch either the key or the value. Using a destructured array for maps makes the `for-of` loop equally useful for maps as it is for sets and arrays.
+A> 
+A> לולאת
+A> `for-of`
+A> בקוד לעיל משתמש בפעולת פירוק על מערך עבור כל רשומה במפה. בצורה זו, ניתן לעבוד בקלות עם מזהים וערכים בעת ובעונה אחת מבלי A> הצורך לקרוא לתוך המערך בין שני הפריטים ומבלי לשלוף מתוך המפה את המזהה או הערך. שימוש בפירוק מערכים על הערך המוחזר מן מפה הופך את לולאת
+A> `for-of`
+A> לשימושית באותה המידע עבור מפה כשם שהיא שימושים בסט ומערך.
+
+</div>
+
+
+
+</div>
 
 ### String Iterators
 
