@@ -889,13 +889,20 @@ A> לשימושית באותה המידע עבור מפה כשם שהיא שימ
 
 </div>
 
+### איטרטורים עבור מחרוזת
+
+מחרוזות בג׳אווהסקריפט הפכו עם הזמן ליותר ויותר דומות למערך מאז שחרור אקמהסקריפט 5. לדוגמה, אקמהסקריפט 5 הוסיפה שימוש בסוגריים מרובעים
+(bracket notation)
+לגישה ישירה לתווים בתוך מחרוזת
+(
+    כלומר, ניתן להשתמש בקוד
+    `text[0]`
+    בשביל לקרוא את התו הראשון במחרוזת, וכן הלאה
+).
+אך סוגריים מרובעים עובדים על יחידות קוד ולא על תווים, ולכן לא ניתן לגשת באמצעותם לתווים בעלי גודל כפול בצורה נכונה, כפי שרואים בדוגמה הבאה:
 
 
-</div>
-
-### String Iterators
-
-JavaScript strings have slowly become more like arrays since ECMAScript 5 was released. For example, ECMAScript 5 formalized bracket notation for accessing characters in strings (that is, using `text[0]` to get the first character, and so on). But bracket notation works on code units rather than characters, so it cannot be used to access double-byte characters correctly, as this example demonstrates:
+<div dir="ltr">
 
 ```js
 var message = "A 𠮷 B";
@@ -904,8 +911,11 @@ for (let i=0; i < message.length; i++) {
     console.log(message[i]);
 }
 ```
+</div>
 
-This code uses bracket notation and the `length` property to iterate over and print a string containing a Unicode character. The output is a bit unexpected:
+הקוד בדוגמה משתמש בסוגריים מרובעים ובתכונה
+`length`
+כדי לעבור על התווים במחרוזת ומדפיס את התו יוניקוד באותו מיקום. התוצאה אינה זו שציפינו לה:
 
 ```
 A
@@ -916,10 +926,19 @@ A
 B
 ```
 
-Since the double-byte character is treated as two separate code units, there are four empty lines between `A` and `B` in the output.
+מכיוון שהתו בגודל כפול נחשב בתור שתי יחידות קוד נפרדות ישנן ארבע שורות ריקות בין
+`A`
+ל-
+`B`
+בפלט.
 
-Fortunately, ECMAScript 6 aims to fully support Unicode (see Chapter 2), and the default string iterator is an attempt to solve the string iteration problem. As such, the default iterator for strings works on characters rather than code units. Changing this example to use the default string iterator with a `for-of` loop results in more appropriate output. Here's the tweaked code:
+למרבה המזל, אקמהסקריפט 6 מכוונת לתמיכה מלאה ביוניקוד
+(ראה פרק 2)
+והאיטרטור המובנה של מחרוזת מהווה ניסיון לפתור את בעיית האיטרציה הספציפית הזו. ולכן האיטרטור המובנה במחרוזת עובד על תווים ולא על יחידות קוד. שינוי הדוגמה לכזו שמשתמשת בלולאת
+`for-of`
+מייצר פלט תקין. להלן הקוד המתוקן:
 
+<div dir="ltr">
 
 ```js
 var message = "A 𠮷 B";
@@ -929,7 +948,9 @@ for (let c of message) {
 }
 ```
 
-This outputs the following:
+</div>
+
+הקוד לעיל מייצר את הפלט הבא:
 
 ```
 A
@@ -939,7 +960,9 @@ A
 B
 ```
 
-This result is more in line with what you'd expect when working with characters: the loop successfully prints the Unicode character, as well as all the rest.
+התוצאה היא כזו שהיינו מצפים לה כאשר עובדים עם תווים: הלולאה מדפיסה בהצלחה את התו הכפול בגודלו, כמו את יתר התווים.
+
+</div>
 
 ### NodeList Iterators
 
