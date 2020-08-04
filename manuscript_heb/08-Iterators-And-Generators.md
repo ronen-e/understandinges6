@@ -962,13 +962,41 @@ B
 
 התוצאה היא כזו שהיינו מצפים לה כאשר עובדים עם תווים: הלולאה מדפיסה בהצלחה את התו הכפול בגודלו, כמו את יתר התווים.
 
-</div>
+### איטרטור NodeList
 
-### NodeList Iterators
+למודל אוביקט מסמך 
+(DOM)
+יש סוג נתונים בשם
+`NodeList`
+שמייצג אוסף של אלמנטים במסמך. עבור מפתחים שכותבים ג׳אווהסקריפט שאמור לרוץ בדפדפנים, הבנת ההבדל בין אוביקט מסוג
+`NodeList`
+.לבין מערך מאז ומתמיד הייתה עניין קשה יחסית
+גם אוביקט
+`NodeList`
+וגם מערך משתמשים בתכונה בשם
+`length`
+כדי לייצג את מספר הפריטים באוסף, ושניהם משתמשים בכתיבת סוגרים מרובעים
+(bracket notation)
+כדי לגשת לפריטים בודדים. אך ברמת התנהגות פנימית יש הבדל משמעותי בין 
+`NodeList`
+לבין מערך, דבר שהוביל לבלבול בקרב מפתחים.
 
-The Document Object Model (DOM) has a `NodeList` type that represents a collection of elements in a document. For those who write JavaScript to run in web browsers, understanding the difference between `NodeList` objects and arrays has always been a bit difficult. Both `NodeList` objects and arrays use the `length` property to indicate the number of items, and both use bracket notation to access individual items. Internally, however, a `NodeList` and an array behave quite differently, which has led to a lot of confusion.
+בנוסף להגדרת איטרטורים מובנים באקמהסקריפט 6 ההגדרה ב 
 
-With the addition of default iterators in ECMAScript 6, the DOM definition of `NodeList` (included in the HTML specification rather than ECMAScript 6 itself) includes a default iterator that behaves in the same manner as the array default iterator. That means you can use `NodeList` in a `for-of` loop or any other place that uses an object's default iterator. For example:
+עבור אוביקט מסוג
+
+(
+    שמופיעה באפיון עבור
+    HTML
+    ולא באקמהסקריפט 6
+)
+כללה איטרטור מובנה שפועל באותה צורה כמו האיטרטור המובנה במערך. משמעות הדבר היא שניתן להשתמש באוביקט
+`NodeList`
+בתוך לולאת
+`for-of`
+או בכל מקום אחר שצורך את האיטרטור המובנה של אוביקט. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 var divs = document.getElementsByTagName("div");
@@ -978,7 +1006,26 @@ for (let div of divs) {
 }
 ```
 
-This code calls `getElementsByTagName()` to retrieve a `NodeList` that represents all of the `<div>` elements in the `document` object. The `for-of` loop then iterates over each element and outputs the element IDs, effectively making the code the same as it would be for a standard array.
+</div>
+
+הקוד לעיל קורא למתודה
+<span dir="ltr">`getElementsByTagName()`</span>
+כדי לקבל אוביקט
+`NodeList`
+שמייצג את כל האלמנטים מסוג 
+`<div>`
+בתוך האוביקט
+`document`
+לולאת
+`for-of`
+עוברת על כל אלמנט ומדפיסה את תכונת
+`for-of`
+שלו, ובכך למעשה הופכת את הקוד זהה לקוד עבור מערך רגיל.
+
+
+
+</div>
+
 
 ## The Spread Operator and Non-Array Iterables
 
