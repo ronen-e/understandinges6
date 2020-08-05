@@ -1022,14 +1022,13 @@ for (let div of divs) {
 `for-of`
 שלו, ובכך למעשה הופכת את הקוד זהה לקוד עבור מערך רגיל.
 
+## אופרטור הפיזור ואוביקטים איטרביליים שאינם מסוג מערך
 
+בפרק 7 ראינו כיצד אופרטור הפיזור
+(`...`)
+יכול לשמש כדי להפוך סט למערך. לדוגמה:
 
-</div>
-
-
-## The Spread Operator and Non-Array Iterables
-
-Recall from Chapter 7 that the spread operator (`...`) can be used to convert a set into an array. For example:
+<div dir="ltr">
 
 ```js
 let set = new Set([1, 2, 3, 3, 3, 4, 5]),
@@ -1038,7 +1037,13 @@ let set = new Set([1, 2, 3, 3, 3, 4, 5]),
 console.log(array);             // [1,2,3,4,5]
 ```
 
-This code uses the spread operator inside an array literal to fill in that array with the values from `set`. The spread operator works on all iterables and uses the default iterator to determine which values to include. All values are read from the iterator and inserted into the array in the order in which values were returned from the iterator. This example works because sets are iterables, but it can work equally well on any iterable. Here's another example:
+</div>
+
+הקוד בדוגמה משתמש באופרטור הפיזור בתוך מערך ליטראלי כדי למלא את אותו מערך עם הערכים מתוך
+`set`.
+אופרטור הפיזור פועל על כל אוביקט איטרבילי ומשתמש באיטרטור המובנה כדי להחליט אילו ערכים לכלול. כל הערכים נקראים מתוך האיטרטור ומוכנסים למערך לפי הסדר שלפיו הוחזרו מהאיטרטור. הדוגמה לעיל עבדת כיוון שסט הינו איטרבילי, אבל הקוד יעבוד היטב עבור כל אוביקט איטרבילי אחר. ראו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let map = new Map([ ["name", "Nicholas"], ["age", 25]]),
@@ -1047,9 +1052,17 @@ let map = new Map([ ["name", "Nicholas"], ["age", 25]]),
 console.log(array);         // [ ["name", "Nicholas"], ["age", 25]]
 ```
 
-Here, the spread operator converts `map` into an array of arrays. Since the default iterator for maps returns key-value pairs, the resulting array looks like the array that was passed during the `new Map()` call.
+</div>
 
-You can use the spread operator in an array literal as many times as you want, and you can use it wherever you want to insert multiple items from an iterable. Those items will just appear in order in the new array at the location of the spread operator. For example:
+בדוגמה לעיל, אופרטור הפיזור ממיר את המשתנה בשם
+`map`
+למערך של מערכים. מכיוון שהאיטרטור המובנה של מפה מחזיר זוגות מזהה-ערך, התוצאה נראית כמו המערך שהועבר לקונסטרטור בעת הקריאה לקוד
+<span dir="ltr">`new Map()`</span>.
+
+ניתן להשתמש באופרטור הפיזור בתוך מערך ליטראלי ללא הגבלה, וניתן להשתמש בו גם בכל מקום שבו נרצה להכניס מספר פריטים למערך מתוך אוביקט איטרבילי. אותם פריטים יופיעו במערך החדש לפי הסדר בו הוחזרו, בנקודה בה הופעל אופרטור הפיזור. לדוגמה:
+
+
+<div dir="ltr">
 
 ```js
 let smallNumbers = [1, 2, 3],
@@ -1060,11 +1073,38 @@ console.log(allNumbers.length);     // 7
 console.log(allNumbers);    // [0, 1, 2, 3, 100, 101, 102]
 ```
 
-The spread operator is used to create `allNumbers` from the values in `smallNumbers` and `bigNumbers`. The values are placed in `allNumbers` in the same order the arrays are added when `allNumbers` is created: `0` is first, followed by the values from `smallNumbers`, followed by the values from `bigNumbers`. The original arrays are unchanged, though, as their values have just been copied into `allNumbers`.
+</div>
 
-Since the spread operator can be used on any iterable, it's the easiest way to convert an iterable into an array. You can convert strings into arrays of characters (not code units) and `NodeList` objects in the browser into arrays of nodes.
+אופרטור הפיזור משמש ליצירת המערך
+`allNumbers` 
+מתוך הערכים שבתוך
+`smallNumbers`
+ו-
+`bigNumbers`.
+הערכים מועברים לתוך
+`allNumbers` 
+לפי הסדר בו הוסיפו את המערכים הפנימיים בעת יצירת
+`allNumbers`:
+`0`
+יהיה הפריט הראשון, לאחר מכן יבואו הערכים של
+`smallNumbers`, 
+ולאחר מכן הערכים מתוך
+`bigNumbers`.
+המערכים המקוריים לא עוברים שינוי, ערכיהם הועתקו לתוך
+`allNumbers`.
 
-Now that you understand the basics of how iterators work, including `for-of` and the spread operator, it's time to look at some more complex uses of iterators.
+מכיוון שאופרטור הפיזור יכול לעבוד עבור כל אוביקט איטרבילי, זוהי הדרך הקלה ביותר להפוך אוביקט שכזה למערך. ניתן להמיר מחרוזות לתוך מערך של תווים
+(לא יחידות קוד)ת
+כמו גם אוביקטים מסוג
+`NodeList`
+בדפדפן לתוך מערך של אוביקטים מסוג
+`Node`.
+
+כעת כשידוע לנו הבסיס לפעולת איטרטור, כולל לולאת 
+`for-of`
+ואופרטור הפיזור, ניתן לבחון שימושים מורכבים עבור איטרטורים.
+
+</div>
 
 ## Advanced Iterator Functionality
 
