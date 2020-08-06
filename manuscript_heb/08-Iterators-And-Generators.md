@@ -1104,11 +1104,14 @@ console.log(allNumbers);    // [0, 1, 2, 3, 100, 101, 102]
 `for-of`
 ואופרטור הפיזור, ניתן לבחון שימושים מורכבים עבור איטרטורים.
 
+## יכולות איטרטור מתקדמות
+
+ניתן להשיג הרבה באמצעות ההתנהגות הבסיסית של איטרטורים והנוחות של יצירה שלהם בעזרת גנרטורים. אך איטרטורים עוצמתיים אף יותר כאשר משתמשים בהם לביצוע משימות שונות מאיטרציה פשוטה על אוסף של ערכים. במהלך פיתוח אקמהסריפט 6, רעיונות ותבניות כתיבת קוד בעלי אופי ייחודי יצאו לאור שעודדו את היוצרים להרחיב את הפונקציונליות הקיימת. חלק מאותן תוספות היו בקושי מורגשות, אך בשילוב של אחת בשניה יצרו תוצאות מעניינות ביותר. 
+
+<div dir="ltr">
 </div>
 
-## Advanced Iterator Functionality
-
-You can accomplish a lot with the basic functionality of iterators and the convenience of creating them using generators. However, iterators are much more powerful when used for tasks other than simply iterating over a collection of values. During the development of ECMAScript 6, a lot of unique ideas and patterns emerged that encouraged the creators to add more functionality. Some of those additions are subtle, but when used together, can accomplish some interesting interactions.
+</div>
 
 ### Passing Arguments to Iterators
 
