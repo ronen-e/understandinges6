@@ -1108,14 +1108,23 @@ console.log(allNumbers);    // [0, 1, 2, 3, 100, 101, 102]
 
 ניתן להשיג הרבה באמצעות ההתנהגות הבסיסית של איטרטורים והנוחות של יצירה שלהם בעזרת גנרטורים. אך איטרטורים עוצמתיים אף יותר כאשר משתמשים בהם לביצוע משימות שונות מאיטרציה פשוטה על אוסף של ערכים. במהלך פיתוח אקמהסריפט 6, רעיונות ותבניות כתיבת קוד בעלי אופי ייחודי יצאו לאור שעודדו את היוצרים להרחיב את הפונקציונליות הקיימת. חלק מאותן תוספות היו בקושי מורגשות, אך בשילוב של אחת בשניה יצרו תוצאות מעניינות ביותר. 
 
+### העברת ארגומנטים לתוך איטרטורים
+
+בפרק זה ראינו דוגמאות כיצד איטרטורים מעבירים ערכים החוצה בעזרת מתודת 
+<span dir="ltr">`next()`</span>
+או בעזרת הפקודה
+`yield`
+בתוך גנרטור.
+אך ניתן גם להעביר ארגומנטים לתוך איטרטור על ידי שימוש במתודה
+<span dir="ltr">`next()`</span>.
+כאשר ארגומנט מועבר למתודה
+<span dir="ltr">`next()`</span>
+אותו ארגומנט הופך לערך שמוחזר מפקודת 
+`yield`
+בתוך הגנרטור. יכולת זו חשובה במיוחד עבור תכנות אסינכרוני.
+להלן דוגמה בסיסית:
+
 <div dir="ltr">
-</div>
-
-</div>
-
-### Passing Arguments to Iterators
-
-Throughout this chapter, examples have shown iterators passing values out via the `next()` method or by using `yield` in a generator. But you can also pass arguments to the iterator through the `next()` method. When an argument is passed to the `next()` method, that argument becomes the value of the `yield` statement inside a generator. This capability is important for more advanced functionality such as asynchronous programming. Here's a basic example:
 
 ```js
 function *createIterator() {
@@ -1132,19 +1141,83 @@ console.log(iterator.next(5));          // "{ value: 8, done: false }"
 console.log(iterator.next());           // "{ value: undefined, done: true }"
 ```
 
-The first call to `next()` is a special case where any argument passed to it is lost. Since arguments passed to `next()` become the values returned by `yield`, an argument from the first call to `next()` could only replace the first yield statement in the generator function if it could be accessed before that `yield` statement. That's not possible, so there's no reason to pass an argument the first time `next()` is called.
+</div>
 
-On the second call to `next()`, the value `4` is passed as the argument. The `4` ends up assigned to the variable `first` inside the generator function. In a `yield` statement including an assignment, the right side of the expression is evaluated on the first call to `next()` and the left side is evaluated on the second call to `next()` before the function continues executing. Since the second call to `next()` passes in `4`, that value is assigned to `first` and then execution continues.
+הקריאה הראשונה ל-
+<span dir="ltr">`next()`</span>
+נחשבת למקרה מיוחד שלא מתייחס לערך המועבר פנימה.  מכיוון שארגומנטים שמועברים לתוך
+<span dir="ltr">`next()`</span>
+הופכים לערכים שמוחזרים על ידי 
+`yield`,
+ארגומנט מהקריאה הראשונה ל
+<span dir="ltr">`next()`</span>
+יכול להחליף את פקודת 
+`yield`
+הראשונה בגנרטור רק אם היה ניתן לגשת אליה לפני פקודת
+`yield`. 
+זה לא אפשרי ולכן אין טעם להעביר ארגומנט בקריאה הראשונה של
+<span dir="ltr">`next()`</span>.
 
-The second `yield` uses the result of the first `yield` and adds two, which means it returns a value of six. When `next()` is called a third time, the value `5` is passed as an argument. That value is assigned to the variable `second` and then used in the third `yield` statement to return `8`.
+בקריאה השניה של
+<span dir="ltr">`next()`</span>,
+הערך
+`4`
+מועבר כארגומנט.
+אותו ערך מועבר למשתנה
+`first`
+בתוך הגנרטור. בפקודת 
+`yield` 
+שכוללת גם פעולת השמה, הצד הימני של הביטוי
+רץ בקריאה הראשונה ל 
+<span dir="ltr">`next()`</span>
+והצד השמאלי רץ בקריאה השניה ל
+<span dir="ltr">`next()`</span>.
+מכיוון שהקריאה השניה ל
+מעבירה פנימה את הערך
+`4`,
+זה הערך שמועבר למשתנה
+`first`
+ולאחר מכן הפונקציה ממשיכה לרוץ.
 
-It's a bit easier to think about what's happening by considering which code is executing each time execution continues inside the generator function. Figure 8-1 uses colors to show the code being executed before yielding.
+פקודת 
+`yield` 
+השניה משתמשת בתוצאת פקודת
+`yield` 
+הראשונה ומוסיפה `2` לתוצאה, משמע יוחזר הערך `6`. כאשר
+<span dir="ltr">`next()`</span>
+נקראת פעם שלישית, הערך 
+`5`
+מועבר כארגומנט. הערך הזה מועבר למשתנה
+`second`
+ונעשה בו שימוש בפקודת
+`yield` 
+השלישית על מנת להחזיר את הערך
+`8`.
 
-![Figure 8-1: Code execution inside a generator](images/fg0601.png)
+קל יותר לחשוב על מה שקורה כאשר מתייחסים לקוד שעובד כל פעם שהקוד רץ בתוך הגנרטור.
+תרשים 8-1 משתמש בצבעים כדי להראות את הקוד שרץ לפני שמוחזר ערך.
 
-The color yellow represents the first call to `next()` and all the code executed inside of the generator as a result. The color aqua represents the call to `next(4)` and the code that is executed with that call. The color purple represents the call to `next(5)` and the code that is executed as a result. The tricky part is how the code on the right side of each expression executes and stops before the left side is executed. This makes debugging complicated generators a bit more involved than debugging regular functions.
+![תרשים 8-1: הרצת קוד בתוך גנרטור](images/fg0601.png)
 
-So far, you've seen that `yield` can act like `return` when a value is passed to the `next()` method. However, that's not the only execution trick you can do inside a generator. You can also cause iterators throw an error.
+הצבע הצהוב מייצג את הקריאה הראשונה ל
+<span dir="ltr">`next()`</span>
+וכל הקוד שרץ בתוך הגנרטור כתוצאה מכך. הצבע הכחול מייצג את הקריאה 
+<span dir="ltr">`next(4)`</span>
+והקוד שרץ יחד עימה. הצבע הסגול מייצג את הקריאה 
+<span dir="ltr">`next(5)`</span>
+והקוד שרץ כתוצאה מכך. החלק הקשה הוא כיצד הקוד שבצד ימין של כל ביטוי רץ ונעצר לפני שהקוד בצידו השמאלי רץ. זה הופך פעולת פתרון שגיאות
+(debugging)
+על גנרטורים מורכבים מורכבת יותר מאשר בפונקציות רגילות.
+
+עד כה ראינו כיצד פקודת 
+`yield`
+יכולה לפעול כמו פקודת
+`return`
+כאשר ערך מועבר למתודה
+<span dir="ltr">`next()`</span>.
+אך באפשרותך גם לגרום לאיטרטורים לזרוק שגיאה.
+
+</div>
 
 ### Throwing Errors in Iterators
 
