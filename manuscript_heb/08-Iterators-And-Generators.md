@@ -1631,13 +1631,14 @@ I> ניתן להשתמש בפקודת
 )
 והאיטרטור המובנה של מחרוזת ישמש במקרה שכזה.
 
-</div>
+## ביצוע פעולות אסינכרוניות
 
-## Asynchronous Task Running
+חלק גדול מההתלהבות בעניין גנרטורים קשורה קשר ישיר לתכנות אסינכרוני. תכנות אסינכרוני בג׳אווהסקריפט נחשב לחרב פיפיות: משימות פשוטות קלות לביוצע באופן אסינכרוני, בעוד שמשימות מורכבות הופכות למסובכות בכל הקשור לארגון הקוד. מכיוון שגנרטורים מאפשרים לנו למעשה לעצור את הקוד באמצע ריצה, הם פותחים בפנינו אפשרויות רבות בכל הקשור לתכנות אסינכרוני.
 
-A lot of the excitement around generators is directly related to asynchronous programming. Asynchronous programming in JavaScript is a double-edged sword: simple tasks are easy to do asynchronously, while complex tasks become an errand in code organization. Since generators allow you to effectively pause code in the middle of execution, they open up a lot of possibilities related to asynchronous processing.
+הדרך המסורתית לבצע פעולות אסינכרוניות הייתה לקרוא לפונקציה אחת שמקבלת פונקציה נוספת בתור פונקציית קולבק. לדוגמה קריאת קובץ מתוך דיסק קשיח בסביבת
+Node.js:
 
-The traditional way to perform asynchronous operations is to call a function that has a callback. For example, consider reading a file from the disk in Node.js:
+<div dir="ltr">
 
 ```js
 let fs = require("fs");
@@ -1651,8 +1652,18 @@ fs.readFile("config.json", function(err, contents) {
     console.log("Done");
 });
 ```
+</div>
 
-The `fs.readFile()` method is called with the filename to read and a callback function. When the operation is finished, the callback function is called. The callback checks to see if there's an error, and if not, processes the returned `contents`. This works well when you have a small, finite number of asynchronous tasks to complete, but gets complicated when you need to nest callbacks or otherwise sequence a series of asynchronous tasks. This is where generators and `yield` are helpful.
+המתודה
+<span dir="ltr">`fs.readFile()`</span>
+נקראת עם 2 ארגומנטים, שם הקובץ אותו רוצים לקרוא ופונקציית קולבק.
+כאשר הפעולה מסתיימת קוראים לפונקציית הקולבק שבודקת אם יש שגיאה, ובמידה ואין כזו, מעבדת את התוצאה
+`contents`. 
+תהליך מסוג זה עובד כאשר יש מספר קטן ומוגבל של פעולות אסינכרוניות לביצוע, אך מסתבך כאשר צריך להכיל פונקציות קולבק אחת בתוך השניה או כאשר יש סדרה של פעולות אסינכרוניות. במצב כזה גנרטורים ופקודות
+`yield`
+שימושיים במיוחד.
+
+</div>
 
 ### A Simple Task Runner
 
