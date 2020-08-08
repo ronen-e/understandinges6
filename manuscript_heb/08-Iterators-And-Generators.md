@@ -1217,33 +1217,57 @@ console.log(iterator.next());           // "{ value: undefined, done: true }"
 <span dir="ltr">`next()`</span>.
 אך באפשרותך גם לגרום לאיטרטורים לזרוק שגיאה.
 
-</div>
+### זריקת שגיאות בתוך איטרטורים
 
-### Throwing Errors in Iterators
+מלבד נתונים ניתן להעביר לתוך איטרטורים מצבי שגיאה. איטרטורים יכולים לבחור ליישם מתודת
+<span dir="ltr">`throw()`</span>.
+שמורה לאיטרטור לזרוק שגיאה כאשר הוא ממשיך לרוץ. מדובר ביכולת חשובה מאוד לתכנות אסינכרוני שמאפשרת גמישות בתוך גנרטורים, כאשר נרצה לחקות התנהגות גם של החזרת ערך וגם של זריקת שגיאה
+(שתי הדרכים לצאת מפונקציה). 
+ניתן להעביר למתודה
+<span dir="ltr">`throw()`</span>
+אוביקט שגיאה שתיזרק כאשר האיטרטור יחזור להריץ קוד מחדש. לדוגמה:
 
-It's possible to pass not just data into iterators but also error conditions. Iterators can choose to implement a `throw()` method that instructs the iterator to throw an error when it resumes. This is an important capability for asynchronous programming, but also for flexibility inside generators, where you want to be able to mimic both return values and thrown errors (the two ways of exiting a function). You can pass an error object to `throw()` that should be thrown when the iterator continues processing. For example:
+<div dir="ltr">
 
 ```js
 function *createIterator() {
     let first = yield 1;
-    let second = yield first + 2;       // yield 4 + 2, then throw
-    yield second + 3;                   // never is executed
+    let second = yield first + 2;       // החזרת 4+2 ואז שגיאה
+    yield second + 3;                   // הקוד לא ירוץ
 }
 
 let iterator = createIterator();
 
 console.log(iterator.next());                   // "{ value: 1, done: false }"
 console.log(iterator.next(4));                  // "{ value: 6, done: false }"
-console.log(iterator.throw(new Error("Boom"))); // error thrown from generator
+console.log(iterator.throw(new Error("Boom"))); // זורק שגיאה מהגנרטור
 ```
+</div>
 
-In this example, the first two `yield` expressions are evaluated as normal, but when `throw()` is called, an error is thrown before `let second` is evaluated. This effectively halts code execution similar to directly throwing an error. The only difference is the location in which the error is thrown. Figure 8-2 shows which code is executed at each step.
+בדוגמה זו, שתי פקודות 
+`yield`
+הראשונות עובדות כצפוי, אך כאשר קוראים למתודה
+<span dir="ltr">`throw()`</span>
+נזרקת שגיאה  לפני שהקוד
+`let second`
+עובד.
+זה למעשה עוצר את הקוד בדומה לזריקת שגיאה באופן ישיר. ההבדל היחיד הוא המיקום בו נזרקת השגיאה.
+איור 8-2 מראה איזה קוד רץ בכל שלב.
 
-![Figure 8-2: Throwing an error inside a generator](images/fg0602.png)
+![איור 8-2: זריקת שגיאה בתוך גנרטור](images/fg0602.png)
 
-In this figure, the color red represents the code executed when `throw()` is called, and the red star shows approximately when the error is thrown inside the generator. The first two `yield` statements are executed, and when `throw()` is called, an error is thrown before any other code executes.
+באיור זה, הצבע האדום מייצג את הקוד שרץ כאשר קוראים למתודה
+<span dir="ltr">`throw()`</span>,
+והכוכבית האדומה מראה בקירוב היכן נזרקת השגיאה מתוך הגנרטור. שתי פקודות 
+`yield`
+הראשונות פועלות כצפוי, וכאשר קוראים למתודה
+<span dir="ltr">`throw()`</span>,
+נזרקת שגיאה לפני שרץ קוד נוסף.
 
-Knowing this, you can catch such errors inside the generator using a `try-catch` block:
+ניתן לתפוס שגיאות כאלו בתוך גנרטור בעזרת בלוק 
+`try-catch`:
+
+<div dir="ltr">
 
 ```js
 function *createIterator() {
@@ -1251,9 +1275,9 @@ function *createIterator() {
     let second;
 
     try {
-        second = yield first + 2;       // yield 4 + 2, then throw
+        second = yield first + 2;       // החזרת 4+2 ואז שגיאה
     } catch (ex) {
-        second = 6;                     // on error, assign a different value
+        second = 6;                     // תפיסת שגיאה והשמה של ערך
     }
     yield second + 3;
 }
@@ -1266,13 +1290,61 @@ console.log(iterator.throw(new Error("Boom"))); // "{ value: 9, done: false }"
 console.log(iterator.next());                   // "{ value: undefined, done: true }"
 ```
 
-In this example, a `try-catch` block is wrapped around the second `yield` statement. While this `yield` executes without error, the error is thrown before any value can be assigned to `second`, so the `catch` block assigns it a value of six. Execution then flows to the next `yield` and returns nine.
+</div>
 
-Notice that something interesting happened: the `throw()` method returned a result object just like the `next()` method. Because the error was caught inside the generator, code execution continued on to the next `yield` and returned the next value, `9`.
+בדוגמה זו, בלוק של
+`try-catch`
+עוטף את הפקודה
+`yield`
+השניה.
+אף על פי שפקודת 
+`yield`
+עצמה רצה ללא שגיאה, השגיאה נזרקת לפני שניתן לשים ערך למשתנה
+`second`,
+ולכן בלוק
+`catch`
+מבצע בו השמה של הערך 
+`6`.
+הקוד ממשיך לרוץ לפקודת
+`yield`
+הבאה ומחזיר את הערך
+`9`.
 
-It helps to think of `next()` and `throw()` as both being instructions to the iterator. The `next()` method instructs the iterator to continue executing (possibly with a given value) and `throw()` instructs the iterator to continue executing by throwing an error. What happens after that point depends on the code inside the generator.
+שימו לב לדבר מעניין שקרה: מתודת
+<span dir="ltr">`throw()`</span>
+החזירה לנו אוביקט תוצאה ממש כמו מתודת
+<span dir="ltr">`next()`</span>.
+מכיוון שהשגיאה נתפסה בתוך הגנרטור, הקוד ממשיך לרוץ עד לפקודת
+`yield`
+הבאה ומחזיר את הערך הבא, 
+`9`.
 
-The `next()` and `throw()` methods control execution inside an iterator when using `yield`, but you can also use the `return` statement. But `return` works a bit differently than it does in regular functions, as you will see in the next section.
+מומלץ לחשוב על מתודת 
+<span dir="ltr">`next()`</span>
+ו-
+<span dir="ltr">`throw()`</span>
+כעל הוראות עבור האיטרטור. המתודה
+<span dir="ltr">`next()`</span>
+מורה לאיטרטור להמשיך לרוץ
+(ייתכן שאם ערך נתון)
+ומתודת 
+<span dir="ltr">`throw()`</span>
+מורה לאיטרטור להמשיך לרוץ על ידי זריקת שגיאה. מה שקורה לאחר מכן תלוי בקוד שבתוך הגנרטור עצמו.
+
+המתודות
+<span dir="ltr">`next()`</span>
+ו-
+<span dir="ltr">`throw()`</span>
+שולטות על הרצת הקוד בתוך איטרטור כאשר משתמשים בפקודת
+`yield`,
+אך ניתן להשתמש גם בפקודת
+`return`.
+פקודת 
+`return`
+עובדת בצורה שונה במקצת בתוך גנרטור, כפי שנראה בחלק הבא.
+
+</div>
+
 
 ### Generator Return Statements
 
