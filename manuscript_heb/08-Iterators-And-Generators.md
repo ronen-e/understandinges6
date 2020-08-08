@@ -1663,22 +1663,27 @@ fs.readFile("config.json", function(err, contents) {
 `yield`
 שימושיים במיוחד.
 
-</div>
+### מריץ פעולות פשוט
 
-### A Simple Task Runner
+מכיוון שפקודת
+`yield`
+מפסיקה את הרצת הקוד ומחכה לקריאה נוספת של מתודת 
+<span dir="ltr">`next()`</span>
+טרם הרצה נוספת, ניתן לממש פעולות אסינכרוניות מבלי הצורך לנהל פונקציות קולבק. בתור התחלה נזדקק לפונקציה שיכולה לקרוא לגנרטור ולהפעיל את האיטרטור שמוחזר ממנו. כמו בדוגמה הבאה:
 
-Because `yield` stops execution and waits for the `next()` method to be called before starting again, you can implement asynchronous calls without managing callbacks. To start, you need a function that can call a generator and start the iterator, such as this:
+
+<div dir="ltr">
 
 ```js
 function run(taskDef) {
 
-    // create the iterator, make available elsewhere
+    // יצירת האיטרטור ושמירתו
     let task = taskDef();
 
-    // start the task
+    // התחלת ביצוע המשימות
     let result = task.next();
 
-    // recursive function to keep calling next()
+    // קריאות ריקורסיביות לערך הבא באיטרטור
     function step() {
 
         // if there's more to do
@@ -1688,15 +1693,50 @@ function run(taskDef) {
         }
     }
 
-    // start the process
+    // התחלת התהליך
     step();
 
 }
 ```
 
-The `run()` function accepts a task definition (a generator function) as an argument. It calls the generator to create an iterator and stores the iterator in `task`. The `task` variable is outside the function so it can be accessed by other functions; I will explain why later in this section. The first call to `next()` begins the iterator and the result is stored for later use. The `step()` function checks to see if `result.done` is false and, if so, calls `next()` before recursively calling itself. Each call to `next()` stores the return value in `result`, which is always overwritten to contain the latest information. The initial call to `step()` starts the process of looking at the `result.done` variable to see whether there's more to do.
+</div>
 
-With this implementation of `run()`, you can run a generator containing multiple `yield` statements, such as:
+הפונקציה
+<span dir="ltr">`run()`</span>
+מקבלת הגדרת פעולה
+(פונקציית גנרטור)
+כארגומנט. היא קוראת לגנרטור כדי ליצור איטרטור ושומרת אותו במשתנה
+`task`.
+המשתנה
+`task`
+נמצא מחוץ לפונקציה ולכן ניתן לגשת אליו מפונקציות אחרות. הסיבה לכך תוסבר בהמשך. הקריאה הראשונה של
+<span dir="ltr">`next()`</span>
+מפעילה את האיטרטור והתוצאה נשמרת עבור שימוש עתידי. הפונקציה
+<span dir="ltr">`step()`</span>
+בודקת אם הערך 
+`result.done`
+הוא
+`false`
+ואם אכן כך, קוראת למתודה
+<span dir="ltr">`next()`</span>
+לפני שהיא קוראת לעצמה באופן רקורסיבי. כל קריאה של
+<span dir="ltr">`next()`</span>
+שומרת את התוצאה במשתנה
+`result`
+שערכו תמיד מוגדר כך שיכיל את התוצאה האחרונה.
+הקריאה הראשונה לפונקציה
+<span dir="ltr">`step()`</span>
+מתחילה את התהליך של בחינת הערך
+`result.done`
+על מנת לבדוק האם יש צורך בפעולות נוספות.
+
+באמצעות מימוש זה של הפונקציה
+<span dir="ltr">`run()`</span>
+ניתן להריץ גנרטור שמכיל מספר פקודות
+`yield`
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 run(function*() {
@@ -1708,7 +1748,13 @@ run(function*() {
 });
 ```
 
-This example just outputs three numbers to the console, which simply shows that all calls to `next()` are being made. However, just yielding a couple of times isn't very useful. The next step is to pass values into and out of the iterator.
+</div>
+
+הדוגמה הזו מדפיסה שלושה מספרים לקונסולה, ומראה שכל הקריאות של
+<span dir="ltr">`next()`</span>
+אכן מתבצעות. אך אין זו פעולה בעלת שימוש רב. השלב הבא הוא העברת ערכים אל תוך האיטרטור ומחוצה ממנו.
+
+</div>
 
 ### Task Running With Data
 
