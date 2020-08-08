@@ -1455,12 +1455,19 @@ return`
 `return`
 עוזרים בעיקר בפעולת דלגציה של גנרטורים.
 
+### דלגציה של גנרטורים
 
-</div>
+במצבים מסוימים, נרצה לשלב את הערכים המגיעים משני איטרטורים נפרדים לתוך איטרטור אחד. גנרטורים יכולים להעביר את השליטה לאיטרטורים אחרים באמצעות כתיבת הפקודה
+`yield`
+עם כוכבית
+(`*`).
+בדומה לכללים עבור הגדרת גנרטור, אין זה משנה היכן מופיעה הכוכבית, כל עוד הכוכבית תימצא בין המילה
+`yield`
+לבין שם הגנרטור.
+את פעולה זו של העברת השליטה לאיטרטורים מכנים דלגציה של גנרטורים.
+להלן דוגמה:
 
-### Delegating Generators
-
-In some cases, combining the values from two iterators into one is useful. Generators can delegate to other iterators using a special form of `yield` with a star (`*`) character. As with generator definitions, where the star appears doesn't matter, as long as the star falls between the `yield` keyword and the generator function name. Here's an example:
+<div dir="ltr">
 
 ```js
 function *createNumberIterator() {
@@ -1489,9 +1496,30 @@ console.log(iterator.next());           // "{ value: true, done: false }"
 console.log(iterator.next());           // "{ value: undefined, done: true }"
 ```
 
-In this example, the `createCombinedIterator()` generator delegates first to the iterator returned from `createNumberIterator()` and then to the iterator returned from `createColorIterator()`. The iterator returned from `createCombinedIterator()` appears, from the outside, to be one consistent iterator that has produced all of the values. Each call to `next()` is delegated to the appropriate iterator until the iterators created by `createNumberIterator()` and `createColorIterator()` are empty. Then the final `yield` is executed to return `true`.
+</div>
 
-Generator delegation also lets you make further use of generator return values. This is the easiest way to access such returned values and can be quite useful in performing complex tasks. For example:
+בדוגמה זו, הגנרטור
+<span dir="ltr">`createCombinedIterator()`</span>
+מעביר את השליטה תחילה לאיטרטור שמוחזר מהגנרטור
+<span dir="ltr">`createNumberIterator()`</span>
+ולאחר מכן לאיטרטור שמוחזר מהגנרטור
+<span dir="ltr">`createColorIterator()`</span>.
+האיטרטור שמוחזר מהגנרטור
+<span dir="ltr">`createCombinedIterator()`</span>
+נראה, כלפי חוץ, כאיטרטור שיצר את כל הערכים. כל קריאה למתודה
+<span dir="ltr">`next()`</span>
+מעבירה את השליטה לאיטרטור המתאים עד אשר האיטרטורים שנוצרו על ידי
+<span dir="ltr">`createNumberIterator()`</span>
+ו
+<span dir="ltr">`createColorIterator()`</span>
+סיימו עבודתם. במקרה זה פקודת
+`yield`
+האחרונה תחזיר את הערך
+`true`.
+
+דלגציה של גנרטורים מאפשרת לנו שימוש נוסף בערך חזרה של גנרטור. למעשה, זו הדרך הקלה ביותר לגשת לערכים אלו, והדבר יכול לשמש אותנו בביצוע פעולות מורכבות. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function *createNumberIterator() {
@@ -1521,9 +1549,39 @@ console.log(iterator.next());           // "{ value: "repeat", done: false }"
 console.log(iterator.next());           // "{ value: undefined, done: true }"
 ```
 
-Here, the `createCombinedIterator()` generator delegates to `createNumberIterator()` and assigns the return value to `result`. Since `createNumberIterator()` contains `return 3`, the returned value is `3`. The `result` variable is then passed to `createRepeatingIterator()` as an argument indicating how many times to yield the same string (in this case, three times).
+</div>
 
-Notice that the value `3` was never output from any call to the `next()` method. Right now, it exists solely inside the `createCombinedIterator()` generator. But you can output that value as well by adding another `yield` statement, such as:
+בדוגמה זו, הגנרטור
+<span dir="ltr">`createCombinedIterator()`</span>
+מעביר את השליטה לגנרטור
+<span dir="ltr">`createNumberIterator()`</span>
+ומבצע השמה של ערך חזרה למשתנה
+`result`.
+מכיוון ש 
+<span dir="ltr">`createNumberIterator()`</span>
+משתמש בקוד
+`return 3`,
+הערך המוחזר הינו
+`3`. 
+המשתנה
+`result`
+מועבר אל תוך 
+<span dir="ltr">`createRepeatingIterator()`</span>
+בתור ארגומנט שקובע את מספר הפעמים שיוחזר אותו ערך מחרוזת
+(בדוגמה למעלה, 3 פעמים).
+
+שימו לב שהערך 
+`3`
+לא מוחזר מאף קריאה למתודה
+<span dir="ltr">`next()`</span>.
+במקרה שלנה, הוא קיים אך ורק בתוך הגנרטור 
+<span dir="ltr">`createCombinedIterator()`</span>.
+אך ניתן להוסיף ערכים על ידי פקודות
+
+נוספות, כמו בדוגמה הבאה:
+`yield`
+
+<div dir="ltr">
 
 ```js
 function *createNumberIterator() {
@@ -1555,11 +1613,25 @@ console.log(iterator.next());           // "{ value: "repeat", done: false }"
 console.log(iterator.next());           // "{ value: undefined, done: true }"
 ```
 
-In this code, the extra `yield` statement explicitly outputs the returned value from the `createNumberIterator()` generator.
+</div>
 
-Generator delegation using the return value is a very powerful paradigm that allows for some very interesting possibilities, especially when used in conjunction with asynchronous operations.
+בקוד למעלה, פקודת
+`yield`
+נוספת מוציאה את הערך המוחזר מתוך הגנרטור
+<span dir="ltr">`createNumberIterator()`</span>.
 
-I> You can use `yield *` directly on strings (such as `yield * "hello"`) and the string's default iterator will be used.
+דלגציה של גנרטורים בה משתמשים בערך חזרה היא פרדיגמה עוצמתית שפותחת בפנינו מספר אפשרויות מעניינות, בעיקר כאשר משתמשים בה בביצוע פעולות אסינכרוניות.
+
+I> ניתן להשתמש בפקודת
+`yield *`
+על מחרוזות
+(
+    למשל,
+    <span dir="ltr">`yield * "hello"`</span>
+)
+והאיטרטור המובנה של מחרוזת ישמש במקרה שכזה.
+
+</div>
 
 ## Asynchronous Task Running
 
