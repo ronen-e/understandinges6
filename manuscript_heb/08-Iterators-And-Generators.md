@@ -1343,12 +1343,30 @@ console.log(iterator.next());                   // "{ value: undefined, done: tr
 `return`
 עובדת בצורה שונה במקצת בתוך גנרטור, כפי שנראה בחלק הבא.
 
-</div>
+### פקודת החזרת ערך בגנרטור
 
+מאחר וגנרטורים הם פונקציות ניתן להשתמש בפקודת
+`return`
+גם לסיים את הפונקציה מוקדם וגם כדי להחזיר ערך מהקריאה האחרונה למתודת
+<span dir="ltr">`next()`</span>. 
+ברוב הדוגמאות בפרק זה, הקריאה האחרונה של
+<span dir="ltr">`next()`</span>
+על איטרטור מחזירה את הערך
+`undefined`,
+אך ניתן לספק ערך חלופי על ידי שימוש בפקודה
+`return`
+כפי שניתן לעשות בפונקציה רגילה. בתוך גנרטור
+`return`
+משמעו שאין עוד קוד נוסף להריץ ולכן התכונה
+`done`
+מוגדרת עם הערך
+`true`
+והערך, במידה וסופק, הופך לערך התכונה
+`value`
+להלן דוגמה שפשוט מסיימת מוקדם את הגנרטור באמצעות הפקודה
+`return`:
 
-### Generator Return Statements
-
-Since generators are functions, you can use the `return` statement both to exit early and  specify a return value for the last call to the `next()` method. In most examples in this chapter, the last call to `next()` on an iterator returns `undefined`, but you can specify an alternate value by using `return` as you would in any other function. In a generator, `return` indicates that all processing is done, so the `done` property is set to `true` and the value, if provided, becomes the `value` field. Here's an example that simply exits early using `return`:
+<div dir="ltr">
 
 ```js
 function *createIterator() {
@@ -1364,9 +1382,25 @@ console.log(iterator.next());           // "{ value: 1, done: false }"
 console.log(iterator.next());           // "{ value: undefined, done: true }"
 ```
 
-In this code, the generator has a `yield` statement followed by a `return` statement. The `return` indicates that there are no more values to come, and so the rest of the `yield` statements will not execute (they are unreachable).
+</div>
 
-You can also specify a return value that will end up in the `value` field of the returned object. For example:
+בדוגמה לעיל, יש בגנרטור פקודת
+`yield`
+שלאחריה מופיעה פקודת
+`return`.
+פקודת
+`return`
+משמעותה שאין ערכים נוספים, ולכן יתר פקודות
+`yield`
+לא ירוצו
+(לא ניתן להגיע אליהן).
+
+ניתן לספק ערך שיופיע בתור התכונה
+`value`
+של אוביקט התוצאה. 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function *createIterator() {
@@ -1380,10 +1414,49 @@ console.log(iterator.next());           // "{ value: 1, done: false }"
 console.log(iterator.next());           // "{ value: 42, done: true }"
 console.log(iterator.next());           // "{ value: undefined, done: true }"
 ```
+</div>
 
-Here, the value `42` is returned in the `value` field on the second call to the `next()` method (which is the first time that `done` is `true`). The third call to `next()` returns an object whose `value` property is once again `undefined`. Any value you specify with `return` is only available on the returned object one time before the `value` field is reset to `undefined`.
+בדוגמה זו, הערך
+`42`
+מוחזר בתור התכונה
+`value`
+בקריאה השניה למתודה
+<span dir="ltr">`next()`</span>
+(
+זו גם הפעם הראשונה שהערך עבור התכונה
+`done`
+הוא
+`true`
+).
+הקריאה השלישית עבור
+<span dir="ltr">`next()`</span>
+מחזירה אוביקט תוצאה שערך התכונה
+`value`
+הינו שוב
+`undefined`.
+כל ערך שנספק בפקודת
+`return`
+יופיע באוביקט התוצאה פעם אחת בלבד לפני שמאתחלים את תכונת
+`value`
+לערך
+`undefined`.
 
-I> The spread operator and `for-of` ignore any value specified by a `return` statement. As soon as they see `done` is `true`, they stop without reading the `value`. Iterator return values are helpful, however, when delegating generators.
+I> אופרטור הפיזור ולולאת
+`for-of`
+מתעלמים מערכים שמגיעים מפקודת
+return`
+ברגע שהתכונה 
+`done`
+מקבלת את הערך
+`true`,
+הם מפסיקים את פעולתם מבלי לקרוא את הערך של תכונת
+`value`.
+ערכים שמוחזרים מאיטרטורים באמצעות פקודת
+`return`
+עוזרים בעיקר בפעולת דלגציה של גנרטורים.
+
+
+</div>
 
 ### Delegating Generators
 
