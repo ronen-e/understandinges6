@@ -1686,7 +1686,7 @@ function run(taskDef) {
     // קריאות ריקורסיביות לערך הבא באיטרטור
     function step() {
 
-        // if there's more to do
+        // בדיקה אם נותרו עוד פעולות
         if (!result.done) {
             result = task.next();
             step();
@@ -1754,38 +1754,53 @@ run(function*() {
 <span dir="ltr">`next()`</span>
 אכן מתבצעות. אך אין זו פעולה בעלת שימוש רב. השלב הבא הוא העברת ערכים אל תוך האיטרטור ומחוצה ממנו.
 
-</div>
+### הרצת משימות עם נתונים
 
-### Task Running With Data
+הדרך הקלה להעביר נתונים לתוך מריץ משימות היא להעביר את הערך שמגיע מפקודת
+`yield`
+לקריאה הבאה למתודה
+<span dir="ltr">`next()`</span>
+כדי לעשות זאת, עלינו להעביר רק את הערך
+`result.value`,
+כמו בדוגמה הבאה:
 
-The easiest way to pass data through the task runner is to pass the value specified by `yield` into the next call to the `next()` method. To do so, you need only pass `result.value`, as in this code:
+<div dir="ltr">
 
 ```js
 function run(taskDef) {
 
-    // create the iterator, make available elsewhere
+    // יצירת האיטרטור ושמירתו
     let task = taskDef();
 
-    // start the task
+    // התחלת ביצוע המשימות
     let result = task.next();
 
-    // recursive function to keep calling next()
+    // קריאות ריקורסיביות לערך הבא באיטרטור
     function step() {
 
-        // if there's more to do
+        // בדיקה אם נותרו עוד פעולות
         if (!result.done) {
             result = task.next(result.value);
             step();
         }
     }
 
-    // start the process
+    // התחלת התהליך
     step();
 
 }
 ```
+</div>
 
-Now that `result.value` is passed to `next()` as an argument, it's possible to pass data between `yield` calls, like this:
+כעת שהערך 
+`result.value`
+מועבר למתודה
+<span dir="ltr">`next()`</span>
+בתור ארגומנט, ניתן להעביר נתונים בין קריאות
+`yield`
+שונות, כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 run(function*() {
@@ -1797,7 +1812,28 @@ run(function*() {
 });
 ```
 
-This example outputs two values to the console: 1 and 4. The value 1 comes from `yield 1`, as the 1 is passed right back into the `value` variable. The 4 is calculated by adding 3 to `value` and passing that result back to `value`. Now that data is flowing between calls to `yield`, you just need one small change to allow asynchronous calls.
+</div>
+
+הדוגמה הזו מדפיסה שני ערכים לקונסול: הערכים
+`1`
+ו-
+`4`.
+הערך
+`1`
+מגיע מפקודת
+`yield 1`,
+או אז הוא מועבר לתוך המשתנה
+`value`.
+הערך 
+`4`
+מחושב על ידי הוספת 3 למשתנה
+`value` 
+והעברת התוצאה בחזרה לתוך 
+`value`. 
+כעת שהנתונים עוברים בין קריאות, יש צורך בשינוי אחד קטן על מנת לאפשר קריאות אסינכרוניות.
+
+
+</div>
 
 ### Asynchronous Task Runner
 
