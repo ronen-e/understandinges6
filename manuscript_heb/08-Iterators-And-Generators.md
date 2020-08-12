@@ -3,7 +3,6 @@
 # איטרטורים וגנרטורים
 
 שפות תכנות רבות עברו מאיטרציה על נתונים באמצעות לולאות
-
 שדורשות אתחול משתנים על מנת לעקוב אחר מיקום הפריטים באוסף, לשימוש באוביקטים מסוג איטרטור שמתוכנתים להחזיר את הפריט הבא ברשימה. איטרטורים מקלים על עבודה עם אוספים של מידע, ואקמהסקריפט 6
 מוסיפה איטרטורים לג׳אווהסקריפט. בשילוב עם מתודות חדשות עבור מערך ואוספים מסוגים חדשים
 (כמו סט ומפה),
@@ -626,9 +625,9 @@ I> החלק
 
 באקמהסקריפט 6 קיימים שלושה סוגים של אוביקטים שמייצגים אוספי מידע: מערך, סט ומפה. לכל השלושה יש את האיטרטורים המובנים הבאים שעוזרים לנו לנווט בתוך תוכן האוסף.
 
-* `entries()` - מחזיר איטרטור שערכיו הם זוגות מזהה-ערך
-* `values()` - מחזיר איטרטור שערכיו הם ערכי אוסף המידע
-* `keys()` - מחזיר איטרטור שערכיו הם המזהים שבאוסף במידע
+* <span dir="ltr">`entries()`</span> - מחזיר איטרטור שערכיו הם זוגות מזהה-ערך
+* <span dir="ltr">`values()`</span> - מחזיר איטרטור שערכיו הם ערכי אוסף המידע
+* <span dir="ltr">`keys()`</span> - מחזיר איטרטור שערכיו הם המזהים שבאוסף במידע
 
 ניתן להחזיר איטרטור לאוסף מידע על ידי קריאה לאחת המתודות הללו.
 
@@ -1832,14 +1831,17 @@ run(function*() {
 `value`. 
 כעת שהנתונים עוברים בין קריאות, יש צורך בשינוי אחד קטן על מנת לאפשר קריאות אסינכרוניות.
 
+### מריץ משימות אסינכרוני
 
-</div>
+הדוגמה הקודמת העבירה מידע סטטי בין קריאות
+`yield`
+אבל המתנה לסיום פעולה אסינכרונית שונה במקצת. מריץ המשימות צריך לדעת כאשר התקבלה פונקציית קולבק וכיצד הוא אמור להשתמש בה. מכיוון שפקודות
+`yield`
+מעבירות את ערכיהם לתוך מריץ המשימות, המשמעות היא שכל קריאה לפונקציה חייבת להחזיר ערך שיורה למריץ המשימות שמדובר בפעולה אסינכרונית שצריך לחכות לה.
 
-### Asynchronous Task Runner
+להלן דוגמה לדרך אחת שבה ניתן להפנות לפעולה אסינכרונית:
 
-The previous example passed static data back and forth between `yield` calls, but waiting for an asynchronous process is slightly different. The task runner needs to know about callbacks and how to use them. And since `yield` expressions pass their values into the task runner, that means any function call must return a value that somehow indicates the call is an asynchronous operation that the task runner should wait for.
-
-Here's one way you might signal that a value is an asynchronous operation:
+<div dir="ltr">
 
 ```js
 function fetchData() {
@@ -1849,7 +1851,22 @@ function fetchData() {
 }
 ```
 
-For the purposes of this example, any function meant to be called by the task runner will return a function that executes a callback. The `fetchData()` function returns a function that accepts a callback function as an argument. When the returned function is called, it executes the callback function with a single piece of data (the `"Hi!"` string). The `callback` argument needs to come from the task runner to ensure executing the callback correctly interacts with the underlying iterator. While the `fetchData()` function is synchronous, you can easily extend it to be asynchronous by calling the callback with a slight delay, such as:
+</div>
+
+למטרת דוגמה זו, כל פונקציה שלה יקרא מריץ המשימות תחזיר פונקציה שמריצה פונקצית קולבק. הפונקציה
+<span dir="ltr">`fetchData()`</span>
+מחזירה פונקציה שמקבלת פונקצית קולבק כארגומנט. כאשר הפונקציה שהוחזרה תיקרא המיא תריץ את פונקצית הקולבק עם נתון אחד
+(
+    המחרוזת
+    `"Hi!"`
+).
+הארגומנט 
+`callback`
+צריך להגיע מתוך מריץ המשימות על מנת לוודא שהרצת פונקצית הקולבק תתאים לאופן פעולת האיטרטור הפנימי. אמנם הפונקציה
+<span dir="ltr">`fetchData()`</span>
+סינכרונית, ניתן להפוך אותה בקלות לאסינכרונית על ידי קריאה לקולבק עם שיהוי קל. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 function fetchData() {
@@ -1861,23 +1878,33 @@ function fetchData() {
 }
 ```
 
-This version of `fetchData()` introduces a 50ms delay before calling the callback, demonstrating that this pattern works equally well for synchronous and asynchronous code. You just have to make sure each function that wants to be called using `yield` follows the same pattern.
+</div>
 
-With a good understanding of how a function can signal that it's an asynchronous process, you can modify the task runner to take that fact into account. Anytime `result.value` is a function, the task runner will execute it instead of just passing that value to the `next()` method. Here's the updated code:
+גרסה זו של 
+<span dir="ltr">`fetchData()`</span>
+מפעילה שיהוי של 50 מילישניות לפני הקריאה לקולבק, ומראה שהטכניקה עובדת היטב עבור קוד סינכרוני או אסינכרוני. עלינו רק לוודא שכל פונקציה שתיקרא באמצעות
+`yield`
+פועלת באותו אופן
+
+באמצעות הבנה טובה כיצד פונקציה יכולה לאותת שהיא פועלת באופן אסינכרוני, ניתן לשנות את מריץ המשימות כך שיתייחס לכך. כל פעם שהערך
+`result.value`
+הוא פונקציה, מריץ המשימות יריץ אותה. להלן הקוד המעודכן:
+
+<div dir="ltr">
 
 ```js
 function run(taskDef) {
 
-    // create the iterator, make available elsewhere
+    // יצירת האיטרטור ושמירתו
     let task = taskDef();
 
-    // start the task
+    // התחלת ביצוע המשימות
     let result = task.next();
 
-    // recursive function to keep calling next()
+    // קריאות ריקורסיביות לערך הבא באיטרטור
     function step() {
 
-        // if there's more to do
+        // בדיקה אם נותרו עוד פעולות
         if (!result.done) {
             if (typeof result.value === "function") {
                 result.value(function(err, data) {
@@ -1897,15 +1924,54 @@ function run(taskDef) {
         }
     }
 
-    // start the process
+    // התחלת התהליך
     step();
 
 }
 ```
+</div>
 
-When `result.value` is a function (checked with the `===` operator), it is called with a callback function. That callback function follows the Node.js convention of passing any possible error as the first argument (`err`) and the result as the second argument. If `err` is present, then that means an error occurred and `task.throw()` is called with the error object instead of `task.next()` so an error is thrown at the correct location. If there is no error, then `data` is passed into `task.next()` and the result is stored. Then, `step()` is called to continue the process. When `result.value` is not a function, it is directly passed to the `next()` method.
+כאשר הערך
+`result.value`
+הוא פונקציה
+(
+    הדבר נבדק באמצעות האופרטור
+    `===`
+),
+הפונקציה תיקרא עם פונקציית קולבק כארגומנט. פונקציית הקולבק פועלת לפי המוסכמה של 
+Node.js
+לפיה מעבירים שגיאה בתור הארגומנט הראשון
+(`err`)
+והתוצאה בתור הארגומנט השני.
+אם קיים ערך עבור
+`err`
+משמע הייתה שגיאה ולכן תתבצע קריאה של
+<span dir="ltr">`task.throw()`</span>
+עם השגיאה כארגומנט במקום לקרוא ל 
+<span dir="ltr">`task.next()`</span>
+כמצופה במצב תקין, כך ששגיאה תיזרק במיקום המתאים.
+במידה ואין שגיאה אזי 
+`data`
+מועבר לתוך 
+<span dir="ltr">`task.next()`</span>
+והתוצאה נשמרת. לאחר מכן מתבצעת קריאה לפונקציה
+<span dir="ltr">`step()`</span>
+כדי להמשיך את התהליך. כאשר
+`result.value`
+אינה פונקציה
+הערך מועבר ישירות אל 
+<span dir="ltr">`task.next()`</span>.
 
-This new version of the task runner is ready for all asynchronous tasks. To read data from a file in Node.js, you need to create a wrapper around `fs.readFile()` that returns a function similar to the `fetchData()` function from the beginning of this section. For example:
+גרסה משופרת זו של מריץ המשימות מוכנה עבור כל משימה אסינכרונית. על מנת לקרוא נתונים מתוך קובץ בסביבת
+Node.js,
+יש לייצר מעטפת מסביב לפונקציה
+<span dir="ltr">`fs.readFile()`</span>
+שמחזירה פונקציה דומה לפונקציה
+<span dir="ltr">`fetchData()`</span>
+שראינו קודם.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let fs = require("fs");
@@ -1916,8 +1982,17 @@ function readFile(filename) {
     };
 }
 ```
+</div>
 
-The `readFile()` method accepts a single argument, the filename, and returns a function that calls a callback. The callback is passed directly to the `fs.readFile()` method, which will execute the callback upon completion. You can then run this task using `yield` as follows:
+הפונקציה
+<span dir="ltr">`readFile()`</span>
+מקבלת ארגומנט אחד, שם הקובץ, ומחזירה פונקציה שקוראת לפונקציית קולבק. פונקציית הקולבק מועברת כמות שהיא אל תוך 
+<span dir="ltr">`fs.readFile()`</span>,
+שבעצמה תריץ את פונקציית הקולבק כאשר תסתיים פעולתה. כעת ניתן להריץ משימה זו באמצעות
+`yield`
+כמו בדוגמה:
+
+<div dir="ltr">
 
 ```js
 run(function*() {
@@ -1926,10 +2001,18 @@ run(function*() {
     console.log("Done");
 });
 ```
+</div>
 
-This example is performing the asynchronous `readFile()` operation without making any callbacks visible in the main code. Aside from `yield`, the code looks the same as synchronous code. As long as the functions performing asynchronous operations all conform to the same interface, you can write logic that reads like synchronous code.
+הדוגמה לעיל מבצעת פעולת
+<span dir="ltr">`readFile()`</span>
+אסינכרונית ללא שתופיע בקוד העיקרי פונקציית קולבק באופן נראה לעין.
+מלבד הפקודה
+`yield`,
+הקוד נראה כמו קוד סינכרוני רגיל. כל עוד הפונקציות שפועלות בצורה אסינכרונית עובדות כולן באותו אופן, ניתן לכתוב קוד שנראה כמו קוד סינכרוני לכל דבר.
 
-Of course, there are downsides to the pattern used in these examples--namely that you can't always be sure a function that returns a function is asynchronous. For now, though, it's only important that you understand the theory behind the task running. Using promises offers more powerful ways of scheduling asynchronous tasks, and Chapter 11 covers this topic further.
+כמובן, ישנם חסרונות לטכניקה שהופיעה בדוגמאות הקודמות, בעיקר , לא ניתן להיות בטוחים שפונקציה שמחזירה פונקציה הינה אסינכרונית. לעת עתה, חשוב רק שתבינו את התאוריה מאחורי הרצת המשימות. שימוש בפרומיס מאפשר לנו שימוש בדרכים חדשות לניהול משימות אסינכרוניות, ופרק 11 מרחיב על נושא זה.
+
+</div>
 
 ## Summary
 
