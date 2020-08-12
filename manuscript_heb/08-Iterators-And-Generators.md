@@ -2012,22 +2012,53 @@ run(function*() {
 
 כמובן, ישנם חסרונות לטכניקה שהופיעה בדוגמאות הקודמות, בעיקר , לא ניתן להיות בטוחים שפונקציה שמחזירה פונקציה הינה אסינכרונית. לעת עתה, חשוב רק שתבינו את התאוריה מאחורי הרצת המשימות. שימוש בפרומיס מאפשר לנו שימוש בדרכים חדשות לניהול משימות אסינכרוניות, ופרק 11 מרחיב על נושא זה.
 
+## סיכום
+
+איטרטורים מהווים חלק חשוב של אקמהסקריפט 6 ועומדים מאחורי מספר היבטים חשובים של השפה עצמה. על פני השטח, איטרטורים מספקים דרך פשוטה להחזיר רצף של ערכים באמצעות 
+ממשק תכנות
+(API)
+פשוט. אך בנוסף לכך קיימות אפשרויות מתקדמות לשימוש באיטרטורים באקמהסקריפט 6.
+
+הסימבול
+`Symbol.iterator`
+משמש עבור הגדרת איטרטורים דיפולטיביים עבור אוביקטים. גם אוביקטים מובנים וגם כאלו שהוגדרו על ידי מפתחים יכולים להשתמש בסימבול הזה על מנת לייצר מתודה שמחזירה איטרטור.
+כאשר קיימת תכונה
+`Symbol.iterator`
+על אוביקט, אזי אותו אוביקט נחשב איטרבילי.
+
+לולאת
+`for-of`
+משתמשת באוביקטים איטרבילים כדי להחזיר סדרה של ערכים בלולאה. שימוש בלולאת
+`for-of`
+קל יותר מאשר איטרציה בלולאת
+`for`
+רגילה מפני שאין צורך לעקוב אחר אינגקס ולקבוע במפורש מתי הלולאה תפסיק. לולאת
+`for-of`
+קוראת באופן אוטומטי את כל הערכים מן האיטרטור עד אשר אין עוד ערכים, ואז היא מפסיקה לרוץ.
+
+כדי להפוך את לולאת 
+`for-of`
+לקלה יותר לשימוש, ניתנו איטרטורים מובנים לערכים רבים באקמהסקריפט 6. כל סוגי אוספי המידע - מערך, מפה וסט - הינם בעלי איטרטורים מובנים שנועדו להפוך את תוכנם לנגיש יותר. גם למחרוזות יש איטרטור מובנה, שהופך איטרציה על כל התווים במחרוזת
+(לאו דווקא יחידות קוד)
+לקלה.
+
+אופרטור הפיזור עובד עם כל אוביקט איטרבילי ומקל מאוד על המרת אוביקטים איטרבילים למערכים. ההמרה מתבצעת על ידי קריאת הערכים מתוך איטרטור והכנסתם למערך באופן פרטני.
+
+גנרטור הוא סוג מיוחד של פונקציה שמייצרת איטרטור כאשר קוראים לה. הגדרת הגנרטור מתקיימת באמצעות כוכבית
+(`*`)
+ושימוש במילה שמורה
+`yield`
+כדי לציין אילו ערכים יחזרו בכל קריאה למתודה
+<span dir="ltr">`next()`</span>
+
+דלגציה של גנרטורים מעודדת כימוס טוב של התנהגות איטרטורים בזכות מתן האפשרות למחזר גנרטורים קיימים בתוך גנרטורים חדשים. ניתן להשתמש בגנרטור קיים בתוך אחד אחר על ידי קריאת
+`yield *`
+במקום
+`yield`.
+התהליך מאפשר לנו ליצור איטרטור שמחזיר ערכים ממספר איטרטורים.
+
+מעל לכל, ההיבט המעניין והמסקרן ביותר של גנרטורים ואיטרטורים הינו היכולת והאפשרות של יצירת קוד אסינכרוני נקי למראה. במקום שימוש מוגזם בפונקציות קולבק, ניתן לכתוב קוד שנראה סינכרוני אך למעשה משתשמש בפקודת
+`yield`
+כדי להמתין לסיום פעולות אסינכרוניות עד להשלמתן.
+
 </div>
-
-## Summary
-
-Iterators are an important part of ECMAScript 6 and are at the root of several key language elements. On the surface, iterators provide a simple way to return a sequence of values using a simple API. However, there are far more complex ways to use iterators in ECMAScript 6.
-
-The `Symbol.iterator` symbol is used to define default iterators for objects. Both built-in objects and developer-defined objects can use this symbol to provide a method that returns an iterator. When `Symbol.iterator` is provided on an object, the object is considered an iterable.
-
-The `for-of` loop uses iterables to return a series of values in a loop. Using `for-of` is easier than iterating with a traditional `for` loop because you no longer need to track values and control when the loop ends. The `for-of` loop automatically reads all values from the iterator until there are no more, and then it exits.
-
-To make `for-of` easier to use, many values in ECMAScript 6 have default iterators. All the collection types--that is, arrays, maps, and sets--have iterators designed to make their contents easy to access. Strings also have a default iterator, which makes iterating over the characters of the string (rather than the code units) easy.
-
-The spread operator works with any iterable and makes converting iterables into arrays easy, too. The conversion works by reading values from an iterator and inserting them individually into an array.
-
-A generator is a special function that automatically creates an iterator when called. Generator definitions are indicated by a star (`*`) character and use of the `yield` keyword to indicate which value to return for each successive call to the `next()` method.
-
-Generator delegation encourages good encapsulation of iterator behavior by letting you reuse existing generators in new generators. You can use an existing generator inside another generator by calling `yield *` instead of `yield`. This process allows you to create an iterator that returns values from multiple iterators.
-
-Perhaps the most interesting and exciting aspect of generators and iterators is the possibility of creating cleaner-looking asynchronous code. Instead of needing to use callbacks everywhere, you can set up code that looks synchronous but in fact uses `yield` to wait for asynchronous operations to complete.
