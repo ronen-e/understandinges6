@@ -1,8 +1,18 @@
-# Introducing JavaScript Classes
+<div dir="rtl">
 
-Unlike most formal object-oriented programming languages, JavaScript didn't support classes and classical inheritance as the primary way of defining similar and related objects when it was created. This left many developers confused, and from pre-ECMAScript 1 all the way through ECMAScript 5, many libraries created utilities to make JavaScript look like it supports classes. While some JavaScript developers do feel strongly that the language doesn't need classes, the number of libraries created specifically for this purpose led to the inclusion of classes in ECMAScript 6.
+# מחלקות בג׳אווהסקריפט
 
-While exploring ECMAScript 6 classes, it's helpful to understand the underlying mechanisms that classes use, so this chapter starts by discussing how ECMAScript 5 developers achieved class-like behavior. As you will see after that, however, ECMAScript 6 classes aren't exactly the same as classes in other languages. There's a uniqueness about them that embraces the dynamic nature of JavaScript.
+בניגוד לרוב שפות תכנות מונחה עצמים, ג׳אווהסקריפט לא תמכה במחלקות והורשה במחלקות 
+(
+    הורשה קלאסית
+    -
+    <span dir="ltr">classical inheritance</span>
+).
+זה גרם לבלבול בקרב מפתחים רבים ולפני אקמהסקריפט 6, ספריות רבות כתבו קוד שיגרום לג׳אווהסקריפט לממש מחלקות למראית עין. אף על פי שמספר מפתחי ג׳אווהסקריפט מאמינים שאין צורך במחלקות בשפה, מספר הספריות הרב שנוצר במיוחד למטרה זו גרם להוספת מחלקות באקמהסקריפט 6.
+
+כדי להבין כיצד מחלקות באקמהסקריפט 6 עובדות, יעזור לנו להבין את המנגנונים הפנימיים שנמצאים בשימוש מחלקות, לכן פרק זה יתחיל בהצגת הדרכים בהן מפתחים באקמהסקריפט 5 השיגו התנהגות דמוית מחלקה. כפי שתראו בהמשך, מחלקות באקמהסקריפט 6 אינן זהות למחלקות בשפות אחרות. יש להן אופי ייחודי שמגלם את הטבע הדינמי של ג׳אווהסקריפט.
+
+</div>
 
 ## Class-Like Structures in ECMAScript 5
 
