@@ -12,11 +12,14 @@
 
 כדי להבין כיצד מחלקות באקמהסקריפט 6 עובדות, יעזור לנו להבין את המנגנונים הפנימיים שנמצאים בשימוש מחלקות, לכן פרק זה יתחיל בהצגת הדרכים בהן מפתחים באקמהסקריפט 5 השיגו התנהגות דמוית מחלקה. כפי שתראו בהמשך, מחלקות באקמהסקריפט 6 אינן זהות למחלקות בשפות אחרות. יש להן אופי ייחודי שמגלם את הטבע הדינמי של ג׳אווהסקריפט.
 
-</div>
+## מבנים דמויי מחלקה באקמהסקריפט 5
 
-## Class-Like Structures in ECMAScript 5
+באקמהסקריפט 5 וקודם לכן, לא היו מחלקות בג׳אווהסקריפט. הדבר הקרוב ביותר למחלקה היה פונקציה מסוג קונסטרטור ולאחר מכן הוספת מתודות לפרוטוטייפ שלה, גישה שלרוב הייתה מכונה ״יצירת סוג מותאם״
+<span dir="ltr">(creating a custom type)</span>.
+לדוגמה:
 
-In ECMAScript 5 and earlier, JavaScript had no classes. The closest equivalent to a class was creating a constructor and then assigning methods to the constructor's prototype, an approach typically called creating a custom type. For example:
+
+<div dir="rtl">
 
 ```js
 function PersonType(name) {
@@ -28,15 +31,37 @@ PersonType.prototype.sayName = function() {
 };
 
 let person = new PersonType("Nicholas");
-person.sayName();   // outputs "Nicholas"
+person.sayName();   // "Nicholas"
 
 console.log(person instanceof PersonType);  // true
 console.log(person instanceof Object);      // true
 ```
 
-In this code, `PersonType` is a constructor function that creates a single property called `name`. The `sayName()` method is assigned to the prototype so the same function is shared by all instances of the `PersonType` object. Then, a new instance of `PersonType` is created via the `new` operator. The resulting `person` object is considered an instance of `PersonType` and of `Object` through prototypal inheritance.
+</div>
 
-This basic pattern underlies a lot of the class-mimicking JavaScript libraries, and that's where ECMAScript 6 classes start.
+בקוד שבדוגמה, המזהה 
+`PersonType`
+הוא קונסטרטור שיוצר אוביקט בעל תכונה אחת בשם
+`name`.
+המתודה
+<span dir="ltr">`sayName()`</span>
+מקושרת לפרוטוטייפ כך שהיא משותפת לכל האוביקטים מסוג
+`PersonType`.
+לאחר מכן נוצר מופע חדש של
+`PersonType`
+בעזרת האופרטור
+`new`.
+האוביקט שנוצר
+`person`
+נחשב למופע של 
+`PersonType`
+וגם של
+`Object`
+על ידי הורשה פרוטוטיפית.
+
+צורת כתיבה זו קיימת בבסיס מרבית הספריות שמחקות יצירת מחלקה בג׳אווהסקריפט ומנקודה זו מתחילות גם מחלקות באקמהסקריפט 6.
+
+</div>
 
 ## Class Declarations
 
