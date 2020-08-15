@@ -2,7 +2,9 @@
 
 # מחלקות בג׳אווהסקריפט
 
-בניגוד לרוב שפות תכנות מונחה עצמים, ג׳אווהסקריפט לא תמכה במחלקות והורשה במחלקות 
+בניגוד לרוב שפות תכנות מונחה עצמים, ג׳אווהסקריפט לא תמכה במחלקות 
+(classes)
+והורשה במחלקות 
 (
     הורשה קלאסית
     -
@@ -61,11 +63,14 @@ console.log(person instanceof Object);      // true
 
 צורת כתיבה זו קיימת בבסיס מרבית הספריות שמחקות יצירת מחלקה בג׳אווהסקריפט ומנקודה זו מתחילות גם מחלקות באקמהסקריפט 6.
 
+## הגדרת מחלקה
+
+הצורה הפשוטה ביותר של מחלקה באקמהסקריפט 6 הינה הגדרת מחלקה
+<span dir="ltr">`(class declaration)`</span>
+שנראית דומה מאוד להגדרת מחלקות בשפות אחרות.
+
+
 </div>
-
-## Class Declarations
-
-The simplest class form in ECMAScript 6 is the class declaration, which looks similar to classes in other languages.
 
 ### A Basic Class Declaration
 
