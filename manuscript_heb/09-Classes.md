@@ -69,29 +69,32 @@ console.log(person instanceof Object);      // true
 <span dir="ltr">`(class declaration)`</span>
 שנראית דומה מאוד להגדרת מחלקות בשפות אחרות.
 
+### הגדרת מחלקה בסיסית
 
-</div>
+הגדרת מחלקה מתחילה עם המילה השמורה
+`class`
+ולאחר מכן יבוא שם המחלקה. יתר התחביר נראה דומה לזה של מתודות מקוצרות באוביקט ליטראל, מבלי הצורך בפסיק ביניהן. להלן הגדרת מחלקה פשוטה:
 
-### A Basic Class Declaration
-
-Class declarations begin with the `class` keyword followed by the name of the class. The rest of the syntax looks similar to concise methods in object literals, without requiring commas between them. For example, here's a simple class declaration:
+<div dir="rtl">
 
 ```js
 class PersonClass {
 
-    // equivalent of the PersonType constructor
+    // זהה לקונסטרטור מסוג
+    // PersonType
     constructor(name) {
         this.name = name;
     }
 
-    // equivalent of PersonType.prototype.sayName
+    // זהה למתודה
+    // PersonType.prototype.sayName
     sayName() {
         console.log(this.name);
     }
 }
 
 let person = new PersonClass("Nicholas");
-person.sayName();   // outputs "Nicholas"
+person.sayName();   // "Nicholas"
 
 console.log(person instanceof PersonClass);     // true
 console.log(person instanceof Object);          // true
@@ -99,12 +102,46 @@ console.log(person instanceof Object);          // true
 console.log(typeof PersonClass);                    // "function"
 console.log(typeof PersonClass.prototype.sayName);  // "function"
 ```
+</div>
 
-The class declaration `PersonClass` behaves quite similarly to `PersonType` from the previous example. But instead of defining a function as the constructor, class declarations allow you to define the constructor directly inside the class with the special `constructor` method name. Since class methods use the concise syntax, there's no need to use the `function` keyword. All other method names have no special meaning, so you can add as many methods as you want.
+הגדרת המחלקה 
+`PersonClass`
+מתנהגת בדומה ל-
+`PersonType`
+מהדוגמה הקודמת. אך במקום להגדיר פונקציה בתור קונסטרקטור, הגדרת מחלקה מאפשרת לנו להגדיר את הקונסטרקטור ישירות בתוך המחלקה באמצעות שם המתודה המיוחד
+`constructor`.
+מכיוון שמתודות של מחלקה משתמשות בתחביר המקוצה, אין צורך להשתמש במילה השמורה
+`function`.
+כל שאר המתודות חסרי משמעות מיוחדת, ולכן ניתן להוסיף מתודות נוספות ללא הגבלה.
 
-I> *Own properties*, properties that occur on the instance rather than the prototype, can only be created inside a class constructor or method. In this example, `name` is an own property. I recommend creating all possible own properties inside the constructor function so a single place in the class is responsible for all of them.
+I> *תכונות עצמיות*
+(*Own properties*),
+שמופיעות על המופע ולא על הפרוטוטיפ, יכולות להופיע רק בתוך קונסטרקטור מחלקה או מתודה. בדוגמה זו,
+`name`
+הינה תכונה עצמית.
+מומלץ ליצור את כל התכונות העצמיות בתוך הקונסטרקטור כך שיהיה מקום אחד שאחראי לכולן.
 
-Interestingly, class declarations are just syntactic sugar on top of the existing custom type declarations. The `PersonClass` declaration actually creates a function that has the behavior of the `constructor` method, which is why `typeof PersonClass` gives `"function"` as the result. The `sayName()` method also ends up as a method on `PersonClass.prototype` in this example, similar to the relationship between `sayName()` and `PersonType.prototype` in the previous example. These similarities allow you to mix custom types and classes without worrying too much about which you're using.
+חשוב לזכור שהגדרת מחלקה היא רק מעטפה תחבירית
+(syntactic sugar)
+עבור הגדרות קיימות. ההגדרה עבור
+`PersonClass`
+למעשה יוצרת פונקציה שמתנהגת כמו המתודה
+`constructor`,
+ולכן הפקודה
+`typeof PersonClass`
+מחזירה את התוצאה
+`"function"`.
+בדוגמה זו, המתודה
+<span dir="ltr">`sayName()`</span>
+נוצרת כמתודה על האוביקט
+`PersonClass.prototype`,
+בדומה למערכת היחסים בין
+<span dir="ltr">`sayName()`</span>
+לבין
+`PersonType.prototype`
+בדוגמה הקודמת. הדמיון הזה בין השיטות מאפשר לנו לערבב בין סוגים מותאמים ומחלקות מבלי לדאוג לשגיאות.
+
+</div>
 
 ### Why to Use the Class Syntax
 
