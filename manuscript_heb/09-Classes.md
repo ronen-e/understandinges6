@@ -141,30 +141,50 @@ I> *תכונות עצמיות*
 `PersonType.prototype`
 בדוגמה הקודמת. הדמיון הזה בין השיטות מאפשר לנו לערבב בין סוגים מותאמים ומחלקות מבלי לדאוג לשגיאות.
 
-</div>
+### מתי להשתמש במחלקות
 
-### Why to Use the Class Syntax
+למרות הדמיון בין מחלקות וסוגים מותאמים
+(custom types),
+קיימים מספר הבדלים חשובים ביניהם שחשוב לזכור:
 
-Despite the similarities between classes and custom types, there are some important differences to keep in mind:
+1. עבור הגדרת מחלקה, בניגוד להגדרת פונקציה, לא מתבצעת פעולת ״הרמה״
+(hoisting).
+הגדרת מחלקה מתנהגת בדומה למשתנים מסוג
+`let`
+ולכן קיימת בתוך אזור ״מת״ עד שמנוע הריצה מגיע לשורה בה מופיעה ההגדרה.
+1. הקוד שרץ בתוך הגדרת המחלקה רץ במצב קשיח באופן אוטומטי. אין דרך להפסיק את פעולת המצב הקשיח בתוך מחלקה
+1. כל המתודות אינן אינומרביליות. 
+(non-enumerable)
+זהו שינוי משמעותי יחסית לסוגים מותאמים אישית,  שבהם צריך להשתמש במתודה
+<span dir="ltr">`Object.defineProperty()`</span>
+בשביל להפוך מתודה ללא אינומרבילית.
 
-1. Class declarations, unlike function declarations, are not hoisted. Class declarations act like `let` declarations and so exist in the temporal dead zone until execution reaches the declaration.
-1. All code inside of class declarations runs in strict mode automatically. There's no way to opt-out of strict mode inside of classes.
-1. All methods are non-enumerable. This is a significant change from custom types, where you need to use `Object.defineProperty()` to make a method non-enumerable.
-1. All methods lack an internal `[[Construct]]` method and will throw an error if you try to call them with `new`.
-1. Calling the class constructor without `new` throws an error.
-1. Attempting to overwrite the class name within a class method throws an error.
+1. למתודות המחלקה אין מתודה פנימית מסוג
+`[[Construct]]`
+ולכן הן זורקות שגיאה כאשר קוראים להן עם האופרטור
+`new`.
+1. קריאה לקונסטרקטור המחלקה ללא האופרטור
+`new`
+זורקת שגיאה
+1. ניסיון לדרוס את שם המחלקה מתוך מתודה של המחלקה יזרוק שגיאה
 
-With all of this in mind, the `PersonClass` declaration from the previous example is directly equivalent to the following code, which doesn't use the class syntax:
+בהתייחס לכתוב לעיל, הגדרת המחלקה
+`PersonClass`
+מהדוגמה הקודמה זהה למעשה לקוד הבא, שלא מתשמש בתחביר המחלקה:
+
+<div dir="rtl">
 
 ```js
-// direct equivalent of PersonClass
+// זהה להגדרת המחלקה
+// PersonClass
 let PersonType2 = (function() {
 
     "use strict";
 
     const PersonType2 = function(name) {
 
-        // make sure the function was called with new
+        // חשוב לוודא שנעשה שימוש באופרטור
+        // new
         if (typeof new.target === "undefined") {
             throw new Error("Constructor must be called with new.");
         }
@@ -175,7 +195,8 @@ let PersonType2 = (function() {
     Object.defineProperty(PersonType2.prototype, "sayName", {
         value: function() {
 
-            // make sure the method wasn't called with new
+            // חשוב לוודא שלא נעשה שימוש באופרטור
+            // new
             if (typeof new.target !== "undefined") {
                 throw new Error("Method cannot be called with new.");
             }
@@ -190,10 +211,33 @@ let PersonType2 = (function() {
     return PersonType2;
 }());
 ```
+</div>
 
-First, notice that there are two `PersonType2` declarations: a `let` declaration in the outer scope and a `const` declaration inside the IIFE. This is how class methods are forbidden from overwriting the class name while code outside the class is allowed to do so. The constructor function checks `new.target` to ensure that it's being called with `new`; if not, an error is thrown. Next, the `sayName()` method is defined as nonenumerable, and the method checks `new.target` to ensure that it wasn't called with `new`. The final step returns the constructor function.
+שימו לב שמופיעים 2 משתנים בשם
+`PersonType2`:
+הגדרת
+`let`
+במרחב החיצוני
+והגדרת
+`const`
+בתוך ה-
+IIFE.
+בשיטה זו מונעים ממתודות של מחלקה לדרוס את שם המחלקה בעוד שקוד חיצוני למחלקה רשאי לעשות זאת. פונקצית הקונסטרקטור בוחנת את
+`new.target`
+כדי לוודא שהיא נקראת בעזרת שימוש באופרטור
+`new`;
+אחרת, תיזרק שגיאה.
+בהמשך, המתודה
+<span dir="ltr">`sayName()`</span>
+מוגדרת ככזו שאינה אנומרבילית, והמתודה בוחנת את
+`new.target`
+על מנת לוודא שאינה נקראת עם האופרטור
+`new`.
+השלב האחרון הינו החזרת פונקצית הקונסטרקטור בתור ערך החזרה.
 
-This example shows that while it's possible to do everything classes do without using the new syntax, the class syntax simplifies all of the functionality significantly.
+הדוגמה לעיל מדגימה שגם אם ניתן לעשות את כל מה שמחלקה יכולה לעשות אף מבלי להשתמש בתחביר החדש, תחביר המחלקה מפשט את הקוד באופן משמעותי.
+
+</div>
 
 A> ### Constant Class Names
 A>
