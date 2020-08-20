@@ -297,29 +297,31 @@ A> בקוד שבדוגמה, המשתנה
 (*class expressions*)
 אלו נועדו לשמש בהגדרת משתנים או להיות מועברים לפונקציה כארגומנטים.
 
+### ביטוי מחלקה בסיסי
 
-</div>
+להלן ביטוי מחלקה שמשתווה לדוגמאות הקודמות של
+`PersonClass`
+ולאחריו קוד שמשתמש באותו הביטוי.
 
-### A Basic Class Expression
-
-Here's the class expression equivalent of the previous `PersonClass` examples, followed by some code that uses it:
+<div dir="rtl">
 
 ```js
 let PersonClass = class {
 
-    // equivalent of the PersonType constructor
+    // דומה לקונסטרטור
+    // PersonType
     constructor(name) {
         this.name = name;
     }
 
-    // equivalent of PersonType.prototype.sayName
+    // PersonType.prototype.sayName
     sayName() {
         console.log(this.name);
     }
 };
 
 let person = new PersonClass("Nicholas");
-person.sayName();   // outputs "Nicholas"
+person.sayName();   // "Nicholas"
 
 console.log(person instanceof PersonClass);     // true
 console.log(person instanceof Object);          // true
@@ -328,9 +330,17 @@ console.log(typeof PersonClass);                    // "function"
 console.log(typeof PersonClass.prototype.sayName);  // "function"
 ```
 
-As this example demonstrates, class expressions do not require identifiers after `class`. Aside from the syntax, class expressions are functionally equivalent to class declarations.
+</div>
 
-Whether you use class declarations or class expressions is mostly a matter of style. Unlike function declarations and function expressions, both class declarations and class expressions are not hoisted, and so the choice has little bearing on the runtime behavior of the code.
+כפי שרואים בדוגמה לעיל, ביטויי מחלקה אינם דורשים מזהים לאחר המילה השמורה
+`class`.
+מלבד עניין התחביר, ביטויי המחלקה זהים מבחינה פונקציונאלית להגדרת מחלקה.
+
+ההחלטה האם להשתמש בהגדרת מחלקה או בביטוי מחלקה היא בעיקרה עניין של סגנון. בניגוד להגדרת פונקציה וביטוי פונקציה, לא מתבצעת פעולת הרמה
+(hoisting)
+להגדרת מחלקה או ביטוי מחלקה, ולכן לבחירה אין משמעות מבחינת הרצת הקוד.
+
+</div>
 
 ### Named Class Expressions
 
