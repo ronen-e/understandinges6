@@ -275,12 +275,30 @@ A> בקוד שבדוגמה, המשתנה
 `let`
 ניתן לדרוס את ערכו עם כל סוג ערך בכל זמן נתון.
 
+## מחלקה כביטוי קוד
+
+מחלקות ופונקציות דומות בכך שהן מגיעות בשתי צורות:
+הגדרות 
+(declarations)
+וביטויים
+(expressions).
+הגדרות פונקציה ומחלקה מתחילות במילה השמורה המתאימה
+(
+`function`
+או
+`class`, 
+בהתאמה
+)
+ולאחר מכן בא המזהה. לפונקציות שבאות בצורה של ביטוי יש צורה שלא דורשת מזהה לאחר המילה
+`function`
+ובאופן דומה, למחלקות יש צורת כתב כביטוי שלא דורשת מזהה לאחר המילה
+`class`.
+*ביטויי מחלקה*
+(*class expressions*)
+אלו נועדו לשמש בהגדרת משתנים או להיות מועברים לפונקציה כארגומנטים.
+
+
 </div>
-
-
-## Class Expressions
-
-Classes and functions are similar in that they have two forms: declarations and expressions. Function and class declarations begin with an appropriate keyword (`function` or `class`, respectively) followed by an identifier. Functions have an expression form that doesn't require an identifier after `function`, and similarly, classes have an expression form that doesn't require an identifier after `class`. These *class expressions* are designed to be used in variable declarations or passed into functions as arguments.
 
 ### A Basic Class Expression
 
