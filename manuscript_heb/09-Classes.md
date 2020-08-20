@@ -237,24 +237,46 @@ IIFE.
 
 הדוגמה לעיל מדגימה שגם אם ניתן לעשות את כל מה שמחלקה יכולה לעשות אף מבלי להשתמש בתחביר החדש, תחביר המחלקה מפשט את הקוד באופן משמעותי.
 
-</div>
-
-A> ### Constant Class Names
+A> ### שמות מחלקה קבועים
 A>
-A> The name of a class is only specified as if using `const` inside of the class itself. That means you can overwrite the class name outside of the class but not inside a class method. For example:
+A> שם המחלקה נחשב בתור 
+`const`
+רק בתוך המחלקה עצמה. המשמעות היא שניתן לדרוס את שם המחלקה מחוץ למחלקה אך לא מתוך מתודה שלה.
+לדוגמה:
 A>
+<div dir="ltr">
 A> ```js
 A> class Foo {
 A>    constructor() {
-A>        Foo = "bar";    // throws an error when executed
+A>        Foo = "bar";    // תיזרק שגיאה
 A>    }
 A> }
 A>
-A>// but this is okay after the class declaration
+A>// עובד ללא שגיאה
 A> Foo = "baz";
 A> ```
+</div>
 A>
-A> In this code, the `Foo` inside the class constructor is a separate binding from the `Foo` outside the class. The internal `Foo` is defined as if it's a `const` and cannot be overwritten. An error is thrown when the constructor attempts to overwrite `Foo` with any value. But since the external `Foo` is defined as if it's a `let` declaration, you can overwrite its value at any time.
+A> בקוד שבדוגמה, המשתנה
+`Foo`
+שבתוך הקונסטרקטור מצביע לערך אחר מאשר המשתנה
+`Foo`
+שבתוך המחלקה.
+`Foo`
+הפנימי מוגדר כמו
+`const`
+ולכן לא ניתן לשנות ערכו.
+שגיאה נזרקת כאשר הקונסטרקטור מנסה לדרוס את
+`Foo`
+ללא קשר לערך החדש.
+אך מכיוון ש
+`Foo`
+החיצוני מוגדר כאילו היה משתנה מסוג
+`let`
+ניתן לדרוס את ערכו עם כל סוג ערך בכל זמן נתון.
+
+</div>
+
 
 ## Class Expressions
 
