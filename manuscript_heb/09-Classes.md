@@ -340,21 +340,24 @@ console.log(typeof PersonClass.prototype.sayName);  // "function"
 (hoisting)
 להגדרת מחלקה או ביטוי מחלקה, ולכן לבחירה אין משמעות מבחינת הרצת הקוד.
 
-</div>
+### ביטוי מחלקה עם שם
 
-### Named Class Expressions
+החלק האחרון השתמש בביטוי מחלקה אנונימי בדוגמה, אבל כמו בביטוי פונקציה רגיל, ניתן לתת שם עבור ביטוי המחלקה. כדי לעשות זאת יש להשתמש במזהה לאחר המילה השמורה
+`class`
+כמו בדוגמה הבאה:
 
-The previous section used an anonymous class expression in the example, but just like function expressions, you can also name class expressions. To do so, include an identifier after the `class` keyword like this:
+<div dir="rtl">
 
 ```js
 let PersonClass = class PersonClass2 {
 
-    // equivalent of the PersonType constructor
+    // דומה לקונסטרטור
+    // PersonType
     constructor(name) {
         this.name = name;
     }
 
-    // equivalent of PersonType.prototype.sayName
+    // PersonType.prototype.sayName
     sayName() {
         console.log(this.name);
     }
@@ -363,18 +366,42 @@ let PersonClass = class PersonClass2 {
 console.log(typeof PersonClass);        // "function"
 console.log(typeof PersonClass2);       // "undefined"
 ```
+</div>
 
-In this example, the class expression is named `PersonClass2`. The `PersonClass2` identifier exists only within the class definition so that it can be used inside the class methods (such as the `sayName()` method in this example). Outside the class, `typeof PersonClass2` is `"undefined"` because no `PersonClass2` binding exists there. To understand why this is, look at an equivalent declaration that doesn't use classes:
+בדוגמה זו, ביטוי המחלקה מקבל את השם
+`PersonClass2`.
+המזהה
+`PersonClass2`
+קיים אך ורק בתוך הקוד שמגדיר את המחלקה ויכול לשמש במתודות מחלקה
+(
+כמו למשל המתודה
+<span dir="ltr">`sayName()`</span>
+שבדוגמה לעיל
+).
+מחוץ למחלקה, התוצאה עבור
+`typeof PersonClass2`
+היא
+`"undefined"`
+מאחר והמזהה 
+אינו קיים.
+
+כדי להבין מדוע זאת, ראו קוד זהה בהתנהגותו שאינו משתמש במחלקות:
+
+<div dir="rtl">
+
+</div>
 
 ```js
-// direct equivalent of PersonClass named class expression
+// זהה מבחינה פונקציונלית לביטוי המחלקה בעל השם
+// PersonClass
 let PersonClass = (function() {
 
     "use strict";
 
     const PersonClass2 = function(name) {
 
-        // make sure the function was called with new
+        // חשוב לוודא שנעשה שימוש באופרטור
+        // new
         if (typeof new.target === "undefined") {
             throw new Error("Constructor must be called with new.");
         }
@@ -385,7 +412,8 @@ let PersonClass = (function() {
     Object.defineProperty(PersonClass2.prototype, "sayName", {
         value: function() {
 
-            // make sure the method wasn't called with new
+            // חשוב לוודא שלא נעשה שימוש באופרטור
+            // new
             if (typeof new.target !== "undefined") {
                 throw new Error("Method cannot be called with new.");
             }
@@ -401,9 +429,29 @@ let PersonClass = (function() {
 }());
 ```
 
-Creating a named class expression slightly changes what's happening in the JavaScript engine. For class declarations, the outer binding (defined with `let`) has the same name as the inner binding (defined with `const`). A named class expression uses its name in the `const` definition, so `PersonClass2` is defined for use only inside the class.
+</div>
 
-While named class expressions behave differently from named function expressions, there are still a lot of similarities between the two. Both can be used as values, and that opens up a lot of possibilities, which I'll cover next.
+יצירת ביטוי מחלקה בעל שם משנה במקצת את מה שמתרחש בתוך מנוע הריצה. עבור הגדרות מחלקה
+(class declarations)
+המזהה החיצוני
+(
+    שהוגדר עם 
+    `let`
+)
+יש אותו שם כמו הקשירה הפנימית
+(
+    שהוגדרה עם
+    `const`
+).
+ביטוי מחלקה בעל שם משתמש באותו שם באמצעות 
+`const`
+ולכן
+`PersonClass2`
+ניתן לשימוש רק בתוך המחלקה.
+
+למרות שיש הבדק בהתנהגות בין ביטוי מחלקה בעל שם לבין ביטוי פונקציה בעל שם, קיים עדיין דמיון רב בין השניים. שניהם יכולים לשמש כערכים, דבר שפותח בפנינו אפשרויות רבות, שעליהן יורחב בהמשך.
+
+</div>
 
 ## Classes as First-Class Citizens
 
