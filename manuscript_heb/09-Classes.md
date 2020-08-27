@@ -389,8 +389,6 @@ console.log(typeof PersonClass2);       // "undefined"
 
 <div dir="rtl">
 
-</div>
-
 ```js
 // זהה מבחינה פונקציונלית לביטוי המחלקה בעל השם
 // PersonClass
@@ -431,6 +429,7 @@ let PersonClass = (function() {
 
 </div>
 
+
 יצירת ביטוי מחלקה בעל שם משנה במקצת את מה שמתרחש בתוך מנוע הריצה. עבור הגדרות מחלקה
 (class declarations)
 המזהה החיצוני
@@ -451,13 +450,21 @@ let PersonClass = (function() {
 
 למרות שיש הבדק בהתנהגות בין ביטוי מחלקה בעל שם לבין ביטוי פונקציה בעל שם, קיים עדיין דמיון רב בין השניים. שניהם יכולים לשמש כערכים, דבר שפותח בפנינו אפשרויות רבות, שעליהן יורחב בהמשך.
 
-</div>
+## מחלקות נחשבות אזרחים מדרגה ראשונה
 
-## Classes as First-Class Citizens
+בעולם התכנות, נאמר על דבר שהוא *אזרח מדרגה ראשונה*
+(*first-class citizen*)
+כאשר הוא יכול לשמש בתור ערך, כלומר ניתן להעביר אותו לפונקציה, להחזיר אותו מפונקציה, ולבצע השמה שלו למשתנה.
+פונקציות בג׳אווהסקריפט נחשבות לאזרחים מדרגה ראשונה
+(
+    לפעמים קוראים להם בשם פונקציות מדרגה ראשונה - 
+<span dir="ltr">first class functions</span>
+),
+והדבר נחשב לאחד מהדברים שמייחדים את ג׳אווהסקריפט יחסית למשפות תכנות אחרות.
 
-In programming, something is said to be a *first-class citizen* when it can be used as a value, meaning it can be passed into a function, returned from a function, and assigned to a variable. JavaScript functions are first-class citizens (sometimes they're just called first class functions), and that's part of what makes JavaScript unique.
+אקמהסקריפט 6 ממשיכה עם המסורת הקיימת על ידי הפיכת מחלקות לאזרחים מדרגה ראשונה. זה מאפשר לנו להשתמש במחלקות במגוון דרכים. למשל, ניתן להעביר אותן לתוך פונקציות כארגומנטים:
 
-ECMAScript 6 continues this tradition by making classes first-class citizens as well. That allows classes to be used in a lot of different ways. For example, they can be passed into functions as arguments:
+<div dir="rtl">
 
 ```js
 function createObject(classDef) {
@@ -474,9 +481,22 @@ let obj = createObject(class {
 obj.sayHi();        // "Hi!"
 ```
 
-In this example, the `createObject()` function is called with an anonymous class expression as an argument, creates an instance of that class with `new`, and returns the instance. The variable `obj` then stores the returned instance.
+</div>
 
-Another interesting use of class expressions is creating singletons by immediately invoking the class constructor. To do so, you must use `new` with a class expression and include parentheses at the end. For example:
+בדוגמה לעיל, הפונקציה
+<span dir="ltr">`createObject()`</span>
+נקראת עם מחלקה אנונימית בתור ארגומנט, יוצרת מופע של אותה מחלקה, ומחזירה את המופע ומבצעת השמה שלו למשתנה
+`obj`.
+
+שיומש מעניין נוסף של ביטויי מחלקה הינו יצירת סינגלטון
+(singleton)
+על ידי קריאה מיידית לקונסטרקטור המחלקה. כדי לעשות זאת יש לקרוא לאופרטור
+`new`
+על ביטוח המחלקה ולהשתמש בסוגריים בסוף.
+לדוגמה:
+
+
+<div dir="rtl">
 
 ```js
 let person = new class {
@@ -494,9 +514,21 @@ let person = new class {
 person.sayName();       // "Nicholas"
 ```
 
-Here, an anonymous class expression is created and then executed immediately. This pattern allows you to use the class syntax for creating singletons without leaving a class reference available for inspection. (Remember that `PersonClass` only creates a binding inside of the class, not outside.) The parentheses at the end of the class expression are the indicator that you're calling a function while also allowing you to pass in an argument.
+</div>
 
-The examples in this chapter so far have focused on classes with methods. But you can also create accessor properties on classes using a syntax similar to object literals.
+בדוגמה לעיל, ביטוי מחלקה אנונימי נוצר ומופעל מיידית. הטכניקה מאפשר לנו להשתמש בתחביר כתיבת מחלקה לשם יצירת סינגלטון מבלי להשאיר משתנים שמצביעים על המחלקה.
+(
+    חשוב לזכור כי
+    `PersonClass`
+    יוצר קישור רק בתוך המחלקה, לא מחוצה לה
+).
+הסוגריים בסוף הביטוי מהווים אינדיקציה לכך שאנו קוראים לפונקציה וגם מעבירים פנימה ארגומנט.
+
+הדוגמאות בפרק זה עד עתה התמקדו במחלקות עם מתודות. אך באפשרותנו ליצור גם תכונות גישה
+(accessor properties)
+בעזרת תחביר דומה לזה של אוביקט ליטראל.
+
+</div>
 
 ## Accessor Properties
 
