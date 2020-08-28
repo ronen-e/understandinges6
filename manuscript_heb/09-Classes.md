@@ -495,7 +495,6 @@ obj.sayHi();        // "Hi!"
 על ביטוח המחלקה ולהשתמש בסוגריים בסוף.
 לדוגמה:
 
-
 <div dir="rtl">
 
 ```js
@@ -528,11 +527,25 @@ person.sayName();       // "Nicholas"
 (accessor properties)
 בעזרת תחביר דומה לזה של אוביקט ליטראל.
 
-</div>
+## תכונות גישה
 
-## Accessor Properties
+בעוד שתכונות עצמיות
+(own properties)
+אמורות להיווצר בתוך קונסטרקטור המחלקה, מחלקות מאפשרו לנו להגדיר תוכנות גישה
+(accessor properties)
+על הפרוטוטייפ. כדי ליצור
+`getter`
+יש להשתמש במילה השמורה
+`get`
+ולאחר מכן ברווח, שלאחריו יבוא המזהה.
+כדי ליצור
+`setter`
+יש לפעול באותה צורה ולהשתמש במילה השמורה
+`set`.
+לדוגמה:
 
-While own properties should be created inside class constructors, classes allow you to define accessor properties on the prototype. To create a getter, use the keyword `get` followed by a space, followed by an identifier; to create a setter, do the same using the keyword `set`. For example:
+
+<div dir="rtl">
 
 ```js
 class CustomHTMLElement {
@@ -556,17 +569,38 @@ console.log("set" in descriptor);   // true
 console.log(descriptor.enumerable); // false
 ```
 
-In this code, the `CustomHTMLElement` class is made as a wrapper around an existing DOM element. It has both a getter and setter for `html` that delegates to the `innerHTML` method on the element itself. This accessor property is created on the `CustomHTMLElement.prototype` and, just like any other method would be, is created as non-enumerable. The equivalent non-class representation is:
+</div>
+
+בקוד לעיל, המחלקה
+`CustomHTMLElement`
+פועלת כמעטפת לאלמנט
+DOM
+קיים. יש לה גם
+getter
+וגם
+setter
+בשם
+`html`
+שמשתמשת בתכונה
+`innerHTML`
+על האלמנט עצמו.
+תכונת הגישה נוצרת על
+`CustomHTMLElement.prototype`,
+שכמו כל מתודה אחרת נחשבת ללא אינומרבילית. 
+צורת הכתיבה המקבילה ללא שימוש במחלקה הינה:
+
+<div dir="rtl">
 
 ```js
-// direct equivalent to previous example
+// מקביל לדוגמה הקודמת
 let CustomHTMLElement = (function() {
 
     "use strict";
 
     const CustomHTMLElement = function(element) {
 
-        // make sure the function was called with new
+        // נוודא שהקונסטרקטור נקרא באמצעות האופרטור
+        // new
         if (typeof new.target === "undefined") {
             throw new Error("Constructor must be called with new.");
         }
@@ -588,8 +622,15 @@ let CustomHTMLElement = (function() {
     return CustomHTMLElement;
 }());
 ```
+</div>
 
-As with previous examples, this one shows just how much code you can save by using a class instead of the non-class equivalent. The `html` accessor property definition alone is almost the size of the equivalent class declaration.
+כמו בדוגמאות קודמות, דוגמה זו מראה כמה קוד ניתן לחסוך על ידי שימוש במחלקה.
+הגדרת תכונת הגישה
+`html`
+בלבד כמעט שווה בגודלה להגדרת המחלקה כולה.
+
+</div>
+
 
 ## Computed Member Names
 
