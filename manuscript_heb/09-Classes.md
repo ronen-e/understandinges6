@@ -21,7 +21,7 @@
 לדוגמה:
 
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 function PersonType(name) {
@@ -75,7 +75,7 @@ console.log(person instanceof Object);      // true
 `class`
 ולאחר מכן יבוא שם המחלקה. יתר התחביר נראה דומה לזה של מתודות מקוצרות באוביקט ליטראל, מבלי הצורך בפסיק ביניהן. להלן הגדרת מחלקה פשוטה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 class PersonClass {
@@ -172,7 +172,7 @@ I> *תכונות עצמיות*
 `PersonClass`
 מהדוגמה הקודמה זהה למעשה לקוד הבא, שלא מתשמש בתחביר המחלקה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 // זהה להגדרת המחלקה
@@ -303,7 +303,7 @@ A> בקוד שבדוגמה, המשתנה
 `PersonClass`
 ולאחריו קוד שמשתמש באותו הביטוי.
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let PersonClass = class {
@@ -346,7 +346,7 @@ console.log(typeof PersonClass.prototype.sayName);  // "function"
 `class`
 כמו בדוגמה הבאה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let PersonClass = class PersonClass2 {
@@ -387,7 +387,7 @@ console.log(typeof PersonClass2);       // "undefined"
 
 כדי להבין מדוע זאת, ראו קוד זהה בהתנהגותו שאינו משתמש במחלקות:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 // זהה מבחינה פונקציונלית לביטוי המחלקה בעל השם
@@ -464,7 +464,7 @@ let PersonClass = (function() {
 
 אקמהסקריפט 6 ממשיכה עם המסורת הקיימת על ידי הפיכת מחלקות לאזרחים מדרגה ראשונה. זה מאפשר לנו להשתמש במחלקות במגוון דרכים. למשל, ניתן להעביר אותן לתוך פונקציות כארגומנטים:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 function createObject(classDef) {
@@ -495,7 +495,7 @@ obj.sayHi();        // "Hi!"
 על ביטוח המחלקה ולהשתמש בסוגריים בסוף.
 לדוגמה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let person = new class {
@@ -545,7 +545,7 @@ person.sayName();       // "Nicholas"
 לדוגמה:
 
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 class CustomHTMLElement {
@@ -589,7 +589,7 @@ setter
 שכמו כל מתודה אחרת נחשבת ללא אינומרבילית. 
 צורת הכתיבה המקבילה ללא שימוש במחלקה הינה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 // מקביל לדוגמה הקודמת
@@ -635,7 +635,7 @@ let CustomHTMLElement = (function() {
 (computed name).
 במקום להשתמש במזהה, נוכל להשתמש בסוגריים מרובעים מסביב לביטוי, כמו התחביר שמשמש לכתיבת שם תכונה מחושב באוביקט ליטראל. לדוגמה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let methodName = "sayName";
@@ -668,7 +668,7 @@ me.sayName();           // "Nicholas"
 
 תכונות גישה יכולות להשתמש בשמות תכונה מחושבים גם כן:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 let propertyName = "html";
@@ -713,7 +713,7 @@ setter
 אותו תחביר עובד עבור מחלקות, ומאפשר להפוך כל מתודה לגנרטור.
 לדוגמה:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 class MyClass {
@@ -742,7 +742,7 @@ let iterator = instance.createIterator();
 `Symbol.iterator`
 כדי להגדיר מתודה מסוג גנרטור, כמו למשל:
 
-<div dir="rtl">
+<div dir="ltr">
 
 ```js
 class Collection {
@@ -784,46 +784,65 @@ for (let x of collection) {
 
 הוספת מתודות תכונות גישה לפרוטוטייפ המחלקה שימושי כאשר נרצה שלמופע המחלקה תהיה גישה ישירה אליהם. אם נרצה מתודות או תכונות גישה על המחלקה עצמה נצטרך להשתמש באיברים סטטיים.
 
-</div>
+## איברים סטטיים
 
-## Static Members
+הוספת מתודות על קונסטרקטורים כדי לדמות איברים סטטיים הינה טכניקה נפוצה באקמהסקריפט 5 וקודם לכן. לדוגמה:
 
-Adding additional methods directly onto constructors to simulate static members is another common pattern in ECMAScript 5 and earlier. For example:
+<div dir="ltr">
 
 ```js
 function PersonType(name) {
     this.name = name;
 }
 
-// static method
+// מתודה סטטית
 PersonType.create = function(name) {
     return new PersonType(name);
 };
 
-// instance method
+// מתודה של מופע
 PersonType.prototype.sayName = function() {
     console.log(this.name);
 };
 
 var person = PersonType.create("Nicholas");
 ```
+</div>
 
-In other programming languages, the factory method called `PersonType.create()` would be considered a static method, as it doesn't depend on an instance of `PersonType` for its data. ECMAScript 6 classes simplify the creation of static members by using the formal `static` annotation before the method or accessor property name. For instance, here's the class equivalent of the last example:
+בשפות תכנות אחרות, מתודת פקטורי
+(
+    <span dir="ltr">`factory method`</span>. 
+    הכוונה לפונקציה על המחלקה עצמה שמחזירה מופע של המחלקה
+)
+בשם
+<span dir="ltr">`PersonType.create()`</span>
+תיחשב למתודה סטטית, כיוון שאינה תלויה במופע של 
+`PersonType`
+לצורך פעולתה. 
+מחלקות באקמהסקריפט 6 מפשטות יצירת איברים סטטיים על ידי השימוש במילה השמורה
+`static`
+לפני שם המתודה או תכונת הגישה.
+להלן המקבילה בשימוש במחלקה עבור הדוגמה הקודמת:
+
+<div dir="ltr">
 
 ```js
 class PersonClass {
 
-    // equivalent of the PersonType constructor
+    // מקביל לקונסטרקטור
+    // PersonType
     constructor(name) {
         this.name = name;
     }
 
-    // equivalent of PersonType.prototype.sayName
+    // מקביל למתודה
+    // PersonType.prototype.sayName
     sayName() {
         console.log(this.name);
     }
 
-    // equivalent of PersonType.create
+    // מקבל למתודה
+    // PersonType.create
     static create(name) {
         return new PersonClass(name);
     }
@@ -832,9 +851,25 @@ class PersonClass {
 let person = PersonClass.create("Nicholas");
 ```
 
-The `PersonClass` definition has a single static method called `create()`. The method syntax is the same used for `sayName()` except for the `static` keyword. You can use the `static` keyword on any method or accessor property definition within a class. The only restriction is that you can't use `static` with the `constructor` method definition.
+</div>
 
-W> Static members are not accessible from instances. You must always access static members from the class directly.
+המחלקה
+`PersonClass`
+מכילה מתודה סטטית בודדת בשם
+<span dir="ltr">`create()`</span>.
+תחביר המתודה זהה לזה של
+<span dir="ltr">`sayName()`</span>
+מלבד המילה השמורה
+`static`.
+ניתן להשתמש במילה השמורה
+`static`
+עבור כל מתודה או תכונת גישה בתוך מחלקה. המגבלה היחידה היא שלא ניתן להשתמש במילה
+`static`
+בהגדרת מתודת הקונסטרקטור.
+
+W> איברים סטטיים לא ניתנים לגישה מתוך מופע המחלקה. חייבים לגשת לאיברים סטטיים ישירות מתוך המחלקה עצמה
+
+</div>
 
 
 ## Inheritance with Derived Classes
