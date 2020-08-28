@@ -705,11 +705,15 @@ setter
 עד כה ראינו דמיון רב בין מחלקות לבין אוביקט ליטראל, במתודות, תכונות גישה ושמות מחושבים.
 יש רק עוד נקודת דמיון אחת לכסות: גנרטורים.
 
-</div>
+## מתודות מסוג גנרטור
 
-## Generator Methods
+גנרטורים הוצגו בפרק 8, שם למדנו כיצד להגדיר גנרטור על אוביקט ליטראל על ידי הצמדת כוכבית
+(`*`)
+לשם המתודה.
+אותו תחביר עובד עבור מחלקות, ומאפשר להפוך כל מתודה לגנרטור.
+לדוגמה:
 
-When Chapter 8 introduced generators, you learned how to define a generator on an object literal by prepending a star (`*`) to the method name. The same syntax works for classes as well, allowing any method to be a generator. Here's an example:
+<div dir="rtl">
 
 ```js
 class MyClass {
@@ -725,10 +729,20 @@ class MyClass {
 let instance = new MyClass();
 let iterator = instance.createIterator();
 ```
+</div>
 
-This code creates a class called `MyClass` with a `createIterator()` generator method. The method returns an iterator whose values are hardcoded into the generator. Generator methods are useful when you have an object that represents a collection of values and you'd like to iterate over those values easily. Arrays, sets, and maps all have multiple generator methods to account for the different ways developers need to interact with their items.
+הקוד לעיל יוצר מחלקה בשם
+`MyClass`
+עם מתודת גנרטור בשם
+<span dir="ltr">`createIterator()`</span>.
+המתודה מחזירה איטרטור שערכיו מוגדרים בגנרטור. מתודות מסוג גנרטור שימושיות כאשר משתמשים באוביקט שמייצג אוסף של ערכים ונרצה לעבור על אותם ערכים בקלות. 
+למערך, מפה וסט יש מספר מתודות מסוג גנרטור שעוזרות למפתחים לגשת לפריטים השמורים שם בצורות שונות.
 
-While generator methods are useful, defining a default iterator for your class is much more helpful if the class represents a collection of values. You can define the default iterator for a class by using `Symbol.iterator` to define a generator method, such as:
+בעוד שמתודות גנרטור הן שימושיות, הגדרת איטרטור דיפולטיבי למחלקה שימושית מאוד כאשר המחלקה מייצגת אוסף של ערכים. ניתן להגדיר את האיטרטור הדיפולטיבי למחלקה על ידי שימוש בסימבול
+`Symbol.iterator`
+כדי להגדיר מתודה מסוג גנרטור, כמו למשל:
+
+<div dir="rtl">
 
 ```js
 class Collection {
@@ -751,15 +765,26 @@ for (let x of collection) {
     console.log(x);
 }
 
-// Output:
+// פלט
 // 1
 // 2
 // 3
 ```
+</div>
 
-This example uses a computed name for a generator method that delegates to the `values()` iterator of the `this.items` array. Any class that manages a collection of values should include a default iterator because some collection-specific operations require collections they operate on to have an iterator. Now, any instance of `Collection` can be used directly in a `for-of` loop or with the spread operator.
+הדוגמה לעיל משתמשת בשם מחושב למתודה מסוג גנרטור שמעבירה שליטה אל איטרטור
+<span dir="ltr">`values()`</span>.
+של המערך
+`this.items`.
+כל מחלקה שמנהלת אוסף של ערכים כדאי שתכלול איטרטור דיפולטיבי מכיוון שמספר פעולות שמתבצעות על אוספי ערכים דורשות איטרטור. כעת כל מופע של
+`Collection`
+יכול להופיע בתוך לולאת
+`for-of`
+או שנוכל להריץ עליו את אופרטור הפיזור.
 
-Adding methods and accessor properties to a class prototype is useful when you want those to show up on object instances. If, on the other hand, you'd like methods or accessor properties on the class itself, then you'll need to use static members.
+הוספת מתודות תכונות גישה לפרוטוטייפ המחלקה שימושי כאשר נרצה שלמופע המחלקה תהיה גישה ישירה אליהם. אם נרצה מתודות או תכונות גישה על המחלקה עצמה נצטרך להשתמש באיברים סטטיים.
+
+</div>
 
 ## Static Members
 
