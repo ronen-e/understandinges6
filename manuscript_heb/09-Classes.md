@@ -629,12 +629,13 @@ let CustomHTMLElement = (function() {
 `html`
 בלבד כמעט שווה בגודלה להגדרת המחלקה כולה.
 
-</div>
+## שם תכונה מחושב לאיבר במחלקה
 
+הדמיון בין אוביקט ליטראל לבין מחלקה ממשיך. מתודות ותכונות גישה יכולות שיהיו בעלי שם מחושב
+(computed name).
+במקום להשתמש במזהה, נוכל להשתמש בסוגריים מרובעים מסביב לביטוי, כמו התחביר שמשמש לכתיבת שם תכונה מחושב באוביקט ליטראל. לדוגמה:
 
-## Computed Member Names
-
-The similarities between object literals and classes aren't quite over yet. Class methods and accessor properties can also have computed names. Instead of using an identifier, use square brackets around an expression, which is the same syntax used for object literal computed names. For example:
+<div dir="rtl">
 
 ```js
 let methodName = "sayName";
@@ -653,10 +654,21 @@ class PersonClass {
 let me = new PersonClass("Nicholas");
 me.sayName();           // "Nicholas"
 ```
+</div>
 
-This version of `PersonClass` uses a variable to assign a name to a method inside its definition. The string `"sayName"` is assigned to the `methodName` variable, and then `methodName` is used to declare the method. The `sayName()` method is later accessed directly.
+בדוגמה לעיל המחלקה 
+`PersonClass`
+משתמשת במשתנה ומבצעת השמה של שם המתודה אליו. ערך המחרוזת
+`"sayName"`
+מועבר למשתנה
+`methodName`,
+שלאחר מכן משמש לצורך הגדרת המתודה. המתודה
+<span dir="ltr">`sayName()`</span>
+נקראת באופן ישיר לאחר מכן.
 
-Accessor properties can use computed names in the same way, like this:
+תכונות גישה יכולות להשתמש בשמות תכונה מחושבים גם כן:
+
+<div dir="rtl">
 
 ```js
 let propertyName = "html";
@@ -676,10 +688,24 @@ class CustomHTMLElement {
     }
 }
 ```
+</div>
 
-Here, the getter and setter for `html` are set using the `propertyName` variable. Accessing the property by using `.html` only affects the definition.
+בדוגמה זו ה-
+getter
+וה-
+setter
+עבור התכונה
+`html`
+נקבעים על ידי המשתנה
+`propertyName`.
+לגישה לתכונה באמצעות
+`.html`
+יש אפקט רק עבור ההגדרה עצמה.
 
-You've seen that there are a lot of similarities between classes and object literals, with methods, accessor properties, and computed names. There's just one more similarity to cover: generators.
+עד כה ראינו דמיון רב בין מחלקות לבין אוביקט ליטראל, במתודות, תכונות גישה ושמות מחושבים.
+יש רק עוד נקודת דמיון אחת לכסות: גנרטורים.
+
+</div>
 
 ## Generator Methods
 
