@@ -1073,10 +1073,6 @@ class Square extends Rectangle {
 
 <div dir="ltr">
 
-</div>
-
-</div>
-
 ```js
 class Square extends Rectangle {
     constructor(length) {
@@ -1090,6 +1086,7 @@ class Square extends Rectangle {
     }
 }
 ```
+</div>
 
 שימוש ב 
 `super`
@@ -1105,9 +1102,12 @@ class Square extends Rectangle {
 `this`
 מותאם בצורה אוטומטית לערך הנכון וכך ניתן לבצע קריאה למתודה.
 
-### Inherited Static Members
+### הורשה של איברים סטטיים
 
-If a base class has static members, then those static members are also available on the derived class. Inheritance works like that in other languages, but this is a new concept for JavaScript. Here's an example:
+אם על מחלקת בסיס קיימים איברים סטטיים, הם יהיו זמינים גם על המחלקה הנגזרת. כך עובדת ירושה בשפות אחרת אך זהו עניין חדש בג׳אווהסקריפט.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 class Rectangle {
@@ -1128,7 +1128,8 @@ class Rectangle {
 class Square extends Rectangle {
     constructor(length) {
 
-        // same as Rectangle.call(this, length, length)
+        // זהה ל
+        // Rectangle.call(this, length, length)
         super(length, length);
     }
 }
@@ -1140,7 +1141,19 @@ console.log(rect.getArea());                // 12
 console.log(rect instanceof Square);        // false
 ```
 
-In this code, a new static `create()` method is added to the `Rectangle` class. Through inheritance, that method is available as `Square.create()` and behaves in the same manner as the `Rectangle.create()` method.
+</div>
+
+בקוד לעיל מוסיפים מתודה סטטית חדשה בשם
+<span dir="ltr">`create()`</span>
+למחלקה
+`Rectangle`.
+באמצעות ירושה, המתודה הופכת לנגישה באמצעות הקוד
+<span dir="ltr">`Square.create()`</span>
+ומתנהגת באותו אופן כמו המתודה
+<span dir="ltr">`Rectangle.create()`</span>
+
+
+</div>
 
 ### Derived Classes from Expressions
 
