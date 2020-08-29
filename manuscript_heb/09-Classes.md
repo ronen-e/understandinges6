@@ -1033,12 +1033,15 @@ W> גורם לשגיאה.
 W> 1. הדריך היחידה להימנע מקריאה ל-
 W> היא להחזיר אוביקט מתוך הקונסטרקטור.
 
-</div>
+### הסתרת מתודות במחלקה
 
+המתודות שנמצאות במחלקות נגזרות תמיד מסתירות מתודות באותו שם על מחלקת הבסיס. למשל, ניתן להוסיף מתודה
+<span dir="ltr">`getArea()`</span>
+ישירות על מחלקה
+`Square`
+כדי להגדיר מחדש פונקציונליות זו:
 
-### Shadowing Class Methods
-
-The methods on derived classes always shadow methods of the same name on the base class. For instance, you can add `getArea()` to `Square` to redefine that functionality:
+<div dir="ltr">
 
 ```js
 class Square extends Rectangle {
@@ -1046,14 +1049,33 @@ class Square extends Rectangle {
         super(length, length);
     }
 
-    // override and shadow Rectangle.prototype.getArea()
+    // מסתיר את
+    // Rectangle.prototype.getArea()
     getArea() {
         return this.length * this.length;
     }
 }
 ```
+</div>
 
-Since `getArea()` is defined as part of `Square`, the `Rectangle.prototype.getArea()` method will no longer be called by any instances of `Square`. Of course, you can always decide to call the base class version of the method by using the `super.getArea()` method, like this:
+מאחר והמתודה
+<span dir="ltr">`getArea()`</span>
+מוגדרת על
+`Square`,
+המתודה
+<span dir="ltr">`Rectangle.prototype.getArea()`</span>
+לא תיקרא עוד על ידי מופעים של 
+`Square`.
+כמובן שעדיין ניתן לקרוא למתודה של מחלקת הבסיס על ידי שימוש במתודה
+<span dir="ltr">`super.getArea()`</span>
+כמו בדוגמה הבאה:
+
+
+<div dir="ltr">
+
+</div>
+
+</div>
 
 ```js
 class Square extends Rectangle {
@@ -1061,14 +1083,27 @@ class Square extends Rectangle {
         super(length, length);
     }
 
-    // override, shadow, and call Rectangle.prototype.getArea()
+    // מסתיר את וקורא ישירות אל
+    // Rectangle.prototype.getArea()
     getArea() {
         return super.getArea();
     }
 }
 ```
 
-Using `super` in this way works the same as the the super references discussed in Chapter 4 (see "Easy Prototype Access With Super References"). The `this` value is automatically set correctly so you can make a simple method call.
+שימוש ב 
+`super`
+בצורה זו עובד בדומה לשימוש ב
+`super`
+כפי שהוצג בפרק 4
+(
+    ראה
+    "גישה קלה לפרוטוטיפ בעזרת 
+    super"
+).
+ערכו של 
+`this`
+מותאם בצורה אוטומטית לערך הנכון וכך ניתן לבצע קריאה למתודה.
 
 ### Inherited Static Members
 
