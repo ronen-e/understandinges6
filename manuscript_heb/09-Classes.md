@@ -841,7 +841,7 @@ class PersonClass {
         console.log(this.name);
     }
 
-    // מקבל למתודה
+    // מקביל למתודה
     // PersonType.create
     static create(name) {
         return new PersonClass(name);
@@ -869,12 +869,11 @@ let person = PersonClass.create("Nicholas");
 
 W> איברים סטטיים לא ניתנים לגישה מתוך מופע המחלקה. חייבים לגשת לאיברים סטטיים ישירות מתוך המחלקה עצמה
 
-</div>
+## ירושה במחלקות נגזרות
 
+לפני אקמהסקריפט 6, מימוש ירושה עם סוגים מותאמים היה הליך ארוך. ירושה נכונה דרשה מספר שלבים. לדוגמה:
 
-## Inheritance with Derived Classes
-
-Prior to ECMAScript 6, implementing inheritance with custom types was an extensive process. Proper inheritance required multiple steps. For instance, consider this example:
+<div dir="ltr">
 
 ```js
 function Rectangle(length, width) {
@@ -905,10 +904,27 @@ console.log(square.getArea());              // 9
 console.log(square instanceof Square);      // true
 console.log(square instanceof Rectangle);   // true
 ```
+</div>
 
-`Square` inherits from `Rectangle`, and to do so, it must overwrite `Square.prototype` with a new object created from `Rectangle.prototype` as well as call the `Rectangle.call()` method. These steps often confused JavaScript newcomers and were a source of errors for experienced developers.
+`Square`
+יורשת
+מ-
+`Rectangle`,
+ועל מנת לעשות זאת עליה לדרוס את 
+`Square.prototype`
+עם אוביקט חדש שנוצר מ-
+`Rectangle.prototype`
+יחד עם קריאה ל-
+<span dir="ltr">`Rectangle.call()`</span>.
+השלבים האלו לרוב בלבלו מפתחים חדשים לשפה והיוו מקור לשגיאות גם עבור מפתחים מנוסים.
 
-Classes make inheritance easier to implement by using the familiar `extends` keyword to specify the function from which the class should inherit. The prototypes are automatically adjusted, and you can access the base class constructor by calling the `super()` method. Here's the ECMAScript 6 equivalent of the previous example:
+מחלקות מקלות על מימוש ירושה על ידי שימוש במילה השמורה
+`extends`
+כדי להגדיר את הפונקציה שממנה יורשת המחלקה. הפרוטוטיפים מקבלים הכוונה אוטומטית וניתן לקרוא לקונסטרקטור מחלקת הבסיס על ידי קריאה ל-
+<span dir="ltr">`super()`</span>.
+להלן דוגמה מקבילה לדוגמה הקודמת שנכתבה באקמהסקריפט 6:
+
+<div dir="ltr">
 
 ```js
 class Rectangle {
@@ -925,7 +941,8 @@ class Rectangle {
 class Square extends Rectangle {
     constructor(length) {
 
-        // same as Rectangle.call(this, length, length)
+        // זהה ל
+        // Rectangle.call(this, length, length)
         super(length, length);
     }
 }
@@ -936,32 +953,88 @@ console.log(square.getArea());              // 9
 console.log(square instanceof Square);      // true
 console.log(square instanceof Rectangle);   // true
 ```
+</div>
 
-This time, the `Square` class inherits from `Rectangle` using the `extends` keyword. The `Square` constructor uses `super()` to call the `Rectangle` constructor with the specified arguments. Note that unlike the ECMAScript 5 version of the code, the identifier `Rectangle` is only used within the class declaration (after `extends`).
+בדוגמה זו, המחלקה
+`Square`
+יורשת מהמחלקה
+`Rectangle`
+בעזרת המילה השמורה
+`extends`.
+הקונסטרקטור של
+`Square`
+משתמש ב-
+<span dir="ltr">`super()`</span>
+כדי לקרוא לקונסטרטור של
+`Rectangle`
+עם הארגומנטים הנחוצים. שימו לב שלא כמו בגרסת אקמהסקריפט 5, המזהה
+`Rectangle`
+מופיע אך ורק בתוך הגדרת המחלקה
+(
+    לאחר
+    `extends`
+).
 
-Classes that inherit from other classes are referred to as *derived classes*. Derived classes require you to use `super()` if you specify a constructor; if you don't, an error will occur. If you choose not to use a constructor, then `super()` is automatically called for you with all arguments upon creating a new instance of the class. For instance, the following two classes are identical:
+מחלקות שיורשות ממחלקה אחרת נקראות
+*מחלקות נגזרות*
+(*derived classes*).
+מחלקות נגזרות דורשות מאיתנו להשתמש ב-
+<span dir="ltr">`super()`</span>
+במידה והגדרנו קונסטרקטור משלנו. אם לא נעשה זאת תיזרק שגיאה
+אם לא נממש קונסטרקטור בעצמנו אזי 
+<span dir="ltr">`super()`</span>
+ייקרא באופן אוטומטי עם כל הארגומנטים המסופקים בעת יצירת מופע חדש של המחלקה.
+לכן בדוגמה הבאה, שתי המחלקות הבאות זהות זו לזו:
+
+<div dir="ltr">
 
 ```js
 class Square extends Rectangle {
-    // no constructor
+    // אין קונסטרקטור
 }
 
-// Is equivalent to
-
+// זהה מבחינה מעשית
 class Square extends Rectangle {
     constructor(...args) {
         super(...args);
     }
 }
 ```
+</div>
 
-The second class in this example shows the equivalent of the default constructor for all derived classes. All of the arguments are passed, in order, to the base class constructor. In this case, the functionality isn't quite correct because the `Square` constructor needs only one argument, and so it's best to manually define the constructor.
+המחלקה השנייה בדוגמה מראה כיצד עובד הקונסטרקטור הדיפולטיבי עבור כל מחלקה נגזרת. כל הארגומנטים מועברים, לפי הסדר, לקונסטרקטור מחלקת הבסיס. במקרה זה הפונקציונליות לא תואמת באופן מלא מכיוון שהקונסטרקטור עבור
+`Square`
+דורש רק ארגומנט אחד, לכן מומלץ להגדיר את הקונסטרקטור בעצמנו.
 
-W> There are a few things to keep in mind when using `super()`:
-W>
-W> 1. You can only use `super()` in a derived class. If you try to use it in a non-derived class (a class that doesn't use `extends`) or a function, it will throw an error.
-W> 1. You must call `super()` before accessing `this` in the constructor. Since `super()` is responsible for initializing `this`, attempting to access `this` before calling `super()` results in an error.
-W> 1. The only way to avoid calling `super()` is to return an object from the class constructor.
+W> ישנם מספר דברים שחשוב לזכור כאשר משתמשים במילה
+W> <span dir="ltr">`super()`</span>
+W> 1. ניתן להשתמש ב
+W> <span dir="ltr">`super()`</span>
+W> רק במחלקה נגזרת. אם ננסה להשתמש בו במחלקה שאינה נגזרת
+W> (
+W>     מחלקה שאינה משתמשת ב-
+W>     `extends`
+W> )
+W> או בתוך פונקציה, הדבר יגרום לשגיאה.
+W> 1. חייבים לקרוא ל-
+W> <span dir="ltr">`super()`</span>
+W> לפני שניגשים אל 
+W> `this`
+W> בקונסטרקטור.
+W> מכיוון ש
+W> <span dir="ltr">`super()`</span>
+W> אחראי לאתחול ערכו של 
+W> `this`,
+W> כל ניסיון לגשת אל
+W> `this`
+W> לפני קריאה ל-
+W> <span dir="ltr">`super()`</span>
+W> גורם לשגיאה.
+W> 1. הדריך היחידה להימנע מקריאה ל-
+W> היא להחזיר אוביקט מתוך הקונסטרקטור.
+
+</div>
+
 
 ### Shadowing Class Methods
 
