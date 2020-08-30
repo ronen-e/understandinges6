@@ -1152,12 +1152,17 @@ console.log(rect instanceof Square);        // false
 ומתנהגת באותו אופן כמו המתודה
 <span dir="ltr">`Rectangle.create()`</span>
 
+### מחלקות נגזרות מביטויים
 
-</div>
+אחד מההיבטים המעניינים של מחלקות נגזרות באקמהסקריפט 6 הינו היכולת לייצר מחלקה מביטוי. ניתן להשתמש במילה
+`extends`
+עם כל ביטוי כל עוד תוצאתו היא פונקציה עם
+תכונה פנימית
+`[[Construct]]`
+ועם פרוטוטיפ.
+לדוגמה:
 
-### Derived Classes from Expressions
-
-Perhaps the most powerful aspect of derived classes in ECMAScript 6 is the ability to derive a class from an expression. You can use `extends` with any expression as long as the expression resolves to a function with `[[Construct]]` and a prototype. For instance:
+<div dir="ltr">
 
 ```js
 function Rectangle(length, width) {
@@ -1179,10 +1184,25 @@ var x = new Square(3);
 console.log(x.getArea());               // 9
 console.log(x instanceof Rectangle);    // true
 ```
+</div>
 
-`Rectangle` is defined as an ECMAScript 5-style constructor while `Square` is a class. Since `Rectangle` has `[[Construct]]` and a prototype, the `Square` class can still inherit directly from it.
+`Rectangle`
+מוגדר כקונסטרקטור בסגנון אקמהסקריפט 5 בעוד ש
+`Square`
+היא מחלקה.
+מכיוון של- 
+`Rectangle`
+יש
+`[[Construct]]`
+ופרוטוטיפ, המחלקה
+`Square`
+יכולה לרשת תכונות ישירות ממנו.
 
-Accepting any type of expression after `extends` offers powerful possibilities, such as dynamically determining what to inherit from. For example:
+היכולת לקבל כל סוג ביטוי לאחר שימוש בסעיף
+`extends`
+מאפשר לנו שיטות עבודה כמו קביעה דינמית של הסוג ממנו יורשים. למשל:
+
+<div dir="ltr">
 
 ```js
 function Rectangle(length, width) {
@@ -1208,8 +1228,16 @@ var x = new Square(3);
 console.log(x.getArea());               // 9
 console.log(x instanceof Rectangle);    // true
 ```
+</div>
 
-The `getBase()` function is called directly as part of the class declaration. It returns `Rectangle`, making this example is functionally equivalent to the previous one. And since you can determine the base class dynamically, it's possible to create different inheritance approaches. For instance, you can effectively create mixins:
+הפונקציה
+<span dir="ltr">`getBase()`</span>
+נקראת ישירות כחלק מהגדרת המחלקה. היא מחזירה
+`Rectangle`,
+מה שהופך דוגמה זו למקבילה לדוגמה הקודמת. מכיוון שניתן לקבוע את זהות מחלקת הבסיס בצורה דינמית, ניתן להשתמש בטכניקות ירושה שונות. כך למשל ניתן ליצור מיקסינים
+(mixins):
+
+<div dir="ltr">
 
 ```js
 let SerializableMixin = {
@@ -1242,17 +1270,55 @@ var x = new Square(3);
 console.log(x.getArea());               // 9
 console.log(x.serialize());             // "{"length":3,"width":3}"
 ```
+</div>
 
-In this example, mixins are used instead of classical inheritance. The `mixin()` function takes any number of arguments that represent mixin objects. It creates a function called `base` and assigns the properties of each mixin object to the prototype. The function is then returned so `Square` can use `extends`. Keep in mind that since `extends` is still used, you are required to call `super()` in the constructor.
+בדוגמה זו משתמשים במיקסינים במקום בירושה ממחלקות. הפונקציה
+<span dir="ltr">`mixin()`</span>
+לוקחת כל מספר של ארגומנטים שכל אחד מהם מייצג אוביקט מיקסין. 
+הפונקציה מייצרת פונקציה בשם
+`base`
+ומבצעת השמה של תכונות כל אוביקט מיקסין לפרוטוטיפ.
+הפונקציה מוחזרת על מנת שהמחלקה
+`Square`
+תוכל להשתמש ב-
+`extends`.
+שימו לב שמכיוון שמשתמשים ב-
+`extends`
+חובה לקרוא ל-
+<span dir="ltr">`super()`</span>
+בתוך הקונסטרקטור.
 
-The instance of `Square` has both `getArea()` from `AreaMixin` and `serialize` from `SerializableMixin`. This is accomplished through prototypal inheritance. The `mixin()` function dynamically populates the prototype of a new function with all of the own properties of each mixin. (Keep in mind that if multiple mixins have the same property, only the last property added will remain.)
+המופע של 
+`Square`
+יכול להשתמש במתודה
+<span dir="ltr">`getBase()`</span>
+שמוגדרת על
+`AreaMixin`
+ובמתודה
+`serialize`
+שמוגדרת על
+`SerializableMixin`.
+זה ממומש על ידי ירושה פרוטוטיפית.
+הפונקציה
+<span dir="ltr">`mixin()`</span>
+מאכלסת באופן דינמי את הפרוטוטיפ של הפונקציה החדשה עם כל התכונות העצמיות בעבור כל מיקסין בנפרד
+(
+    במידה ולמספר מיקסינים יש את אותו שם תכונה רק התכונה האחרונה תיבחר
+)
 
-W> Any expression can be used after `extends`, but not all expressions result in a valid class. Specifically, the following expression types cause errors:
+W> ניתן להשתמש בכל ביטוי לאחר
+W> `extends`,
+W> אך לא כל ביטוי יוצר מחלקה תקינה. בפרט, הביטויים הבאים גורמים לשגיאות:
 W>
 W> * `null`
-W> * generator functions (covered in Chapter 8)
-W>
-W> In these cases, attempting to create a new instance of the class will throw an error because there is no `[[Construct]]` to call.
+W> * פונקציות מסוג גנרטור
+W> (ראו פרק 8)
+W> 
+W> במקרים כאלו ניסיון ליצור מופע של המחלקה יזרוק שגיאה מכיוון שאין מתודה פנימית מסוג
+W> `[[Construct]]`
+W> שניתן לקרוא לה.
+
+</div>
 
 ### Inheriting from Built-ins
 
