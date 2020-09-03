@@ -1318,14 +1318,14 @@ W> במקרים כאלו ניסיון ליצור מופע של המחלקה יז
 W> `[[Construct]]`
 W> שניתן לקרוא לה.
 
-</div>
+### ירושה מסוגים מובנים
 
-### Inheriting from Built-ins
+החל מהרגע קיומם של מערכים בג׳אווהסקריפט, מפתחים רצו ליצור סוגי מערכים מיוחדים משלהם באמצעות הורשה. באקמהסקריפט 5 וקודם לכן, זה לא היה אפשרי. ניסיון להשתמש בהורשה קלאסית לא הוביל לקוד שעובד. לדוגמה:
 
-For almost as long as JavaScript arrays have existed, developers have wanted to create their own special array types through inheritance. In ECMAScript 5 and earlier, this wasn't possible. Attempting to use classical inheritance didn't result in functioning code. For example:
+<div dir="ltr">
 
 ```js
-// built-in array behavior
+// התנהגות מובנית של מערך
 var colors = [];
 colors[0] = "red";
 console.log(colors.length);         // 1
@@ -1333,7 +1333,8 @@ console.log(colors.length);         // 1
 colors.length = 0;
 console.log(colors[0]);             // undefined
 
-// trying to inherit from array in ES5
+// ניסיון לבצע הורשה ממערך בגרסת
+// ES5
 
 function MyArray() {
     Array.apply(this, arguments);
@@ -1356,15 +1357,53 @@ colors.length = 0;
 console.log(colors[0]);             // "red"
 ```
 
-The `console.log()` output at the end of this code shows how using the classical form of JavaScript inheritance on an array results in unexpected behavior. The `length` and numeric properties on an instance of `MyArray` don't behave the same as they do for the built-in array because this functionality isn't covered either by `Array.apply()` or by assigning the prototype.
+</div>
 
-One goal of ECMAScript 6 classes is to allow inheritance from all built-ins. In order to accomplish this, the inheritance model of classes is slightly different than the classical inheritance model found in ECMAScript 5 and earlier:
+הפלט של הפונקציה
+<span dir="ltr">`console.log()`</span>
+בדוגמה לעיל מראה כיצד שימוש בסגנון הורשה קלאסית בג׳אווהסקריפט על מערך מוביל להתנהגות בלתי צפויה. התכונה
+`length`
+כמו גם התכונות הנומריות
+על מופע
+`MyArray`
+לא מתנהגות באותו אופן כמו שהן מתנהגות עם מערכים מובנים של השפה מכיוון ומדובר בפונקציונליות שאינה מטופלת על ידי
+<span dir="ltr">`Array.apply()`</span>
+או על ידי השמה על הפרוטוטיפ.
 
-In ECMAScript 5 classical inheritance, the value of `this` is first created by the derived type (for example, `MyArray`), and then the base type constructor (like the `Array.apply()` method) is called. That means `this` starts out as an instance of `MyArray` and then is decorated with additional properties from `Array`.
+תכלית אחת של מחלקות באקמהסקריפט 6 הינה לאפשר הורשה מכול האוביקטים המובנים. לשם כך, מודל ההורשה של מחלקות שונה במקצת ממודל ההורשה שנמצא באקמהסקריפט 5 וקודם לכן:
 
-In ECMAScript 6 class-based inheritance, the value of `this` is first created by the base (`Array`) and then modified by the derived class constructor (`MyArray`). The result is that `this` starts with all the built-in functionality of the base and correctly receives all functionality related to it.
+בהורשה קלאסית של מחלקות באקמהסקריפט 5 הערך עבור
+`this`
+מתקבל תחילה על ידי המחלקה הנגזרת
+(
+    למשל,
+    `MyArray`
+),
+ובהמשך נקרא קונסטרקטור הבסיס
+(
+    למשל המתודה
+    <span dir="ltr">`Array.apply()`</span>
+).
+המשמעות היא שהערך
+`this`
+מתחיל כמופע של
+`MyArray`
+ולאחר מכן מוסיפים עליו תכונות נוספות מתוך
+`Array`.
 
-The following example shows a class-based special array in action:
+בהורשה על בסיס מחלקות של אקמהסקריפט 6, הערך עבור
+`this`
+נקבע תחילה על ידי מחלקת הבסיס
+(`Array`)
+ואז משתנה על ידי הקונסטרקטור של המחלקה הנגזרת
+(`MyArray`). 
+התוצאה היא שהערך
+`this`
+מתחיל עם כל ההתנהגות המובנית של מחלקת הבסיס.
+
+הדוגמה הבאה מראה מחלקה נגזרת של מערך בפעולה:
+
+<div dir="ltr">
 
 ```js
 class MyArray extends Array {
@@ -1379,7 +1418,22 @@ colors.length = 0;
 console.log(colors[0]);             // undefined
 ```
 
-`MyArray` inherits directly from `Array` and therefore works like `Array`. Interacting with numeric properties updates the `length` property, and manipulating the `length` property updates the numeric properties. That means you can both properly inherit from `Array` to create your own derived array classes and inherit from other built-ins as well. With all this added functionality, ECMAScript 6 and derived classes have effectively removed the last special case of inheriting from built-ins, but that case is still worth exploring.
+</div>
+
+`MyArray`
+יורש ישירות מן
+`Array`. 
+ולכן פועל כמו
+`Array`. 
+שינוי תכונות נומריות מעדכן את התכונה
+`length`
+ושינוי התכונה
+`length`
+מעדכן את התכונות הנומריות. המשמעות היא שניתן לבצע הורשה מן
+`Array`
+כדי ליצור מחלקת מערך נגזרת משלנו ולקיים הורשה מאוביקטים מובנים אחרים. בזכות היכולות החדשות שהתווספו, אקמהסקריפט 6 ומחלקות נגזרות נתנו מענה על הצורך המיוחד של הורשה מאוביקטים מובנים, אך מדובר בצורך שראוי לחקור.
+
+</div>
 
 ### The Symbol.species Property
 
