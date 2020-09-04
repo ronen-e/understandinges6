@@ -1433,11 +1433,19 @@ console.log(colors[0]);             // undefined
 `Array`
 כדי ליצור מחלקת מערך נגזרת משלנו ולקיים הורשה מאוביקטים מובנים אחרים. בזכות היכולות החדשות שהתווספו, אקמהסקריפט 6 ומחלקות נגזרות נתנו מענה על הצורך המיוחד של הורשה מאוביקטים מובנים, אך מדובר בצורך שראוי לחקור.
 
-</div>
+### Symbol.species
 
-### The Symbol.species Property
+היבט מעניין של הורשה מאוביקטים מובנים הוא שכל מתודה שמחזירה מופע של האוביקט המובנה תחזיר אוטומטית מופע של המחלקה הנגזרת. ולכן אם קיימת מחלקה נגזרת 
+`MyArray`
+שיורשת מן
+`Array`
+מתודות כמו
+<span dir="ltr">`slice()`</span>
+יחזירו מופע של
+`MyArray`.
+לדוגמה:
 
-An interesting aspect of inheriting from built-ins is that any method that returns an instance of the built-in will automatically return a derived class instance instead. So, if you have a derived class called `MyArray` that inherits from `Array`, methods such as `slice()` return an instance of `MyArray`. For example:
+<div dir="ltr">
 
 ```js
 class MyArray extends Array {
@@ -1451,22 +1459,45 @@ console.log(items instanceof MyArray);      // true
 console.log(subitems instanceof MyArray);   // true
 ```
 
-In this code, the `slice()` method returns a `MyArray` instance. The `slice()` method is inherited from `Array` and returns an instance of `Array` normally. Behind the scenes, it's the `Symbol.species` property that is making this change.
+</div>
 
-The `Symbol.species` well-known symbol is used to define a static accessor property that returns a function. That function is a constructor to use whenever an instance of the class must be created inside of an instance method (instead of using the constructor). The following builtin types have `Symbol.species` defined:
+בקוד לעיל, המתודה
+<span dir="ltr">`slice()`</span>
+מחזירה מופע של 
+`MyArray`.
+המתודה
+<span dir="ltr">`slice()`</span>
+מתקבלת בהורשה מן
+`Array`
+ומחזירה מופע של 
+`Array`
+כמצופה.
+
+הסימבול המוכר
+`Symbol.species`
+משמש לצורך הגדרת פונקצית גישה סטאטית שמחזירה פונקציה. הפונקציה שחוזרת היא הקונסטרקטור שבו יש להשתמש בכל פעם שמופע של המחלקה נוצר בתוך מתודה של המופע
+(כאשר לא משתמשים בקונסטרקטור).
+לסוגים המובנים הבאים מוגדרת התכונה
+`Symbol.species` :
 
 * `Array`
-* `ArrayBuffer` (discussed in Chapter 10)
+* `ArrayBuffer` (ראו פרק 10)
 * `Map`
 * `Promise`
 * `RegExp`
 * `Set`
-* Typed Arrays (discussed in Chapter 10)
+* Typed Arrays (ראו פרק 10)
 
-Each of these types has a default `Symbol.species` property that returns `this`, meaning the property will always return the constructor function. If you were to implement that functionality on a custom class, the code would look like this:
+לכל אחד מהסוגים הללו מוגדרת תכונה
+`Symbol.species`
+שמחזירה את הערך 
+`this`,
+משמע התכונה תמיד תחזיר את הקונסטרקטור עצמו. במידה ונרצה לממש התנהגות זו על מחלקה שאנו יצרנו הקוד ייראה כך:
+
+<div dir="ltr">
 
 ```js
-// several builtin types use species similar to this
+// קוד דומה קיים במספר אוביקטים מובנים
 class MyClass {
     static get [Symbol.species]() {
         return this;
@@ -1481,8 +1512,28 @@ class MyClass {
     }
 }
 ```
+</div>
 
-In this example, the `Symbol.species` well-known symbol is used to assign a static accessor property to `MyClass`. Note that there's only a getter without a setter, because changing the species of a class isn't possible. Any call to `this.constructor[Symbol.species]` returns `MyClass`. The `clone()` method uses that definition to return a new instance rather than directly using `MyClass`, which allows derived classes to override that value. For example:
+בדוגמה לעיל נעשה שימוש בסימבול המוכר בשם
+`Symbol.species`
+כדי לייצר תכונת גישה סטטית עבור
+`MyClass`.
+שימו לב לכך שישנו רק
+getter
+ואין 
+setter
+מכיוון ששינוי סוג עבור מחלקה אינו אפשרי. כל קריאה אל
+<span dir="ltr">`this.constructor[Symbol.species]`</span>
+מחזירה את
+`MyClass`.
+המתודה
+<span dir="ltr">`clone()`</span>
+משתמשת באותו ערך כדי להחזיר מופע חדש במקום להשתמש ישירות במחלקה
+`MyClass`,
+וזה מה שמאפשר למחלקות נגזרות לעקוף את אותו ערך. לדוגמה:
+
+
+<div dir="ltr">
 
 ```js
 class MyClass {
@@ -1500,7 +1551,7 @@ class MyClass {
 }
 
 class MyDerivedClass1 extends MyClass {
-    // empty
+    // מחלקה ריקה
 }
 
 class MyDerivedClass2 extends MyClass {
@@ -1519,10 +1570,50 @@ console.log(clone1 instanceof MyDerivedClass1);     // true
 console.log(clone2 instanceof MyClass);             // true
 console.log(clone2 instanceof MyDerivedClass2);     // false
 ```
+</div>
 
-Here, `MyDerivedClass1` inherits from `MyClass` and doesn't change the `Symbol.species` property. When `clone()` is called, it returns an instance of `MyDerivedClass1` because `this.constructor[Symbol.species]` returns `MyDerivedClass1`. The `MyDerivedClass2` class inherits from `MyClass` and overrides `Symbol.species` to return `MyClass`. When `clone()` is called on an instance of `MyDerivedClass2`, the return value is an instance of `MyClass`. Using `Symbol.species`, any derived class can determine what type of value should be returned when a method returns an instance.
+בדוגמת הקוד לעיל המחלקה
+`MyDerivedClass1`
+יורשת מן המחלקה
+`MyClass`
+ואינה משנה את ערך התכונה
+`Symbol.species`.
+כאשר המתודה
+<span dir="ltr">`clone()`</span>
+נקראת, מתקבל מופע של 
+`MyDerivedClass1`
+מאחר ו-
+<span dir="ltr">`this.constructor[Symbol.species]`</span>
+מחזיר את
+`MyDerivedClass1`.
+המחלקה
+`MyDerivedClass2`
+יורשת מן המחלקה
+`MyClass`
+ודורסת את התכונה
+`Symbol.species`
+כך שתחזיר את 
+`MyClass`.
+כאשר המתודה 
+<span dir="ltr">`clone()`</span>
+נקראת עבור מופע של 
+`MyDerivedClass2`
+הערך המוחזר הינו מופע של 
+`MyClass`.
+על ידי שימוש בסימבול
+`Symbol.species`,
+כל מחלקה נגזרת יכולה לקבוע את סוג הערך שמוחזר כאשר מתודה מחזירה מופע.
 
-For instance, `Array` uses `Symbol.species` to specify the class to use for methods that return an array. In a class derived from `Array`, you can determine the type of object returned from the inherited methods, such as:
+כך למשל הסוג המובנה
+`Array`
+משתמש בתכונה
+`Symbol.species`
+על מנת להגדיר את המחלקה בה יש להשתמש כאשר מפעילים מתודות שמחזירות מערך. במחלקה נגזרת מן
+`Array`,
+ניתן לקבוע את סוג האוביקט המוחזר מהשיטות שהתקבלו בירושה. כמו למשל:
+
+
+<div dir="ltr">
 
 ```js
 class MyArray extends Array {
@@ -1539,9 +1630,28 @@ console.log(subitems instanceof Array);     // true
 console.log(subitems instanceof MyArray);   // false
 ```
 
-This code overrides `Symbol.species` on `MyArray`, which inherits from `Array`. All of the inherited methods that return arrays will now use an instance of `Array` instead of `MyArray`.
+</div>
 
-In general, you should use the `Symbol.species` property whenever you might want to use `this.constructor` in a class method. Doing so allows derived classes to override the return type easily. Additionally, if you are creating derived classes from a class that has `Symbol.species` defined, be sure to use that value instead of the constructor.
+הקוד בדוגמה האחרונה דורס את 
+`Symbol.species`
+בעבור
+`MyArray`,
+שיורש תכונות מן
+`Array`.
+כל התכונות המורשות שמחזירות מערך יחזירו כעת מופע של 
+`Array`
+במקום מופע של 
+`MyArray`.
+
+כעקרון, נרצה להשתמש בתכונה
+`Symbol.species`
+כל פעם שנרצה להשתמש בערך
+`this.constructor`
+בתוך מתודה של מחלקה. זה יאפשר למחלקות נגזרות לעקוף את הערך המוחזר בקלות. בנוסף, אם ניצור מחלקות נגזרות ממחלקה שמוגדרת עבורה התכונה
+`Symbol.species`
+עלינו לוודא שאנו אכן משתמשים באותו ערך ולא משתמשים בקונסטרקטור באופן ישיר.
+
+</div>
 
 ## Using new.target in Class Constructors
 
