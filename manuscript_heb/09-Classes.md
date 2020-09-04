@@ -1651,11 +1651,17 @@ console.log(subitems instanceof MyArray);   // false
 `Symbol.species`
 עלינו לוודא שאנו אכן משתמשים באותו ערך ולא משתמשים בקונסטרקטור באופן ישיר.
 
-</div>
+## שימוש ב new.target בתוך קונסטרקטור
 
-## Using new.target in Class Constructors
+בפרק 3 למדנו על
+`new.target`
+וכיצד הערך משתנה בהתאם לצורת הקריאה של הפונקציה. ניתן להשתמש בערך
+`new.target`
+בקונסטרקטור של מחלקה על מנת לקבוע כיצד קוראים למחלקה. במקרה הפשוט הערך
+`new.target`
+מצביע על קונסטרקטור המחלקה. כמו בדוגמה זו:
 
-In Chapter 3, you learned about `new.target` and how its value changes depending on how a function is called. You can also use `new.target` in class constructors to determine how the class is being invoked. In the simple case, `new.target` is equal to the constructor function for the class, as in this example:
+<div dir="ltr">
 
 ```js
 class Rectangle {
@@ -1666,11 +1672,25 @@ class Rectangle {
     }
 }
 
-// new.target is Rectangle
-var obj = new Rectangle(3, 4);      // outputs true
+// new.target -> Rectangle
+var obj = new Rectangle(3, 4);      // true
 ```
 
-This code shows that `new.target` is equivalent to `Rectangle` when `new Rectangle(3, 4)` is called. Class constructors can't be called without `new`, so the `new.target` property is always defined inside of class constructors. But the value may not always be the same. Consider this code:
+</div>
+
+בדוגמת הקוד האחרונה הערך
+`new.target` 
+מצביע על 
+`Rectangle`
+כאשר קוראים למחלקה על ידי הקוד
+<span dir="ltr">`new Rectangle(3, 4)`</span>.
+מכיוון שלא ניתן להריץ קונסטרקטור של מחלקה ללא האופרטור
+`new`,
+התכונה
+`new.target` 
+תמיד מוגדרת בתוך קונסטרקטור של מחלקה. אך הערך לא תמיד יהיה אותו הערך. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 class Rectangle {
@@ -1687,18 +1707,35 @@ class Square extends Rectangle {
     }
 }
 
-// new.target is Square
-var obj = new Square(3);      // outputs false
+// new.target -> Square
+var obj = new Square(3);      // false
 ```
 
-`Square` is calling the `Rectangle` constructor, so `new.target` is equal to `Square` when the `Rectangle` constructor is called. This is important because it gives each constructor the ability to alter its behavior based on how it's being called. For instance, you can create an abstract base class (one that can't be instantiated directly) by using `new.target` as follows:
+</div>
+
+`Square`
+קורא לקונסטרקטור של
+`Rectangle`
+ולכן 
+`new.target` 
+מצביע על
+`Square`
+כאשר קוראים לקונסטרקטור של המחלקה
+`Rectangle`.
+מדובר בהיבט חשוב מכיוון שכך מתאפשר לכל קונסטרקטור לשנות את התנהגותו לפי הדרך בה הוא נקרא. כך למשל, ניתן ליצור מחלקת בסיס אבסטרקטית
+(כזו שלא מפעילים באופן ישיר)
+על ידי שימוש בערך
+`new.target` 
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
-// abstract base class
+// מחלקת בסיס אבסטרקטית
 class Shape {
     constructor() {
         if (new.target === Shape) {
-            throw new Error("This class cannot be instantiated directly.")
+            throw new Error("לא ניתן ליצור מופע ישיר של מחלקה זו")
         }
     }
 }
@@ -1711,15 +1748,46 @@ class Rectangle extends Shape {
     }
 }
 
-var x = new Shape();                // throws error
+var x = new Shape();                // שגיאה
 
-var y = new Rectangle(3, 4);        // no error
+var y = new Rectangle(3, 4);        // אין שגיאה
 console.log(y instanceof Shape);    // true
 ```
 
-In this example, the `Shape` class constructor throws an error whenever `new.target` is `Shape`, meaning that `new Shape()` always throws an error. However, you can still use `Shape` as a base class, which is what `Rectangle` does. The `super()` call executes the `Shape` constructor and `new.target` is equal to `Rectangle` so the constructor continues without error.
+</div>
 
-I> Since classes can't be called without `new`, the `new.target` property is never `undefined` inside of a class constructor.
+בדוגמה האחרונה, קונסטרקטור המחלקה
+`Shape`
+זורק שגיאה כאשר
+`new.target`
+מצביע על 
+`Shape`,
+כלומר, הפקודה
+`new Shape()`
+<span dir="ltr">`new Shape()`</span>.
+תמיד תזרוק שגיאה. אך ניתן להשתמש במחלקה
+`Shape`
+בתור מחלקת בסיס, וזה אכן מה שהמחלקה
+`Rectangle` 
+עושה. הקריאה 
+<span dir="ltr">`super()`</span>
+מפעילה את הקונסטרקטור של 
+`Shape`
+והערך 
+`new.target`
+מצביע על 
+`Rectangle` 
+וכל הקונסטרקטור ממשיך לרוץ ללא שגיאה.
+
+I> מאחר וחייבים לקרוא למחלקה באמצעות האופרטור
+`new`,
+התכונה
+`new.target`
+לעולם לא תקבל את הערך 
+`undefined`
+בתוך קונסטרקטור של מחלקה
+
+</div>
 
 ## Summary
 
