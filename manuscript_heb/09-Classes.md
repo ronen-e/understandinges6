@@ -1787,16 +1787,24 @@ I> מאחר וחייבים לקרוא למחלקה באמצעות האופרטו
 `undefined`
 בתוך קונסטרקטור של מחלקה
 
+## סיכום
+
+מחלקות באקמהסקריפט 6 מקלות על שימוש בירושה בג׳אווהסקריפט, כך שאין צורך לשכוח הבנה קודמת של הורשה שאולי הגיעה משפות תכנות אחרות. מחלקות באקמהסקריפט 6 מתחילות בתור עטיפה נוחה
+(syntactic sugar)
+למודל הירושה במחלקות של אקמהסקריפט 5, וכמו כן מוסיף יכולות נוספות על מנת לצמצם טעויות..
+
+מחלקות באקמהסקריפט 6 מממשות הורשה פרוטוטיפית על ידי הגדרת מתודה לא סטטיות על פרוטוטיפ המחלקה, בעוד שמתודות סטטיות מוגדרות על הקונסטרקטור עצמו. כל המתודות אינן אינומרביליות, התנהגות שתואמת בצורת טובה יותר את ההתנהגות הקיימת של אוביקטים מובנים שעבורם מתודות בדרך כלל אינן אינומרביליות כברירת מחדל. בנוסף, קונסטרקטור של מחלקה לא יכולים להיקרא ללא האופרטור
+`new`,
+מה שמבטיח שלא קוראים למחלקה כמו לפונקציה רגילה.
+
+הורשה ממחלקות מאפשרת לנו ליצור מחלקה שיורשת ממחלקה אחרת, מפונקציה, ואף מביטוי. יכולת זו משמעותה שניתן לקרוא לפונקציה כדי לקבוע את מחלקת הבסיס שממנה נירש, וכך ביכולתנו להשתמש במיקסינים וטכניקות קומפוזיציה שונות כדי ליצור מחלקה חדשה. הורשה עובדת בצורה כזו שהורשה מאוביקטים מובנים כמו
+`Array`
+אפשרית ופועלת כמצופה.
+
+ניתן להשתמש בערך
+`new.target`
+בתוך קונסטרקטור של מחלקה כדי להגדיר התנהגויות שונות בהתאם לאופן בה קראנו למחלקה. השימוש הנפוץ ביותר הינו יצירת מחלקת בסיס אבסטרקטית שזורקת שגיאה כאשר מנסים לקרוא לה ישירות אך עדיין מאפשרת הורשה דרך מחלקות אחרות.
+
+ככלל, מחלקות הינן תוספת חשובה בג׳אווהסקריפט. הן מאפשרות כתיבה ברורה ומקוצרת ויכולת משופרת להגדרת סוגי אוביקטים מותאמים.
+
 </div>
-
-## Summary
-
-ECMAScript 6 classes make inheritance in JavaScript easier to use, so you don't need to throw away any existing understanding of inheritance you might have from other languages. ECMAScript 6 classes start out as syntactic sugar for the classical inheritance model of ECMAScript 5, but add a lot of features to reduce mistakes.
-
-ECMAScript 6 classes work with prototypal inheritance by defining non-static methods on the class prototype, while static methods end up on the constructor itself. All methods are non-enumerable, a feature that better matches the behavior of built-in objects for which methods are typically non-enumerable by default. Additionally, class constructors can't be called without `new`, ensuring that you can't accidentally call a class as a function.
-
-Class-based inheritance allows you to derive a class from another class, function, or expression. This ability means you can call a function to determine the correct base to inherit from, allowing you to use mixins and other different composition patterns to create a new class. Inheritance works in such a way that inheriting from built-in objects like `Array` is now possible and works as expected.
-
-You can use `new.target` in class constructors to behave differently depending on how the class is called. The most common use is to create an abstract base class that throws an error when instantiated directly but still allows inheritance via other classes.
-
-Overall, classes are an important addition to JavaScript. They provide a more concise syntax and better functionality for defining custom object types in a safe, consistent manner.
