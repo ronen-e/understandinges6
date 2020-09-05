@@ -1,6 +1,8 @@
-# Improved Array Capabilities
+<div dir="rtl">
 
-The array is a foundational JavaScript object. But while other aspects of JavaScript have evolved over time, arrays remained the same until ECMAScript 5 introduced several methods to make them easier to use. ECMAScript 6 continues to improve arrays by adding a lot more functionality, like new creation methods, several useful convenience methods, and the ability to make typed arrays.
+# שיפור יכולות המערך
+
+המערך הוא אובייקט בסיסי בג׳אווהסקריפט. כאשר אספקטים אחרים התפתחו בשפה לאורך הזמן, המערכים נשארו ללא שינוי עד אשר ECMAScript 5 הציגה מספר מתודות המאפשרות עבודה קלה יותר. ECMAScript 6 המשיכה לשפר את המערכים ע"י הוספה של יכולות רבות נוספות, כדוגמת מתודות ליצירת מערך חדש, מתודות נוחות שימושיות והוספת היכולת לקבוע את סוג המערך.
 
 ## Creating Arrays
 
@@ -745,3 +747,5 @@ ECMAScript 6 continues the work of ECMAScript 5 by making arrays more useful. Th
 There are also several new methods on arrays. The `fill()` and `copyWithin()` methods allow you to alter array elements in-place. The `find()` and `findIndex()` methods are useful for finding the first element in an array that matches some criteria. The former returns the first element that fits the criteria, and the latter returns the element's index.
 
 Typed arrays are not technically arrays, as they do not inherit from `Array`, but they do look and behave a lot like arrays. Typed arrays contain one of eight different numeric data types and are built upon `ArrayBuffer` objects that represent the underlying bits of a number or series of numbers. Typed arrays are a more efficient way of doing bitwise arithmetic because the values are not converted back and forth between formats, as is the case with the JavaScript number type.
+
+</div>
