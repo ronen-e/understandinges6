@@ -1001,10 +1001,8 @@ console.log(re.flags);      // "g"
 (
 שפת דומיין היא שפת תכנות למען תכלית ברורה מפורטת וצרה, בניגוד לשפות בעלות תכלית כללית כמו ג׳אווהסקריפט.
 )
-<!-- see #7
 בוויקי של אקמהסקריפט ניתן למצוא את התיאור הבא על 
-[template literal strawman](http://wiki.ecmascript.org/doku.php?id=harmony:quasis):
--->
+[template literal strawman](https://web.archive.org/web/20170114115928/http://wiki.ecmascript.org/doku.php?id=harmony:quasis):
 
 > צורה זו מרחיבה את התחביר של אקמהסקריפט עם עטיפה על מנת לאפשר לספריות שונות לספק שפות דומיין שבאופן קל יחסית יוכלו לייצר, לעבד ולשנות תוכן משפות אחרות בצורה כזו שיהיו חסינות או עמידות להתקפות כמו 
 XSS
