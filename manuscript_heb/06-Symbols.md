@@ -1202,7 +1202,9 @@ console.log(Object.prototype.toString.call(values));    // "[object Magic]"
 משתנה עבור מערכים כמו בדוגמה לעיל, הקריאה לפונקציה
 <span dir="ltr">`Object.prototype.toString()`</span>,
 מחזירה את הערך
-`"[object Magic]"`.
+`"[object Magic]"` 
+במקום את הערך 
+`"[object Array]"`.
 בעוד שאני ממליץ לא לשנות אוביקטים מובנים בדרך זו אין משהו בשפה שמונע זאת מאיתנו.
 
 ### Symbol.unscopables 
