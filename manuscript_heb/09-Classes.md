@@ -1472,6 +1472,9 @@ console.log(subitems instanceof MyArray);   // true
 ומחזירה מופע של 
 `Array`
 כמצופה.
+הקונסטרקטור שבו ישתמשו ליצירת המופע נקרא מתוך התכונה
+`Symbol.species`
+ומאפשר לנו לבצע שינוי במידה ונרצה.
 
 הסימבול המוכר
 `Symbol.species`
