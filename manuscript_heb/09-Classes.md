@@ -2,50 +2,52 @@
 
 # מחלקות בג׳אווהסקריפט
 
-בניגוד לרוב שפות תכנות מונחה עצמים, ג׳אווהסקריפט לא תמכה במחלקות
+בניגוד לרוב שפות תכנות מונחה עצמים, ג׳אווהסקריפט לא תמכה במחלקות 
 (classes)
-והורשה במחלקות
+והורשה במחלקות 
 (
-הורשה קלאסית -
-<span dir="ltr">classical inheritance</span>
+    הורשה קלאסית
+    -
+    <span dir="ltr">classical inheritance</span>
 ).
 זה גרם לבלבול בקרב מפתחים רבים ולפני אקמהסקריפט 6, ספריות רבות כתבו קוד שיגרום לג׳אווהסקריפט לממש מחלקות למראית עין. אף על פי שמספר מפתחי ג׳אווהסקריפט מאמינים שאין צורך במחלקות בשפה, מספר הספריות הרב שנוצר במיוחד למטרה זו גרם להוספת מחלקות באקמהסקריפט 6.
 
-כדי להבין כיצד מחלקות באקמהסקריפט 6 עובדות, יעזור לנו להבין את המנגנונים הפנימיים שנמצאים בשימוש מחלקות, לכן פרק זה יתחיל בהצגת הדרכים בהן מפתחים באקמהסקריפט 5 השיגו התנהגות דמוית מחלקה. כפי שתראו בהמשך, מחלקות באקמהסקריפט 6 אינן זהות למחלקות בשפות אחרות. יש להן אופי ייחודי שמגלם את הטבע הדינמי של ג׳אווהסקריפט.
+כדי להבין כיצד מחלקות באקמהסקריפט 6 עובדות, יעזור לנו להבין את המנגנונים הפנימיים שנמצאים בשימוש מחלקות, לכן פרק זה יתחיל בהצגת הדרכים בהן מפתחים באקמהסקריפט 5 השיגו התנהגות דמויית מחלקה. כפי שתראו בהמשך, מחלקות באקמהסקריפט 6 אינן זהות למחלקות בשפות אחרות. יש להן אופי ייחודי שמגלם את הטבע הדינמי של ג׳אווהסקריפט.
 
 ## מבנים דמויי מחלקה באקמהסקריפט 5
 
-באקמהסקריפט 5 וקודם לכן, לא היו מחלקות בג׳אווהסקריפט. הדבר הקרוב ביותר למחלקה היה פונקציה מסוג קונסטרקטור ולאחר מכן הוספת מתודות לפרוטוטייפ שלה, גישה שלרוב הייתה מכונה ״יצירת סוג מותאם״
+באקמהסקריפט 5 וקודם לכן, לא היו מחלקות בג׳אווהסקריפט. הדבר הקרוב ביותר למחלקה היה פונקציה מסוג קונסטרטור ולאחר מכן הוספת מתודות לפרוטוטייפ שלה, גישה שלרוב הייתה מכונה ״יצירת סוג מותאם״
 <span dir="ltr">(creating a custom type)</span>.
 לדוגמה:
+
 
 <div dir="ltr">
 
 ```js
 function PersonType(name) {
-  this.name = name;
+    this.name = name;
 }
 
-PersonType.prototype.sayName = function () {
-  console.log(this.name);
+PersonType.prototype.sayName = function() {
+    console.log(this.name);
 };
 
-let person = new PersonType('Nicholas');
-person.sayName(); // "Nicholas"
+let person = new PersonType("Nicholas");
+person.sayName();   // "Nicholas"
 
-console.log(person instanceof PersonType); // true
-console.log(person instanceof Object); // true
+console.log(person instanceof PersonType);  // true
+console.log(person instanceof Object);      // true
 ```
 
 </div>
 
-בקוד שבדוגמה, המזהה
+בקוד שבדוגמה, המזהה 
 `PersonType`
-הוא קונסטרקטור שיוצר אוביקט בעל תכונה אחת בשם
+הוא קונסטרקטור שיוצר אובייקט בעל תכונה אחת בשם
 `name`.
 המתודה
 <span dir="ltr">`sayName()`</span>
-מקושרת לפרוטוטייפ כך שהיא משותפת לכל האוביקטים מסוג
+מקושרת לפרוטוטייפ כך שהיא משותפת לכל האובייקטים מסוג
 `PersonType`.
 לאחר מכן נוצר מופע חדש של
 `PersonType`
@@ -53,7 +55,7 @@ console.log(person instanceof Object); // true
 `new`.
 האובייקט שנוצר
 `person`
-נחשב למופע של
+נחשב למופע של 
 `PersonType`
 וגם של
 `Object`
@@ -71,38 +73,38 @@ console.log(person instanceof Object); // true
 
 הגדרת מחלקה מתחילה עם המילה השמורה
 `class`
-ולאחר מכן יבוא שם המחלקה. יתר התחביר נראה דומה לזה של מתודות מקוצרות באוביקט ליטראל, מבלי הצורך בפסיק ביניהן. להלן הגדרת מחלקה פשוטה:
+ולאחר מכן יבוא שם המחלקה. יתר התחביר נראה דומה לזה של מתודות מקוצרות באובייקט ליטראל, מבלי הצורך בפסיק ביניהן. להלן הגדרת מחלקה פשוטה:
 
 <div dir="ltr">
 
 ```js
 class PersonClass {
-  // זהה לקונסטרטור מסוג
-  // PersonType
-  constructor(name) {
-    this.name = name;
-  }
 
-  // זהה למתודה
-  // PersonType.prototype.sayName
-  sayName() {
-    console.log(this.name);
-  }
+    // זהה לקונסטרטור מסוג
+    // PersonType
+    constructor(name) {
+        this.name = name;
+    }
+
+    // זהה למתודה
+    // PersonType.prototype.sayName
+    sayName() {
+        console.log(this.name);
+    }
 }
 
-let person = new PersonClass('Nicholas');
-person.sayName(); // "Nicholas"
+let person = new PersonClass("Nicholas");
+person.sayName();   // "Nicholas"
 
-console.log(person instanceof PersonClass); // true
-console.log(person instanceof Object); // true
+console.log(person instanceof PersonClass);     // true
+console.log(person instanceof Object);          // true
 
-console.log(typeof PersonClass); // "function"
-console.log(typeof PersonClass.prototype.sayName); // "function"
+console.log(typeof PersonClass);                    // "function"
+console.log(typeof PersonClass.prototype.sayName);  // "function"
 ```
-
 </div>
 
-הגדרת המחלקה
+הגדרת המחלקה 
 `PersonClass`
 מתנהגת בדומה ל-
 `PersonType`
@@ -112,8 +114,8 @@ console.log(typeof PersonClass.prototype.sayName); // "function"
 `function`.
 כל שאר המתודות חסרות משמעות מיוחדת, ולכן ניתן להוסיף מתודות נוספות ללא הגבלה.
 
-I> _תכונות עצמיות_
-(_Own properties_),
+I> *תכונות עצמיות*
+(*Own properties*),
 שמופיעות על המופע ולא על הפרוטוטייפ, יכולות להופיע רק בתוך קונסטרקטור מחלקה או מתודה. בדוגמה זו,
 `name`
 הינה תכונה עצמית.
@@ -131,7 +133,7 @@ I> _תכונות עצמיות_
 `"function"`.
 בדוגמה זו, המתודה
 <span dir="ltr">`sayName()`</span>
-נוצרת כמתודה על האוביקט
+נוצרת כמתודה על האובייקט
 `PersonClass.prototype`,
 בדומה למערכת היחסים בין
 <span dir="ltr">`sayName()`</span>
@@ -146,25 +148,25 @@ I> _תכונות עצמיות_
 קיימים מספר הבדלים חשובים ביניהם שחשוב לזכור:
 
 1. עבור הגדרת מחלקה, בניגוד להגדרת פונקציה, לא מתבצעת פעולת ״הרמה״
-   (hoisting).
-   הגדרת מחלקה מתנהגת בדומה למשתנים מסוג
-   `let`
-   ולכן קיימת בתוך אזור ״מת״ עד שמנוע הריצה מגיע לשורה בה מופיעה ההגדרה.
-1. .הקוד שרץ בתוך הגדרת המחלקה רץ במצב קשיח באופן אוטומטי. אין דרך להפסיק את פעולת המצב הקשיח בתוך מחלקה
-1. כל המתודות אינן אינומרביליות.
-   (non-enumerable)
-   זהו שינוי משמעותי יחסית לסוגים מותאמים אישית, שבהם צריך להשתמש במתודה
-   <span dir="ltr">`Object.defineProperty()`</span>
-   בשביל להפוך מתודה ללא אינומרבילית.
+(hoisting).
+הגדרת מחלקה מתנהגת בדומה למשתנים מסוג
+`let`
+ולכן קיימת בתוך אזור ״מת״ עד שמנוע הריצה מגיע לשורה בה מופיעה ההגדרה.
+1. הקוד שרץ בתוך הגדרת המחלקה רץ במצב קשיח באופן אוטומטי. אין דרך להפסיק את פעולת המצב הקשיח בתוך המחלקה.
+1. כל המתודות אינן אינומרביליות 
+(non-enumerable).
+זהו שינוי משמעותי יחסית לסוגים מותאמים אישית,  שבהם צריך להשתמש במתודה
+<span dir="ltr">`Object.defineProperty()`</span>
+בשביל להפוך מתודה ללא אינומרבילית.
 
 1. למתודות המחלקה אין מתודה פנימית מסוג
-   `[[Construct]]`
-   ולכן הן זורקות שגיאה כאשר קוראים להן עם האופרטור
-   `new`.
+`[[Construct]]`
+ולכן הן זורקות שגיאה כאשר קוראים להן עם האופרטור
+`new`.
 1. קריאה לקונסטרקטור המחלקה ללא האופרטור
-   `new`
-   זורקת שגיאה.
-1. .ניסיון לדרוס את שם המחלקה מתוך מתודה של המחלקה יזרוק שגיאה
+`new`
+זורקת שגיאה.
+1. ניסיון לדרוס את שם המחלקה מתוך מתודה של המחלקה יזרוק שגיאה.
 
 בהתייחס לכתוב לעיל, הגדרת המחלקה
 `PersonClass`
@@ -175,38 +177,40 @@ I> _תכונות עצמיות_
 ```js
 // זהה להגדרת המחלקה
 // PersonClass
-let PersonType2 = (function () {
-  'use strict';
+let PersonType2 = (function() {
 
-  const PersonType2 = function (name) {
-    // חשוב לוודא שנעשה שימוש באופרטור
-    // new
-    if (typeof new.target === 'undefined') {
-      throw new Error('Constructor must be called with new.');
+    "use strict";
+
+    const PersonType2 = function(name) {
+
+        // חשוב לוודא שנעשה שימוש באופרטור
+        // new
+        if (typeof new.target === "undefined") {
+            throw new Error("Constructor must be called with new.");
+        }
+
+        this.name = name;
     }
 
-    this.name = name;
-  };
+    Object.defineProperty(PersonType2.prototype, "sayName", {
+        value: function() {
 
-  Object.defineProperty(PersonType2.prototype, 'sayName', {
-    value: function () {
-      // חשוב לוודא שלא נעשה שימוש באופרטור
-      // new
-      if (typeof new.target !== 'undefined') {
-        throw new Error('Method cannot be called with new.');
-      }
+            // חשוב לוודא שלא נעשה שימוש באופרטור
+            // new
+            if (typeof new.target !== "undefined") {
+                throw new Error("Method cannot be called with new.");
+            }
 
-      console.log(this.name);
-    },
-    enumerable: false,
-    writable: true,
-    configurable: true,
-  });
+            console.log(this.name);
+        },
+        enumerable: false,
+        writable: true,
+        configurable: true
+    });
 
-  return PersonType2;
-})();
+    return PersonType2;
+}());
 ```
-
 </div>
 
 שימו לב שמופיעים 2 משתנים בשם
@@ -235,14 +239,13 @@ IIFE.
 
 A> ### שמות מחלקה קבועים
 A>
-A> שם המחלקה נחשב בתור
+A> שם המחלקה נחשב בתור 
 `const`
 רק בתוך המחלקה עצמה. המשמעות היא שניתן לדרוס את שם המחלקה מחוץ למחלקה אך לא מתוך מתודה שלה.
 לדוגמה:
 A>
-
 <div dir="ltr">
-A> A> ```js
+A> ```js
 A> class Foo {
 A>    constructor() {
 A>        Foo = "bar";    // תיזרק שגיאה
@@ -253,7 +256,6 @@ A>// עובד ללא שגיאה
 A> Foo = "baz";
 A> ```
 </div>
-
 A>
 A> בקוד שבדוגמה, המשתנה
 `Foo`
@@ -276,7 +278,7 @@ A> בקוד שבדוגמה, המשתנה
 ## מחלקה כביטוי קוד
 
 מחלקות ופונקציות דומות בכך שהן מגיעות בשתי צורות:
-הגדרות
+הגדרות 
 (declarations)
 וביטויים
 (expressions).
@@ -284,15 +286,15 @@ A> בקוד שבדוגמה, המשתנה
 (
 `function`
 או
-`class`,
+`class`, 
 בהתאמה
 )
 ולאחר מכן בא המזהה. לפונקציות שבאות בצורה של ביטוי יש צורה שלא דורשת מזהה לאחר המילה
 `function`
 ובאופן דומה, למחלקות יש צורת כתב כביטוי שלא דורשת מזהה לאחר המילה
 `class`.
-_ביטויי מחלקה_
-(_class expressions_)
+*ביטויי מחלקה*
+(*class expressions*)
 אלו נועדו לשמש בהגדרת משתנים או להיות מועברים לפונקציה כארגומנטים.
 
 ### ביטוי מחלקה בסיסי
@@ -305,26 +307,27 @@ _ביטויי מחלקה_
 
 ```js
 let PersonClass = class {
-  // דומה לקונסטרטור
-  // PersonType
-  constructor(name) {
-    this.name = name;
-  }
 
-  // PersonType.prototype.sayName
-  sayName() {
-    console.log(this.name);
-  }
+    // דומה לקונסטרטור
+    // PersonType
+    constructor(name) {
+        this.name = name;
+    }
+
+    // PersonType.prototype.sayName
+    sayName() {
+        console.log(this.name);
+    }
 };
 
-let person = new PersonClass('Nicholas');
-person.sayName(); // "Nicholas"
+let person = new PersonClass("Nicholas");
+person.sayName();   // "Nicholas"
 
-console.log(person instanceof PersonClass); // true
-console.log(person instanceof Object); // true
+console.log(person instanceof PersonClass);     // true
+console.log(person instanceof Object);          // true
 
-console.log(typeof PersonClass); // "function"
-console.log(typeof PersonClass.prototype.sayName); // "function"
+console.log(typeof PersonClass);                    // "function"
+console.log(typeof PersonClass.prototype.sayName);  // "function"
 ```
 
 </div>
@@ -347,22 +350,22 @@ console.log(typeof PersonClass.prototype.sayName); // "function"
 
 ```js
 let PersonClass = class PersonClass2 {
-  // דומה לקונסטרטור
-  // PersonType
-  constructor(name) {
-    this.name = name;
-  }
 
-  // PersonType.prototype.sayName
-  sayName() {
-    console.log(this.name);
-  }
+    // דומה לקונסטרטור
+    // PersonType
+    constructor(name) {
+        this.name = name;
+    }
+
+    // PersonType.prototype.sayName
+    sayName() {
+        console.log(this.name);
+    }
 };
 
-console.log(typeof PersonClass); // "function"
-console.log(typeof PersonClass2); // "undefined"
+console.log(typeof PersonClass);        // "function"
+console.log(typeof PersonClass2);       // "undefined"
 ```
-
 </div>
 
 בדוגמה זו, ביטוי המחלקה מקבל את השם
@@ -379,100 +382,103 @@ console.log(typeof PersonClass2); // "undefined"
 `typeof PersonClass2`
 היא
 `"undefined"`
-מאחר והמזהה
+מאחר והמזהה 
 אינו קיים.
 
-כדי להבין מדוע זאת, ראו קוד זהה בהתנהגותו שאינו משתמש במחלקות:
+כדי להבין מדוע זה קורה, ראו קוד זהה בהתנהגותו שאינו משתמש במחלקות:
 
 <div dir="ltr">
 
 ```js
 // זהה מבחינה פונקציונלית לביטוי המחלקה בעל השם
 // PersonClass
-let PersonClass = (function () {
-  'use strict';
+let PersonClass = (function() {
 
-  const PersonClass2 = function (name) {
-    // חשוב לוודא שנעשה שימוש באופרטור
-    // new
-    if (typeof new.target === 'undefined') {
-      throw new Error('Constructor must be called with new.');
+    "use strict";
+
+    const PersonClass2 = function(name) {
+
+        // חשוב לוודא שנעשה שימוש באופרטור
+        // new
+        if (typeof new.target === "undefined") {
+            throw new Error("Constructor must be called with new.");
+        }
+
+        this.name = name;
     }
 
-    this.name = name;
-  };
+    Object.defineProperty(PersonClass2.prototype, "sayName", {
+        value: function() {
 
-  Object.defineProperty(PersonClass2.prototype, 'sayName', {
-    value: function () {
-      // חשוב לוודא שלא נעשה שימוש באופרטור
-      // new
-      if (typeof new.target !== 'undefined') {
-        throw new Error('Method cannot be called with new.');
-      }
+            // חשוב לוודא שלא נעשה שימוש באופרטור
+            // new
+            if (typeof new.target !== "undefined") {
+                throw new Error("Method cannot be called with new.");
+            }
 
-      console.log(this.name);
-    },
-    enumerable: false,
-    writable: true,
-    configurable: true,
-  });
+            console.log(this.name);
+        },
+        enumerable: false,
+        writable: true,
+        configurable: true
+    });
 
-  return PersonClass2;
-})();
+    return PersonClass2;
+}());
 ```
 
 </div>
+
 
 יצירת ביטוי מחלקה בעל שם משנה במקצת את מה שמתרחש בתוך מנוע הריצה. עבור הגדרות מחלקה
 (class declarations)
 המזהה החיצוני
 (
-שהוגדר עם
-`let`
+    שהוגדר עם 
+    `let`
 )
 יש אותו שם כמו הקשירה הפנימית
 (
-שהוגדרה עם
-`const`
+    שהוגדרה עם
+    `const`
 ).
-ביטוי מחלקה בעל שם משתמש באותו שם באמצעות
+ביטוי מחלקה בעל שם משתמש באותו שם באמצעות 
 `const`
 ולכן
 `PersonClass2`
 ניתן לשימוש רק בתוך המחלקה.
 
-למרות שיש הבדק בהתנהגות בין ביטוי מחלקה בעל שם לבין ביטוי פונקציה בעל שם, קיים עדיין דמיון רב בין השניים. שניהם יכולים לשמש כערכים, דבר שפותח בפנינו אפשרויות רבות, שעליהן יורחב בהמשך.
+למרות שיש הבדל בהתנהגות בין ביטוי מחלקה בעל שם לבין ביטוי פונקציה בעל שם, קיים עדיין דמיון רב בין השניים. שניהם יכולים לשמש כערכים, דבר שפותח בפנינו אפשרויות רבות, שעליהן יורחב בהמשך.
 
 ## מחלקות נחשבות אזרחים מדרגה ראשונה
 
-בעולם התכנות, אלמנט או דבר נחשב כ- _אזרח מדרגה ראשונה_
-(_first-class citizen_)
+בעולם התכנות, נאמר על דבר שהוא *אזרח מדרגה ראשונה*
+(*first-class citizen*)
 כאשר הוא יכול לשמש בתור ערך, כלומר ניתן להעביר אותו לפונקציה, להחזיר אותו מפונקציה, ולבצע השמה שלו למשתנה.
-פונקציות בג׳אווהסקריפט נחשבות לאזרחים מדרגה ראשונה
+פונקציות בג׳אווהסקריפט נחשבות לאזרחיות מדרגה ראשונה
 (
-לפעמים קוראים להם בשם פונקציות מדרגה ראשונה -
+    לפעמים קוראים להם בשם פונקציות מדרגה ראשונה - 
 <span dir="ltr">first class functions</span>
 ),
-והדבר נחשב לאחד מהדברים שמייחדים את ג׳אווהסקריפט יחסית למשפות תכנות אחרות.
+והדבר נחשב לאחד מהדברים שמייחדים את ג׳אווהסקריפט יחסית למשפחות תכנות אחרות.
 
-אקמהסקריפט 6 ממשיכה עם המסורת הקיימת על ידי הפיכת מחלקות לאזרחים מדרגה ראשונה. זה מאפשר לנו להשתמש במחלקות במגוון דרכים. למשל, ניתן להעביר אותן לתוך פונקציות כארגומנטים:
+אקמהסקריפט 6 ממשיכה עם המסורת הקיימת על ידי הפיכת מחלקות לאזרחיות מדרגה ראשונה. זה מאפשר לנו להשתמש במחלקות במגוון דרכים. למשל, ניתן להעביר אותן לתוך פונקציות כארגומנטים:
 
 <div dir="ltr">
 
 ```js
 function createObject(classDef) {
-  return new classDef();
+    return new classDef();
 }
 
-let obj = createObject(
-  class {
-    sayHi() {
-      console.log('Hi!');
-    }
-  }
-);
+let obj = createObject(class {
 
-obj.sayHi(); // "Hi!"
+    sayHi() {
+        console.log("Hi!");
+    }
+});
+
+obj.sayHi();        // "Hi!"
 ```
 
 </div>
@@ -492,26 +498,28 @@ obj.sayHi(); // "Hi!"
 <div dir="ltr">
 
 ```js
-let person = new (class {
-  constructor(name) {
-    this.name = name;
-  }
+let person = new class {
 
-  sayName() {
-    console.log(this.name);
-  }
-})('Nicholas');
+    constructor(name) {
+        this.name = name;
+    }
 
-person.sayName(); // "Nicholas"
+    sayName() {
+        console.log(this.name);
+    }
+
+}("Nicholas");
+
+person.sayName();       // "Nicholas"
 ```
 
 </div>
 
-בדוגמה לעיל, ביטוי מחלקה אנונימי נוצר ומופעל מיידית. הטכניקה מאפשרת לנו להשתמש בתחביר כתיבת המחלקה לשם יצירת סינגלטון מבלי להשאיר משתנים שמצביעים על המחלקה.
+בדוגמה לעיל, ביטוי מחלקה אנונימי נוצר ומופעל מיידית. הטכניקה מאפשר לנו להשתמש בתחביר כתיבת מחלקה לשם יצירת סינגלטון מבלי להשאיר משתנים שמצביעים על המחלקה.
 (
-חשוב לזכור כי
-`PersonClass`
-יוצר קישור רק בתוך המחלקה, לא מחוצה לה
+    חשוב לזכור כי
+    `PersonClass`
+    יוצר קישור רק בתוך המחלקה, לא מחוצה לה
 ).
 הסוגריים בסוף הביטוי מהווים אינדיקציה לכך שאנו קוראים לפונקציה וגם מעבירים פנימה ארגומנט.
 
@@ -536,29 +544,28 @@ person.sayName(); // "Nicholas"
 `set`.
 לדוגמה:
 
+
 <div dir="ltr">
 
 ```js
 class CustomHTMLElement {
-  constructor(element) {
-    this.element = element;
-  }
 
-  get html() {
-    return this.element.innerHTML;
-  }
+    constructor(element) {
+        this.element = element;
+    }
 
-  set html(value) {
-    this.element.innerHTML = value;
-  }
+    get html() {
+        return this.element.innerHTML;
+    }
+
+    set html(value) {
+        this.element.innerHTML = value;
+    }
 }
 
-const descriptor = Object.getOwnPropertyDescriptor(
-  CustomHTMLElement.prototype,
-  'html'
-);
-console.log('get' in descriptor); // true
-console.log('set' in descriptor); // true
+var descriptor = Object.getOwnPropertyDescriptor(CustomHTMLElement.prototype, "html");
+console.log("get" in descriptor);   // true
+console.log("set" in descriptor);   // true
 console.log(descriptor.enumerable); // false
 ```
 
@@ -579,41 +586,42 @@ setter
 על האלמנט עצמו.
 תכונת הגישה נוצרת על
 `CustomHTMLElement.prototype`,
-שכמו כל מתודה אחרת נחשבת ללא אינומרבילית.
+שכמו כל מתודה אחרת נחשבת ללא אינומרבילית. 
 צורת הכתיבה המקבילה ללא שימוש במחלקה הינה:
 
 <div dir="ltr">
 
 ```js
 // מקביל לדוגמה הקודמת
-let CustomHTMLElement = (function () {
-  'use strict';
+let CustomHTMLElement = (function() {
 
-  const CustomHTMLElement = function (element) {
-    // נוודא שהקונסטרקטור נקרא באמצעות האופרטור
-    // new
-    if (typeof new.target === 'undefined') {
-      throw new Error('Constructor must be called with new.');
+    "use strict";
+
+    const CustomHTMLElement = function(element) {
+
+        // נוודא שהקונסטרקטור נקרא באמצעות האופרטור
+        // new
+        if (typeof new.target === "undefined") {
+            throw new Error("Constructor must be called with new.");
+        }
+
+        this.element = element;
     }
 
-    this.element = element;
-  };
+    Object.defineProperty(CustomHTMLElement.prototype, "html", {
+        enumerable: false,
+        configurable: true,
+        get: function() {
+            return this.element.innerHTML;
+        },
+        set: function(value) {
+            this.element.innerHTML = value;
+        }
+    });
 
-  Object.defineProperty(CustomHTMLElement.prototype, 'html', {
-    enumerable: false,
-    configurable: true,
-    get: function () {
-      return this.element.innerHTML;
-    },
-    set: function (value) {
-      this.element.innerHTML = value;
-    },
-  });
-
-  return CustomHTMLElement;
-})();
+    return CustomHTMLElement;
+}());
 ```
-
 </div>
 
 כמו בדוגמאות קודמות, דוגמה זו מראה כמה קוד ניתן לחסוך על ידי שימוש במחלקה.
@@ -623,32 +631,32 @@ let CustomHTMLElement = (function () {
 
 ## שם תכונה מחושב לאיבר במחלקה
 
-הדמיון בין אובייקט ליטראל לבין מחלקה ממשיך. מתודות ותכונות גישה יכולות שיהיו בעלי שם מחושב
+הדמיון בין אובייקט ליטראל לבין מחלקה ממשיך. מתודות ותכונות גישה יכולות להיות בעלות שם מחושב
 (computed name).
-במקום להשתמש במזהה, נוכל להשתמש בסוגריים מרובעים מסביב לביטוי, כמו התחביר שמשמש לכתיבת שם תכונה מחושב באוביקט ליטראל. לדוגמה:
+במקום להשתמש במזהה, נוכל להשתמש בסוגריים מרובעים מסביב לביטוי, כמו התחביר שמשמש לכתיבת שם תכונה מחושב באובייקט ליטראל. לדוגמה:
 
 <div dir="ltr">
 
 ```js
-let methodName = 'sayName';
+let methodName = "sayName";
 
 class PersonClass {
-  constructor(name) {
-    this.name = name;
-  }
 
-  [methodName]() {
-    console.log(this.name);
-  }
+    constructor(name) {
+        this.name = name;
+    }
+
+    [methodName]() {
+        console.log(this.name);
+    }
 }
 
-let me = new PersonClass('Nicholas');
-me.sayName(); // "Nicholas"
+let me = new PersonClass("Nicholas");
+me.sayName();           // "Nicholas"
 ```
-
 </div>
 
-בדוגמה לעיל המחלקה
+בדוגמה לעיל המחלקה 
 `PersonClass`
 משתמשת במשתנה ומבצעת השמה של שם המתודה אליו. ערך המחרוזת
 `"sayName"`
@@ -663,23 +671,23 @@ me.sayName(); // "Nicholas"
 <div dir="ltr">
 
 ```js
-let propertyName = 'html';
+let propertyName = "html";
 
 class CustomHTMLElement {
-  constructor(element) {
-    this.element = element;
-  }
 
-  get [propertyName]() {
-    return this.element.innerHTML;
-  }
+    constructor(element) {
+        this.element = element;
+    }
 
-  set [propertyName](value) {
-    this.element.innerHTML = value;
-  }
+    get [propertyName]() {
+        return this.element.innerHTML;
+    }
+
+    set [propertyName](value) {
+        this.element.innerHTML = value;
+    }
 }
 ```
-
 </div>
 
 בדוגמה זו ה-
@@ -709,27 +717,28 @@ setter
 
 ```js
 class MyClass {
-  *createIterator() {
-    yield 1;
-    yield 2;
-    yield 3;
-  }
+
+    *createIterator() {
+        yield 1;
+        yield 2;
+        yield 3;
+    }
+
 }
 
 let instance = new MyClass();
 let iterator = instance.createIterator();
 ```
-
 </div>
 
 הקוד לעיל יוצר מחלקה בשם
 `MyClass`
 עם מתודת גנרטור בשם
 <span dir="ltr">`createIterator()`</span>.
-המתודה מחזירה איטרטור שערכיו מוגדרים בגנרטור. מתודות מסוג גנרטור שימושיות כאשר משתמשים באוביקט שמייצג אוסף של ערכים ונרצה לעבור על אותם ערכים בקלות.
-למערך, מפה וסט יש מספר מתודות מסוג גנרטור שעוזרות למפתחים לגשת לפריטים השמורים שם בצורות שונות.
+המתודה מחזירה איטרטור שערכיו מוגדרים בגנרטור. מתודות מסוג גנרטור שימושיות כאשר משתמשים באובייקט שמייצג אוסף של ערכים ונרצה לעבור על אותם ערכים בקלות. 
+למערכים, מפות וסטים יש מספר מתודות מסוג גנרטור שעוזרות למפתחים לגשת לפריטים השמורים שם בצורות שונות.
 
-בעוד שמתודות גנרטור הן שימושיות, הגדרת איטרטור דיפולטיבי למחלקה שימושי מאוד כאשר המחלקה מייצגת אוסף של ערכים. ניתן להגדיר את האיטרטור הדיפולטיבי למחלקה על ידי שימוש בסימבול
+בעוד שמתודות גנרטור הן שימושיות, הגדרת איטרטור דיפולטיבי למחלקה שימושית מאוד כאשר המחלקה מייצגת אוסף של ערכים. ניתן להגדיר את האיטרטור הדיפולטיבי למחלקה על ידי שימוש בסימבול
 `Symbol.iterator`
 כדי להגדיר מתודה מסוג גנרטור, כמו למשל:
 
@@ -737,13 +746,14 @@ let iterator = instance.createIterator();
 
 ```js
 class Collection {
-  constructor() {
-    this.items = [];
-  }
 
-  *[Symbol.iterator]() {
-    yield* this.items.values();
-  }
+    constructor() {
+        this.items = [];
+    }
+
+    *[Symbol.iterator]() {
+        yield *this.items.values();
+    }
 }
 
 var collection = new Collection();
@@ -752,7 +762,7 @@ collection.items.push(2);
 collection.items.push(3);
 
 for (let x of collection) {
-  console.log(x);
+    console.log(x);
 }
 
 // פלט
@@ -760,7 +770,6 @@ for (let x of collection) {
 // 2
 // 3
 ```
-
 </div>
 
 הדוגמה לעיל משתמשת בשם מחושב למתודה מסוג גנרטור שמעבירה שליטה אל איטרטור
@@ -773,7 +782,7 @@ for (let x of collection) {
 `for-of`
 או שנוכל להריץ עליו את אופרטור הפיזור.
 
-הוספת מתודות תכונות גישה לפרוטוטייפ המחלקה שימושי כאשר נרצה שלמופע המחלקה תהיה גישה ישירה אליהם. אם נרצה מתודות או תכונות גישה על המחלקה עצמה נצטרך להשתמש באיברים סטטיים.
+הוספת מתודות תכונות גישה לפרוטוטייפ המחלקה שימושית כאשר נרצה שלמופע המחלקה תהיה גישה ישירה אליהם. אם נרצה מתודות או תכונות גישה על המחלקה עצמה נצטרך להשתמש באיברים סטטיים.
 
 ## איברים סטטיים
 
@@ -783,34 +792,33 @@ for (let x of collection) {
 
 ```js
 function PersonType(name) {
-  this.name = name;
+    this.name = name;
 }
 
 // מתודה סטטית
-PersonType.create = function (name) {
-  return new PersonType(name);
+PersonType.create = function(name) {
+    return new PersonType(name);
 };
 
 // מתודה של מופע
-PersonType.prototype.sayName = function () {
-  console.log(this.name);
+PersonType.prototype.sayName = function() {
+    console.log(this.name);
 };
 
-var person = PersonType.create('Nicholas');
+var person = PersonType.create("Nicholas");
 ```
-
 </div>
 
 בשפות תכנות אחרות, מתודת פקטורי
-
-<span dir="ltr">`factory method`</span>
-(הכוונה לפונקציה על המחלקה עצמה שמחזירה מופע של המחלקה
+(
+    <span dir="ltr">`factory method`</span> 
+    הכוונה לפונקציה על המחלקה עצמה שמחזירה מופע של המחלקה
 )
 בשם
 <span dir="ltr">`PersonType.create()`</span>
-תיחשב למתודה סטטית, כיוון שאינה תלויה במופע של
+תיחשב למתודה סטטית, כיוון שאינה תלויה במופע של 
 `PersonType`
-לצורך פעולתה.
+לצורך פעולתה. 
 מחלקות באקמהסקריפט 6 מפשטות יצירת איברים סטטיים על ידי השימוש במילה השמורה
 `static`
 לפני שם המתודה או תכונת הגישה.
@@ -820,26 +828,27 @@ var person = PersonType.create('Nicholas');
 
 ```js
 class PersonClass {
-  // מקביל לקונסטרקטור
-  // PersonType
-  constructor(name) {
-    this.name = name;
-  }
 
-  // מקביל למתודה
-  // PersonType.prototype.sayName
-  sayName() {
-    console.log(this.name);
-  }
+    // מקביל לקונסטרקטור
+    // PersonType
+    constructor(name) {
+        this.name = name;
+    }
 
-  // מקביל למתודה
-  // PersonType.create
-  static create(name) {
-    return new PersonClass(name);
-  }
+    // מקביל למתודה
+    // PersonType.prototype.sayName
+    sayName() {
+        console.log(this.name);
+    }
+
+    // מקביל למתודה
+    // PersonType.create
+    static create(name) {
+        return new PersonClass(name);
+    }
 }
 
-let person = PersonClass.create('Nicholas');
+let person = PersonClass.create("Nicholas");
 ```
 
 </div>
@@ -868,43 +877,42 @@ W> איברים סטטיים לא ניתנים לגישה מתוך מופע המ
 
 ```js
 function Rectangle(length, width) {
-  this.length = length;
-  this.width = width;
+    this.length = length;
+    this.width = width;
 }
 
-Rectangle.prototype.getArea = function () {
-  return this.length * this.width;
+Rectangle.prototype.getArea = function() {
+    return this.length * this.width;
 };
 
 function Square(length) {
-  Rectangle.call(this, length, length);
+    Rectangle.call(this, length, length);
 }
 
 Square.prototype = Object.create(Rectangle.prototype, {
-  constructor: {
-    value: Square,
-    enumerable: false,
-    writable: true,
-    configurable: true,
-  },
+    constructor: {
+        value:Square,
+        enumerable: false,
+        writable: true,
+        configurable: true
+    }
 });
 
 var square = new Square(3);
 
-console.log(square.getArea()); // 9
-console.log(square instanceof Square); // true
-console.log(square instanceof Rectangle); // true
+console.log(square.getArea());              // 9
+console.log(square instanceof Square);      // true
+console.log(square instanceof Rectangle);   // true
 ```
-
 </div>
 
 `Square`
 יורשת
 מ-
 `Rectangle`,
-ועל מנת לעשות זאת עליה לדרוס את
+ועל מנת לעשות זאת עליה לדרוס את 
 `Square.prototype`
-עם אוביקט חדש שנוצר מ-
+עם אובייקט חדש שנוצר מ-
 `Rectangle.prototype`
 יחד עם קריאה ל-
 <span dir="ltr">`Rectangle.call()`</span>.
@@ -920,31 +928,31 @@ console.log(square instanceof Rectangle); // true
 
 ```js
 class Rectangle {
-  constructor(length, width) {
-    this.length = length;
-    this.width = width;
-  }
+    constructor(length, width) {
+        this.length = length;
+        this.width = width;
+    }
 
-  getArea() {
-    return this.length * this.width;
-  }
+    getArea() {
+        return this.length * this.width;
+    }
 }
 
 class Square extends Rectangle {
-  constructor(length) {
-    // זהה ל
-    // Rectangle.call(this, length, length)
-    super(length, length);
-  }
+    constructor(length) {
+
+        // זהה ל
+        // Rectangle.call(this, length, length)
+        super(length, length);
+    }
 }
 
 var square = new Square(3);
 
-console.log(square.getArea()); // 9
-console.log(square instanceof Square); // true
-console.log(square instanceof Rectangle); // true
+console.log(square.getArea());              // 9
+console.log(square instanceof Square);      // true
+console.log(square instanceof Rectangle);   // true
 ```
-
 </div>
 
 בדוגמה זו, המחלקה
@@ -963,17 +971,17 @@ console.log(square instanceof Rectangle); // true
 `Rectangle`
 מופיע אך ורק בתוך הגדרת המחלקה
 (
-לאחר
-`extends`
+    לאחר
+    `extends`
 ).
 
 מחלקות שיורשות ממחלקה אחרת נקראות
-_מחלקות נגזרות_
-(_derived classes_).
+*מחלקות נגזרות*
+(*derived classes*).
 מחלקות נגזרות דורשות מאיתנו להשתמש ב-
 <span dir="ltr">`super()`</span>
 במידה והגדרנו קונסטרקטור משלנו. אם לא נעשה זאת תיזרק שגיאה
-אם לא נממש קונסטרקטור בעצמנו אזי
+אם לא נממש קונסטרקטור בעצמנו אזי 
 <span dir="ltr">`super()`</span>
 ייקרא באופן אוטומטי עם כל הארגומנטים המסופקים בעת יצירת מופע חדש של המחלקה.
 לכן בדוגמה הבאה, שתי המחלקות הבאות זהות זו לזו:
@@ -982,17 +990,16 @@ _מחלקות נגזרות_
 
 ```js
 class Square extends Rectangle {
-  // אין קונסטרקטור
+    // אין קונסטרקטור
 }
 
 // זהה מבחינה מעשית
 class Square extends Rectangle {
-  constructor(...args) {
-    super(...args);
-  }
+    constructor(...args) {
+        super(...args);
+    }
 }
 ```
-
 </div>
 
 המחלקה השנייה בדוגמה מראה כיצד עובד הקונסטרקטור הדיפולטיבי עבור כל מחלקה נגזרת. כל הארגומנטים מועברים, לפי הסדר, לקונסטרקטור מחלקת הבסיס. במקרה זה הפונקציונליות לא תואמת באופן מלא מכיוון שהקונסטרקטור עבור
@@ -1005,18 +1012,18 @@ W> 1. ניתן להשתמש ב
 W> <span dir="ltr">`super()`</span>
 W> רק במחלקה נגזרת. אם ננסה להשתמש בו במחלקה שאינה נגזרת
 W> (
-W> מחלקה שאינה משתמשת ב-
-W> `extends`
+W>     מחלקה שאינה משתמשת ב-
+W>     `extends`
 W> )
 W> או בתוך פונקציה, הדבר יגרום לשגיאה.
 W> 1. חייבים לקרוא ל-
 W> <span dir="ltr">`super()`</span>
-W> לפני שניגשים אל
+W> לפני שניגשים אל 
 W> `this`
 W> בקונסטרקטור.
 W> מכיוון ש
 W> <span dir="ltr">`super()`</span>
-W> אחראי לאתחול ערכו של
+W> אחראי לאתחול ערכו של 
 W> `this`,
 W> כל ניסיון לגשת אל
 W> `this`
@@ -1024,7 +1031,7 @@ W> לפני קריאה ל-
 W> <span dir="ltr">`super()`</span>
 W> גורם לשגיאה.
 W> 1. הדריך היחידה להימנע מקריאה ל-
-W> היא להחזיר אוביקט מתוך הקונסטרקטור.
+W> היא להחזיר אובייקט מתוך הקונסטרקטור.
 
 ### הסתרת מתודות במחלקה
 
@@ -1038,18 +1045,17 @@ W> היא להחזיר אוביקט מתוך הקונסטרקטור.
 
 ```js
 class Square extends Rectangle {
-  constructor(length) {
-    super(length, length);
-  }
+    constructor(length) {
+        super(length, length);
+    }
 
-  // מסתיר את
-  // Rectangle.prototype.getArea()
-  getArea() {
-    return this.length * this.length;
-  }
+    // מסתיר את
+    // Rectangle.prototype.getArea()
+    getArea() {
+        return this.length * this.length;
+    }
 }
 ```
-
 </div>
 
 מאחר והמתודה
@@ -1058,41 +1064,41 @@ class Square extends Rectangle {
 `Square`,
 המתודה
 <span dir="ltr">`Rectangle.prototype.getArea()`</span>
-לא תיקרא עוד על ידי מופעים של
+לא תיקרא עוד על ידי מופעים של 
 `Square`.
 כמובן שעדיין ניתן לקרוא למתודה של מחלקת הבסיס על ידי שימוש במתודה
 <span dir="ltr">`super.getArea()`</span>
 כמו בדוגמה הבאה:
 
+
 <div dir="ltr">
 
 ```js
 class Square extends Rectangle {
-  constructor(length) {
-    super(length, length);
-  }
+    constructor(length) {
+        super(length, length);
+    }
 
-  // מסתיר את וקורא ישירות אל
-  // Rectangle.prototype.getArea()
-  getArea() {
-    return super.getArea();
-  }
+    // מסתיר את וקורא ישירות אל
+    // Rectangle.prototype.getArea()
+    getArea() {
+        return super.getArea();
+    }
 }
 ```
-
 </div>
 
-שימוש ב
+שימוש ב 
 `super`
 בצורה זו עובד בדומה לשימוש ב
 `super`
 כפי שהוצג בפרק 4
 (
-ראה
-"גישה קלה לפרוטוטיפ בעזרת
-super"
+    ראה
+    "גישה קלה לפרוטוטייפ בעזרת 
+    super"
 ).
-ערכו של
+ערכו של 
 `this`
 מותאם בצורה אוטומטית לערך הנכון וכך ניתן לבצע קריאה למתודה.
 
@@ -1105,33 +1111,34 @@ super"
 
 ```js
 class Rectangle {
-  constructor(length, width) {
-    this.length = length;
-    this.width = width;
-  }
+    constructor(length, width) {
+        this.length = length;
+        this.width = width;
+    }
 
-  getArea() {
-    return this.length * this.width;
-  }
+    getArea() {
+        return this.length * this.width;
+    }
 
-  static create(length, width) {
-    return new Rectangle(length, width);
-  }
+    static create(length, width) {
+        return new Rectangle(length, width);
+    }
 }
 
 class Square extends Rectangle {
-  constructor(length) {
-    // זהה ל
-    // Rectangle.call(this, length, length)
-    super(length, length);
-  }
+    constructor(length) {
+
+        // זהה ל
+        // Rectangle.call(this, length, length)
+        super(length, length);
+    }
 }
 
 var rect = Square.create(3, 4);
 
-console.log(rect instanceof Rectangle); // true
-console.log(rect.getArea()); // 12
-console.log(rect instanceof Square); // false
+console.log(rect instanceof Rectangle);     // true
+console.log(rect.getArea());                // 12
+console.log(rect instanceof Square);        // false
 ```
 
 </div>
@@ -1152,43 +1159,42 @@ console.log(rect instanceof Square); // false
 עם כל ביטוי כל עוד תוצאתו היא פונקציה עם
 תכונה פנימית
 `[[Construct]]`
-ועם פרוטוטיפ.
+ועם פרוטוטייפ.
 לדוגמה:
 
 <div dir="ltr">
 
 ```js
 function Rectangle(length, width) {
-  this.length = length;
-  this.width = width;
+    this.length = length;
+    this.width = width;
 }
 
-Rectangle.prototype.getArea = function () {
-  return this.length * this.width;
+Rectangle.prototype.getArea = function() {
+    return this.length * this.width;
 };
 
 class Square extends Rectangle {
-  constructor(length) {
-    super(length, length);
-  }
+    constructor(length) {
+        super(length, length);
+    }
 }
 
 var x = new Square(3);
-console.log(x.getArea()); // 9
-console.log(x instanceof Rectangle); // true
+console.log(x.getArea());               // 9
+console.log(x instanceof Rectangle);    // true
 ```
-
 </div>
 
 `Rectangle`
 מוגדר כקונסטרקטור בסגנון אקמהסקריפט 5 בעוד ש
 `Square`
 היא מחלקה.
-מכיוון של-
+מכיוון של- 
 `Rectangle`
 יש
 `[[Construct]]`
-ופרוטוטיפ, המחלקה
+ופרוטוטייפ, המחלקה
 `Square`
 יכולה לרשת תכונות ישירות ממנו.
 
@@ -1200,29 +1206,28 @@ console.log(x instanceof Rectangle); // true
 
 ```js
 function Rectangle(length, width) {
-  this.length = length;
-  this.width = width;
+    this.length = length;
+    this.width = width;
 }
 
-Rectangle.prototype.getArea = function () {
-  return this.length * this.width;
+Rectangle.prototype.getArea = function() {
+    return this.length * this.width;
 };
 
 function getBase() {
-  return Rectangle;
+    return Rectangle;
 }
 
 class Square extends getBase() {
-  constructor(length) {
-    super(length, length);
-  }
+    constructor(length) {
+        super(length, length);
+    }
 }
 
 var x = new Square(3);
-console.log(x.getArea()); // 9
-console.log(x instanceof Rectangle); // true
+console.log(x.getArea());               // 9
+console.log(x instanceof Rectangle);    // true
 ```
-
 </div>
 
 הפונקציה
@@ -1236,44 +1241,43 @@ console.log(x instanceof Rectangle); // true
 
 ```js
 let SerializableMixin = {
-  serialize() {
-    return JSON.stringify(this);
-  },
+    serialize() {
+        return JSON.stringify(this);
+    }
 };
 
 let AreaMixin = {
-  getArea() {
-    return this.length * this.width;
-  },
+    getArea() {
+        return this.length * this.width;
+    }
 };
 
 function mixin(...mixins) {
-  var base = function () {};
-  Object.assign(base.prototype, ...mixins);
-  return base;
+    var base = function() {};
+    Object.assign(base.prototype, ...mixins);
+    return base;
 }
 
 class Square extends mixin(AreaMixin, SerializableMixin) {
-  constructor(length) {
-    super();
-    this.length = length;
-    this.width = length;
-  }
+    constructor(length) {
+        super();
+        this.length = length;
+        this.width = length;
+    }
 }
 
 var x = new Square(3);
-console.log(x.getArea()); // 9
-console.log(x.serialize()); // "{"length":3,"width":3}"
+console.log(x.getArea());               // 9
+console.log(x.serialize());             // "{"length":3,"width":3}"
 ```
-
 </div>
 
 בדוגמה זו משתמשים במיקסינים במקום בירושה ממחלקות. הפונקציה
 <span dir="ltr">`mixin()`</span>
-לוקחת כל מספר של ארגומנטים שכל אחד מהם מייצג אוביקט מיקסין.
+לוקחת כל מספר של ארגומנטים שכל אחד מהם מייצג אובייקט מיקסין. 
 הפונקציה מייצרת פונקציה בשם
 `base`
-ומבצעת השמה של תכונות כל אוביקט מיקסין לפרוטוטיפ.
+ומבצעת השמה של תכונות כל אובייקט מיקסין לפרוטוטייפ.
 הפונקציה מוחזרת על מנת שהמחלקה
 `Square`
 תוכל להשתמש ב-
@@ -1284,7 +1288,7 @@ console.log(x.serialize()); // "{"length":3,"width":3}"
 <span dir="ltr">`super()`</span>
 בתוך הקונסטרקטור.
 
-המופע של
+המופע של 
 `Square`
 יכול להשתמש במתודה
 <span dir="ltr">`getBase()`</span>
@@ -1294,63 +1298,63 @@ console.log(x.serialize()); // "{"length":3,"width":3}"
 `serialize`
 שמוגדרת על
 `SerializableMixin`.
-זה ממומש על ידי ירושה פרוטוטיפית.
+זה ממומש על ידי ירושה פרוטוטייפית.
 הפונקציה
 <span dir="ltr">`mixin()`</span>
-מאכלסת באופן דינמי את הפרוטוטיפ של הפונקציה החדשה עם כל התכונות העצמיות בעבור כל מיקסין בנפרד
+מאכלסת באופן דינמי את הפרוטוטייפ של הפונקציה החדשה עם כל התכונות העצמיות בעבור כל מיקסין בנפרד
 (
-במידה ולמספר מיקסינים יש את אותו שם תכונה רק התכונה האחרונה תיבחר
+    במידה ולמספר מיקסינים יש את אותו שם תכונה רק התכונה האחרונה תיבחר
 )
 
 W> ניתן להשתמש בכל ביטוי לאחר
 W> `extends`,
 W> אך לא כל ביטוי יוצר מחלקה תקינה. בפרט, הביטויים הבאים גורמים לשגיאות:
 W>
-W> _ `null`
-W> _ פונקציות מסוג גנרטור
+W> * `null`
+W> * פונקציות מסוג גנרטור
 W> (ראו פרק 8)
-W>
+W> 
 W> במקרים כאלו ניסיון ליצור מופע של המחלקה יזרוק שגיאה מכיוון שאין מתודה פנימית מסוג
 W> `[[Construct]]`
 W> שניתן לקרוא לה.
 
 ### ירושה מסוגים מובנים
 
-החל מהרגע קיומם של מערכים בג׳אווהסקריפט, מפתחים רצו ליצור סוגי מערכים מיוחדים משלהם באמצעות הורשה. באקמהסקריפט 5 וקודם לכן, זה לא היה אפשרי. ניסיון להשתמש בהורשה קלאסית לא הוביל לקוד שעובד. לדוגמה:
+החל מרגע קיומם של מערכים בג׳אווהסקריפט, מפתחים רצו ליצור סוגי מערכים מיוחדים משלהם באמצעות הורשה. באקמהסקריפט 5 וקודם לכן, זה היה בלתי אפשרי. ניסיון להשתמש בהורשה קלאסית לא הוביל לקוד שעובד. לדוגמה:
 
 <div dir="ltr">
 
 ```js
 // התנהגות מובנית של מערך
 var colors = [];
-colors[0] = 'red';
-console.log(colors.length); // 1
+colors[0] = "red";
+console.log(colors.length);         // 1
 
 colors.length = 0;
-console.log(colors[0]); // undefined
+console.log(colors[0]);             // undefined
 
 // ניסיון לבצע הורשה ממערך בגרסת
 // ES5
 
 function MyArray() {
-  Array.apply(this, arguments);
+    Array.apply(this, arguments);
 }
 
 MyArray.prototype = Object.create(Array.prototype, {
-  constructor: {
-    value: MyArray,
-    writable: true,
-    configurable: true,
-    enumerable: true,
-  },
+    constructor: {
+        value: MyArray,
+        writable: true,
+        configurable: true,
+        enumerable: true
+    }
 });
 
 var colors = new MyArray();
-colors[0] = 'red';
-console.log(colors.length); // 0
+colors[0] = "red";
+console.log(colors.length);         // 0
 
 colors.length = 0;
-console.log(colors[0]); // "red"
+console.log(colors[0]);             // "red"
 ```
 
 </div>
@@ -1364,21 +1368,21 @@ console.log(colors[0]); // "red"
 `MyArray`
 לא מתנהגות באותו אופן כמו שהן מתנהגות עם מערכים מובנים של השפה מכיוון ומדובר בפונקציונליות שאינה מטופלת על ידי
 <span dir="ltr">`Array.apply()`</span>
-או על ידי השמה על הפרוטוטיפ.
+או על ידי השמה על הפרוטוטייפ.
 
-תכלית אחת של מחלקות באקמהסקריפט 6 הינה לאפשר הורשה מכול האוביקטים המובנים. לשם כך, מודל ההורשה של מחלקות שונה במקצת ממודל ההורשה שנמצא באקמהסקריפט 5 וקודם לכן:
+תכלית אחת של מחלקות באקמהסקריפט 6 הינה לאפשר הורשה מכול האובייקטים המובנים. לשם כך, מודל ההורשה של מחלקות שונה במקצת ממודל ההורשה שנמצא באקמהסקריפט 5 וקודם לכן:
 
 בהורשה קלאסית של מחלקות באקמהסקריפט 5 הערך עבור
 `this`
 מתקבל תחילה על ידי המחלקה הנגזרת
 (
-למשל,
-`MyArray`
+    למשל,
+    `MyArray`
 ),
 ובהמשך נקרא קונסטרקטור הבסיס
 (
-למשל המתודה
-<span dir="ltr">`Array.apply()`</span>
+    למשל המתודה
+    <span dir="ltr">`Array.apply()`</span>
 ).
 המשמעות היא שהערך
 `this`
@@ -1392,7 +1396,7 @@ console.log(colors[0]); // "red"
 נקבע תחילה על ידי מחלקת הבסיס
 (`Array`)
 ואז משתנה על ידי הקונסטרקטור של המחלקה הנגזרת
-(`MyArray`).
+(`MyArray`). 
 התוצאה היא שהערך
 `this`
 מתחיל עם כל ההתנהגות המובנית של מחלקת הבסיס.
@@ -1403,35 +1407,35 @@ console.log(colors[0]); // "red"
 
 ```js
 class MyArray extends Array {
-  // empty
+    // empty
 }
 
 var colors = new MyArray();
-colors[0] = 'red';
-console.log(colors.length); // 1
+colors[0] = "red";
+console.log(colors.length);         // 1
 
 colors.length = 0;
-console.log(colors[0]); // undefined
+console.log(colors[0]);             // undefined
 ```
 
 </div>
 
 `MyArray`
 יורש ישירות מן
-`Array`.
+`Array`. 
 ולכן פועל כמו
-`Array`.
+`Array`. 
 שינוי תכונות נומריות מעדכן את התכונה
 `length`
 ושינוי התכונה
 `length`
 מעדכן את התכונות הנומריות. המשמעות היא שניתן לבצע הורשה מן
 `Array`
-כדי ליצור מחלקת מערך נגזרת משלנו ולקיים הורשה מאוביקטים מובנים אחרים. בזכות היכולות החדשות שהתווספו, אקמהסקריפט 6 ומחלקות נגזרות נתנו מענה על הצורך המיוחד של הורשה מאוביקטים מובנים, אך מדובר בצורך שראוי לחקור.
+כדי ליצור מחלקת מערך נגזרת משלנו ולקיים הורשה מאובייקטים מובנים אחרים. בזכות היכולות החדשות שהתווספו, אקמהסקריפט 6 ומחלקות נגזרות נתנו מענה על הצורך המיוחד של הורשה מאובייקטים מובנים, אך מדובר בצורך שראוי לחקור.
 
 ### Symbol.species
 
-היבט מעניין של הורשה מאוביקטים מובנים הוא שכל מתודה שמחזירה מופע של האוביקט המובנה תחזיר אוטומטית מופע של המחלקה הנגזרת. ולכן אם קיימת מחלקה נגזרת
+היבט מעניין של הורשה מאובייקטים מובנים הוא שכל מתודה שמחזירה מופע של האובייקט המובנה תחזיר אוטומטית מופע של המחלקה הנגזרת. ולכן אם קיימת מחלקה נגזרת 
 `MyArray`
 שיורשת מן
 `Array`
@@ -1445,27 +1449,27 @@ console.log(colors[0]); // undefined
 
 ```js
 class MyArray extends Array {
-  // empty
+    // empty
 }
 
 let items = new MyArray(1, 2, 3, 4),
-  subitems = items.slice(1, 3);
+    subitems = items.slice(1, 3);
 
-console.log(items instanceof MyArray); // true
-console.log(subitems instanceof MyArray); // true
+console.log(items instanceof MyArray);      // true
+console.log(subitems instanceof MyArray);   // true
 ```
 
 </div>
 
 בקוד לעיל, המתודה
 <span dir="ltr">`slice()`</span>
-מחזירה מופע של
+מחזירה מופע של 
 `MyArray`.
 המתודה
 <span dir="ltr">`slice()`</span>
 מתקבלת בהורשה מן
 `Array`
-ומחזירה מופע של
+ומחזירה מופע של 
 `Array`
 כמצופה.
 הקונסטרקטור שבו ישתמשו ליצירת המופע נקרא מתוך התכונה
@@ -1479,48 +1483,47 @@ console.log(subitems instanceof MyArray); // true
 לסוגים המובנים הבאים מוגדרת התכונה
 `Symbol.species` :
 
-- `Array`
-- `ArrayBuffer` (ראו פרק 10)
-- `Map`
-- `Promise`
-- `RegExp`
-- `Set`
-- Typed Arrays (ראו פרק 10)
+* `Array`
+* `ArrayBuffer` (ראו פרק 10)
+* `Map`
+* `Promise`
+* `RegExp`
+* `Set`
+* Typed Arrays (ראו פרק 10)
 
 לכל אחד מהסוגים הללו מוגדרת תכונה
 `Symbol.species`
-שמחזירה את הערך
+שמחזירה את הערך 
 `this`,
 משמע התכונה תמיד תחזיר את הקונסטרקטור עצמו. במידה ונרצה לממש התנהגות זו על מחלקה שאנו יצרנו הקוד ייראה כך:
 
 <div dir="ltr">
 
 ```js
-// קוד דומה קיים במספר אוביקטים מובנים
+// קוד דומה קיים במספר אובייקטים מובנים
 class MyClass {
-  static get [Symbol.species]() {
-    return this;
-  }
+    static get [Symbol.species]() {
+        return this;
+    }
 
-  constructor(value) {
-    this.value = value;
-  }
+    constructor(value) {
+        this.value = value;
+    }
 
-  clone() {
-    return new this.constructor[Symbol.species](this.value);
-  }
+    clone() {
+        return new this.constructor[Symbol.species](this.value);
+    }
 }
 ```
-
 </div>
 
-בדוגמה לעיל, נעשה שימוש בסימבול המוכר בשם
+בדוגמה לעיל נעשה שימוש בסימבול המוכר בשם
 `Symbol.species`
 כדי לייצר תכונת גישה סטטית עבור
 `MyClass`.
 שימו לב לכך שישנו רק
 getter
-ואין
+ואין 
 setter
 מכיוון ששינוי סוג עבור מחלקה אינו אפשרי. כל קריאה אל
 <span dir="ltr">`this.constructor[Symbol.species]`</span>
@@ -1532,47 +1535,47 @@ setter
 `MyClass`,
 וזה מה שמאפשר למחלקות נגזרות לעקוף את אותו ערך. לדוגמה:
 
+
 <div dir="ltr">
 
 ```js
 class MyClass {
-  static get [Symbol.species]() {
-    return this;
-  }
+    static get [Symbol.species]() {
+        return this;
+    }
 
-  constructor(value) {
-    this.value = value;
-  }
+    constructor(value) {
+        this.value = value;
+    }
 
-  clone() {
-    return new this.constructor[Symbol.species](this.value);
-  }
+    clone() {
+        return new this.constructor[Symbol.species](this.value);
+    }
 }
 
 class MyDerivedClass1 extends MyClass {
-  // מחלקה ריקה
+    // מחלקה ריקה
 }
 
 class MyDerivedClass2 extends MyClass {
-  static get [Symbol.species]() {
-    return MyClass;
-  }
+    static get [Symbol.species]() {
+        return MyClass;
+    }
 }
 
-let instance1 = new MyDerivedClass1('foo'),
-  clone1 = instance1.clone(),
-  instance2 = new MyDerivedClass2('bar'),
-  clone2 = instance2.clone();
+let instance1 = new MyDerivedClass1("foo"),
+    clone1 = instance1.clone(),
+    instance2 = new MyDerivedClass2("bar"),
+    clone2 = instance2.clone();
 
-console.log(clone1 instanceof MyClass); // true
-console.log(clone1 instanceof MyDerivedClass1); // true
-console.log(clone2 instanceof MyClass); // true
-console.log(clone2 instanceof MyDerivedClass2); // false
+console.log(clone1 instanceof MyClass);             // true
+console.log(clone1 instanceof MyDerivedClass1);     // true
+console.log(clone2 instanceof MyClass);             // true
+console.log(clone2 instanceof MyDerivedClass2);     // false
 ```
-
 </div>
 
-בדוגמת הקוד לעיל, המחלקה
+בדוגמת הקוד לעיל המחלקה
 `MyDerivedClass1`
 יורשת מן המחלקה
 `MyClass`
@@ -1580,7 +1583,7 @@ console.log(clone2 instanceof MyDerivedClass2); // false
 `Symbol.species`.
 כאשר המתודה
 <span dir="ltr">`clone()`</span>
-נקראת, מתקבל מופע של
+נקראת, מתקבל מופע של 
 `MyDerivedClass1`
 מאחר ו-
 <span dir="ltr">`this.constructor[Symbol.species]`</span>
@@ -1592,13 +1595,13 @@ console.log(clone2 instanceof MyDerivedClass2); // false
 `MyClass`
 ודורסת את התכונה
 `Symbol.species`
-כך שתחזיר את
+כך שתחזיר את 
 `MyClass`.
-כאשר המתודה
+כאשר המתודה 
 <span dir="ltr">`clone()`</span>
-נקראת עבור מופע של
+נקראת עבור מופע של 
 `MyDerivedClass2`
-הערך המוחזר הינו מופע של
+הערך המוחזר הינו מופע של 
 `MyClass`.
 על ידי שימוש בסימבול
 `Symbol.species`,
@@ -1610,36 +1613,37 @@ console.log(clone2 instanceof MyDerivedClass2); // false
 `Symbol.species`
 על מנת להגדיר את המחלקה בה יש להשתמש כאשר מפעילים מתודות שמחזירות מערך. במחלקה נגזרת מן
 `Array`,
-ניתן לקבוע את סוג האוביקט המוחזר מהשיטות שהתקבלו בירושה. כמו למשל:
+ניתן לקבוע את סוג האובייקט המוחזר מהשיטות שהתקבלו בירושה. כמו למשל:
+
 
 <div dir="ltr">
 
 ```js
 class MyArray extends Array {
-  static get [Symbol.species]() {
-    return Array;
-  }
+    static get [Symbol.species]() {
+        return Array;
+    }
 }
 
 let items = new MyArray(1, 2, 3, 4),
-  subitems = items.slice(1, 3);
+    subitems = items.slice(1, 3);
 
-console.log(items instanceof MyArray); // true
-console.log(subitems instanceof Array); // true
-console.log(subitems instanceof MyArray); // false
+console.log(items instanceof MyArray);      // true
+console.log(subitems instanceof Array);     // true
+console.log(subitems instanceof MyArray);   // false
 ```
 
 </div>
 
-הקוד בדוגמה האחרונה דורס את
+הקוד בדוגמה האחרונה דורס את 
 `Symbol.species`
 בעבור
 `MyArray`,
 שיורש תכונות מן
 `Array`.
-כל התכונות המורשות שמחזירות מערך יחזירו כעת מופע של
+כל התכונות המורשות שמחזירות מערך יחזירו כעת מופע של 
 `Array`
-במקום מופע של
+במקום מופע של 
 `MyArray`.
 
 כעקרון, נרצה להשתמש בתכונה
@@ -1664,50 +1668,50 @@ console.log(subitems instanceof MyArray); // false
 
 ```js
 class Rectangle {
-  constructor(length, width) {
-    console.log(new.target === Rectangle);
-    this.length = length;
-    this.width = width;
-  }
+    constructor(length, width) {
+        console.log(new.target === Rectangle);
+        this.length = length;
+        this.width = width;
+    }
 }
 
 // new.target -> Rectangle
-var obj = new Rectangle(3, 4); // true
+var obj = new Rectangle(3, 4);      // true
 ```
 
 </div>
 
 בדוגמת הקוד האחרונה הערך
-`new.target`
-מצביע על
+`new.target` 
+מצביע על 
 `Rectangle`
 כאשר קוראים למחלקה על ידי הקוד
 <span dir="ltr">`new Rectangle(3, 4)`</span>.
 מכיוון שלא ניתן להריץ קונסטרקטור של מחלקה ללא האופרטור
 `new`,
 התכונה
-`new.target`
+`new.target` 
 תמיד מוגדרת בתוך קונסטרקטור של מחלקה. אך הערך לא תמיד יהיה אותו הערך. לדוגמה:
 
 <div dir="ltr">
 
 ```js
 class Rectangle {
-  constructor(length, width) {
-    console.log(new.target === Rectangle);
-    this.length = length;
-    this.width = width;
-  }
+    constructor(length, width) {
+        console.log(new.target === Rectangle);
+        this.length = length;
+        this.width = width;
+    }
 }
 
 class Square extends Rectangle {
-  constructor(length) {
-    super(length, length);
-  }
+    constructor(length) {
+        super(length, length)
+    }
 }
 
 // new.target -> Square
-var obj = new Square(3); // false
+var obj = new Square(3);      // false
 ```
 
 </div>
@@ -1715,8 +1719,8 @@ var obj = new Square(3); // false
 `Square`
 קורא לקונסטרקטור של
 `Rectangle`
-ולכן
-`new.target`
+ולכן 
+`new.target` 
 מצביע על
 `Square`
 כאשר קוראים לקונסטרקטור של המחלקה
@@ -1724,7 +1728,7 @@ var obj = new Square(3); // false
 מדובר בהיבט חשוב מכיוון שכך מתאפשר לכל קונסטרקטור לשנות את התנהגותו לפי הדרך בה הוא נקרא. כך למשל, ניתן ליצור מחלקת בסיס אבסטרקטית
 (כזו שלא מפעילים באופן ישיר)
 על ידי שימוש בערך
-`new.target`
+`new.target` 
 כמו בדוגמה הבאה:
 
 <div dir="ltr">
@@ -1732,25 +1736,25 @@ var obj = new Square(3); // false
 ```js
 // מחלקת בסיס אבסטרקטית
 class Shape {
-  constructor() {
-    if (new.target === Shape) {
-      throw new Error('לא ניתן ליצור מופע ישיר של מחלקה זו');
+    constructor() {
+        if (new.target === Shape) {
+            throw new Error("לא ניתן ליצור מופע ישיר של מחלקה זו")
+        }
     }
-  }
 }
 
 class Rectangle extends Shape {
-  constructor(length, width) {
-    super();
-    this.length = length;
-    this.width = width;
-  }
+    constructor(length, width) {
+        super();
+        this.length = length;
+        this.width = width;
+    }
 }
 
-var x = new Shape(); // שגיאה
+var x = new Shape();                // שגיאה
 
-var y = new Rectangle(3, 4); // אין שגיאה
-console.log(y instanceof Shape); // true
+var y = new Rectangle(3, 4);        // אין שגיאה
+console.log(y instanceof Shape);    // true
 ```
 
 </div>
@@ -1759,7 +1763,7 @@ console.log(y instanceof Shape); // true
 `Shape`
 זורק שגיאה כאשר
 `new.target`
-מצביע על
+מצביע על 
 `Shape`,
 כלומר, הפקודה
 `new Shape()`
@@ -1767,36 +1771,36 @@ console.log(y instanceof Shape); // true
 תמיד תזרוק שגיאה. אך ניתן להשתמש במחלקה
 `Shape`
 בתור מחלקת בסיס, וזה אכן מה שהמחלקה
-`Rectangle`
-עושה. הקריאה
+`Rectangle` 
+עושה. הקריאה 
 <span dir="ltr">`super()`</span>
-מפעילה את הקונסטרקטור של
+מפעילה את הקונסטרקטור של 
 `Shape`
-והערך
+והערך 
 `new.target`
-מצביע על
-`Rectangle`
+מצביע על 
+`Rectangle` 
 וכל הקונסטרקטור ממשיך לרוץ ללא שגיאה.
 
 I> מאחר וחייבים לקרוא למחלקה באמצעות האופרטור
 `new`,
 התכונה
 `new.target`
-לעולם לא תקבל את הערך
+לעולם לא תקבל את הערך 
 `undefined`
-.בתוך קונסטרקטור של מחלקה
+בתוך קונסטרקטור של מחלקה
 
 ## סיכום
 
-מחלקות באקמהסקריפט 6 מקלות על שימוש בירושה בג׳אווהסקריפט, כך שאין צורך לבטל הבנה קודמת של הורשה שאולי הגיעה משפות תכנות אחרות. מחלקות באקמהסקריפט 6 מתחילות בתור עטיפה נוחה
+מחלקות באקמהסקריפט 6 מקלות על שימוש בירושה בג׳אווהסקריפט, כך שאין צורך לשכוח הבנה קודמת של הורשה שאולי הגיעה משפות תכנות אחרות. מחלקות באקמהסקריפט 6 מתחילות בתור עטיפה נוחה
 (syntactic sugar)
-למודל הירושה במחלקות של אקמהסקריפט 5, וכמו כן מוסיפות יכולות נוספות על מנת לצמצם טעויות.
+למודל הירושה במחלקות של אקמהסקריפט 5, וכמו כן מוסיף יכולות נוספות על מנת לצמצם טעויות.
 
-מחלקות באקמהסקריפט 6 מממשות הורשה פרוטוטייפית על ידי הגדרת מתודות לא סטטיות על פרוטוטיפ המחלקה, בעוד שמתודות סטטיות מוגדרות על הקונסטרקטור עצמו. כל המתודות אינן אינומרביליות, התנהגות שתואמת בצורת טובה יותר את ההתנהגות הקיימת של אובייקטים מובנים שעבורם מתודות בדרך כלל אינן אינומרביליות כברירת מחדל. בנוסף, קונסטרקטור של מחלקה לא יכול להיקרא ללא האופרטור
+מחלקות באקמהסקריפט 6 מממשות הורשה פרוטוטייפית על ידי הגדרת מתודות לא סטטיות על פרוטוטייפ המחלקה, בעוד שמתודות סטטיות מוגדרות על הקונסטרקטור עצמו. כל המתודות אינן אינומרביליות, התנהגות שתואמת בצורת טובה יותר את ההתנהגות הקיימת של אובייקטים מובנים שעבורם מתודות בדרך כלל אינן אינומרביליות כברירת מחדל. בנוסף, קונסטרקטור של מחלקה לא יכולים להיקרא ללא האופרטור
 `new`,
 מה שמבטיח שלא קוראים למחלקה כמו לפונקציה רגילה.
 
-הורשה ממחלקות מאפשרת לנו ליצור מחלקה שיורשת ממחלקה אחרת, מפונקציה, ואף מביטוי. יכולת זו משמעותה שניתן לקרוא לפונקציה כדי לקבוע את מחלקת הבסיס שממנה נירש, וכך ביכולתנו להשתמש במיקסינים וטכניקות קומפוזיציה שונות כדי ליצור מחלקה חדשה. הורשה עובדת בצורה כזו שהורשה מאוביקטים מובנים כמו
+הורשה ממחלקות מאפשרת לנו ליצור מחלקה שיורשת ממחלקה אחרת, מפונקציה, ואף מביטוי. יכולת זו משמעותה שניתן לקרוא לפונקציה כדי לקבוע את מחלקת הבסיס שממנה נירש, וכך ביכולתנו להשתמש במיקסינים וטכניקות קומפוזיציה שונות כדי ליצור מחלקה חדשה. הורשה עובדת בצורה כזו שהורשה מאובייקטים מובנים כמו
 `Array`
 אפשרית ופועלת כמצופה.
 
@@ -1804,6 +1808,6 @@ I> מאחר וחייבים לקרוא למחלקה באמצעות האופרטו
 `new.target`
 בתוך קונסטרקטור של מחלקה כדי להגדיר התנהגויות שונות בהתאם לאופן בה קראנו למחלקה. השימוש הנפוץ ביותר הינו יצירת מחלקת בסיס אבסטרקטית שזורקת שגיאה כאשר מנסים לקרוא לה ישירות אך עדיין מאפשרת הורשה דרך מחלקות אחרות.
 
-ככלל, מחלקות הינן תוספת חשובה בג׳אווהסקריפט. הן מאפשרות כתיבה ברורה ומקוצרת ויכולת משופרת להגדרת סוגי אוביקטים מותאמים.
+ככלל, מחלקות הינן תוספת חשובה בג׳אווהסקריפט. הן מאפשרות כתיבה ברורה ומקוצרת ויכולת משופרת להגדרת סוגי אובייקטים מותאמים.
 
 </div>
