@@ -1,10 +1,28 @@
-# Promises and Asynchronous Programming
+<div dir="rtl">
 
-One of the most powerful aspects of JavaScript is how easily it handles asynchronous programming. As a language created for the Web, JavaScript needed to be able to respond to asynchronous user interactions such as clicks and key presses from the beginning. Node.js further popularized asynchronous programming in JavaScript by using callbacks as an alternative to events. As more and more programs started using asynchronous programming, events and callbacks were no longer powerful enough to support everything developers wanted to do. *Promises* are the solution to this problem.
+# פרומיס ותכנות אסינכרוני
 
-Promises are another option for asynchronous programming, and they work like futures and deferreds do in other languages. A promise specifies some code to be executed later (as with events and callbacks) and also explicitly indicates whether the code succeeded or failed at its job. You can chain promises together based on success or failure in ways that make your code easier to understand and debug.
+אחד ההיבטים החשובים בג׳אווהסקריפט הינו הקלות בה היא מטפלת בתכנות אסינכרוני. בתור שפה שנוצרה לעולם האינטרנט, היה צורך עבור ג׳אווהסקריפט עוד מן ההתחלה להגיב לפעולות משתמש אסינכרוניות כמו לחיצה על כפתורי עכבר או מקלדת. 
+Node.js
+הפך תכנות אסינכרוני בג׳אווהסקריפט לנפוץ יותר כאשר השתמש בפונקציות קולבק בתור אלטרנטיבה לאירועים בקוד. ככל שיותר תוכנות עברו להשתמש בתכנות אסינכרוני כדבר שבשגרה, אירועים ופונקציות קולבק לא נתנו מענה מספק למפתחים.
+אוביקטים מסוג
+*פרומיס*
+(*Promises*)
+מהווים את הפתרון לבעיה זו.
+(פרומיסים בקיצור)
 
-To have a good understanding of how promises work, however, it's important to understand some of the basic concepts upon which they are built.
+פרומיס מהווה אופציה נוספת עבור תכנות אסינכרוני והוא בדומה לפתרונות כמו
+futures
+ו-
+deferreds
+בשפות אחרות.
+פרומיס מגדיר קוד שירוץ מאוחר יותר
+(בדומה לאירועים וקולבקים)
+ובנוסף מגדיר באופן מפורש האם הקוד מצליח או נכשל במשימותו. ניתן לקשור פרומיסים ביחד על בסיס תוצאה של הצלחה או כשלון בדרכים שמקלות על הבנת הקוד ופתרון שגיאות בו.
+
+על מנת להבין היטב כיצד עובד פרומיס, חשוב להבין את העקרונות עליהם הוא מבוסס.
+
+</div>
 
 ## Asynchronous Programming Background
 
