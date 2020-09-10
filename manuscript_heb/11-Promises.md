@@ -22,13 +22,32 @@ deferreds
 
 על מנת להבין היטב כיצד עובד פרומיס, חשוב להבין את העקרונות עליהם הוא מבוסס.
 
+## הרקע לתכנות אסינכרוני
+
+מנועי ריצה של ג׳אווהסקריפט בנויים על בסיס לולאת אירועים שפועלת בתהליך בודד.
+<span dir="ltr">(single-threaded event loop)</span>.
+*תהליך בודד*
+<span dir="ltr">(*Single-threaded*)</span>
+משמעותו שרק יחידת קוד אחת רצה בכל זמן נתון. וזאת בניגוד לשפות כמו
+Java
+או
+C++,
+היכן שתהליכים יכולים לאפשר למספר יחידות קוד לרוץ בכל זמן נתון. שמירה על מצב הנתונים
+(
+״סטייט״ - 
+state
+)
+כמו גם הגנה עליו מפני שינוי של יחידות קוד מרובות בעלות גישה לסטייט אינה דבר קל ומהווה מקור נפוץ לבאגים בתוכנה מבוססת תהליכים מרובים.
+
+מנועי ריצה של ג׳אווהסקריפט יכולים להריץ רק יחידת קוד אחת בכל זמן נתון, ולכן עליהם לעקוב אחר הקוד אותו יש להריץ. הקוד הזה נשמחר בתוך 
+*תור המשימות*
+(*job queue*).
+בכל פעם שיחידת קוד מוכנה להרצה מוסיפים אותה לתור המשימות. כאשר מנוע הריצה של ג׳אווהסקריפט סיים להריץ את הקוד, אזי לולאת האירועים מריצה את המשימה הבאה בתור.
+*לולאת האירועים*
+(*event loop*)
+הינה תוכנית בתוך מנוע הריצה של ג׳אווהסקריפט שמנטרת את הרצת הקוד ומנהלת את תור המשימות. שימו לב שכמו כל תור רגיל, הרצת המשימות מתחילה במשימה הראשונה בתור וממשיכה עד המשימה האחרונה בתור.
+
 </div>
-
-## Asynchronous Programming Background
-
-JavaScript engines are built on the concept of a single-threaded event loop. *Single-threaded* means that only one piece of code is ever executed at a time. Contrast this with languages like Java or C++, where threads can allow multiple different pieces of code to execute at the same time. Maintaining and protecting state when multiple pieces of code can access and change that state is a difficult problem and a frequent source of bugs in thread-based software.
-
-JavaScript engines can only execute one piece of code at a time, so they need to keep track of code that is meant to run. That code is kept in a *job queue*. Whenever a piece of code is ready to be executed, it is added to the job queue. When the JavaScript engine is finished executing code, the event loop executes the next job in the queue. The *event loop* is a process inside the JavaScript engine that monitors code execution and manages the job queue. Keep in mind that as a queue, job execution runs from the first job in the queue to the last.
 
 ### The Event Model
 
