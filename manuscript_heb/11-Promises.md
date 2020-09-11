@@ -47,11 +47,22 @@ state
 (*event loop*)
 הינה תוכנית בתוך מנוע הריצה של ג׳אווהסקריפט שמנטרת את הרצת הקוד ומנהלת את תור המשימות. שימו לב שכמו כל תור רגיל, הרצת המשימות מתחילה במשימה הראשונה בתור וממשיכה עד המשימה האחרונה בתור.
 
-</div>
+### מודל האירועים
 
-### The Event Model
+כאשר משתמש לוחץ על כפתור או על מקש המקלדת נורה
+*אירוע*
+(*event*)
+כדוגמת
+`onclick`.
+האירוע יכול להגיב ללחיצה על ידי הוספת משימה חדשה לסוף תור המשימות. זו הצורה הבסיסית ביותר של תכנות אסינכרוני. הקוד שמטפל באירוע
+(event handler)
+לא ירוץ עד אשר נורה האירוע, וכאשר ירוץ יהיה לו את ההקשר 
+(context)
+המתאים.
+לדוגמה:
 
-When a user clicks a button or presses a key on the keyboard, an *event* like `onclick` is triggered. That event might respond to the interaction by adding a new job to the back of the job queue. This is JavaScript's most basic form of asynchronous programming. The event handler code doesn't execute until the event fires, and when it does execute, it has the appropriate context. For example:
+
+<div dir="ltr">
 
 ```js
 let button = document.getElementById("my-btn");
@@ -60,9 +71,34 @@ button.onclick = function(event) {
 };
 ```
 
-In this code, `console.log("Clicked")` will not be executed until `button` is clicked. When `button` is clicked, the function assigned to `onclick` is added to the back of the job queue and will be executed when all other jobs ahead of it are complete.
+</div>
 
-Events work well for simple interactions, but chaining multiple separate asynchronous calls together is more complicated because you must keep track of the event target (`button` in the previous example) for each event. Additionally, you need to ensure all appropriate event handlers are added before the first time an event occurs. For instance, if `button` were clicked before `onclick` is assigned, nothing would happen. So while events are useful for responding to user interactions and similar infrequent functionality, they aren't very flexible for more complex needs.
+בדוגמה לעיל, הקוד
+<span dir="ltr">`console.log("Clicked")`</span>
+לא ירוץ עד אשר לוחצים על
+`button`.
+כאשר 
+`button`
+נלחץ,
+הפונקציה שחוברה אל 
+`onclick`
+נוספת לסוף תור המשימות ותרוץ כאשר כל המשימות לפניו יסיימו את עבודתן.
+
+אירועים עובדים היטב עבור אינטרקציות פשוטות, אך חיבור מספר רב של פעולות אסינכרוניות נפרדות מורכב יותר כיוון שיש לעקוב אחר יוצר האירוע
+(
+`button` 
+בדוגמה הקודמת
+)
+בעבור כל אירוע בנפרד.
+בנוסף, יש לוודא שכל מטפלי האירועים חוברו לתהליך לפני שהאירוע נורה בפעם הראשונה.
+חישבו לדוגמה על מצב שבו
+`button`
+נלחץ לפני החיבור של הפונקציה אל
+`onclick`.
+במצב כזה לא יקרה דבר.
+לכן למרות שאירועים שימושיים עבורנו בכדי להגיב לאינטרקציות משתמש בדף אינטרנט ופונקציונליות דומה שאינה קורה בתדירות גבוהה, הם אינם גמישים דיו עבור צרכים מורכבים יותר.
+
+</div>
 
 ### The Callback Pattern
 
