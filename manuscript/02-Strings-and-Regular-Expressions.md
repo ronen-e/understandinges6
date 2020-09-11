@@ -212,7 +212,7 @@ Developers have used the `indexOf()` method to identify strings inside other str
 * The `startsWith()` method returns true if the given text is found at the beginning of the string. It returns false if not.
 * The `endsWith()` method returns true if the given text is found at the end of the string. It returns false if not.
 
-Each methods accept two arguments: the text to search for and an optional index. When the second argument is provided, `includes()` and `startsWith()` start the match from that index while `endsWith()` starts the match from the second argument; when the second argument is omitted, `includes()` and `startsWith()` search from the beginning of the string, while `endsWith()` starts from the end. In effect, the second argument minimizes the amount of the string being searched. Here are some examples showing these three methods in action:
+Each methods accept two arguments: the text to search for and an optional index. When the second argument is provided, `includes()` and `startsWith()` start the match from that index while `endsWith()` starts the match from the second argument minus the length of the first argument; when the second argument is omitted, `includes()` and `startsWith()` search from the beginning of the string, while `endsWith()` starts from the end. In effect, the second argument minimizes the amount of the string being searched. Here are some examples showing these three methods in action:
 
 ```js
 var msg = "Hello world!";
@@ -230,7 +230,7 @@ console.log(msg.endsWith("o", 8));          // true
 console.log(msg.includes("o", 8));          // false
 ```
 
-The first six calls don't include a second parameter, so they'll search the whole string if needed. The last three calls only check part of the string. The call to `msg.startsWith("o", 4)` starts the match by looking at index 4 of the `msg` string, which is the "o" in "Hello". The call to `msg.endsWith("o", 8)` starts the search from index 0 and searches up to index 7, which is the "o" in "world". The call to `msg.includes("o", 8)` starts the match from index 8, which is the "r" in "world".
+The first six calls don't include a second parameter, so they'll search the whole string if needed. The last three calls only check part of the string. The call to `msg.startsWith("o", 4)` starts the match by looking at index 4 of the `msg` string, which is the "o" in "Hello". The call to `msg.endsWith("o", 8)` starts the search from index 7 (the second argument minus the length of the first argument), which is the "o" in "world". The call to `msg.includes("o", 8)` starts the match from index 8, which is the "r" in "world".
 
 While these three methods make identifying the existence of substrings easier, each only returns a boolean value. If you need to find the actual position of one string within another, use the `indexOf()` or `lastIndexOf()` methods.
 
@@ -438,7 +438,7 @@ The changes to strings and regular expressions that this chapter has covered so 
 
 ## Template Literals
 
-JavaScript's strings have always had limited functionality compared to strings in other languages. For instance, until ECMAScript 6, strings lacked the methods covered so far in this chapter, and string concatenation is as simple as possible. To allow developers to solve more complex problems, ECMAScript 6's *template literals* provide syntax for creating domain-specific languages (DSLs) for working with content in a safer way than the solutions available in ECMAScript 5 and earlier. (A DSL is a programming language designed for a specific, narrow purpose, as opposed to general-purpose languages like JavaScript.) The ECMAScript wiki offers the following description on the [template literal strawman](http://wiki.ecmascript.org/doku.php?id=harmony:quasis):
+JavaScript's strings have always had limited functionality compared to strings in other languages. For instance, until ECMAScript 6, strings lacked the methods covered so far in this chapter, and string concatenation is as simple as possible. To allow developers to solve more complex problems, ECMAScript 6's *template literals* provide syntax for creating domain-specific languages (DSLs) for working with content in a safer way than the solutions available in ECMAScript 5 and earlier. (A DSL is a programming language designed for a specific, narrow purpose, as opposed to general-purpose languages like JavaScript.) The ECMAScript wiki offers the following description on the [template literal strawman](https://web.archive.org/web/20170114115928/http://wiki.ecmascript.org/doku.php?id=harmony:quasis):
 
 > This scheme extends ECMAScript syntax with syntactic sugar to allow libraries to provide DSLs that easily produce, query, and manipulate content from other languages that are immune or resistant to injection attacks such as XSS, SQL Injection, etc.
 

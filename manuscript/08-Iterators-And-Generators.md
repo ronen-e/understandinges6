@@ -196,7 +196,7 @@ I> All iterators created by generators are also iterables, as generators assign 
 
 At the beginning of this chapter, I mentioned the problem of tracking an index inside a `for` loop. Iterators are the first part of the solution to that problem. The `for-of` loop is the second part: it removes the need to track an index into a collection entirely, leaving you free to focus on working with the contents of the collection.
 
-A `for-of` loop calls `next()` on an iterable each time the loop executes and stores the `value` from the result object in a variable. The loop continues this process until the returned object's `done` property is `true`. Here's an example:
+A `for-of` loop works on an iterable and uses its `Symbol.iterator` property to retrieve an iterator. Then, the `for-of` loop calls `next()` on that iterator each time the loop executes and stores the `value` from the result object in a variable. The loop continues this process until the returned object's `done` property is `true`. Here's an example:
 
 ```js
 let values = [1, 2, 3];
@@ -492,7 +492,7 @@ A> The `for-of` loop in this code uses a destructured array to assign `key` and 
 
 ### String Iterators
 
-JavaScript strings have slowly become more like arrays since ECMAScript 5 was released. For example, ECMAScript 5 formalized bracket notation for accessing characters in strings (that is, using `text[0]` to get the first character, and so on). But bracket notation works on code units rather than characters, so it cannot be used to access double-byte characters correctly, as this example demonstrates:
+JavaScript strings have slowly become more like arrays since ECMAScript 5 was released. For example, ECMAScript 5 formalized bracket notation for accessing characters in strings (that is, using `text[0]` to get the first character, and so on). But bracket notation works on code units rather than characters, so it cannot be used to access surrogate pair characters correctly, as this example demonstrates:
 
 ```js
 var message = "A 𠮷 B";
@@ -502,7 +502,7 @@ for (let i=0; i < message.length; i++) {
 }
 ```
 
-This code uses bracket notation and the `length` property to iterate over and print a string containing a Unicode character. The output is a bit unexpected:
+This code uses bracket notation and the `length` property to iterate over and print a string containing a surrogate pair character. The output is a bit unexpected:
 
 ```
 A
@@ -513,7 +513,7 @@ A
 B
 ```
 
-Since the double-byte character is treated as two separate code units, there are four empty lines between `A` and `B` in the output.
+Since the surrogate pair character is treated as two separate code units, there are four empty lines between `A` and `B` in the output.
 
 Fortunately, ECMAScript 6 aims to fully support Unicode (see Chapter 2), and the default string iterator is an attempt to solve the string iteration problem. As such, the default iterator for strings works on characters rather than code units. Changing this example to use the default string iterator with a `for-of` loop results in more appropriate output. Here's the tweaked code:
 
@@ -536,7 +536,7 @@ A
 B
 ```
 
-This result is more in line with what you'd expect when working with characters: the loop successfully prints the Unicode character, as well as all the rest.
+This result is more in line with what you'd expect when working with characters: the loop successfully prints the surrogate pair character, as well as all the rest.
 
 ### NodeList Iterators
 
