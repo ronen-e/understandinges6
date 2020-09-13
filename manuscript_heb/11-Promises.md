@@ -155,17 +155,17 @@ Node.js.
 <div dir="ltr">
 
 ```js
-readFile("example.txt", function(err, contents) {
+readFile("דוגמה.txt", function(err, contents) {
     if (err) {
         throw err;
     }
 
-    writeFile("example.txt", function(err) {
+    writeFile("דוגמה.txt", function(err) {
         if (err) {
             throw err;
         }
 
-        console.log("File was written!");
+        console.log("הקובץ נכתב!");
     });
 });
 ```
@@ -236,18 +236,25 @@ method1(function(err, result) {
 
 במקרים אילו נצטרך לעקוב אחר מספר פונקציות קולבק ופעולות ניקיון והשלמה ואובייקטים מסוג פרומיס מקלים עלינו לעשות זאת.
 
-</div>
+## עקרונות בסיס לפרומיס
 
-## Promise Basics
+פרומיס הינו מעטפת לתוצאה של פעולה אסינכרונית. במקום להירשם לאירוע או להעביר פונקציית קולבק בתור ארגומנט, הפונקציה יכולה להחזיר פרומיס, כמו בדוגמה הבאה:
 
-A promise is a placeholder for the result of an asynchronous operation. Instead of subscribing to an event or passing a callback to a function, the function can return a promise, like this:
+<div dir="ltr">
 
 ```js
-// readFile promises to complete at some point in the future
+// הפונקציה מבטיחה להסתיים בנקודת זמן עתידית
 let promise = readFile("example.txt");
 ```
+</div>
 
-In this code, `readFile()` doesn't actually start reading the file immediately; that will happen later. Instead, the function returns a promise object representing the asynchronous read operation so you can work with it in the future. Exactly when you'll be able to work with that result depends entirely on how the promise's lifecycle plays out.
+בדוגמה זו, הפונקציה
+<span dir="ltr">`readFile()`</span>
+לא מתחילה לקרוא את הקובץ באופן מיידי. זה יקרה רק מאוחר יותר. תחת זאת, הפונקציה מחזירה אובייקט פרומס שמייצג את פעולת הקריאה האסינכרונית כך שיהיה ניתן לעבוד איתו בהמשך.
+הזמן המדויק שבו ניתן יהיה לעבוד עם התוצאה תלוי באופן שבו הפרומיס מתנהל, או במה שנקרא ״מחזור החיים של הפרומיס״
+<span dir="ltr">(The Promise Lifecycle)</span>.
+
+</div>
 
 ### The Promise Lifecycle
 
