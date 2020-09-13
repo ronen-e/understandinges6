@@ -61,7 +61,6 @@ state
 המתאים.
 לדוגמה:
 
-
 <div dir="ltr">
 
 ```js
@@ -98,11 +97,13 @@ button.onclick = function(event) {
 במצב כזה לא יקרה דבר.
 לכן למרות שאירועים שימושיים עבורנו בכדי להגיב לאינטרקציות משתמש בדף אינטרנט ופונקציונליות דומה שאינה קורה בתדירות גבוהה, הם אינם גמישים דיו עבור צרכים מורכבים יותר.
 
-</div>
+### שיטת הקולבק
 
-### The Callback Pattern
+כאשר נוצר
+Node.js
+הוא קידם את מודל התכנות האסינכרוני על ידי הפיכת שיטת הקולבק לנפוצה יותר. שיטת הקולבק דומה למודל האירועים מכיוון שהקוד האסינכרוני לא ירוץ עד לזמן מאוחר יותר. היא שונה מכיוון שהפונקציה לה קוראים מועברת בתור ארגומנט, כמו בדוגמה הבאה:
 
-When Node.js was created, it advanced the asynchronous programming model by popularizing the callback pattern of programming. The callback pattern is similar to the event model because the asynchronous code doesn't execute until a later point in time. It's different because the function to call is passed in as an argument, as shown here:
+<div dir="ltr">
 
 ```js
 readFile("example.txt", function(err, contents) {
@@ -115,11 +116,43 @@ readFile("example.txt", function(err, contents) {
 console.log("Hi!");
 ```
 
-This example uses the traditional Node.js *error-first* callback style. The `readFile()` function is intended to read from a file on disk (specified as the first argument) and then execute the callback (the second argument) when complete. If there's an error, the `err` argument of the callback is an error object; otherwise, the `contents` argument contains the file contents as a string.
+</div>
 
-Using the callback pattern, `readFile()` begins executing immediately and pauses when it starts reading from the disk. That means `console.log("Hi!")` is output immediately after `readFile()` is called, before `console.log(contents)` prints anything. When `readFile()` finishes, it adds a new job to the end of the job queue with the callback function and its arguments. That job is then executed upon completion of all other jobs ahead of it.
+הדוגמה משתמשת בסגנון הקולבק המסורתי
+*שגיאה-קודם*
+(*error-first*)
+של
+Node.js.
+הפונקציה
+<span dir="ltr">`readFile()`</span>
+מיועדת לקרוא מתוך קובץ בדיסק הקשיח
+(זהותו מופיעה בתור הארגומנט הראשון)
+ולאחר מכן להריץ את פונקציית הקולבק
+(הארגומנט השני)
+כאשר הפעולה מסתיימת. במידה וקיימת שגיאה, אזי הארגומנט
+`err`
+עבור הקולבק הוא אוביקט השגיאה.
+אם אין שגיאה אזי הארגומנט
+`contents`
+מכיל את תוכן הקובץ בתור מחרוזת.
 
-The callback pattern is more flexible than events because chaining multiple calls together is easier with callbacks. For example:
+בעזרת שיטת הקולבק, הפונקציה
+<span dir="ltr">`readFile()`</span>
+מתחילה לרוץ באופן מיידי ועוצרת כאשר היא מתחילה לקרוא מהדיסק. כלומר הפקודה
+<span dir="ltr">`console.log("Hi!")`</span>
+מופעלת מיד לאחר הקריאה לפונקציה
+<span dir="ltr">`readFile()`</span>,
+לפני שהפקודה 
+<span dir="ltr">`console.log(contents)`</span>
+תדפיס פלט כלשהו.
+כאשר הפונקציה 
+<span dir="ltr">`readFile()`</span>
+מסיימת את פעולתה, היא תוסיף משימה חדשה לתור המשימות עם פונקציית הקולבק והארגומנטים שלה. המשימה אזי תרוץ לאחר תום פעולת כל המשימות שנמצאות לפניה בתור.
+
+שיטת הקולבק יותר גמישה מעבודה עם אירועים מכיוון שקל יותר לחבר מספר קריאות קולבק ביחד.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 readFile("example.txt", function(err, contents) {
@@ -137,9 +170,30 @@ readFile("example.txt", function(err, contents) {
 });
 ```
 
-In this code, a successful call to `readFile()` results in another asynchronous call, this time to the `writeFile()` function. Note that the same basic pattern of checking `err` is present in both functions. When `readFile()` is complete, it adds a job to the job queue that results in `writeFile()` being called (assuming no errors). Then, `writeFile()` adds a job to the job queue when it finishes.
+</div>
 
-This pattern works fairly well, but you can quickly find yourself in *callback hell*. Callback hell occurs when you nest too many callbacks, like this:
+בקוד לעיל, קריאה מוצלחת לפונקציה
+<span dir="ltr">`readFile()`</span>
+מובילה לקריאה אסינכרונית נוספת, הפעם של הפונקציה
+<span dir="ltr">`writeFile()`</span>.
+שימו לב לתבנית הבסיסית של בדיקת הערך
+`err`
+קיימת בשתי הפונקציות. כאשר הפונקציה
+<span dir="ltr">`readFile()`</span>
+מסתיימת, היא מוסיפה משימה לתור המשימות שמסתיימת בקריאה לפונקציה
+<span dir="ltr">`writeFile()`</span>
+(בהנחה שלא היו שגיאות).
+או אז, הפונקציה
+<span dir="ltr">`writeFile()`</span>
+מוסיפה משימה חדשה לתור המשימות כאשר תסיים את פעולתה.
+
+שיטה זו עובדת היטב, אך ייתכן ועד מהרה תמצאו עצמכם בתוך מה שנקרא
+״גיהנום הקולבקים״
+(*callback hell*).
+גיהנום הקולבקים קורה כאשר יותר מדי פונקציות קולבק קוראות אחת לשניה.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 method1(function(err, result) {
@@ -176,9 +230,13 @@ method1(function(err, result) {
 });
 ```
 
-Nesting multiple method calls as this example does creates a tangled web of code that is hard to understand and debug. Callbacks also present problems when you want to implement more complex functionality. What if you want two asynchronous operations to run in parallel and notify you when they're both complete? What if you'd like to start two asynchronous operations at a time but only take the result of the first one to complete?
+</div>
 
-In these cases, you'd need to track multiple callbacks and cleanup operations, and promises greatly improve such situations.
+חיבור מספר קריאות אסינכרוניות אחת לשניה כמו בדוגמה לעיל יוצר רשת מסועפת של קוד שקשה להבין ולתקן בה שגיאות. פונקציות קולבק גם מקשות עלינו לממש פונקציונליות מורכבת יותר. מה אם נרצה ששתי פעולות אסינכרוניות ירוצו במקביל ולקבל עדכון כאשר שתיהן הסתיימו? מה אם נרצה להתחיל שתי פעולות אסינכרוניות באותו זמן אך לטפל רק בתוצאת הפעולה שהסתיימה ראשונה?
+
+במקרים אילו נצטרך לעקוב אחר מספר פונקציות קולבק ופעולות ניקיון והשלמה ואובייקטים מסוג פרומיס מקלים עלינו לעשות זאת.
+
+</div>
 
 ## Promise Basics
 
