@@ -627,11 +627,15 @@ promise.then(function(value) {
 `value`.
 אם היינו מוסיפים מטפל דחייה לפרומיס, אזי מטפל הדחייה לא היה נקרא לעולם מאחר והפרומיס לא יכול לשנות מצב לאחר שנקבע ולכן לעולם לא יגיע אל מצב דחוי.
 
-</div>
+#### <span dir="ltr">`Promise.reject()`</span>
 
-#### Using Promise.reject()
+ניתן גם ליצור פרומיס במצב דחוי על ידי שימוש במתודה
+<span dir="ltr">`Promise.reject()`</span>.
+זה עובד בדיוק כמו 
+<span dir="ltr">`Promise.resolve()`</span>
+מלבד העובדה שהפרומיס יווצר במצב דחוי, כמו בדוגמה הבאה:
 
-You can also create rejected promises by using the `Promise.reject()` method. This works like `Promise.resolve()` except the created promise is in the rejected state, as follows:
+<div dir="ltr">
 
 ```js
 let promise = Promise.reject(42);
@@ -640,10 +644,17 @@ promise.catch(function(value) {
     console.log(value);         // 42
 });
 ```
+</div>
 
-Any additional rejection handlers added to this promise would be called, but not fulfillment handlers.
+כל מטפל דחייה נוסף על אותו הפרומיס ייקרא בתורו, אך לא יופעל אף מטפל הצלחה.
 
-I> If you pass a promise to either the `Promise.resolve()` or `Promise.reject()` methods, the promise is returned without modification.
+I> אם נעביר פרומיס לתוך
+<span dir="ltr">`Promise.resolve()`</span>
+או
+<span dir="ltr">`Promise.reject()`</span>,
+הפרומיס מוחזר ללא שינוי.
+
+</div>
 
 #### Non-Promise Thenables
 
