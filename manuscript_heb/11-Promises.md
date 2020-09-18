@@ -254,84 +254,151 @@ let promise = readFile("example.txt");
 הזמן המדויק שבו ניתן יהיה לעבוד עם התוצאה תלוי באופן שבו הפרומיס מתנהל, או במה שנקרא ״מחזור החיים של הפרומיס״
 <span dir="ltr">(The Promise Lifecycle)</span>.
 
-</div>
+### מחזור החיים של הפרומיס
 
-### The Promise Lifecycle
+כל פרומיס עובר מחזור חיים קצר שמתחיל במצב המתנה
+(*pending*),
+שמשמעותו שהפעולה האסינכרונית עוד לא הסתיימה.
+פרומיס במצב המתנה נחשב לפרומיס 
+*לא פתור*
+(*unsettled*).
+הפרומיס בדוגמה האחרונה נמצא במצב המתנה למן הרגע שהפונקציה
+<span dir="ltr">`readFile()`</span>
+מחזירה אותו. ברגע שהפעולה האסינכרונית מסתיימת הפרומיס נחשב לפרומיס
+*פתור*
+(*settled*)
+ונמצא באחד משני מצבים אפשריים:
 
-Each promise goes through a short lifecycle starting in the *pending* state, which indicates that the asynchronous operation hasn't completed yet. A pending promise is considered *unsettled*. The promise in the last example is in the pending state as soon as the `readFile()` function returns it. Once the asynchronous operation completes, the promise is considered *settled* and enters one of two possible states:
+1. *הושלם*
+(*Fulfilled*):
+הפעולה האסינכרונית הושלמה בהצלחה.
+1. *נדחה*
+(*Rejected*):
+הפעולה האסינכרונית לא הושלמה בהצלחה עקב שגיאה או סיבה אחרת.
 
-1. *Fulfilled*: The promise's asynchronous operation has completed successfully.
-1. *Rejected*: The promise's asynchronous operation didn't complete successfully due to either an error or some other cause.
+תכונה פנימית בשם
+`[[PromiseState]]`
+מקבלת את הערך
+`"pending"`, `"fulfilled"`,
+או
+`"rejected"`
+כדי לייצג את מצב הפרומיס. התכונה אינה חשופה על אובייקט הפרומיס עצמו, כך שלא ניתן לדעת באמצעות פקודה מהו מצב הפרומיס. אך ניתן לבצע פעולה כאשר הפרומיס משנה את מצבה על ידי שימוש במתודת
+<span dir="ltr">`then()`</span>.
 
-An internal `[[PromiseState]]` property is set to `"pending"`, `"fulfilled"`, or `"rejected"` to reflect the promise's state. This property isn't exposed on promise objects, so you can't determine which state the promise is in programmatically. But you can take a specific action when a promise changes state by using the `then()` method.
+המתודה
+<span dir="ltr">`then()`</span>
+קיימת על כל פרומיס ומקבלת שני ארגומנטים. הארגומנט הראשון הוא הפונקציה שתופעל כאשר הפרומיס תושלם בהצלחה. כל נתון נוסף שקשור לפעולה האסינכרונית מועבר לפונקציית ההצלחה. הארגומנט השני הוא הפונקציה שתופעל כאשר הפרומיס נדחה. בדומה לפונקציית ההצלחה, פונקציית הדחייה תקבל כל נתון נוסף שקשור לדחיה.
 
-The `then()` method is present on all promises and takes two arguments. The first argument is a function to call when the promise is fulfilled. Any additional data related to the asynchronous operation is passed to this fulfillment function. The second argument is a function to call when the promise is rejected. Similar to the fulfillment function, the rejection function is passed any additional data related to the rejection.
+I> כל אוביקט שמממש מתודת
+<span dir="ltr">`then()`</span>
+באופן כזה נחשב לאוביקט 
+*ד׳נבילי*
+(*thenable*).
+כל פרומיס הוא ד׳נבילי אבל לא כל אובייקט ד׳נבילי הוא פרומיס.
 
-I> Any object that implements the `then()` method in this way is called a *thenable*. All promises are thenables, but not all thenables are promises.
+שני הארגומנטים עבור
 
-Both arguments to `then()` are optional, so you can listen for any combination of fulfillment and rejection. For example, consider this set of `then()` calls:
+הם אופציונליים, כך שניתן לפעול בהתאם לכל צירוף של הצלחה ודחייה. ראו למשל את השילוב הבא של קריאות למתודה
+<span dir="ltr">`then()`</span>
+
+<div dir="ltr">
 
 ```js
 let promise = readFile("example.txt");
 
 promise.then(function(contents) {
-    // fulfillment
+    // הצלחה
     console.log(contents);
 }, function(err) {
-    // rejection
+    // דחייה
     console.error(err.message);
 });
 
 promise.then(function(contents) {
-    // fulfillment
+    // הצלחה
     console.log(contents);
 });
 
 promise.then(null, function(err) {
-    // rejection
+    // דחייה
     console.error(err.message);
 });
 ```
+</div>
 
-All three `then()` calls operate on the same promise. The first call listens for both fulfillment and rejection. The second only listens for fulfillment; errors won't be reported. The third just listens for rejection and doesn't report success.
+כל שלושת הקריאות למתודה
+<span dir="ltr">`then()`</span>
+פועלות על אותו פרומיס. הקריאה הראשונה מאזינה גם להצלחה וגם לדחייה. הקריאה השנייה מאזינה אך ורק להצלחה. לא ידווח על דחייה.
+השלישית מאזינה אך ורק לדחייה ולא תדווח על הצלחה.
 
-Promises also have a `catch()` method that behaves the same as `then()` when only a rejection handler is passed. For example, the following `catch()` and `then()` calls are functionally equivalent:
+לאובייקטים מסוג פרומיס יש מתודה בשם
+<span dir="ltr">`catch()`</span>
+שמתנהגת באותה צורה כמו המתודה
+<span dir="ltr">`then()`</span>
+כאשר היא מקבלת רק פונקציית דחייה כארגומנט. כך לדוגמה הקריאות בדוגמה הבאה אל
+<span dir="ltr">`catch()`</span>
+ואל
+<span dir="ltr">`then()`</span>
+הינן למעשה זהות מבחינה פונקציונלית.
+
+<div dir="ltr">
 
 ```js
 promise.catch(function(err) {
-    // rejection
+    // דחייה
     console.error(err.message);
 });
 
-// is the same as:
+// זהה לקוד
 
 promise.then(null, function(err) {
-    // rejection
+    // דחייה
     console.error(err.message);
 });
 ```
 
-The intent behind `then()` and `catch()` is for you to use them in combination to properly handle the result of asynchronous operations. This system is better than events and callbacks because it makes whether the operation succeeded or failed completely clear. (Events tend not to fire when there's an error, and in callbacks you must always remember to check the error argument.) Just know that if you don't attach a rejection handler to a promise, all failures will happen silently. Always attach a rejection handler, even if the handler just logs the failure.
+</div>
 
-A fulfillment or rejection handler will still be executed even if it is added to the job queue after the promise is already settled. This allows you to add new fulfillment and rejection handlers at any time and guarantee that they will be called. For example:
+הרעיון מאחורי המתודות
+<span dir="ltr">`then()`</span>
+ו-
+<span dir="ltr">`catch()`</span>
+הוא להשתמש בהן ביחד כדי לטפל בתוצאת פעולות אסינכרוניות. שיטה זו טובה יותר מאשר שימוש באירועים ופונקציות קולבק מכיוון והיא מראה באופן ברור את תוצאת הפעולה
+(
+    אירועים נוטים שלא לפעול כאשר יש שגיאה ובפונקציות קולבק צריך לעקוב אחר ארגומנט השגיאה
+).
+חשוב לזכור שאם לא נחבר פונקציית דחייה לפרומיס אזי לא תדווח הדחייה. לכן תמיד כדאי לחבר פונקצית דחיה לפרומיס גם אם הפונקציה רק מדפיסה את הדחיה כפלט.
+
+פונקציה שמטפלת בהצלחה או כשלון עדיין תרוץ גם אם מוסיפים אותה לתור המשימות לאחר שהפרומיס פתור. זה מאפשר לנו להוסיף פונקציות לטיפול דחייה והצלחה בכל זמן שנרצה ומבטיח שהן ייקראו.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let promise = readFile("example.txt");
 
-// original fulfillment handler
+// מטפל ההצלחה המקורי
 promise.then(function(contents) {
     console.log(contents);
 
-    // now add another
+    // הוספת מטפל הצלחה נוסף
     promise.then(function(contents) {
         console.log(contents);
     });
 });
 ```
 
-In this code, the fulfillment handler adds another fulfillment handler to the same promise. The promise is already fulfilled at this point, so the new fulfillment handler is added to the job queue and called when ready. Rejection handlers work the same way.
+</div>
 
-I> Each call to `then()` or `catch()` creates a new job to be executed when the promise is resolved. But these jobs end up in a separate job queue that is reserved strictly for promises. The precise details of this second job queue aren't important for understanding how to use promises so long as you understand how job queues work in general.
+בקוד לעיל, מטפל ההצלחה מוסיף בתוכו עוד מטפל הצלחה לאותו פרומיססס. הפרומיס כבר הצליח באותה נקודה ולכן מוסיפים את מטפל ההצלחה החדש לתור המשימות וקוראים לו כאשר הדבר מתאפשר. מטפלי דחייה עובדים באותו אופן.
+
+I> כל קריאה למתודות
+<span dir="ltr">`then()`</span>
+ו-
+<span dir="ltr">`catch()`</span>
+יוצרת משימה חדשה להריץ כאשר הפונקציה נפתרת. המשימות האלו מגיעות לתור משימות נפרד ששמור רק לאוביקטים מסוג פרומיס. הפרטים המדוייקים של תור המשימות הנפרד אינם חשובים מבחינת הבנת אופן פעולת הפרומיס, כל עוד אנו מבינים כיצד תור משימות עובד באופן כללי.
+
+</div>
 
 ### Creating Unsettled Promises
 
