@@ -594,9 +594,14 @@ Resolved
 (בניגוד לפונקציית ההרצה). 
 זה קורה מפני שמטפלי ההצלחה והדחייה תמיד נכנסים לסוף תור המשימות לאחר שהסתיימה פעולת פונקציית ההרצה.
 
-</div>
+### יצירת פרומיס פתור
 
-### Creating Settled Promises
+הקונסטרקטור
+`Promise`
+הוא הדרך הטובה ביותר ליצירת פרומיס לא פתור עקב האופי הדינמי של פעולת פונקציית ההרצה של הפרומיס.
+במידה ותרצו פרומיס שמייצג ערך ידוע מראש, אזי אין הגיון רב בתזמון משימה שרק מעבירה את אותו הערך לפונקציה
+<span dir="ltr">`resolve()`</span>.
+במקום זאת, קיימות שתי דרכים ליצירת פרומיס פתור בעל ערך מסוים.
 
 The `Promise` constructor is the best way to create unsettled promises due to the dynamic nature of what the promise executor does. But if you want a promise to represent just a single known value, then it doesn't make sense to schedule a job that simply passes a value to the `resolve()` function. Instead, there are two methods that create settled promises given a specific value.
 
