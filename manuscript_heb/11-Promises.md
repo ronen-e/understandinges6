@@ -269,7 +269,7 @@ let promise = readFile("example.txt");
 (*settled*)
 ונמצא באחד משני מצבים אפשריים:
 
-1. *הושלם*
+1. *הושלם / הצליח*
 (*Fulfilled*):
 הפעולה האסינכרונית הושלמה בהצלחה.
 1. *נדחה*
@@ -603,11 +603,15 @@ Resolved
 <span dir="ltr">`resolve()`</span>.
 במקום זאת, קיימות שתי דרכים ליצירת פרומיס פתור בעל ערך מסוים.
 
-The `Promise` constructor is the best way to create unsettled promises due to the dynamic nature of what the promise executor does. But if you want a promise to represent just a single known value, then it doesn't make sense to schedule a job that simply passes a value to the `resolve()` function. Instead, there are two methods that create settled promises given a specific value.
+#### <span dir="ltr">`Promise.resolve()`</span>
 
-#### Using Promise.resolve()
+המתודה
+<span dir="ltr">`Promise.resolve()`</span>
+מקבלת ארגומנט אחד בודד ומחזירה פרומיס שהסתיים בהצלחה.
+המשמעות היא שלא יתבצע תזמון משימות, ועלינו להוסיף מטפל הצלחה אחד או יותר על מנת לקבל את אותו הערך. 
+לדוגמה:
 
-The `Promise.resolve()` method accepts a single argument and returns a promise in the fulfilled state. That means no job scheduling occurs, and you need to add one or more fulfillment handlers to the promise to retrieve the value. For example:
+<div dir="ltr">
 
 ```js
 let promise = Promise.resolve(42);
@@ -617,7 +621,13 @@ promise.then(function(value) {
 });
 ```
 
-This code creates a fulfilled promise so the fulfillment handler receives 42 as `value`. If a rejection handler were added to this promise, the rejection handler would never be called because the promise will never be in the rejected state.
+</div>
+
+הקוד לעיל מייצר פרומיס שעבר בהצלחה ולכן מטפל ההצלחה מקבל את הערך 42 עבור המשתנה
+`value`.
+אם היינו מוסיפים מטפל דחייה לפרומיס, אזי מטפל הדחייה לא היה נקרא לעולם מאחר והפרומיס לא יכול לשנות מצב לאחר שנקבע ולכן לעולם לא יגיע אל מצב דחוי.
+
+</div>
 
 #### Using Promise.reject()
 
