@@ -297,7 +297,7 @@ I> כל אוביקט שמממש מתודת
 כל פרומיס הוא ד׳נבילי אבל לא כל אובייקט ד׳נבילי הוא פרומיס.
 
 שני הארגומנטים עבור
-
+<span dir="ltr">`then()`</span>
 הם אופציונליים, כך שניתן לפעול בהתאם לכל צירוף של הצלחה ודחייה. ראו למשל את השילוב הבא של קריאות למתודה
 <span dir="ltr">`then()`</span>
 
@@ -398,15 +398,40 @@ I> כל קריאה למתודות
 <span dir="ltr">`catch()`</span>
 יוצרת משימה חדשה להריץ כאשר הפונקציה נפתרת. המשימות האלו מגיעות לתור משימות נפרד ששמור רק לאוביקטים מסוג פרומיס. הפרטים המדוייקים של תור המשימות הנפרד אינם חשובים מבחינת הבנת אופן פעולת הפרומיס, כל עוד אנו מבינים כיצד תור משימות עובד באופן כללי.
 
-</div>
+### יצירת פרומיס לא פתור
 
-### Creating Unsettled Promises
+אוביקטים חדשים מסוג פרומיס נוצרים על ידי שימוש בקונסטרקטור
+`Promise`.
+הקונסטרקטור מקבל ארגומנט אחד: פונקציה שידועה בתור פונקציית
+*ההרצה*
+(*executor*),
+שמכילה את הקוד לאתחול הפרומיס.
+ה-
+`executor`
+מקבלת כארגומנטים שתי פונקציות בשם
+<span dir="ltr">`resolve()`</span>
+ו-
+<span dir="ltr">`reject()`</span>.
+הפונקציה
+<span dir="ltr">`resolve()`</span>
+נקראת לאחר שפונקציית ה-
+`executor`
+הסתיימה בהצלחה כדי לאותת שהפרומיס עוברת למצב הצלחה, בעוד שהפונקציה
+<span dir="ltr">`reject()`</span>
+מאותתת שפונקציית ה
+`executor`
+נכשלה.
 
-New promises are created using the `Promise` constructor. This constructor accepts a single argument: a function called the *executor*, which contains the code to initialize the promise. The executor is passed two functions named `resolve()` and `reject()` as arguments. The `resolve()` function is called when the executor has finished successfully to signal that the promise is ready to be resolved, while the `reject()` function indicates that the executor has failed.
+הנה דוגמה שמשתמשת בפרומיס בסביבת
+Node.js
+על מנת לממש את הפונקציה
+<span dir="ltr">`readFile()`</span>
+שראינו מוקדם יותר בפרק הנוכחי:
 
-Here's an example that uses a promise in Node.js to implement the `readFile()` function from earlier in this chapter:
+<div dir="ltr">
 
 ```js
+// דוגמת
 // Node.js example
 
 let fs = require("fs");
@@ -414,16 +439,16 @@ let fs = require("fs");
 function readFile(filename) {
     return new Promise(function(resolve, reject) {
 
-        // trigger the asynchronous operation
+        // הפעלת הפעולה האסינכרונית
         fs.readFile(filename, { encoding: "utf8" }, function(err, contents) {
 
-            // check for errors
+            // בדיקת שגיאות
             if (err) {
                 reject(err);
                 return;
             }
 
-            // the read succeeded
+            // הפעולה הושלמה בהצלחה
             resolve(contents);
 
         });
@@ -432,39 +457,82 @@ function readFile(filename) {
 
 let promise = readFile("example.txt");
 
-// listen for both fulfillment and rejection
+// מאזינים גם להצלחה וגם לדחייה
 promise.then(function(contents) {
-    // fulfillment
+    // הצלחה
     console.log(contents);
 }, function(err) {
-    // rejection
+    // דחייה
     console.error(err.message);
 });
 ```
+</div>
 
-In this example, the native Node.js `fs.readFile()` asynchronous call is wrapped in a promise. The executor either passes the error object to the `reject()` function or passes the file contents to the `resolve()` function.
+בדוגמה לעיל הפעולה האסינכרונית המובנית בתוך
+Node.js
+של
+<span dir="ltr">`fs.readFile()`</span>
+עטופה בפרומיס.
+פונקציית ה-
+`executor`
+מעבירה את אובייקט השגיאה אל הפונקציה
+<span dir="ltr">`reject()`</span>
+או שהיא מעבירה את תוכן הקובץ לפונקציה
+<span dir="ltr">`resolve()`</span>
 
-Keep in mind that the executor runs immediately when `readFile()` is called. When either `resolve()` or `reject()` is called inside the executor, a job is added to the job queue to resolve the promise. This is called *job scheduling*, and if you've ever used the `setTimeout()` or `setInterval()` functions, then you're already familiar with it. In job scheduling, you add a new job to the job queue to say, "Don't execute this right now, but execute it later." For instance, the `setTimeout()` function lets you specify a delay before a job is added to the queue:
+חשוב לזכור שפונקציית ה-
+`executor`
+רצה מיד כאשר הפונקציה
+<span dir="ltr">`readFile()`</span>
+נקראת. כאשר קוראים בתוך ה-
+`executor`
+אל הפונקציות
+<span dir="ltr">`resolve()`</span>
+או
+<span dir="ltr">`reject()`</span>,
+מוסיפים משימה חדשה לתור המשימות כדי להביא את הפרומיס למצב פתור.
+פעולה זו נקראית 
+*תזמון משימות*
+(*job scheduling*),
+ואם אי פעם השתמשתם בפונקציות
+<span dir="ltr">`setTimeout()`</span>
+או
+<span dir="ltr">`setInterval()`</span>,
+אז הנושא מוכר לכם. בתזמון משימות, אנו מוסיפים משימה חדשה לתור המשימות ואומרים למעשה,
+״אל תרוצי עכשיו, אבל תרוצי בזמן מאוחר יותר״. כך למשל, הפונקציה
+<span dir="ltr">`setTimeout()`</span>
+מאפשרת לנו להגדיר שיהוי לפני שהמשימה מתווספת לתור המשימות:
+
+<div dir="ltr">
 
 ```js
-// add this function to the job queue after 500ms have passed
+// מוסיפים את הפונקציה לתור המשימות לאחר חצי שניה
 setTimeout(function() {
     console.log("Timeout");
 }, 500);
 
 console.log("Hi!");
 ```
+</div>
 
-This code schedules a job to be added to the job queue after 500ms. The two `console.log()` calls produce the following output:
+הקוד לעיל מתזמן משימה שתתווסף לתור המשימות לאחר 500 מילישניות.
+שתי הקריאות אל
+<span dir="ltr">`console.log()`</span>
+מייצרות את הפלט הבא:
 
 ```
 Hi!
 Timeout
 ```
 
-Thanks to the 500ms delay, the output that the function passed to `setTimeout()` was shown after the output from the `console.log("Hi!")` call.
+הודות לשיהוי של 500 מילישניות הפלט עבור הפונקציה שהועבר אל תוך
+<span dir="ltr">`setTimeout()`</span>
+הוצג לאחר הפלט שהגיע מהקריאה אל
+<span dir="ltr">`console.log("Hi!")`</span>.
 
-Promises work similarly. The promise executor executes immediately, before anything that appears after it in the source code. For instance:
+אובייקטים מסוג פרומיס עובדים בצורה דומה. פונקציית ההרצה רצה באופן מיידי, לפני כל קוד אחר שמופיע לאחר מכן. למשל:
+
+<div dir="ltr">
 
 ```js
 let promise = new Promise(function(resolve, reject) {
@@ -475,14 +543,25 @@ let promise = new Promise(function(resolve, reject) {
 console.log("Hi!");
 ```
 
-The output for this code is:
+</div>
+
+הפלט עבור הקוד בדוגמה הוא:
 
 ```
 Promise
 Hi!
 ```
 
-Calling `resolve()` triggers an asynchronous operation. Functions passed to `then()` and `catch()` are executed asynchronously, as these are also added to the job queue. Here's an example:
+קריאה לפונקציה
+<span dir="ltr">`resolve()`</span>
+מפעילה פעולה אסינכרונית. פונקציות שמועברות אל
+<span dir="ltr">`then()`</span>
+ו-
+<span dir="ltr">`catch()`</span>
+רצות באופן אסינכרוני, כיוון שגם הן מתווספות לתור המשימות.
+הנה דוגמה:
+
+<div dir="ltr">
 
 ```js
 let promise = new Promise(function(resolve, reject) {
@@ -497,7 +576,9 @@ promise.then(function() {
 console.log("Hi!");
 ```
 
-The output for this example is:
+</div>
+
+הפלט עבור דוגמה זו הוא:
 
 ```
 Promise
@@ -505,7 +586,15 @@ Hi!
 Resolved
 ```
 
-Note that even though the call to `then()` appears before the `console.log("Hi!")` line, it doesn't actually execute until later (unlike the executor). That's because fulfillment and rejection handlers are always added to the end of the job queue after the executor has completed.
+שימו לב שאף על פי שהקריאה אל 
+<span dir="ltr">`then()`</span>
+מופיעה לפני הקוד
+<span dir="ltr">`console.log("Hi!")`</span>,
+היא לא באמת רצה עד מאוחר יותר
+(בניגוד לפונקציית ההרצה). 
+זה קורה מפני שמטפלי ההצלחה והדחייה תמיד נכנסים לסוף תור המשימות לאחר שהסתיימה פעולת פונקציית ההרצה.
+
+</div>
 
 ### Creating Settled Promises
 
