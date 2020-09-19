@@ -654,13 +654,24 @@ I> אם נעביר פרומיס לתוך
 <span dir="ltr">`Promise.reject()`</span>,
 הפרומיס מוחזר ללא שינוי.
 
-</div>
+#### אוביקט ד׳נבילי שאינו פרומיס
 
-#### Non-Promise Thenables
+גם 
+<span dir="ltr">`Promise.resolve()`</span>
+וגם
+<span dir="ltr">`Promise.reject()`</span>
+יכולים לקבל אובייקט ד׳נבילי שאינו פרומיס בתור ארגומנט. כאשר מעבירים אובייקט ד׳נבילי שאינו פרומיס נוצר פרומיס חדש שנפתר לאחר הקריאה לפונקציה
+<span dir="ltr">`then()`</span>.
 
-Both `Promise.resolve()` and `Promise.reject()` also accept non-promise thenables as arguments. When passed a non-promise thenable, these methods create a new promise that is called after the `then()` function.
+אוביקט ד׳נבילי שאינו פרומיס נוצר כאשר לאובייקט יש מתודת 
+<span dir="ltr">`then()`</span>
+שמקבלת ארגומנטים מסוג  
+`resolve`
+וגם
+`reject`
+כמו בדוגמה הבאה:
 
-A non-promise thenable is created when an object has a `then()` method that accepts a `resolve` and a `reject` argument, like this:
+<div dir="ltr">
 
 ```js
 let thenable = {
@@ -669,8 +680,19 @@ let thenable = {
     }
 };
 ```
+</div>
 
-The `thenable` object in this example has no characteristics associated with a promise other than the `then()` method. You can call `Promise.resolve()` to convert `thenable` into a fulfilled promise:
+לאובייקט
+`thenable`
+בדוגמה לעיל אין שום מאפיינים של פרומיס מעבר למתודה
+<span dir="ltr">`then()`</span>.
+ניתן לקרוא ל
+<span dir="ltr">`Promise.resolve()`</span>
+כדי להמיר את 
+`thenable`
+לפרומיס שהושלם בהצלחה:
+
+<div dir="ltr">
 
 ```js
 let thenable = {
@@ -684,10 +706,32 @@ p1.then(function(value) {
     console.log(value);     // 42
 });
 ```
+</div>
 
-In this example, `Promise.resolve()` calls `thenable.then()` so that a promise state can be determined. The promise state for `thenable` is fulfilled because `resolve(42)` is called inside the `then()` method. A new promise called `p1` is created in the fulfilled state with the value passed from `thenable` (that is, 42), and the fulfillment handler for `p1` receives 42 as the value.
+בדוגמה לעיל, 
+<span dir="ltr">`Promise.resolve()`</span>
+קוראת 
+<span dir="ltr">`thenable.then()`</span>
+כדי לקבוע את מצב הפרומיס. מצב הפרומיס עבור
+`thenable`
+הינו הצלחה מאחר שהפונקציה
+<span dir="ltr">`resolve(42)`</span>
+נקראת בתוך המתודה
+<span dir="ltr">`then()`</span>.
+פרומס חדש בשם
+`p1`
+נוצר במצב הצלחה כאשר הערך מגיע מתוך האובייקט
+`thenable`
+(הערך הוא 42),
+ומטפל ההצלחה עבור
+`p1`
+מקבל אליו את הערך 42.
 
-The same process can be used with `Promise.resolve()` to create a rejected promise from a thenable:
+ניתן להשתמש ב
+<span dir="ltr">`Promise.resolve()`</span>
+עם אותם צעדים כדי ליצור פרומיס דחוי מתוך אובייקט ד׳נבילי
+
+<div dir="ltr">
 
 ```js
 let thenable = {
@@ -701,10 +745,27 @@ p1.catch(function(value) {
     console.log(value);     // 42
 });
 ```
+</div>
 
-This example is similar to the last except that `thenable` is rejected. When `thenable.then()` executes, a new promise is created in the rejected state with a value of 42. That value is then passed to the rejection handler for `p1`.
+הדוגמה לעיל דומה לדוגמה האחרונה מלבד העובדה שהאובייקט
+`thenable`
+מגיע למצב דחוי.
+כאשר ירוץ הקוד
+<span dir="ltr">`thenable.then()`</span>,
+ייווצר אובייקט פרומיס חדש במצב דחוי עם הערך 42. אותו ערך מועבר למטפל הדחייה עבור
+`p1`.
 
-`Promise.resolve()` and `Promise.reject()` work like this to allow you to easily work with non-promise thenables. A lot of libraries used thenables prior to promises being introduced in ECMAScript 6, so the ability to convert thenables into formal promises is important for backwards-compatibility with previously existing libraries. When you're unsure if an object is a promise, passing the object through `Promise.resolve()` or `Promise.reject()` (depending on your anticipated result) is the best way to find out because promises just pass through unchanged.
+<span dir="ltr">`Promise.resolve()`</span>
+ו-
+<span dir="ltr">`Promise.reject()`</span>
+עובדות בצורה זו על מנת להקל עלינו לעבוד עם אובייקטים ד׳נבילים שאינם מסוג פרומיס. ספריות רבות השתמשו באובייקטים ד׳נבילים לפני שפרומיס הופיע באקמהסקריפט 6, כך שהיכולת להמיר אובייקטים ד׳נביליים לפרומיס סטנדרטי חשובה עבור תאימות לאחור עם ספריות קיימות. כאשר יש ספק האם אובייקט מסויים הינו פרומיס העברתו דרך
+<span dir="ltr">`Promise.resolve()`</span>
+או
+<span dir="ltr">`Promise.reject()`</span>
+(בהתאם לתוצאה הרצויה)
+הינה הדרך הטובה ביותר לעשות זאת, מאחר ופרומיס שמועבר כארגומנט מוחזר כמות שהוא ללא שינוי.
+
+</div>
 
 ### Executor Errors
 
