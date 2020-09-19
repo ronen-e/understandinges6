@@ -765,11 +765,13 @@ p1.catch(function(value) {
 (בהתאם לתוצאה הרצויה)
 הינה הדרך הטובה ביותר לעשות זאת, מאחר ופרומיס שמועבר כארגומנט מוחזר כמות שהוא ללא שינוי.
 
-</div>
+### שגיאות בפונקציית ההרצה
 
-### Executor Errors
+במידה ונזרקת שגיאה בתוך פונקציית ההרצה
+(executor)
+ייקרא מטפל הדחיה של הפרומיס. לדוגמה:
 
-If an error is thrown inside an executor, then the promise's rejection handler is called. For example:
+<div dir="ltr">
 
 ```js
 let promise = new Promise(function(resolve, reject) {
@@ -780,8 +782,15 @@ promise.catch(function(error) {
     console.log(error.message);     // "Explosion!"
 });
 ```
+</div>
 
-In this code, the executor intentionally throws an error. There is an implicit `try-catch` inside every executor such that the error is caught and then passed to the rejection handler. The previous example is equivalent to:
+בקוד לעיל, פונקציית ההרצה זורקת שגיאה באופן מכוון. בתוך כל פונקציית הרצה יש בלוק
+`try-catch`
+שקיים באופן בלתי מפורש
+(implicit)
+כך שכאשר נזרקת שגיאה היא מועברת למטפל הדחיה. הדוגמה הקודמת מקבילה לקוד הבא:
+
+<div dir="ltr">
 
 ```js
 let promise = new Promise(function(resolve, reject) {
@@ -797,7 +806,11 @@ promise.catch(function(error) {
 });
 ```
 
-The executor handles catching any thrown errors to simplify this common use case, but an error thrown in the executor is only reported when a rejection handler is present. Otherwise, the error is suppressed. This became a problem for developers early on in the use of promises, and JavaScript environments address it by providing hooks for catching rejected promises.
+</div>
+
+פונקציית ההרצה תופסת כל שגיאה, אך שגיאה מדווחת רק כאשר קיים מטפל דחיה. אחרת השגיאה מושתקת. זה הפך לבעיה עבור מפתחים בתחילת השימוש בפרומיס וסביבות הרצה של ג׳אווהסקריפט מטפלות בעניין בעזרת מתן אפשרות לתפוס פרומיס דחוי
+
+</div>
 
 ## Global Promise Rejection Handling
 
