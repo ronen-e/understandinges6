@@ -968,22 +968,31 @@ setInterval(function() {
 Node.js,
 דפדפנים מימשו מנגנון דומה ליידע מפתחים על דחיות לא מטופלות.
 
-</div>
+### טיפול בדחיות בדפדפנים
 
-### Browser Rejection Handling
+דפדפנים גם הם יורים שני אירועים כדי לעזור לזהות דחיות שלא טופלו. האירועים הללו נורים על ידי אובייקט
+`window`
+ופועלים למעשה כמו מקביליהם בסביבת
+Node.js:
 
-Browsers also emit two events to help identify unhandled rejections. These events are emitted by the `window` object and are effectively the same as their Node.js equivalents:
+* `unhandledrejection`: האירוע נורה כאשר פרומיס נדחה ולא נעשית קריאה למטפל דחיה בתוך תור אחד של לולאת האירועים.
+* `rejectionhandled`: האירוע נורה כאשר פרומיס נדחה ונעשית קריאה למטפל דחיה לאחר תור אחד של לולאת האירועים.
 
-* `unhandledrejection`: Emitted when a promise is rejected and no rejection handler is called within one turn of the event loop.
-* `rejectionhandled`: Emitted when a promise is rejected and a rejection handler is called after one turn of the event loop.
+בעוד שהמימוש של 
+Node.js
+מעביר פרמטרים נפרדים למטפל האירוע, מטפל האירוע עבור אירועי דפדפן אלה מקבל אובייקט אירוע עם התכונות הבאות:
 
-While the Node.js implementation passes individual parameters to the event handler, the event handler for these browser events receives an event object with the following properties:
+* `type`: שם האירוע
+ (`"unhandledrejection"` או `"rejectionhandled"`).
+* `promise`: אובייקט הפרומיס שנדחה
+* `reason`: ערך הפרומיס עבור הדחיה
 
-* `type`: The name of the event (`"unhandledrejection"` or `"rejectionhandled"`).
-* `promise`: The promise object that was rejected.
-* `reason`: The rejection value from the promise.
+ההבדל הנוסף בסביבת הדפדפ הוא שערך הדחייה
+(`reason`)
+קיים עבור שני האירועים.
+לדוגמה:
 
-The other difference in the browser implementation is that the rejection value (`reason`) is available for both events. For example:
+<div dir="ltr">
 
 ```js
 let rejected;
@@ -1003,14 +1012,40 @@ window.onrejectionhandled = function(event) {
 rejected = Promise.reject(new Error("Explosion!"));
 ```
 
-This code assigns both event handlers using the DOM Level 0 notation of `onunhandledrejection` and `onrejectionhandled`. (You can also use `addEventListener("unhandledrejection")` and `addEventListener("rejectionhandled")` if you prefer.) Each event handler receives an event object containing information about the rejected promise. The `type`, `promise`, and `reason` properties are all available in both event handlers.
+</div>
 
-The code to keep track of unhandled rejections in the browser is very similar to the code for Node.js, too:
+הקוד לעיל מחבר את שני מטפלי האירועים באמצעות צורת הכתיבה של 
+רמה 0 של 
+DOM
+<span dir="ltr">(DOM Level 0 notation)</span>
+עבור
+`onunhandledrejection`
+ועבור
+`onrejectionhandled`.
+(
+ניתן גם להשתמש בקוד
+<span dir="ltr">`addEventListener("unhandledrejection")`</span>
+ו-
+<span dir="ltr">`addEventListener("rejectionhandled")`</span>
+אם תרצו
+)
+כל מטפל אירוע מקבל אובייקט אירוע שמכיל נתונים עבור הפרומיס הדחוי.
+התכונות 
+`type`, 
+`promise`, 
+ו-
+`reason`
+קיימות עבור שני סוגי האירועים.
+
+הקוד שעוקב אחר דחיות לא מטופלות בדפדפן דומה מאוד לקוד עבור
+Node.js:
+
+<div dir="ltr">
 
 ```js
 let possiblyUnhandledRejections = new Map();
 
-// when a rejection is unhandled, add it to the map
+// כאשר דחיה לא מטופלת, מוסיפים אותה למפה
 window.onunhandledrejection = function(event) {
     possiblyUnhandledRejections.set(event.promise, event.reason);
 };
@@ -1024,7 +1059,7 @@ setInterval(function() {
     possiblyUnhandledRejections.forEach(function(reason, promise) {
         console.log(reason.message ? reason.message : reason);
 
-        // do something to handle these rejections
+        // טיפול בדחיות
         handleRejection(promise, reason);
     });
 
@@ -1032,10 +1067,15 @@ setInterval(function() {
 
 }, 60000);
 ```
+</div>
 
-This implementation is almost exactly the same as the Node.js implementation. It uses the same approach of storing promises and their rejection values in a map and then inspecting them later. The only real difference is where the information is retrieved from in the event handlers.
+המימוש לעיל דומה מאוד למימוש עבור
+Node.js.
+הוא משתמש באותה גישה של שמירת אובייקטים דחויים מסוג פרומיס ואת ערך הדחיה שלהם בתוך מפה ואז בדיקתם בזמן מאוחר יותר. ההבדל היחידי הוא המיקום שממנו מתקבלים הנתונים בתוך מטפלי האירועים.
 
-Handling promise rejections can be tricky, but you've just begun to see how powerful promises can really be. It's time to take the next step and chain several promises together.
+טיפול בדחיה עבור פרומיס יכול להיות בעייתי, אך התחלנו לראות כמה כוח טמון בו. כעת נעבור לשלב הבא ונחבר מספר אובייקטים מסוג פרומיס ביחד.
+
+</div>
 
 ## Chaining Promises
 
