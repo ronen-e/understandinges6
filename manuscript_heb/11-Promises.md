@@ -1073,15 +1073,21 @@ setInterval(function() {
 Node.js.
 הוא משתמש באותה גישה של שמירת אובייקטים דחויים מסוג פרומיס ואת ערך הדחיה שלהם בתוך מפה ואז בדיקתם בזמן מאוחר יותר. ההבדל היחידי הוא המיקום שממנו מתקבלים הנתונים בתוך מטפלי האירועים.
 
-טיפול בדחיה עבור פרומיס יכול להיות בעייתי, אך התחלנו לראות כמה כוח טמון בו. כעת נעבור לשלב הבא ונחבר מספר אובייקטים מסוג פרומיס ביחד.
+טיפול בדחיה עבור פרומיס יכול להיות בעייתי, אך התחלנו לראות כמה כוח טמון בו. כעת נעבור לשלב הבא ונחבר/נשרשר מספר אובייקטים מסוג פרומיס ביחד.
 
-</div>
+## שרשור פרומיסים
 
-## Chaining Promises
+עד לנקודה זו פרומיסים לא נראו יותר מאשר מספר שיפורים הדרגתיים על פני שימוש בשילוב של פונקציות קולבק ביחד עם הפונקציה
+<span dir="ltr">`setTimeout()`</span>,
+אך פרומיס מציע לנו הרבה מעבר לכך. באופן ספציפי, קיימות מספר דרכים לשרשר פרומיסים ביחד על מנת להגיע לפונקציונליות אסינכרונית מורכבת יותר.
 
-To this point, promises may seem like little more than an incremental improvement over using some combination of a callback and the `setTimeout()` function, but there is much more to promises than meets the eye. More specifically, there are a number of ways to chain promises together to accomplish more complex asynchronous behavior.
+כל קריאה ל
+<span dir="ltr">`then()`</span>
+או
+<span dir="ltr">`catch()`</span>
+למעשה יוצרת ומחזירה פרומיס אחר. הפרומיס השני נפתר רק לאחר שהראשון נפתר. חשוב על דוגמה זו:
 
-Each call to `then()` or `catch()` actually creates and returns another promise. This second promise is resolved only once the first has been fulfilled or rejected. Consider this example:
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1094,15 +1100,25 @@ p1.then(function(value) {
     console.log("Finished");
 });
 ```
+</div>
 
-The code outputs:
+הקוד מדפיס את הפלט:
 
 ```
 42
 Finished
 ```
 
-The call to `p1.then()` returns a second promise on which `then()` is called. The second `then()` fulfillment handler is only called after the first promise has been resolved. If you unchain this example, it looks like this:
+הקריאה אל
+<span dir="ltr">`p1.then()`</span>
+מחזירה פרומיס שני שמפעילים את מתודת 
+<span dir="ltr">`then()`</span>
+שלו.
+מטפל ההצלחה של 
+<span dir="ltr">`then()`</span>
+השני נקרא רק לאחר שהפרומיס הראשון נפתר. אם מפרקים לחלקים את הדוגמה, היא תיראה כך:
+
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1117,8 +1133,19 @@ p2.then(function() {
     console.log("Finished");
 });
 ```
+</div>
 
-In this unchained version of the code, the result of `p1.then()` is stored in `p2`, and then `p2.then()` is called to add the final fulfillment handler. As you might have guessed, the call to `p2.then()` also returns a promise. This example just doesn't use that promise.
+בדוגמה לא משורשרת זו של הקוד, התוצאה של הקוד
+<span dir="ltr">`p1.then()`</span>
+נשמרת במשתנה
+`p2`,
+ואז מתבצעת קריאה אל
+<span dir="ltr">`p2.then()`</span>
+כדי להוסיף מטפל הצלחה אחרון. כפי שניחשתם, הקריאה אל 
+<span dir="ltr">`p2.then()`</span>
+גם היא מחזירה פרומיס. הדוגמה לעיל פשוט לא משתמשת באותו פרומיס.
+
+</div>
 
 ### Catching Errors
 
