@@ -808,31 +808,40 @@ promise.catch(function(error) {
 
 </div>
 
-פונקציית ההרצה תופסת כל שגיאה, אך שגיאה מדווחת רק כאשר קיים מטפל דחיה. אחרת השגיאה מושתקת. זה הפך לבעיה עבור מפתחים בתחילת השימוש בפרומיס וסביבות הרצה של ג׳אווהסקריפט מטפלות בעניין בעזרת מתן אפשרות לתפוס פרומיס דחוי
+פונקציית ההרצה תופסת כל שגיאה, אך שגיאה מדווחת רק כאשר קיים מטפל דחיה. אחרת השגיאה מושתקת. זה היה לבעיה עבור מפתחים בתחילת השימוש בפרומיס ועל מנת לפתור זאת, סביבות הרצה של ג׳אווהסקריפט מאפשרות לתפוס פרומיס דחוי.
 
-</div>
+## טיפול גלובלי בפרומיס דחוי
 
-## Global Promise Rejection Handling
+אחד מההיבטים השנויים במחלוקת של פרומיס הינו הכישלון השקט בזמן דחיית פרומיס ללא מטפל דחיה. יש כאלו המאמינים שמדובר במגרעה הגדולה ביותר באפיון השפה כיוון שזהו החלק היחיד בשפת ג׳אווהסקריפט כולה שמשתיק שגיאות.
 
-One of the most controversial aspects of promises is the silent failure that occurs when a promise is rejected without a rejection handler. Some consider this the biggest flaw in the specification as it's the only part of the JavaScript language that doesn't make errors apparent.
+לא כל כך פשוט לבדוק האם נעשה טיפול בפרומיס דחוי עקב טבעו של הפרומיס. ראו למשל בדוגמה הבאה:
 
-Determining whether a promise rejection was handled isn't straightforward due to the nature of promises. For instance, consider this example:
+<div dir="ltr">
 
 ```js
 let rejected = Promise.reject(42);
 
-// at this point, rejected is unhandled
+// אין טיפול בדחיה בנקודת זמן זו
 
-// some time later...
+// יותר מאוחר
 rejected.catch(function(value) {
-    // now rejected has been handled
+    // הדחיה טופלה
     console.log(value);
 });
 ```
+</div>
 
-You can call `then()` or `catch()` at any point and have them work correctly regardless of whether the promise is settled or not, making it hard to know precisely when a promise is going to be handled. In this case, the promise is rejected immediately but isn't handled until later.
+ניתן לקרוא אל
+<span dir="ltr">`then()`</span>
+או
+<span dir="ltr">`catch()`</span>
+בכל זמן שנרצה והקוד יעבוד באופן תקין בין אם הפרומיס פתור או לא, כך שקשה לדעת בדיוק מתי פרומיס יטופל. במקרה זה הפרומיס נדחה מיד, אך הדחיה לא מטופלת עד זמן מאוחר יותר.
 
-While it's possible that the next version of ECMAScript will address this problem, both browsers and Node.js have implemented changes to address this developer pain point. They aren't part of the ECMAScript 6 specification but are valuable tools when using promises.
+בעוד שגרסה עתידית של אקמהסקריפט אולי תטפל בבעיה זו, גם דפדפנים וגם 
+Node.js
+פיתחו יכולות שיטפלו בבעיה. יכולות אלו אינן חלק מאפיון השפה אך הן מהוות כלי חשוב בעת שימוש בפרומיס.
+
+</div>
 
 ### Node.js Rejection Handling
 
