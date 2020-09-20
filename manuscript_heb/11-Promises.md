@@ -841,18 +841,29 @@ rejected.catch(function(value) {
 Node.js
 פיתחו יכולות שיטפלו בבעיה. יכולות אלו אינן חלק מאפיון השפה אך הן מהוות כלי חשוב בעת שימוש בפרומיס.
 
-</div>
+### טיפול בדחיות בסביבת Node.js
 
-### Node.js Rejection Handling
+בסביבת
+Node.js
+קיימים שני אירועים על אובייקט
+`process`
+שקשור לטיפול בדחיית פרומיס:
 
-In Node.js, there are two events on the `process` object related to promise rejection handling:
+* `unhandledRejection`: האירוע נורה כאשר פרומיס נדחה ואין קריאה למטפל דחיה בתוך תור אחד של לולאת האירועים
+* `rejectionHandled`: האירוע נורה כאשר פרומיס נדחה ומטפל דחיה נקרא בתוך תור אחד של לולאת האירועים
 
-* `unhandledRejection`: Emitted when a promise is rejected and no rejection handler is called within one turn of the event loop
-* `rejectionHandled`: Emitted when a promise is rejected and a rejection handler is called after one turn of the event loop
+האירועים הללו תוכננו לעבוד יחד כדי לעזור בזיהוי אובייקטים מסוג פרומיס שנדחו ולא טופלו.
 
-These events are designed to work together to help identify promises that are rejected and not handled.
+מטפל עבור אירוע 
+`unhandledRejection`
+מקבל את סיבת הדחיה
+(לרוב אובייקט שגיאה)
+ואת הפרומיס שנדחה בתור ארגומנטים.
+הקוד הבא מראה את
+`unhandledRejection`
+בפעולה:
 
-The `unhandledRejection` event handler is passed the rejection reason (frequently an error object) and the promise that was rejected as arguments. The following code shows `unhandledRejection` in action:
+<div dir="ltr">
 
 ```js
 let rejected;
@@ -864,10 +875,18 @@ process.on("unhandledRejection", function(reason, promise) {
 
 rejected = Promise.reject(new Error("Explosion!"));
 ```
+</div>
 
-This example creates a rejected promise with an error object and listens for the `unhandledRejection` event. The event handler receives the error object as the first argument and the promise as the second.
+הדוגמה לעיל מייצרת פרומיס דחוי עם אוביקט שגיאה בתור ערך הפרומיס ומאזינה לאירוע מסוג
+`unhandledRejection`.
+מטפל האירועים מקבל את אובייקט השגיאה בתור הארגומנט הראשון ואת הפרומיס בתור הארגומנט השני.
 
-The `rejectionHandled` event handler has only one argument, which is the promise that was rejected. For example:
+מטפל האירועים עבור 
+
+מקבל רק ארגומנט אחד, שהוא הפרומיס שנדחה.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let rejected;
@@ -878,22 +897,35 @@ process.on("rejectionHandled", function(promise) {
 
 rejected = Promise.reject(new Error("Explosion!"));
 
-// wait to add the rejection handler
+// מעכבים את הוספת מטפל הדחיה
 setTimeout(function() {
     rejected.catch(function(value) {
         console.log(value.message);     // "Explosion!"
     });
 }, 1000);
 ```
+</div>
 
-Here, the `rejectionHandled` event is emitted when the rejection handler is finally called. If the rejection handler were attached directly to `rejected` after `rejected` is created, then the event wouldn't be emitted. The rejection handler would instead be called during the same turn of the event loop where `rejected` was created, which isn't useful.
+בדוגמה זו, האירוע
+`rejectionHandled`
+נורה כאשר מטפל הדחיה נקרא. אם מטפל הדחיה היה מחובר ישירות לפרומיס
+`rejected`
+לאחר היווצרותו, אזי האירוע כלל לא היה נורה. במקרה זה, מטפל הדחיה היה נקרא באותו תור של לולאת האירועים שבו הפרומיס
+`rejected`
+נוצר, דבר שאינו שימושי במיוחד.
 
-To properly track potentially unhandled rejections, use the `rejectionHandled` and `unhandledRejection` events to keep a list of potentially unhandled rejections. Then wait some period of time to inspect the list. For example:
+כדי לעקוב בצורה נכונה אחר דחיות לא מטופלות, עליך להשתמש באירועים
+`rejectionHandled`
+ו-
+`unhandledRejection`
+כדי לשמור רשימה של דחיות שייתכן שלא טופלו. ואז בידקו את הרשימה לאחר תקופת המתנה. לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let possiblyUnhandledRejections = new Map();
 
-// when a rejection is unhandled, add it to the map
+// כאשר דחיה לא מטופלת, מוסיפים אותה למפה
 process.on("unhandledRejection", function(reason, promise) {
     possiblyUnhandledRejections.set(promise, reason);
 });
@@ -907,7 +939,7 @@ setInterval(function() {
     possiblyUnhandledRejections.forEach(function(reason, promise) {
         console.log(reason.message ? reason.message : reason);
 
-        // do something to handle these rejections
+        // טיפול בדחיות
         handleRejection(promise, reason);
     });
 
@@ -916,9 +948,27 @@ setInterval(function() {
 }, 60000);
 ```
 
-This is a simple unhandled rejection tracker. It uses a map to store promises and their rejection reasons. Each promise is a key, and the promise's reason is the associated value. Each time `unhandledRejection` is emitted, the promise and its rejection reason are added to the map. Each time `rejectionHandled` is emitted, the handled promise is removed from the map. As a result, `possiblyUnhandledRejections` grows and shrinks as events are called. The `setInterval()` call periodically checks the list of possible unhandled rejections and outputs the information to the console (in reality, you'll probably want to do something else to log or otherwise handle the rejection). A map is used in this example instead of a weak map because you need to inspect the map periodically to see which promises are present, and that's not possible with a weak map.
+</div>
 
-While this example is specific to Node.js, browsers have implemented a similar mechanism for notifying developers about unhandled rejections.
+כאן אנו רואים מעקב פשוט אחר דחיות לא מטופלות. הדוגמה משתמשת במפה כדי לשמור אובייקטים מסוג פרומיס ואת סיבות הדחיה שלהם. כל פרומיס מהווה מזהה, והסיבה לדחיה היא הערך. כל פעם שנורה האירוע
+`unhandledRejection`,
+הפרומיס וסיבת הדחיה נוספות למפה. בכל פעם שנורה האירוע
+`rejectionHandled`,
+הפרומיס נמחק מהמפה. כתוצאה מכך המפה
+`possiblyUnhandledRejections`
+גדלה או קטנה בעת שהאירועים נורים. הקריאה לפונקציה
+<span dir="ltr">`setInterval()`</span>
+בודקת באופן מחזורי את רשימת הדחיות שלא ברור אם טופלו ומדפיססה את הנתונים למערכת.
+(במציאות, סביר להניח שתרצו לעשות משהו כדי לתעד את הדחיה או לטפל בה). 
+בדוגמה זו משתמשים במפה רגילה ולא מפה חלשה
+<span dir="ltr">`(weak map)`</span>
+מפני שיש צורך לבדוק את המפה באופן מחזורי כדי לבדוק אילו אובייקטים קיימים בה וזה לא אפשרי עם מפה חלשה.
+
+בעוד שדוגמה זו הינה ספציפית עבור
+Node.js,
+דפדפנים מימשו מנגנון דומה ליידע מפתחים על דחיות לא מטופלות.
+
+</div>
 
 ### Browser Rejection Handling
 
