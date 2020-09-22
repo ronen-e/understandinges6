@@ -1172,7 +1172,6 @@ p1.then(function(value) {
 <span dir="ltr">`catch()`</span>
 שמופיעה על הפרומיס השנה, יכולה לקבל את אותה שגיאה באמצעות מטפל הדחיה שלה. הדבר נכון גם כאשר מטפל דחיה זורק שגיאה:
 
-
 <div dir="ltr">
 
 ```js
@@ -1196,11 +1195,16 @@ p1.catch(function(error) {
 I> מומלץ
 שתמיד יהיה מטפל דחיה בסוף שרשרת הפרומיס כדי לוודא שמטפלים בכל שגיאה אפשרית.
 
-</div>
+### החזרת ערכים בשרשרת פרומיס
 
-### Returning Values in Promise Chains
+היבט חשוב נוסף של שרשרת פרומיס הינו היכולת להעביר נתונים מפרומיס אחד למשנהו. כבר ראיתם כיצד ערך שמועבר לפונקציה
+<span dir="ltr">`then()`</span>
+שבתוך פונקציית הרצה
+(executor)
+מועבר למטפל ההצלחה עבור אותו פרומיס. באפשרותנו להמשיך להעביר נתונים בשרשרת על ידי קביעת ערך חזרה ממטפל ההצלחה. 
+לדוגמה:
 
-Another important aspect of promise chains is the ability to pass data from one promise to the next. You've already seen that a value passed to the `resolve()` handler inside an executor is passed to the fulfillment handler for that promise. You can continue passing data along a chain by specifying a return value from the fulfillment handler. For example:
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1214,10 +1218,23 @@ p1.then(function(value) {
     console.log(value);         // "43"
 });
 ```
+</div>
 
-The fulfillment handler for `p1` returns `value + 1` when executed. Since `value` is 42 (from the executor), the fulfillment handler returns 43. That value is then passed to the fulfillment handler of the second promise, which outputs it to the console.
+מטפל ההצלחה עבור 
+`p1`
+מחזיר
+`value + 1`
+כאשר ירוץ. מכיוון שערכו של 
+`value`
+הוא 42
+(מפונקציית ההרצה),
+מטפל ההצלחה מחזיר לנו את הערך 43.
+הערך 43 מועבר למטפל ההצלחה של הפרומיס הנוסף, שמדפיס אותו למסך.
 
-You could do the same thing with the rejection handler. When a rejection handler is called, it may return a value. If it does, that value is used to fulfill the next promise in the chain, like this:
+ניתן לבצע את אותו הדבר עם מטפל הדחיה. כאשר קוראים למטפל הדחיה, ניתן להחזיר ערך. אם הדבר נעשה אותו ערך משמש להשלמת הפרומיס הבא בשרשרת.
+כמו שקורה בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1225,16 +1242,23 @@ let p1 = new Promise(function(resolve, reject) {
 });
 
 p1.catch(function(value) {
-    // first fulfillment handler
+    // מטפל הצלחה ראשון
     console.log(value);         // "42"
     return value + 1;
 }).then(function(value) {
-    // second fulfillment handler
+    // מטפל הצלחה שני
     console.log(value);         // "43"
 });
 ```
+</div>
 
-Here, the executor calls `reject()` with 42. That value is passed into the rejection handler for the promise, where `value + 1` is returned. Even though this return value is coming from a rejection handler, it is still used in the fulfillment handler of the next promise in the chain. The failure of one promise can allow recovery of the entire chain if necessary.
+בדוגמה זו, פונקציית ההרצה קוראת ל-
+<span dir="ltr">`reject()`</span>
+עם הערך 42. זהו הערך שמועבר למטפל הדחיה של הפרומיס, היכן שמוחזר לנו
+`value + 1`.
+למרות שערך החזרה מגיע מתוך מטפל דחיה, עדיין משתשמשים בו במטפל ההצלחה עבור הפרומיס הבא בשרשרת. כישלון של פרומיס אחד יכול לגרום להתאוששות השרשרת כולה במקרה הצורך.
+
+</div>
 
 ### Returning Promises in Promise Chains
 
