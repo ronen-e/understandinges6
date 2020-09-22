@@ -1145,11 +1145,12 @@ p2.then(function() {
 <span dir="ltr">`p2.then()`</span>
 גם היא מחזירה פרומיס. הדוגמה לעיל פשוט לא משתמשת באותו פרומיס.
 
-</div>
+### תפיסת שגיאות
 
-### Catching Errors
+שרשור פרומיסים מאפשר לנו לתפוס שגיאות שנובעות ממטפל הצלחה או דחיה של פרומיס קודם.
+לדוגמה:
 
-Promise chaining allows you to catch errors that may occur in a fulfillment or rejection handler from a previous promise. For example:
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1162,8 +1163,17 @@ p1.then(function(value) {
     console.log(error.message);     // "Boom!"
 });
 ```
+</div>
 
-In this code, the fulfillment handler for `p1` throws an error. The chained call to the `catch()` method, which is on a second promise, is able to receive that error through its rejection handler. The same is true if a rejection handler throws an error:
+בקוד לעיל, מטפל ההצלחה עבור הפרומיס
+`p1`
+זורק שגיאה.
+הקריאה המשורשרת למתודה
+<span dir="ltr">`catch()`</span>
+שמופיעה על הפרומיס השנה, יכולה לקבל את אותה שגיאה באמצעות מטפל הדחיה שלה. הדבר נכון גם כאשר מטפל דחיה זורק שגיאה:
+
+
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1177,10 +1187,16 @@ p1.catch(function(error) {
     console.log(error.message);     // "Boom!"
 });
 ```
+</div>
 
-Here, the executor throws an error then triggers the `p1` promise's rejection handler. That handler then throws another error that is caught by the second promise's rejection handler. The chained promise calls are aware of errors in other promises in the chain.
+בדוגמה לעיל, פונקציית ההרצה זורקת שגיאה ומפעילה את מטפל הדחיה עבור 
+`p1`.
+אותה פונקציה מטפלת זורקת שגיאה נוספת שנתפסת על ידי מטפל הדחיה של הפרומיס האחר. הקריאות לפונקציות הנוספות בשרשרת הפרומיס מודעות לשגיאות שמגיעות מתוך השרשרת.
 
-I> Always have a rejection handler at the end of a promise chain to ensure that you can properly handle any errors that may occur.
+I> מומלץ
+שתמיד יהיה מטפל דחיה בסוף שרשרת הפרומיס כדי לוודא שמטפלים בכל שגיאה אפשרית.
+
+</div>
 
 ### Returning Values in Promise Chains
 
