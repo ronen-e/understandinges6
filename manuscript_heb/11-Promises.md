@@ -1258,11 +1258,12 @@ p1.catch(function(value) {
 `value + 1`.
 למרות שערך החזרה מגיע מתוך מטפל דחיה, עדיין משתשמשים בו במטפל ההצלחה עבור הפרומיס הבא בשרשרת. כישלון של פרומיס אחד יכול לגרום להתאוששות השרשרת כולה במקרה הצורך.
 
-</div>
+### החזרת פרומיס בתוך שרשרת פרומיס
 
-### Returning Promises in Promise Chains
+החזרת ערכים פרימיטיביים מתוך מטפלי דחיה והצלחה מאפשרת להעביר מידע בין פרומיסים, אבל מה אם נחזיר אובייקט? אם האובייקט הוא מסוג פרומיס, אזי יש שלב נוסף שיש לעבור על מנת לקבוע כיצד להמשיך. 
+לדוגמה:
 
-Returning primitive values from fulfillment and rejection handlers allows passing of data between promises, but what if you return an object? If the object is a promise, then there's an extra step that's taken to determine how to proceed. Consider the following example:
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1274,18 +1275,38 @@ let p2 = new Promise(function(resolve, reject) {
 });
 
 p1.then(function(value) {
-    // first fulfillment handler
+    // מטפל הצלחה ראשון
     console.log(value);     // 42
     return p2;
 }).then(function(value) {
-    // second fulfillment handler
+    // מטפל הצלחה שני
     console.log(value);     // 43
 });
 ```
+</div>
 
-In this code, `p1` schedules a job that resolves to 42. The fulfillment handler for `p1` returns `p2`, a promise already in the resolved state. The second fulfillment handler is called because `p2` has been fulfilled. If `p2` were rejected, a rejection handler (if present) would be called instead of the second fulfillment handler.
+בקוד לעיל, 
+`p1`
+מתזמן משימה שתחזיר את הערך 
+42.
+מטפל ההצלחה עבור
+`p1`
+מחזיר את הפרומיס
+`p2`,
+פרומיס שכבר נמצא במצב הצלחה. מטפל ההצלחה השני נקרא מכיוון
+שהפרומיס
+`p2`
+כבר הושלם בהצלחה. אם
+`p2`
+היה נדחה, מטפל הדחיה
+(במידה וקיים)
+היה נקרא במקום מטפל ההצלחה השני.
 
-The important thing to recognize about this pattern is that the second fulfillment handler is not added to `p2`, but rather to a third promise. The second fulfillment handler is therefore attached to that third promise, making the previous example equivalent to this:
+הדבר החשוב לדעת לגבי התבנית הזו הינו שמטפל ההצלחה השני אינו מתווסף על 
+`p2`,
+אלא על פרומיס שלישי. מטפל ההצלחה השני מחובר לפרומיס שלישי, מה שהופך את הדוגמה הקודמת מקבילה לדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1297,18 +1318,28 @@ let p2 = new Promise(function(resolve, reject) {
 });
 
 let p3 = p1.then(function(value) {
-    // first fulfillment handler
+    // מטפל הצלחה ראשון
     console.log(value);     // 42
     return p2;
 });
 
 p3.then(function(value) {
-    // second fulfillment handler
+    // מטפל הצלחה שני
     console.log(value);     // 43
 });
 ```
+</div>
 
-Here, it's clear that the second fulfillment handler is attached to `p3` rather than `p2`. This is a subtle but important distinction, as the second fulfillment handler will not be called if `p2` is rejected. For instance:
+בדוגמה לעיל ברור שמטפל ההצלחה השני מחובר לפרומיס
+`p3`
+ולא אל
+`p2`.
+חשוב להבין את ההבדל כיוון שמטפל ההצלחה השני לא ייקרא אם
+`p2`
+יידחה.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1320,16 +1351,21 @@ let p2 = new Promise(function(resolve, reject) {
 });
 
 p1.then(function(value) {
-    // first fulfillment handler
+    // מטפל הצלחה ראשון
     console.log(value);     // 42
     return p2;
 }).then(function(value) {
-    // second fulfillment handler
-    console.log(value);     // never called
+    // מטפל הצלחה שני
+    console.log(value);     // לא קורה
 });
 ```
+</div>
 
-In this example, the second fulfillment handler is never called because `p2` is rejected. You could, however, attach a rejection handler instead:
+בדוגמה לעיל, מטפל ההצלחה השני לא נקרא מכיוון שהפרומיס
+`p2`
+נדחה. ואולם, באפשרותנו להוסיף מטפל דחיה אם נרצה:
+
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1341,18 +1377,32 @@ let p2 = new Promise(function(resolve, reject) {
 });
 
 p1.then(function(value) {
-    // first fulfillment handler
+    // מטפל הצלחה ראשון
     console.log(value);     // 42
     return p2;
 }).catch(function(value) {
-    // rejection handler
+    // מטפל דחיה
     console.log(value);     // 43
 });
 ```
+</div>
 
-Here, the rejection handler is called as a result of `p2` being rejected. The rejected value 43 from `p2` is passed into that rejection handler.
+בדוגמה זו, מטפל הדחיה נקרא כתוצאה מדחיית הפרומיס
+`p2`.
+הערך עבור הדחיה, 
+43,
+מועבר לתוך מטפל הדחיה.
 
-Returning thenables from fulfillment or rejection handlers doesn't change when the promise executors are executed. The first defined promise will run its executor first, then the second promise executor will run, and so on. Returning thenables simply allows you to define additional responses to the promise results. You defer the execution of fulfillment handlers by creating a new promise within a fulfillment handler. For example:
+החזרת אובייקטים ד׳נבילים 
+(thenables)
+ממטפלי הצלחה או דחיה לא משפיעה על פעולת פונקציית ההרצה של הפרומיס
+(executors).
+הפרומיס הראשון שהוגדר יריץ את פונקציית ההרצה שלו קודם, לאחר מכן פונקציית ההרצה של הפרומיס השני תרוץ, וכך הלאה, לפי הסדר.
+החזרת אובייקטים ד׳נבילים מאפשרת לנו להגדיר פעולות ותגובות נוספות לתוצאת הפרומיס.
+אנו משהים את פעולת מטפלי ההצלחה על ידי יצירת פרומיס חדש בתוך מטפל הצלחה. 
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1362,7 +1412,7 @@ let p1 = new Promise(function(resolve, reject) {
 p1.then(function(value) {
     console.log(value);     // 42
 
-    // create a new promise
+    // יצירת פרומיס שני
     let p2 = new Promise(function(resolve, reject) {
         resolve(43);
     });
@@ -1372,8 +1422,15 @@ p1.then(function(value) {
     console.log(value);     // 43
 });
 ```
+</div>
 
-In this example, a new promise is created within the fulfillment handler for `p1`. That means the second fulfillment handler won't execute until after `p2` is fulfilled. This pattern is useful when you want to wait until a previous promise has been settled before triggering another promise.
+בדוגמה זו, פרומיס חדש נוצר בתוך מטפל הצלחה עבור
+`p1`.
+המשמעות היא שמטפל ההצלחה השני לא ירוץ עד אחרי שהפרומיס
+`p2`
+הושלם. טכניקה זו שימושית לנו אם נרצה לחכות עד שפרומיס קודם נפתר לפני שמפעילים פרומיס אחר.
+
+</div>
 
 ## Responding to Multiple Promises
 
