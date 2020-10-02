@@ -25,7 +25,7 @@ ECMAScript 6
 ו-
 <span dir="ltr">`Array.from()`</span>
 
-<span dir="ltr">### Array.of()</span>
+### <span dir="ltr">Array.of()</span>
 
 אחת הסיבות ש-
 ECMAScript 6
@@ -132,5 +132,70 @@ let items = createArray(Array.of, value);
   בתוך מתודת ה-
   <span dir="ltr">`of()`</span>)
   על מנת לקבוע את סוג הנתונים הנכון להחזרה.
+
+
+### <span dir="ltr">Array.from()</span>
+
+הפיכת אובייקטים שאינם מערכים למערכים הייתה תמיד מסורבלת בג'אווהסקריפט. לדוגמא, אם יש לנו אובייקט של ארגומנטים (שהוא אובייקט דמוי מערך) ואנו רוצים להשתמש בו כמערך נצטרך להמיר אותו תחילה למערך. כדי להמיר אובייקט דמוי מערך למערך ב-
+ECMAScript 5
+היה עלינו לכתוב פונקציה כמו זו שבדוגמה הבאה:
+
+<span dir="ltr">
+```js
+function makeArray(arrayLike) {
+  var result = [];
+
+  for (var i = 0; len < arrayLike.length; i++){
+    result.push(arrayLike[i]);
+  }
+  return result;
+} 
+
+function doSomething() {
+  var args = makeArray(arguments);
+
+  //use args
+}
+```</span>
+
+דרך זו יוצרת באופן ידני מערך בשם
+`result`
+ומעתיקה כל פריט מהארגומנטים למערך החדש. זה אומנם עובד אבל מצריך שימוש בכמות קוד מיותרת לחלוטין לצורך ביצוע פעולה פשוט. בסופו של דבר, מפתחים גילו כי הם יכולים להפחית את כמות הקוד הנדרשת על ידי שימוש במתודת
+<span dir="ltr">slice()</span>
+לבניית מערכים מאובייקטים דמויי מערך, כמו בדוגמא הבאה:
+
+<span dir="ltr">
+```js
+function makeArray(arrayLike) {
+  return Array.prototype.slice.call(arrayLike);
+} 
+
+function doSomething() {
+  var args = makeArray(arguments);
+
+  //use args
+}
+```</span>
+
+קוד זה מקביל מבחינה פונקציונלית לדוגמה הקודמת והוא עובד כיוון שהוא מגדיר את הערך
+`<span dir="ltr">this()</span>`
+עבור
+`<span dir="ltr">slice()</span>`.
+מכיוון ש-
+`<span dir="ltr">slice()</span>`
+זקוק רק לערכים מספריים ולמאפיין
+`length`
+כדי לתפקד כראוי הרי שכל אובייקט דמוי מערך יעבוד.
+
+על אף שטכניקה זו מצריכה פחות כתיבה הרי שהקריאה
+`<span dir="ltr">Array.prototype.slice.call(arrayLike)</span>`
+לא בהכרח מתרגמת ל-"המר את
+span dir="ltr">arrayLike</span>
+למערך. למרבה המזל,
+ECMAScript 6
+הוסיפה את המתודה
+`<span dir="ltr">Array.from()</span>`
+כדרך פשוטה ונקייה להמיר אובייקטים למערכים.
+
 
 </div>
