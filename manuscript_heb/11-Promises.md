@@ -1430,15 +1430,23 @@ p1.then(function(value) {
 `p2`
 הושלם. טכניקה זו שימושית לנו אם נרצה לחכות עד שפרומיס קודם נפתר לפני שמפעילים פרומיס אחר.
 
-</div>
+## התייחסות למספר פרומיסים
 
-## Responding to Multiple Promises
+עד כה, כל דוגמה בפרק הנוכחי התייחסה לפרומיס אחד בכל רגע נתון. ואולם לפעמים נרצה לבדוק התקדמות מספר פרומיסים בכדי לקבוע את הפעולה הבאה. אקמהסקריפט 6 מספקת לנו שתי מתודות שפועלות על מספר פרומיסים:
+<span dir="ltr">`Promise.all()`</span>
+והמתודה
+<span dir="ltr">`Promise.race()`</span>
 
-Up to this point, each example in this chapter has dealt with responding to one promise at a time. Sometimes, however, you'll want to monitor the progress of multiple promises in order to determine the next action. ECMAScript 6 provides two methods that monitor multiple promises: `Promise.all()` and `Promise.race()`.
+### <span dir="ltr">`Promise.all()`</span>
 
-### The Promise.all() Method
+המתודה
+<span dir="ltr">`Promise.all()`</span>
+מקבלת ארגומנט אחד, אובייקט איטרבילי
+(כמו מערך)
+של פרומיסים ומחזירה פרומיס שמושלם בהצלחה רק כאשר כל פרומיס בתוך האובייקט האיטרבילי מושלם בהצלחה.
+ראו בדוגמה הבא:
 
-The `Promise.all()` method accepts a single argument, which is an iterable (such as an array) of promises to monitor, and returns a promise that is resolved only when every promise in the iterable is resolved. The returned promise is fulfilled when every promise in the iterable is fulfilled, as in this example:
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1463,9 +1471,30 @@ p4.then(function(value) {
 });
 ```
 
-Each promise here resolves with a number. The call to `Promise.all()` creates promise `p4`, which is ultimately fulfilled when promises `p1`, `p2`, and `p3` are fulfilled. The result passed to the fulfillment handler for `p4` is an array containing each resolved value: 42, 43, and 44. The values are stored in the order the promises were passed to `Promise.all`, so you can match promise results to the promises that resolved to them.
+</div>
 
-If any promise passed to `Promise.all()` is rejected, the returned promise is immediately rejected without waiting for the other promises to complete:
+כל פרומיס בדוגמה לעיל מושלם עם מספר. הקריאה אל
+<span dir="ltr">`Promise.all()`</span>
+יוצרת את הפרומיס
+`p4`,
+שמושלם כאשר הפרומיסים
+`p1`, `p2`, 
+-ו
+`p3`
+מושלמים בהצלחה. התוצאה,
+מערך שמכיל כל ערך הצלחה,
+מועברת למטפל ההצלחה עבור הפרומיס
+`p4`.
+הערכים מופיעים לפי הסדר לפיו הפרומיסים הועברו למתודה
+<span dir="ltr">`Promise.all`</span>,
+כך שניתן להתאים את תוצאת הפרומיס לפרומיס עצמו.
+
+במידה ופרומיס אחד שהועבר אל
+<span dir="ltr">`Promise.all`</span>
+נדחה, הפרומיס שמוחזר נדחה גם הוא באופן מיידי מבלי לחכות לתוצאת הפרומיסים האחרים.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1487,10 +1516,30 @@ p4.catch(function(value) {
     console.log(value);                 // 43
 });
 ```
+</div>
 
-In this example, `p2` is rejected with a value of 43. The rejection handler for `p4` is called immediately without waiting for `p1` or `p3` to finish executing (They do still finish executing; `p4` just doesn't wait.)
+בדוגמה זו, הפרומיס
+`p2`
+נדחה עם הערך
+43.
+מטפל הדחיה עבור
+`p4`
+נקרא באופן מיידי, מבלי להמתין לסיום פעולת הפרומיסים
+`p1`
+או
+`p3`
+(
+הם עדיין פועלים.
+`p4`
+פשוט לא ממתין עבורם.
+).
 
-The rejection handler always receives a single value rather than an array, and the value is the rejection value from the promise that was rejected. In this case, the rejection handler is passed 43 to reflect the rejection from `p2`.
+מטפל הדחיה תמיד מקבל ערך בודד ולא מערך, וערך זה הינו ערך הדחיה מהפרומיס שנדחה. במקרה הנוכחי, מטפל הדחיה מקבל את הערך 
+`43`
+שהתקבל מהדחיה של הפרומיס
+`p2`.
+
+</div>
 
 ### The Promise.race() Method
 
