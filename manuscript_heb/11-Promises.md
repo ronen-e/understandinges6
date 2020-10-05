@@ -1539,11 +1539,18 @@ p4.catch(function(value) {
 שהתקבל מהדחיה של הפרומיס
 `p2`.
 
-</div>
+### <span dir="ltr">`Promise.race()`</span>
 
-### The Promise.race() Method
+המתודה
+<span dir="ltr">`Promise.race()`</span>
+פועלת בצורה שונה על מספר פרומיסים. המתודה מקבלת גם כן אובייקט איטרבילי של פרומיסים ומחזיר פרומיס, אך הפרומיס שמוחזר נפתר ברגע שאחד מהפרומיסים המנוטרים נפתר בהצלחה.
+במקום לחכות עבור כל הפרומיסים שיושלמו בהצלחה כמו שעושה המתודה
+<span dir="ltr">`Promise.all()`</span>
+המתודה
+<span dir="ltr">`Promise.race()`</span>
+מחזירה את הפרומיס הפתור ברגע שפרומיס אחד מתוך המערך מושלם בהצלחה. לדוגמה:
 
-The `Promise.race()` method provides a slightly different take on monitoring multiple promises. This method also accepts an iterable of promises to monitor and returns a promise, but the returned promise is settled as soon as the first promise is settled. Instead of waiting for all promises to be fulfilled like the `Promise.all()` method, the `Promise.race()` method returns an appropriate promise as soon as any promise in the array is fulfilled. For example:
+<div dir="ltr">
 
 ```js
 let p1 = Promise.resolve(42);
@@ -1562,8 +1569,19 @@ p4.then(function(value) {
     console.log(value);     // 42
 });
 ```
+</div>
 
-In this code, `p1` is created as a fulfilled promise while the others schedule jobs. The fulfillment handler for `p4` is then called with the value of 42 and ignores the other promises. The promises passed to `Promise.race()` are truly in a race to see which is settled first. If the first promise to settle is fulfilled, then the returned promise is fulfilled; if the first promise to settle is rejected, then the returned promise is rejected. Here's an example with a rejection:
+בקוד שבדוגמה, המשתנה
+
+נוצר כפרומיס פתור בהצלחה, והפרומיסים האחרים מתזמנים משימות.
+מטפל ההצלחה עבור
+`p4`
+נקרא עם הערך 42 ומתעלם משאר הפרומיסים. הפרומיסים שמועברים למתודה
+<span dir="ltr">`Promise.race()`</span>
+נמצאים במירוץ שבו ינצח הפרומיס שיצליח קודם. אם הפרומיס הראשון שנפתר מצליח אזי הפרומיס שמוחזר גם הוא יצליח. אם הפרומיס הראשון שנפתר נדחה, אזי הפרומיס שמוחזר מהמודה נדחה גם הוא.
+הנה דוגמה של דחיה:
+
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1589,9 +1607,34 @@ p4.catch(function(value) {
 });
 ```
 
-Here, both `p1` and `p3` use `setTimeout()` (available in both Node.js and web browsers) to delay promise fulfillment. The result is that `p4` is rejected because `p2` is rejected before either `p1` or `p3` is resolved. Even though `p1` and `p3` are eventually fulfilled, those results are ignored because they occur after `p2` is rejected.
+</div>
 
-## Inheriting from Promises
+בדוגמה לעיל,
+`p1` 
+וגם
+`p3`
+משתמשים ב
+<span dir="ltr">`setTimeout()`</span>
+(
+שקיים בסביבת
+Node.js
+וגם בדפדפנים
+)
+כדי לדחות את השלמת הפרומיס. התוצאה היא ש
+`p4`
+נדחה מכיוון ש
+`p2`
+נדחה לפני שאחד מהפרומיסים
+`p1` 
+או
+`p3`
+מצליח. למרות ש
+`p1` 
+ו-
+`p3`
+מושלמים בהצלחה לבסוף, מתעלמים מהתוצאה מפני שהיא מתרחשת לאחר שהפרומיס
+`p2`
+נדחה.
 
 Just like other built-in types, you can use a promise as the base for a derived class. This allows you to define your own variation of promises to extend what built-in promises can do. Suppose, for instance, you'd like to create a promise that can use methods named `success()` and `failure()` in addition to the usual `then()` and `catch()` methods. You could create that promise type as follows:
 
