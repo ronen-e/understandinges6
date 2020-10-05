@@ -1990,14 +1990,29 @@ run(function*() {
 (ECMAScript 8).
 <hr>
 
-## Summary
+## סיכום
 
-Promises are designed to improve asynchronous programming in JavaScript by giving you more control and composability over asynchronous operations than events and callbacks can. Promises schedule jobs to be added to the JavaScript engine's job queue for execution later, while a second job queue tracks promise fulfillment and rejection handlers to ensure proper execution.
+פרומיס נועד לשפר תכנות אסינכרוני בג׳אווהסקריפט על ידי הרחבת השליטה והיכולת לבצע קומפוזיציה של פעולות אסינכרוניות יחסית לתכנות מבוסס אירועים וקולבקים. פרומיס מתזמן משימות שיתווספו לתור המשימות של מנוע הריצה בג׳אווהסקריפט לביצוע בזמן עתידי, בעוד שתור משימות משני עוקב אחר מטפלי הצלחה ודחיה של פרומיס כדי להבטיח ריצת קוד נכונה.
 
-Promises have three states: pending, fulfilled, and rejected. A promise starts in a pending state and becomes fulfilled on a successful execution or rejected on a failure. In either case, handlers can be added to indicate when a promise is settled. The `then()` method allows you to assign a fulfillment and rejection handler and the `catch()` method allows you to assign only a rejection handler.
+לפרומיס יש שלושה מצבים, המתנה, הצלחה ודחיה. פרומיס מתחיל במצב המתנה ומושלם בהצלחה כאשר הקוד מסיים לרוץ באופן הרצוי או נדחה בעת כישלון. בכל אחד מהמקרים ניתן להוסיף מטפלים לפרומיס כשתגיע למצב סופי פתור. המתודה
+<span dir="ltr">`then()`</span>
+מאפשרת לנו להגדיר מטפל הצלחה ומטפל דחיה והמתודה
+<span dir="ltr">`catch()`</span>
+מאפשר לנו להגדיר מטפל דחיה.
 
-You can chain promises together in a variety of ways and pass information between them. Each call to `then()` creates and returns a new promise that is resolved when the previous one is resolved. Such chains can be used to trigger responses to a series of asynchronous events. You can also use `Promise.race()` and `Promise.all()` to monitor the progress of multiple promises and respond accordingly.
+ניתן לחבר פרומיסים ביחד במגוון דרכים ולהעביר אינפורמציה ביניהם. כל קריאה למתודה
+<span dir="ltr">`then()`</span>
+יוצרת ומחזירה פרומיס חדש שייפתר כאשר הפרומיס הקודם לו ייפתר. שרשראות כאלו יכולות לשמש אותנו כדי להגיב לסדרה של אירועים אסינכרוניים. ניתן להשתמש במתודות
+<span dir="ltr">`Promise.race()`</span>
+ו-
+<span dir="ltr">`Promise.all()`</span>
+בכדי לעקוב אחר התקדמות של מספר פרומיסים ולהגיב בהתאם.
 
-Asynchronous task running is easier when you combine generators and promises, as promises give a common interface that asynchronous operations can return. You can then use generators and the `yield` operator to wait for asynchronous responses and respond appropriately.
+הרצת משימות אסינכרוניות קלה יותר כאשר משלבים גנרטורים ופרומיס, הפרומיס נותן לנו ממשק פעולה קבוע עבור פעולות אסינכרוניות. ניתן להשתמש לאחר מכן בגנרטורים ובאופרטור
+`yield`
+כדי לחכות לתוצאה באופן אסינכרוני ולהגיב בהתאם.
 
-Most new web APIs are being built on top of promises, and you can expect many more to follow suit in the future.
+הרבה ממשקי תכנות אפליקציות חדשים
+(APIs)
+נבנים על בסיס פרומיס, וניתן לצפות שבעתיד יצטרפו אליהם עוד הרבה.
+</div>
