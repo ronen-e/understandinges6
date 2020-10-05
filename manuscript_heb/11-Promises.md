@@ -1944,28 +1944,51 @@ run(function*() {
 
 <hr>
 
-A rejection handler stores any rejection results in an error object. The `task.throw()` method passes that error object back into the iterator, and if an error is caught in the task, `result` is assigned to the next yield result. Finally, `step()` is called inside `catch()` to continue.
+### הרצת משימות אסינכרוניות בעתיד
 
-This `run()` function can run any generator that uses `yield` to achieve asynchronous code without exposing promises (or callbacks) to the developer. In fact, since the return value of the function call is always coverted into a promise, the function can even return something other than a promise. That means both synchronous and asynchronous methods work correctly when called using `yield`, and you never have to check that the return value is a promise.
+בזמן כתיבת שורות אילו נעשית עבודה מתמשכת ליצירת תחביר פשוט יותר להרצת קוד אסינכרוני בג׳אווהסקריפט. נעשית עבודה על תחביר שמשתמש במילה השמורה
+`await`
+שיחקה את הדוגמה הקודמת על בסיס פרומיס. הרעיון הוא להשתמש בפונקציה שמסומנת בתור
+`async`
+במקום להשתמש בגנרטור ולהשתמש במילה
+`await`
+במקום
+`yield`
+בעת הקריאה לפונקציה.
+לדוגמה:
 
-The only concern is ensuring that asynchronous functions like `readFile()` return a promise that correctly identifies its state. For Node.js built-in methods, that means you'll have to convert those methods to return promises instead of using callbacks.
+<div dir="ltr">
 
-A> ### Future Asynchronous Task Running
-A>
-A> At the time of my writing, there is ongoing work around bringing a simpler syntax to asynchronous task running in JavaScript. Work is progressing on an `await` syntax that would closely mirror the promise-based example in the preceding section. The basic idea is to use a function marked with `async` instead of a generator and use `await` instead of `yield` when calling a function, such as:
-A>
-A> ```js
-A> (async function() {
-A>     let contents = await readFile("config.json");
-A>     doSomethingWith(contents);
-A>     console.log("Done");
-A> })();
-A> ```
-A>
-A> The `async` keyword before `function` indicates that the function is meant to run in an asynchronous manner. The `await` keyword signals that the function call to `readFile("config.json")` should return a promise, and if it doesn't, the response should be wrapped in a promise. Just as with the implementation of `run()` in the preceding section, `await` will throw an error if the promise is rejected and otherwise return the value from the promise. The end result is that you get to write asynchronous code as if it were synchronous without the overhead of managing an iterator-based state machine.
-A>
-A> The `await` syntax is expected to be finalized in ECMAScript 2017 (ECMAScript 8).
+```js
+(async function() {
+    let contents = await readFile("config.json");
+    doSomethingWith(contents);
+    console.log("Done");
+})();
+```
 
+</div>
+
+המילה השמורה 
+`async`
+שמופיעה לפני
+`function`
+מהווה אינדיקציה לכך שהפונקציה מיועדת לרוץ אופן אסינכרוני.
+המילה
+`async`
+מאותתת שהקריאה לפונקציה
+<span dir="ltr">`readFile("config.json")`</span>
+אמורה להחזיר פרומיס, ובמידה ולא, אזי התוצאה תיעטף בפרומיס. בדיוק כמו במימוש של הפונקציה
+<span dir="ltr">`run()`</span>
+בסעיף הקודם, 
+`await`
+יזרוק שגיאה אם הפרומיס נדחה, אחרת יחזיר את הערך שהגיע מהפרומיס. התוצאה הסופית היא שכעת תוכלו לכתוב קוד אסינכרוני כאילו היה קוד סינכרוני מבלי הצורך לנהל מכונת סטייט פנימי מבוססת איטרטורים.
+
+התחביר עבור
+`await`
+צפוי להסתיים בגרסת אקמהסקריפט 2017
+(ECMAScript 8).
+<hr>
 
 ## Summary
 
