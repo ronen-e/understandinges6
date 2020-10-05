@@ -1636,12 +1636,24 @@ Node.js
 `p2`
 נדחה.
 
-Just like other built-in types, you can use a promise as the base for a derived class. This allows you to define your own variation of promises to extend what built-in promises can do. Suppose, for instance, you'd like to create a promise that can use methods named `success()` and `failure()` in addition to the usual `then()` and `catch()` methods. You could create that promise type as follows:
+## ירושה בפרומיס
+
+בדיוק כמו באובייקטים מובנים אחרים, ניתן להשתמש בפרומיס בתור בסיס למחלקה נגזרת. זה מאפשר לנו להגדיר וריאציות של פרומיס שתרחיב את מה שהפרומיס המובנה עושה. אם למשל נרצה פרומיס בעל מתודות בשם
+<span dir="ltr">`success()`</span>
+ו-
+<span dir="ltr">`failure()`</span>
+בנוסף למתודות הקיימות
+<span dir="ltr">`then()`</span>
+ו-
+<span dir="ltr">`catch()`</span>.
+תוכל ליצור פרומיס מסוג זה בדרך הבאה:
+
+<div dir="ltr">
 
 ```js
 class MyPromise extends Promise {
 
-    // use default constructor
+    // נעשה שימוש בקונסטרקטור הרגיל
 
     success(resolve, reject) {
         return this.then(resolve, reject);
@@ -1663,14 +1675,50 @@ promise.success(function(value) {
     console.log(value);
 });
 ```
+</div>
 
-In this example, `MyPromise` is derived from `Promise` and has two additional methods. The `success()` method mimics `then()` and `failure()` mimics the `catch()` method.
+בדוגמה זו, 
+`MyPromise`
+יורש מ
+`Promise`
+ויש לו שתי מתודות נוספות. המתודה
+<span dir="ltr">`success()`</span>
+פועלת בדיוק כמו
+<span dir="ltr">`failure()`</span>
+והמתודה
+<span dir="ltr">`then()`</span>
+פועלת בדיוק כמו המתודה
+<span dir="ltr">`catch()`</span>.
 
-Each added method uses `this` to call the method it mimics. The derived promise functions the same as a built-in promise, except now you can call `success()` and `failure()` if you want.
+כל מתודה חדשה משתמשת ב
+`this`
+כדי לקרוא למתודה אותה היא מחקה. המחלקה היורשת מתפקדת בדיוק כמו הפרומיס המובנה, מלבד העובדה שנוכל לקרוא למתודות
+<span dir="ltr">`success()`</span>
+ו-
+<span dir="ltr">`failure()`</span>
+אם נרצה.
 
-Since static methods are inherited, the `MyPromise.resolve()` method, the `MyPromise.reject()` method, the `MyPromise.race()` method, and the `MyPromise.all()` method are also present on derived promises. The last two methods behave the same as the built-in methods, but the first two are slightly different.
+מאחר ומתודות סטטיות עוברות בירושה, המתודות
+<span dir="ltr">`MyPromise.resolve()`</span>,
+<span dir="ltr">`MyPromise.reject()`</span>,
+<span dir="ltr">`MyPromise.race()`</span>,
+<span dir="ltr">`MyPromise.all()`</span>,
+כולן קיימות גם הן על הפרומיס של המחלקה הנגזרת. שתי המתודות האחרונות מתנהגות בדיוק כמו המתודות המובנות, אך השתיים שלפניהן שונות במקצת.
 
-Both `MyPromise.resolve()` and `MyPromise.reject()` will return an instance of `MyPromise` regardless of the value passed because those methods use the `Symbol.species` property (covered under in Chapter 9) to determine the type of promise to return. If a built-in promise is passed to either method, the promise will be resolved or rejected, and the method will return a new `MyPromise` so you can assign fulfillment and rejection handlers. For example:
+המתודות
+<span dir="ltr">`MyPromise.resolve()`</span>,
+ו-
+<span dir="ltr">`MyPromise.reject()`</span>
+יחזירו מופע של
+`MyPromise`
+ללא קשר לערך שמועבר אליהן מפני שהן משתמשות בתכונה
+`Symbol.species`
+(שהוסברה בפרק 9)
+כדי לקבוע את סוג הפרומיס שמוחזר. אם פרומיס מובנה מועבר כארגומנט לתוך אחת מהן, הפרומיס יצליח או יידחה, והמתודה תחזיר מופע של 
+`MyPromise`
+כך שניתן להוסיף לו מטפלי הצלחה ודחיה. למשל:
+
+<div dir="ltr">
 
 ```js
 let p1 = new Promise(function(resolve, reject) {
@@ -1684,8 +1732,30 @@ p2.success(function(value) {
 
 console.log(p2 instanceof MyPromise);   // true
 ```
+</div>
 
-Here, `p1` is a built-in promise that is passed to the `MyPromise.resolve()` method. The result, `p2`, is an instance of `MyPromise` where the resolved value from `p1` is passed into the fulfillment handler.
+בדוגמה לעיל,
+`p1`
+הינו פרומיס מובנה שמועבר לתוך המתודה
+<span dir="ltr">`MyPromise.resolve()`</span>.
+התוצאה,
+`p2`,
+הינה מופע של
+`MyPromise`
+שאליה הועבר הערך מתוך
+`p1`
+ישירות אל מטפל ההצלחה.
+
+אם מופע של
+`MyPromise`
+יועבר לתוך המתודות
+<span dir="ltr">`MyPromise.resolve()`</span>
+או
+<span dir="ltr">`MyPromise.reject()`</span>
+הוא יוחזר כמות שהוא מבלי שייפתר. בכל היבט אחר שתי המתודות הללו מתנהגות בדיוק כמו המתודות
+<span dir="ltr">`Promise.resolve()`</span>
+ו
+<span dir="ltr">`Promise.reject()`</span>
 
 If an instance of `MyPromise` is passed to the `MyPromise.resolve()` or `MyPromise.reject()` methods, it will just be returned directly without being resolved. In all other ways these two methods behave the same as `Promise.resolve()` and `Promise.reject()`.
 
