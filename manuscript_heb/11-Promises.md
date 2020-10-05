@@ -1757,27 +1757,27 @@ console.log(p2 instanceof MyPromise);   // true
 ו
 <span dir="ltr">`Promise.reject()`</span>
 
-If an instance of `MyPromise` is passed to the `MyPromise.resolve()` or `MyPromise.reject()` methods, it will just be returned directly without being resolved. In all other ways these two methods behave the same as `Promise.resolve()` and `Promise.reject()`.
+### הרצת  משימות אסינכרוניות
 
-### Asynchronous Task Running
+בפרק 8, הצגתי לכם גנרטורים וכיצד להשתמש בהם עבור הרצת משימות אסינכרוניות, כמו בדוגמה הבאה:
 
-In Chapter 8, I introduced generators and showed you how you can use them for asynchronous task running, like this:
+<div dir="ltr">
 
 ```js
 let fs = require("fs");
 
 function run(taskDef) {
 
-    // create the iterator, make available elsewhere
+    // יצירת האיטרטור ושמירתו
     let task = taskDef();
 
-    // start the task
+    // התחלת ביצוע המשימות
     let result = task.next();
 
-    // recursive function to keep calling next()
+    // קריאות ריקורסיביות לערך הבא באיטרטור
     function step() {
 
-        // if there's more to do
+        // בדיקה אם נותרו עוד פעולות
         if (!result.done) {
             if (typeof result.value === "function") {
                 result.value(function(err, data) {
@@ -1797,12 +1797,12 @@ function run(taskDef) {
         }
     }
 
-    // start the process
+    // התחלת התהליך
     step();
 
 }
 
-// Define a function to use with the task runner
+// הגדרת פונקציה לשימוש עם מריץ המשימות
 
 function readFile(filename) {
     return function(callback) {
@@ -1810,7 +1810,7 @@ function readFile(filename) {
     };
 }
 
-// Run a task
+// הרצת משימה
 
 run(function*() {
     let contents = yield readFile("config.json");
@@ -1819,28 +1819,34 @@ run(function*() {
 });
 ```
 
-There are some pain points to this implementation. First, wrapping every function in a function that returns a function is a bit confusing (even this sentence was confusing). Second, there is no way to distinguish between a function return value intended as a callback for the task runner and a return value that isn't a callback.
+</div>
 
-With promises, you can greatly simplify and generalize this process by ensuring that each asynchronous operation returns a promise. That common interface means you can greatly simplify asynchronous code. Here's one way you could simplify that task runner:
+יש מספר בעיות במימוש הנ״ל. ראשית, עטיפת כל פונקציה בפונקציה שמחזירה פונקציה יכולה לבלבל את הקורא
+(אפילו המשפט הנ״ל לא ברור).
+שנית, אין דרך להבחין בין ערך חזרה שמיועד לשימוש כפונקציית קולבק עבור מריץ המשימות לבין ערך חזרה שאיננו כזה.
+
+על ידי שימוש בפרומיס ניתן לפשט את התהליך ולוודא שכל פעולה אסינכרונית תחזיר פרומיס. המימוש הנפוץ הזה מאפשר לפשט באופן משמעותי כתיבת קוד אסינכרוני. הנה דוגמה אחת לכך:
+
+<div dir="ltr">
 
 ```js
 let fs = require("fs");
 
 function run(taskDef) {
 
-    // create the iterator
+    // יצירת האיטרטור 
     let task = taskDef();
 
-    // start the task
+    // התחלת ביצוע המשימות
     let result = task.next();
 
-    // recursive function to iterate through
+    // קריאות ריקורסיביות לערך הבא באיטרטור
     (function step() {
 
-        // if there's more to do
+        // בדיקה אם נותרו עוד פעולות
         if (!result.done) {
 
-            // resolve to a promise to make it easy
+            // המרה לפרומיס פתור בהצלחה
             let promise = Promise.resolve(result.value);
             promise.then(function(value) {
                 result = task.next(value);
@@ -1853,7 +1859,7 @@ function run(taskDef) {
     }());
 }
 
-// Define a function to use with the task runner
+// מגדירים פונקציה לשימוש עם מריץ המשימות
 
 function readFile(filename) {
     return new Promise(function(resolve, reject) {
@@ -1867,7 +1873,7 @@ function readFile(filename) {
     });
 }
 
-// Run a task
+// הרצת משימה
 
 run(function*() {
     let contents = yield readFile("config.json");
@@ -1875,10 +1881,68 @@ run(function*() {
     console.log("Done");
 });
 ```
+</div>
 
-In this version of the code, a generic `run()` function executes a generator to create an iterator. It calls `task.next()` to start the task and recursively calls `step()` until the iterator is complete.
+בגרסה זו של הקוד, הפונקציה
+<span dir="ltr">`run()`</span>
+מריצה גנרטור כדי לייצר איטרטור. היא מפעילה את הקוד
+<span dir="ltr">`task.next()`</span>
+כדי להפעיל את המשימה וקוראת באופן רקורסיבי לפונקציה
+<span dir="ltr">`step()`</span>
+עד שהאיטרטור סיים.
 
-Inside the `step()` function, if there's more work to do, then `result.done` is `false`. At that point, `result.value` should be a promise, but `Promise.resolve()` is called just in case the function in question didn't return a promise. (Remember, `Promise.resolve()` just passes through any promise passed in and wraps any non-promise in a promise.) Then, a fulfillment handler is added that retrieves the promise value and passes the value back to the iterator. After that, `result` is assigned to the next yield result before the `step()` function calls itself.
+בתוך הפונקציה
+<span dir="ltr">`run()`</span>
+אם נותרו משימות להריץ הערך עבור
+<span dir="ltr">`result.done`</span>
+יהיה
+`false`.
+בנקודה זו, הערך עבור
+<span dir="ltr">`result.value`</span>
+צריך להיות פרומיס, אך
+<span dir="ltr">`Promise.resolve()`</span>
+נקראת רק למקרה שהפונקציה לא החזירה פרומיס.
+(
+    זכרו,
+    <span dir="ltr">`Promise.resolve()`</span>
+    אינה משנה ערך מסוג פרומיס שמועבר אליה
+    ועוטפת כל דבר אחר בפרומיס.
+).
+אחר כך, מחברים מטפל הצלחה שמעביר את ערך הפרומיס חזרה לאיטרטור.
+לאחר מכן, הערך הבא שמוחזר מהאיטרטור מועבר למשתנה
+`result`
+ממש לפני שהפונקציה
+<span dir="ltr">`step()`</span>
+קוראת שוב לעצמה.
+
+מטפל דחיה שומר את תוצאות הדחיה, במידה וקרתה, בתוך אובייקט.
+המתודה
+<span dir="ltr">`task.throw()`</span>
+מעבירה את אובייקט השגיאה בחזרה לתוך האיטרטור, ואם נתפסת שגיאה בתוך המשימה, אזי תוצאת האיטרטור הבאה מועברת לערך
+`result`.
+לבסוף הפונקציה
+<span dir="ltr">`step()`</span>
+נקראת בתוך
+<span dir="ltr">`catch()`</span>
+כדי להמשיך.
+
+הפונקציה
+<span dir="ltr">`run()`</span>
+יכולה להריץ כל גנרטור שמשתמש ב
+`yield`
+כדי לההריץ קוד אסינכרוני מבלי הצורך לחשוף פרומיס 
+(או פונקציית קולבק)
+למפתחים. למעשה, מכיוון שערך החזרה של הפונקציה תמיד מומר לפרומיס, הפונקציה יכולה להחזיר משהו אחר מפרומיס. המשמעות היא שקוד סינכרוני ואסינכרוני יעבדו כאשר קוראים לקוד בעזרת
+`yield`
+ולעולם לא נצטרך לבדוק שהערך המוחזר הינו פרומיס.
+
+הדבר היחיד שנותר לוודא הוא שפונקציות אסינכרוניות כמו
+<span dir="ltr">`readFile()`</span>
+יחזירו פרומיס שמשקף בצורה נכונה את פעולתה. עבור פונקציות מובנות בסביבת
+<span dir="ltr">`Node.js`</span>
+המשמעות היא שנצטרך להמיר את הפונקציות כך שיחזירו פרומיס במקום להשתמש בפונקציות קולבק.
+
+<hr>
 
 A rejection handler stores any rejection results in an error object. The `task.throw()` method passes that error object back into the iterator, and if an error is caught in the task, `result` is assigned to the next yield result. Finally, `step()` is called inside `catch()` to continue.
 
