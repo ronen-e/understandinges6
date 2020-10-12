@@ -456,21 +456,23 @@ I> יבוא ללא כריכות סביר להניח שישמש ליצירת מי
 
 ## טעינת מודולים
 
-While ECMAScript 6 defines the syntax for modules, it doesn't define how to load them. This is part of the complexity of a specification that's supposed to be agnostic to implementation environments. Rather than trying to create a single specification that would work for all JavaScript environments, ECMAScript 6 specifies only the syntax and abstracts out the loading mechanism to an undefined internal operation called `HostResolveImportedModule`. Web browsers and Node.js are left to decide how to implement `HostResolveImportedModule` in a way that makes sense for their respective environments.
+בעוד ש- ECMAScript 6 מגדיר את התחביר למודולים, הוא אינו מגדיר כיצד לטעון אותם. זה חלק מהמורכבות של מפרט שאמור להיות אגנוסטי לסביבות היישום. במקום לנסות ליצור מפרט יחיד שיעבוד בכל סביבות ה- JavaScript, ECMAScript 6 מציין רק את התחביר וממצה את מנגנון הטעינה לפעולה פנימית לא מוגדרת הנקראת `HostResolveImportedModule`. דפדפני האינטרנט ו- Node.js נותרו להחליט כיצד ליישם את `HostResolveImportedModule` באופן הגיוני לסביבותיהם.
 
-### Using Modules in Web Browsers
+### שימוש במודולים בדפדפני אינטרנט
 
-Even before ECMAScript 6, web browsers had multiple ways of including JavaScript in an web application. Those script loading options are:
+עוד לפני ECMAScript 6, היו לדפדפני האינטרנט דרכים מרובות לכלול JavaScript ביישום אינטרנט. אפשרויות טעינת סקריפט אלה הן:
 
-1. Loading JavaScript code files using the `<script>` element with the `src` attribute specifying a location from which to load the code.
-1. Embedding JavaScript code inline using the `<script>` element without the `src` attribute.
-1. Loading JavaScript code files to execute as workers (such as a web worker or service worker).
+1. טוען קבצי קוד JavaScript באמצעות רכיב `<script>` עם התכונה `src` המציין מיקום ממנו ניתן לטעון את הקוד.
+1. הטמעת קוד JavaScript מוטבע באמצעות האלמנט `<script>` ללא התכונה `src`.
+1. טוען קבצי קוד JavaScript לביצוע כ worker (כגון web worker או service worker).
 
-In order to fully support modules, web browsers had to update each of these mechanisms. These details are defined in the HTML specification, and I'll summarize them in this section.
+על מנת לתמוך במודולים באופן מלא, דפדפני האינטרנט נאלצו לעדכן כל אחד מהמנגנונים הללו. פרטים אלה מוגדרים במפרט ה- HTML ואני אסכם אותם בחלק זה.
 
-#### Using Modules With `<script>`
+#### שימוש במודולים עם `<script>`
 
-The default behavior of the `<script>` element is to load JavaScript files as scripts (not modules). This happens when the `type` attribute is missing or when the `type` attribute contains a JavaScript content type (such as `"text/javascript"`). The `<script>` element can then execute inline code or load the file specified in `src`. To support modules, the `"module"` value was added as a `type` option. Setting `type` to `"module"` tells the browser to load any inline code or code contained in the file specified by `src` as a module instead of a script. Here's a simple example:
+התנהגות ברירת המחדל של האלמנט `<script>` היא לטעון קבצי JavaScript כסקריפטים (לא מודולים). זה קורה כאשר התכונה`type` חסרה או כאשר התכונה `type` מכילה סוג תוכן של JavaScript (כגון `"text/javascript"`). האלמנט `<script>` יכול לבצע קוד מוטבע או לטעון את הקובץ שצוין ב- `src` . כדי לתמוך במודולים, הערך `"module"` נוסף כאופציה ב `type` . הגדרת `type` ל `"module"` אומרת לדפדפן לטעון כל קוד או קוד מוטבעים הכלולים בקובץ שצוין על ידי `src` כמודול במקום סקריפט. הנה דוגמה פשוטה:
+
+</div>
 
 ```html
 <!-- load a module JavaScript file -->
@@ -484,17 +486,21 @@ The default behavior of the `<script>` element is to load JavaScript files as sc
 </script>
 ```
 
-The first `<script>` element in this example loads an external module file using the `src` attribute. The only difference from loading a script is that `"module"` is given as the `type`. The second `<script>` element contains a module that is embedded directly in the web page. The variable `result` is not exposed globally because it exists only within the module (as defined by the `<script>` element) and is therefore not added to `window` as a property.
+<div dir="rtl">
 
-As you can see, including modules in web pages is fairly simple and similar to including scripts. However, there are some differences in how modules are loaded.
+האלמנט הראשון `<Script>` בדוגמה זו טוען קובץ מודול חיצוני באמצעות התכונה `src`. ההבדל היחיד מטעינת סקריפט הוא ש `"module"` ניתן כ `type`. האלמנט השני `<Script>` מכיל מודול המוטמע ישירות בדף האינטרנט. המשתנה `result` אינו נחשף באופן גלובלי מכיוון שהוא קיים רק בתוך המודול (כהגדרתו על ידי האלמנט `<script>`) ולכן אינו מתווסף ל `window` כמאפיין.
 
-I> You may have noticed that `"module"` is not a content type like the `"text/javascript"` type. Module JavaScript files are served with the same content type as script JavaScript files, so it's not possible to differentiate solely based on content type. Also, browsers ignore `<script>` elements when the `type` is unrecognized, so browsers that don't support modules will automatically ignore the `<script type="module">` line, providing good backwards-compatibility.
+כפי שאתה יכול לראות, כולל מודולים בדפי אינטרנט הוא די פשוט ודומה לכלול סקריפטים. עם זאת, ישנם כמה הבדלים באופן טעינת המודולים.
 
-#### Module Loading Sequence in Web Browsers
+I> יתכן ששמת לב ש- `"module"` אינו סוג תוכן כמו סוג `"text/javascript"` . קבצי JavaScript מודוליים מוגשים עם אותו סוג תוכן כמו קבצי JavaScript של סקריפט, כך שלא ניתן להבדיל רק על פי סוג תוכן. כמו כן, דפדפנים מתעלמים מאלמנטים של `<script>` כאשר `type` אינו מזוהה, כך שדפדפנים שאינם תומכים במודולים יתעלמו אוטומטית משורת `<script type="module">` , ויספקו תאימות טובה לאחור.
 
-Modules are unique in that, unlike scripts, they may use `import` to specify that other files must be loaded to execute correctly. To support that functionality, `<script type="module">` always acts as if the `defer` attribute is applied.
+#### רצף טעינת מודולים בדפדפני אינטרנט
 
-The `defer` attribute is optional for loading script files but is always applied for loading module files. The module file begins downloading as soon as the HTML parser encounters `<script type="module">` with a `src` attribute but doesn't execute until after the document has been completely parsed. Modules are also executed in the order in which they appear in the HTML file. That means the first `<script type="module">` is always guaranteed to execute before the second, even if one module contains inline code instead of specifying `src`. For example:
+המודולים הם ייחודיים בכך שבניגוד לתסריטים, הם עשויים להשתמש ב `import` כדי לציין שיש לטעון קבצים אחרים כדי לבצע אותם בצורה נכונה. כדי לתמוך בפונקציונליות זו, `<script type="module">` תמיד מתנהג כאילו מוחל התכונה `defer`.
+
+תכונת `defer` היא אופציונלית לטעינת קבצי סקריפט אך מוחלת תמיד לטעינת קבצי מודול. הורדת קובץ המודול מתחילה ברגע שמנתח ה- HTML נתקל ב- `<script type = "module'>` בתכונה `src` אך אינו מבוצע עד לאחר ניתוח המסמך לחלוטין. המודולים מבוצעים גם לפי סדר הופעתם בקובץ ה- HTML. פירוש הדבר שה- `<script type = "module">` הראשון מובטח תמיד כי יבוצע לפני השני, גם אם מודול אחד מכיל קוד מוטבע במקום לציין `src`. לדוגמה:
+
+</div>
 
 ```html
 <!-- this will execute first -->
@@ -511,27 +517,29 @@ The `defer` attribute is optional for loading script files but is always applied
 <script type="module" src="module2.js"></script>
 ```
 
-These three `<script>` elements execute in the order they are specified, so `module1.js` is guaranteed to execute before the inline module, and the inline module is guaranteed to execute before `module2.js`.
+<div dir="rtl">
 
-Each module may `import` from one or more other modules, which complicates matters. That's why modules are parsed completely first to identify all `import` statements. Each `import` statement then triggers a fetch (either from the network or from the cache), and no module is executed until all `import` resources have first been loaded and executed.
+שלושת האלמנטים `<script>` אלה מבצעים לפי סדר הגדרתם, ולכן מובטח ש- `module1.js` יבוצע לפני המודול המוטבע, ומובטח כי המודול המוטבע יבוצע לפני `module2.js`.
 
-All modules, both those explicitly included using `<script type="module">` and those implicitly included using `import`, are loaded and executed in order. In the preceding example, the complete loading sequence is:
+כל מודול יכול `import` ממודול אחד או יותר, מה שמסבך את העניינים. זו הסיבה שמודלים מנותחים תחילה לחלוטין כדי לזהות את כל הצהרות ה`import`. כל הצהרת `import` ואז מפעילה אחזור (מהרשת או מהמטמון), ואין מודול מבוצע עד שכל משאבי `import` נטענו והוצאו לראשונה. שלושת האלמנטים `<script>` אלה מבוצעים לפי הסדר. הם מוגדרים, ולכן מובטח ש- `module1.js` יבוצע לפני המודול המוטבע, ומובטח כי המודול המוטבע יבוצע לפני `module2.js`.
 
-1. Download and parse `module1.js`.
-1. Recursively download and parse `import` resources in `module1.js`.
-1. Parse the inline module.
-1. Recursively download and parse `import` resources in the inline module.
-1. Download and parse `module2.js`.
-1. Recursively download and parse `import` resources in `module2.js`
+כל המודולים, הן אלה שנכללו במפורש באמצעות `<script type =" module ">` וגם אלה שנכללו במשתמע באמצעות `import` , נטענים ומבוצעים לפי הסדר. בדוגמה הקודמת, רצף הטעינה השלם הוא:
 
-Once loading is complete, nothing is executed until after the document has been completely parsed. After document parsing completes, the following actions happen:
+1. הורד ונתח `module1.js`.
+1. הורד רקורסיבי ונתח את המשאבים `import` ב- `module1.js`.
+1. נתח את המודול המוטבע.
+1. הורד ורקורסיבית משאבים של `import` במודול המוטבע.
+1. הורד ונתח `module2.js`.
+1. הורד רקורסיבי ונתח את המשאבים `import` ב- `module2.js`
 
-1. Recursively execute `import` resources for `module1.js`.
-1. Execute `module1.js`.
-1. Recursively execute `import` resources for the inline module.
-1. Execute the inline module.
-1. Recursively execute `import` resources for `module2.js`.
-1. Execute `module2.js`.
+לאחר השלמת הטעינה, דבר אינו מבוצע עד לאחר ניתוח המסמך לחלוטין. לאחר השלמת ניתוח המסמכים, מתרחשות הפעולות הבאות:
+
+1. ביצוע רקורטיבי של משאבי `import` עבור `module1.js`.
+1. ביצוע `module1.js`.
+1. בצע רקורטיבי משאבי `import` עבור המודול המוטבע.
+1. בצע את המודול המוטבע.
+1. ביצוע רקורטיבי של משאבי `import` עבור `module2.js`.
+1. ביצוע `module2.js`.
 
 Notice that the inline module acts like the other two modules except that the code doesn't have to be downloaded first. Otherwise, the sequence of loading `import` resources and executing modules is exactly the same.
 
