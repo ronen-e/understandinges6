@@ -251,13 +251,13 @@ console.log(sum(1, 2)); // 3
 
 קוד זה מייבא את הפונקציה `add ()` באמצעות import ומשנה את שמו ל- `sum ()` (השם המקומי). פירוש הדבר שאין במודול זה מזהה בשם `add`.
 
-## ברירת מחדל במודולים
+### ברירת מחדל במודולים
 
 תחביר המודול מותאם באמת לייצוא וייבוא של ערכי ברירת מחדל ממודולים, מכיוון שדפוס זה היה נפוץ למדי במערכות מודולים אחרות, כמו CommonJS (פורמט מודול JavaScript אחר הפופולרי על ידי Node.js). ערך ברירת המחדל עבור מודול הוא משתנה, פונקציה או מחלקה כפי שצוינו על ידי מילת המפתח `default`, וניתן להגדיר רק יצוא ברירת מחדל אחד לכל מודול. שימוש במילת המפתח `default` עם יצוא מרובה יגרום לשגיאת תחביר.
 
-### Exporting Default Values
+### ייצוא ערכי ברירת מחדל
 
-Here's a simple example that uses the `default` keyword:
+הנה דוגמה פשוטה המשתמשת במילת המפתח `default`:
 
 </div>
 
@@ -267,9 +267,13 @@ export default function (num1, num2) {
 }
 ```
 
-This module exports a function as its default value. The `default` keyword indicates that this is a default export. The function doesn't require a name because the module itself represents the function.
+<div dir="rtl">
 
-You can also specify an identifier as the default export by placing it after `export default`, such as:
+מודול זה מייצא פונקציה כערך ברירת המחדל שלה. מילת המפתח `default` מציינת שמדובר בייצוא ברירת מחדל. הפונקציה אינה דורשת שם מכיוון שהמודול עצמו מייצג את הפונקציה.
+
+אתה יכול גם לציין מזהה כיצוא ברירת המחדל על ידי הצבתו לאחר`export default`, כגון:
+
+</div>
 
 ```js
 function sum(num1, num2) {
@@ -279,9 +283,13 @@ function sum(num1, num2) {
 export default sum;
 ```
 
-Here, the `sum()` function is defined first and later exported as the default value of the module. You may want to choose this approach if the default value needs to be calculated.
+<div dir="rtl">
 
-A third way to specify an identifier as the default export is by using the renaming syntax as follows:
+כאן, הפונקציה `sum()` מוגדרת תחילה ומאוחרת מיוצאת כערך ברירת המחדל של המודול. ייתכן שתרצה לבחור בגישה זו אם יש לחשב את ערך ברירת המחדל.
+
+דרך שלישית לציין מזהה כיצוא ברירת המחדל היא באמצעות תחביר שינוי שם כדלקמן:
+
+</div>
 
 ```js
 function sum(num1, num2) {
@@ -291,11 +299,15 @@ function sum(num1, num2) {
 export { sum as default };
 ```
 
-The identifier `default` has special meaning in a renaming export and indicates a value should be the default for the module. Because `default` is a keyword in JavaScript, it can't be used for a variable, function, or class name (it can be used as a property name). So the use of `default` to rename an export is a special case to create a consistency with how non-default exports are defined. This syntax is useful if you want to use a single `export` statement to specify multiple exports, including the default, at once.
+<div dir="rtl">
 
-### Importing Default Values
+למזהה `default` יש משמעות מיוחדת בייצוא שמות מחדש ומציין שערך צריך להיות ברירת המחדל עבור המודול. מכיוון ש `default` היא מילת מפתח ב- JavaScript, לא ניתן להשתמש בה לשם משתנה, פונקציה או שם מחלקה (ניתן להשתמש בה כשם מאפיין). אז השימוש ב `default` לשם שינוי יצוא הוא מקרה מיוחד ליצירת עקביות עם אופן ההגדרה של יצוא שאינו ברירת מחדל. תחביר זה שימושי אם ברצונך להשתמש במשפט `default` יחיד כדי לציין יצוא מרובים, כולל ברירת המחדל, בבת אחת.
 
-You can import a default value from a module using the following syntax:
+### ייבוא ערכי ברירת מחדל
+
+באפשרותך לייבא ערך ברירת מחדל ממודול באמצעות התחביר הבא:
+
+</div>
 
 ```js
 // import the default
@@ -304,9 +316,13 @@ import sum from "./example.js";
 console.log(sum(1, 2)); // 3
 ```
 
-This import statement imports the default from the module `example.js`. Note that no curly braces are used, unlike you'd see in a non-default import. The local name `sum` is used to represent whatever default function the module exports. This syntax is the cleanest, and the creators of ECMAScript 6 expect it to be the dominant form of import on the Web, allowing you to use an already-existing object.
+<div dir="rtl">
 
-For modules that export both a default and one or more non-default bindings, you can import all exported bindings with one statement. For instance, suppose you have this module:
+הצהרת ייבוא זו מייבאת את ברירת המחדל מהמודול `example.js`. שים לב כי לא נעשה שימוש בסוגריים מתולתלים, בשונה ממה שהיית רואה בייבוא שאינו ברירת מחדל. השם המקומי `sum` משמש לייצוג כל פונקציית ברירת המחדל שהמודול מייצא. התחביר הזה הוא הנקי ביותר, ויוצרי ECMAScript 6 מצפים שהוא יהיה צורת הייבוא הדומיננטית באינטרנט, מה שמאפשר לך להשתמש באובייקט שכבר קיים.
+
+עבור מודולים המייצאים גם קוד ברירת מחדל וגם חלק קוד אחד או יותר שאינו ברירת מחדל, באפשרותך לייבא את כל הקוד המיוצא עם משפט אחד. לדוגמה, נניח שיש לך את המודול הזה:
+
+</div>
 
 ```js
 export let color = "red";
@@ -316,7 +332,11 @@ export default function (num1, num2) {
 }
 ```
 
-You can import both `color` and the default function using the following `import` statement:
+<div dir="rtl">
+
+ניתן לייבא הן את `color` והן את פונקציית ברירת המחדל באמצעות הצהרת `import` הבאה:
+
+</div>
 
 ```js
 import sum, { color } from "./example.js";
@@ -325,9 +345,13 @@ console.log(sum(1, 2)); // 3
 console.log(color); // "red"
 ```
 
-The comma separates the default local name from the non-defaults, which are also surrounded by curly braces. Keep in mind that the default must come before the non-defaults in the `import` statement.
+<div dir="rtl">
 
-As with exporting defaults, you can import defaults with the renaming syntax, too:
+הפסיק מפריד בין השם המקומי המוגדר כברירת מחדל לבין הלא ברירות המחדל, המוקפות גם בסוגריים מסולסלים. זכור כי על ברירת המחדל לבוא לפני אי-ברירת המחדל בהצהרת`import`.
+
+כמו בייצוא ברירות מחדל, ניתן לייבא ברירות מחדל גם בעזרת התחביר המשנה את שם:
+
+</div>
 
 ```js
 // equivalent to previous example
@@ -337,44 +361,64 @@ console.log(sum(1, 2)); // 3
 console.log(color); // "red"
 ```
 
-In this code, the default export (`default`) is renamed to `sum` and the additional `color` export is also imported. This example is equivalent to the preceding example.
+<div dir="rtl">
 
-## Re-exporting a Binding
+בקוד זה, שמם של ייצוא ברירת המחדל (`default`) הוא`sum` וייצוא נוסף של `color` מיובא. דוגמא זו מקבילה לדוגמא הקודמת.
 
-There may be a time when you'd like to re-export something that your module has imported (for instance, if you're creating a library out of several small modules). You can re-export an imported value with the patterns already discussed in this chapter as follows:
+## ייצוא חוזר של קוד
+
+יכול להיות שתרצה לייצא מחדש משהו שהמודול שלך ייבא (למשל, אם אתה יוצר ספרייה מכמה מודולים קטנים). באפשרותך לייצא מחדש ערך מיובא עם הדפוסים שכבר נדונו בפרק זה באופן הבא:
+
+</div>
 
 ```js
 import { sum } from "./example.js";
 export { sum };
 ```
 
-That works, but a single statement can also do the same thing:
+<div dir="rtl">
+
+זה עובד, אבל הצהרה אחת יכולה גם לעשות את אותו הדבר:
+
+</div>
 
 ```js
 export { sum } from "./example.js";
 ```
 
-This form of `export` looks into the specified module for the declaration of `sum` and then exports it. Of course, you can also choose to export a different name for the same value:
+<div dir="rtl">
+
+צורה זו של `export` בודקת את המודול שצוין עבור ההצהרה על `sum` ואז מייצאת אותו. כמובן, אתה יכול גם לבחור לייצא שם אחר באותו ערך:
+
+</div>
 
 ```js
 export { sum as add } from "./example.js";
 ```
 
-Here, `sum` is imported from `"./example.js"` and then exported as `add`.
+<div dir="rtl">
 
-If you'd like to export everything from another module, you can use the `*` pattern:
+כאן, `sum` מיובא מ-`"./example.js"` ואז מיוצא כ `add`.
+
+אם ברצונך לייצא הכל ממודול אחר, תוכל להשתמש בתבנית `*`:
+
+</div>
 
 ```js
 export * from "./example.js";
 ```
 
-When you export everything, you are including all named exports and excluding any default export. For instance, if `example.js` has a default export, you would need to import it explicitly and then export it explicitly.
+<div dir="rtl">
 
-## Importing Without Bindings
+כשאתה מייצא הכל, אתה כולל את כל הייצוא ששמו אינו כולל יצוא ברירת מחדל. לדוגמא, אם ל- `example.js` יש ייצוא ברירת מחדל, יהיה עליכם לייבא אותו במפורש ואז לייצא אותו במפורש.
 
-Some modules may not export anything, and instead, only make modifications to objects in the global scope. Even though top-level variables, functions, and classes inside modules don't automatically end up in the global scope, that doesn't mean modules cannot access the global scope. The shared definitions of built-in objects such as `Array` and `Object` are accessible inside a module and changes to those objects will be reflected in other modules.
+## יבוא ללא הצהרה
 
-For instance, if you want to add a `pushAll()` method to all arrays, you might define a module like this:
+ייתכן שמודולים מסוימים לא מייצאים שום דבר, ובמקום זאת רק מבצעים שינויים באובייקטים בסקופ הכללי. למרות שמשתנים, פונקציות ומחלקות ברמה העליונה במודולים אינם מגיעים באופן אוטומטי להיקף הגלובלי, אין זה אומר שמודולים אינם יכולים לגשת להיקף הגלובלי. ההגדרות המשותפות של אובייקטים מובנים כגון `Array` ו `Object` נגישות בתוך מודול ושינויים באובייקטים אלה יבואו לידי ביטוי במודולים אחרים.
+
+לדוגמה, אם ברצונך להוסיף שיטת `pushAll()` לכל המערכים, תוכל להגדיר מודול כזה:
+
+</div>
 
 ```js
 // module code without exports or imports
@@ -389,7 +433,11 @@ Array.prototype.pushAll = function (items) {
 };
 ```
 
-This is a valid module even though there are no exports or imports. This code can be used both as a module and a script. Since it doesn't export anything, you can use a simplified import to execute the module code without importing any bindings:
+<div dir="rtl">
+
+זהו מודול תקף למרות שאין ייצוא או יבוא. ניתן להשתמש בקוד זה גם כמודול וגם כתסריט. מכיוון שהוא לא מייצא דבר, אתה יכול להשתמש בייבוא פשוט כדי לבצע את קוד המודול מבלי לייבא קוד כרוך:
+
+</div>
 
 ```js
 import "./example.js";
@@ -400,11 +448,13 @@ let items = [];
 items.pushAll(colors);
 ```
 
-This code imports and executes the module containing the `pushAll()` method, so `pushAll()` is added to the array prototype. That means `pushAll()` is now available for use on all arrays inside of this module.
+<div dir="rtl">
 
-I> Imports without bindings are most likely to be used to create polyfills and shims.
+קוד זה מייבא ומבצע את המודול המכיל את המתודה `pushAll()`, כך ש `pushAll()` נוסף לאב טיפוס המערך. פירוש הדבר ש- `pushAll()` זמין כעת לשימוש בכל המערכים שבתוך מודול זה.
 
-## Loading Modules
+I> יבוא ללא כריכות סביר להניח שישמש ליצירת מילוי polyfills.
+
+## טעינת מודולים
 
 While ECMAScript 6 defines the syntax for modules, it doesn't define how to load them. This is part of the complexity of a specification that's supposed to be agnostic to implementation environments. Rather than trying to create a single specification that would work for all JavaScript environments, ECMAScript 6 specifies only the syntax and abstracts out the loading mechanism to an undefined internal operation called `HostResolveImportedModule`. Web browsers and Node.js are left to decide how to implement `HostResolveImportedModule` in a way that makes sense for their respective environments.
 
