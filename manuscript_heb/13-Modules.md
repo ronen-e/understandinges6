@@ -541,15 +541,17 @@ I> יתכן ששמת לב ש- `"module"` אינו סוג תוכן כמו סוג 
 1. ביצוע רקורטיבי של משאבי `import` עבור `module2.js`.
 1. ביצוע `module2.js`.
 
-Notice that the inline module acts like the other two modules except that the code doesn't have to be downloaded first. Otherwise, the sequence of loading `import` resources and executing modules is exactly the same.
+שימו לב כי המודול המוטבע מתנהג כמו שני המודולים האחרים, אלא שלא צריך להוריד את הקוד תחילה. אחרת, רצף טעינת משאבי `import` והפעלת מודולים זהה לחלוטין.
 
-I> The `defer` attribute is ignored on `<script type="module">` because it already behaves as if `defer` is applied.
+I> מתעלמים מהתכונה `defer` ב- `<script type="module">` מכיוון שהיא כבר מתנהגת כאילו מוחל על `defer`.
 
-#### Asynchronous Module Loading in Web Browsers
+#### טעינה של מודול אסינכרוני בדפדפני אינטרנט
 
-You may already be familiar with the `async` attribute on the `<script>` element. When used with scripts, `async` causes the script file to be executed as soon as the file is completely downloaded and parsed. The order of `async` scripts in the document doesn't affect the order in which the scripts are executed, though. The scripts are always executed as soon as they finish downloading without waiting for the containing document to finish parsing.
+ייתכן שכבר מכיר את התכונה `async` באלמנט `<script>`. בשימוש עם סקריפטים, `async` גורם להופעת קובץ הסקריפט ברגע שהקובץ מוריד ומנותח לחלוטין. סדר הסקריפטים `async` במסמך אינו משפיע על סדר ביצוע הסקריפטים. התסריטים מבוצעים תמיד ברגע שהם מסיימים את ההורדה מבלי להמתין לסיום הניתוח של המסמך המכיל.
 
-The `async` attribute can be applied to modules as well. Using `async` on `<script type="module">` causes the module to execute in a manner similar to a script. The only difference is that all `import` resources for the module are downloaded before the module itself is executed. That guarantees all resources the module needs to function will be downloaded before the module executes; you just can't guarantee _when_ the module will execute. Consider the following code:
+ניתן להחיל את תכונת`async` גם על מודולים. השימוש ב- `async` ב- `<script type="module">` גורם למודול לבצע באופן דומה לתסריט. ההבדל היחיד הוא שכל משאבי ה `import` עבור המודול יורדו לפני ביצוע המודול עצמו. זה מבטיח שכל המשאבים שהמודול צריך לתפקד יורדו לפני ביצוע המודול; אתה פשוט לא יכול להבטיח _מתי_ המודול יבוצע. שקול את הקוד הבא:
+
+</div>
 
 ```html
 <!-- no guarantee which one of these will execute first -->
@@ -557,38 +559,50 @@ The `async` attribute can be applied to modules as well. Using `async` on `<scri
 <script type="module" async src="module2.js"></script>
 ```
 
-In this example, there are two module files loaded asynchronously. It's not possible to tell which module will execute first simply by looking at this code. If `module1.js` finishes downloading first (including all of its `import` resources), then it will execute first. If `module2.js` finishes downloading first, then that module will execute first instead.
+<div dir="rtl">
 
-#### Loading Modules as Workers
+בדוגמה זו, ישנם שני קבצי מודולים הנטענים בצורה אסינכרונית. לא ניתן לדעת איזה מודול יבוצע תחילה פשוט על ידי התבוננות בקוד זה. אם `module1.js` מסתיים בהורדה ראשונה (כולל כל משאבי ה `import` שלה), היא תפעל תחילה. אם תחילה ההורדה של `module2.js` תסתיים, אז המודול יופעל תחילה במקום זאת.
 
-Workers, such as web workers and service workers, execute JavaScript code outside of the web page context. Creating a new worker involves creating a new instance `Worker` (or another class) and passing in the location of JavaScript file. The default loading mechanism is to load files as scripts, like this:
+## טעינת מודולים כ Workers
+
+Workers, כמו web workers ו service workers, מבצעים קוד JavaScript מחוץ להקשר דף האינטרנט. יצירת worker חדש כוללת יצירת מופע חדש `worker` (או מחלקה אחרת) והעברת המיקום של קובץ JavaScript. מנגנון הטעינה המוגדר כברירת מחדל הוא טעינת קבצים כסקריפטים, כך:
+
+</div>
 
 ```js
 // load script.js as a script
 let worker = new Worker("script.js");
 ```
 
-To support loading modules, the developers of the HTML standard added a second argument to these constructors. The second argument is an object with a `type` property with a default value of `"script"`. You can set `type` to `"module"` in order to load module files:
+<div dir="rtl">
+
+כדי לתמוך בטעינת מודולים, מפתחי תקן HTML הוסיפו ארגומנט שני לבנאים אלה. הארגומנט השני הוא אובייקט עם מאפיין `type` עם ערך ברירת המחדל של `"script"`. אתה יכול להגדיר `type` ל `"module"` על מנת לטעון קבצי מודול:
+
+</div>
 
 ```js
 // load module.js as a module
 let worker = new Worker("module.js", { type: "module" });
 ```
 
-This example loads `module.js` as a module instead of a script by passing a second argument with `"module"` as the `type` property's value. (The `type` property is meant to mimic how the `type` attribute of `<script>` differentiates modules and scripts.) The second argument is supported for all worker types in the browser.
+<div dir="rtl">
 
-Worker modules are generally the same as worker scripts, but there are a couple of exceptions. First, worker scripts are limited to being loaded from the same origin as the web page in which they are referenced, but worker modules aren't quite as limited. Although worker modules have the same default restriction, they can also load files that have appropriate Cross-Origin Resource Sharing (CORS) headers to allow access. Second, while a worker script can use the `self.importScripts()` method to load additional scripts into the worker, `self.importScripts()` always fails on worker modules because you should use `import` instead.
+דוגמה זו טוענת את `module.js` כמודול במקום סקריפט על ידי העברת ארגומנט שני עם `"module"` כערך המאפיין`type`. (המאפיין `type` נועד לחקות כיצד התכונה `type` של `<script>` מבדילה בין מודולים וסקריפטים.) הטיעון השני נתמך לכל סוגי העובדים בדפדפן.
 
-### Browser Module Specifier Resolution
+מודולי Worker זהים בדרך כלל לתסריטים של Worker, אך ישנם כמה יוצאים מן הכלל. ראשית, סקריפטים של Worker מוגבלים לטעון מאותו מקור כמו דף האינטרנט אליו הם מוזכרים, אך מודולי Worker אינם מוגבלים באותה מידה. למרות שמודולי Worker מגבילים את אותה הגדרת ברירת המחדל, הם יכולים גם לטעון קבצים עם כותרות CORS (Cross-Origin Resource Sharing Sharing) כדי לאפשר גישה. שנית, בעוד שסקריפט עובד יכול להשתמש בשיטת `self.importScripts()` לטעינת סקריפטים נוספים לעובד,`self.importScripts()` תמיד נכשל במודולי Worker מכיוון שכדאי להשתמש במקום זאת ב`import`.
 
-All of the examples to this point in the chapter have used a relative module specifier path such as `"./example.js"`. Browsers require module specifiers to be in one of the following formats:
+### רזולוציית מפרט מודול הדפדפן
 
-- Begin with `/` to resolve from the root directory
-- Begin with `./` to resolve from the current directory
-- Begin with `../` to resolve from the parent directory
-- URL format
+כל הדוגמאות עד נקודה זו בפרק השתמשו בנתיב ספציפי של מודול יחסי כגון `"./example.js"`. הדפדפנים דורשים שמפרט המודול יהיה באחד מהפורמטים הבאים:
 
-For example, suppose you have a module file located at `https://www.example.com/modules/module.js` that contains the following code:
+- התחל עם `/` כדי לפתור מספריית השורש
+- התחל עם `/.` כדי לפתור מהספריה הנוכחית
+- התחל עם `/..` -כדי לפתור מספריית האב
+- פורמט כתובת אתר
+
+לדוגמא, נניח שיש לך קובץ מודול הממוקם ב- `https://www.example.com/modules/module.js` המכיל את הקוד הבא:
+
+</div>
 
 ```js
 // imports from https://www.example.com/modules/example1.js
@@ -604,7 +618,11 @@ import { third } from "/example3.js";
 import { fourth } from "https://www2.example.com/example4.js";
 ```
 
-Each of the module specifiers in this example is valid for use in a browser, including the complete URL in the final line (you'd need to be sure `ww2.example.com` has properly configured its Cross-Origin Resource Sharing (CORS) headers to allow cross-domain loading). These are the only module specifier formats that browsers can resolve by default (though the not-yet-complete module loader specification will provide ways to resolve other formats). That means some normal looking module specifiers are actually invalid in browsers and will result in an error, such as:
+<div dir="rtl">
+
+כל אחד ממפרט המודולים בדוגמה זו תקף לשימוש בדפדפן, כולל כתובת האתר המלאה בשורה הסופית (יהיה עליך להיות בטוח ש- `ww2.example.com` הגדיר כהלכה את שיתוף המשאבים המקוריים שלו (CORS) כותרות כדי לאפשר טעינה בין תחומים). אלה הם הפורמטים היחידים שמציינים את המודול שהדפדפנים יכולים לפתור כברירת מחדל (אם כי המפרט של מטעין המודולים שעדיין לא הושלם יספק דרכים לפתור פורמטים אחרים). כלומר, חלק ממפרט המודולים הרגיל למראה אינו תקף בדפדפנים ויגרום לשגיאה, כגון:
+
+</div>
 
 ```js
 // invalid - doesn't begin with /, ./, or ../
@@ -614,14 +632,16 @@ import { first } from "example.js";
 import { second } from "example/index.js";
 ```
 
-Each of these module specifiers cannot be loaded by the browser. The two module specifiers are in an invalid format (missing the correct beginning characters) even though both will work when used as the value of `src` in a `<script>` tag. This is an intentional difference in behavior between `<script>` and `import`.
+<div dir="rtl">
 
-## Summary
+לא ניתן לטעון את כל אחד ממפרט המודולים הללו על ידי הדפדפן. שני המפרטים של המודולים הם בפורמט לא חוקי (חסרים תווי ההתחלה הנכונים) למרות ששניהם יעבדו כאשר הם משמשים כערך של `src` בתג `<script>`. זהו הבדל מכוון בהתנהגות בין `<script>` ל-`import`.
 
-ECMAScript 6 adds modules to the language as a way to package up and encapsulate functionality. Modules behave differently than scripts, as they don't modify the global scope with their top-level variables, functions, and classes, and `this` is `undefined`. To achieve that behavior, modules are loaded using a different mode.
+## סיכום
 
-You must export any functionality you'd like to make available to consumers of a module. Variables, functions, and classes can all be exported, and there is also one default export allowed per module. After exporting, another module can import all or some of the exported names. These names act as if defined by `let` and operate as block bindings that can't be redeclared in the same module.
+ECMAScript 6 מוסיף מודולים לשפה כדרך לארוז ולפקוד פונקציונליות. מודולים מתנהגים אחרת מאשר סקריפטים, מכיוון שהם אינם משנים את ההיקף הגלובלי עם המשתנים, הפונקציות והמחלקות ברמה העליונה שלהם, ו `this` הוא `undefined`. כדי להשיג התנהגות זו, מודולים נטענים באמצעות מצב אחר.
 
-Modules need not export anything if they are manipulating something in the global scope. You can actually import from such a module without introducing any bindings into the module scope.
+עליך לייצא כל פונקציונליות שתרצה להעמיד לרשות צרכני המודול. ניתן לייצא משתנים, פונקציות ומחלקות, ויש גם אפשרות לייצוא ברירת מחדל אחד לכל מודול. לאחר הייצוא, מודול אחר יכול לייבא את כל השמות המיוצאים או חלקם. שמות אלה מתנהגים כאילו הוגדרו על ידי `const` ופועלים ככריכות בלוקים שלא ניתן להגדיר מחדש באותו מודול.
 
-Because modules must run in a different mode, browsers introduced `<script type="module">` to signal that the source file or inline code should be executed as a module. Module files loaded with `<script type="module">` are loaded as if the `defer` attribute is applied to them. Modules are also executed in the order in which they appear in the containing document once the document is fully parsed.
+מודולים לא צריכים לייצא שום דבר אם הם מבצעים מניפולציה במשהו בהיקף הגלובלי. אתה יכול למעשה לייבא ממודול כזה מבלי להכניס כל קוד לתחום המודול.
+
+מכיוון שמודולים חייבים לפעול במצב אחר, הדפדפנים הציגו את `<script type="module">` כדי לאותת שיש לבצע את קובץ המקור או את הקוד המוטבע כמודול. קבצי מודולים שטעונים ב- `<script type="module">` נטענים כאילו מוחל עליהם תכונת `defer`. המודולים מבוצעים גם לפי סדר הופעתם במסמך המכיל לאחר הניתוח המלא של המסמך.
