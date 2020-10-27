@@ -1,35 +1,94 @@
-# Appendix A: Smaller Changes
+<div dir="rtl">
 
-Along with the major changes this book has already covered, ECMAScript 6 made several other changes that are smaller but still helpful in improving JavaScript. Those changes include making integers easier to use, adding new methods for calculations, a tweak to Unicode identifiers, and formalizing the`__proto__` property. I describe all of those in this appendix.
+# נספח א: שינויים קטנים
 
-## Working with Integers
+יחד עם השינויים העיקריים שכוסו בספר זה, אקמהסקריפט 6 עשתה שינויים קטנים אך מועילים. השינויים הללו כוללים הפיכת ערכים מספריים לקלים יותר לשימוש, בעזרת הוספת צורות חישוב חדשות, שיפורים לעבודה עם קידוד טקסט מסוג יוניקוד והפיכת התכונה
+`__proto__`
+לתכונה פורמאלית. כל השינויים הללו מתוארים בנספח זה.
 
-JavaScript uses the IEEE 754 encoding system to represent both integers and floats, which has caused a lot of confusion over the years. The language takes great pains to ensure that developers don't need to worry about the details of number encoding, but problems still leak through from time to time. ECMAScript 6 seeks to address this by making integers easier to identify and work with.
+## עבודה עם ערכים מספריים
 
-### Identifying Integers
+ג׳אווהסקריפט משתמש בשיטת הקידוד
+<span dir="ltr">IEEE 754</span>
+על מנת לייצג גם ערכים מספריים שלמים
+(integers)
+וגם מספרים צפים
+(floats),
+דבר שגרם לבלבול רב במהלך השנים. השפה הלכה למרחק גדול על מנת לוודא שמפתחים לא יצטרכו לדאוג לגבי הפרטים הקטנים של קידוד מספרים, אך בעיות עדיין צצות מדי פעם. אקמהסקריפט 6 מטפלת בכך על ידי הפיכת ערכים מספרים שלמים קלים יותר לזיהוי ושימוש.
 
-First, ECMAScript 6 added the `Number.isInteger()` method, which can determine whether a value represents an integer in JavaScript. While JavaScript uses IEEE 754 to represent both types of numbers, floats and integers are stored differently. The `Number.isInteger()` method takes advantage of that, and when the method is called on a value, the JavaScript engine looks at the underlying representation of the value to determine whether that value is an integer. That means numbers that look like floats might actually be stored as integers and cause `Number.isInteger()` to return `true`. For example:
+### זיהוי ערכים מספריים שלמים
+
+ראשית, אקמהסקריפט 6 הוסיפה את המתודה
+<span dir="ltr">`Number.isInteger()`</span>
+שמאפשרת לקבוע האם ערך כלשהו מייצג מספר שלם. למרות שג׳אווהסקריפט משתמשת בשיטת
+<span dir="ltr">IEEE 754</span>
+כדי לייצג שני סוגי המספרים, מספרים צפים ושלמים שמורים בצורה שונה.
+המתודה
+<span dir="ltr">`Number.isInteger()`</span>
+מנצלת עובדה זו וכאשר היא נקראת היא בודקת את הייצוג הפנימי של אותו ערך על מנת לקבוע האם מדובר במספר שלם. המשמעות היא שמספרים שנראים כמו מספרים צפים יכולים להיות שמורים כמספר שלם ויגרמו למתודה
+<span dir="ltr">`Number.isInteger()`</span>
+להחזיר את הערך
+`true`.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 console.log(Number.isInteger(25));      // true
 console.log(Number.isInteger(25.0));    // true
 console.log(Number.isInteger(25.1));    // false
 ```
+</div>
 
-In this code, `Number.isInteger()` returns `true` for both `25` and `25.0` even though the latter looks like a float. Simply adding a decimal point to a number doesn't automatically make it a float in JavaScript. Since `25.0` is really just `25`, it is stored as an integer. The number `25.1`, however, is stored as a float because there is a fraction value.
+בקוד לעיל,
+<span dir="ltr">`Number.isInteger()`</span>
+מחזירה את הערך
 
-### Safe Integers
+גם עבור
+`25`
+וגם עבור
+`25.0`
+למרות שהערך האחרון נראה כמו מספר צף. הוספת נקודה עשרונית לערך מספרי לא הופכת אותו למספר צף באופן אוטומטי בג׳אווהסקריפט.
+לעומת זאת, הערך
+`25.1`
+נשמר כמספר צף כיוון שקיים אחרי הנקודה העשרונית.
 
-IEEE 754 can only accurately represent integers between -2^53^ and 2^53^, and outside this "safe" range, binary representations end up reused for multiple numeric values. That means JavaScript can only safely represent integers within the IEEE 754 range before problems become apparent. For instance, consider this code:
+### מספרים שלמים בטוחים לשימוש
+
+שיטת הקידוד המספרי
+<span dir="ltr">IEEE 754</span>
+יכולה לייצג באופן מדוייק ערכים שלמים בטווח הערכים
+-2^53^
+עד
+2^53^.
+מעבר לטווח ״בטוח״ זה, ייצוג בינארי שונה משמש למספר מרובה של ערכים נומריים. משמעות הדבר היא שג׳אווהסקריפט יכולה לייצג ערכים שלמים בצורה מדוייקת בתוך טווח זה לפני שצצות בעיות.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 console.log(Math.pow(2, 53));      // 9007199254740992
 console.log(Math.pow(2, 53) + 1);  // 9007199254740992
 ```
 
-This example doesn't contain a typo, yet two different numbers are represented by the same JavaScript integer. The effect becomes more prevalent the further the value falls outside the safe range.
+</div>
 
-ECMAScript 6 introduced the `Number.isSafeInteger()` method to better identify integers that the language can accurately represent. It also added the `Number.MAX_SAFE_INTEGER` and `Number.MIN_SAFE_INTEGER` properties to represent the upper and lower bounds of the integer range, respectively. The `Number.isSafeInteger()` method ensures that a value is an integer and falls within the safe range of integer values, as in this example:
+כפי שרואים בדוגמה לעיל, שני ערכים שונים מיוצגים על ידי אותו ערך מספרי שלם.
+התופעה תופיע באופן תכוף יותר ככל שהערך המדובר רחוק יותר מן הטווה הבטוח.
+
+אקמהסקריפט 6 הוסיפה את המתודה
+<span dir="ltr">`Number.isSafeInteger()`</span>
+כדי לזהות בצורה טובה יותר ערכים שלמים שהשפה מציגה בצורה מדויקת. היא גם הוסיפה את התכונות
+<span dir="ltr">`Number.MAX_SAFE_INTEGER`</span>
+ו-
+<span dir="ltr">`Number.MIN_SAFE_INTEGER`</span>
+כדי לייצג את הגבול העליון והתחתון, בהתאמה, של הטווח הבטוח.
+המתודה
+<span dir="ltr">`Number.isSafeInteger()`</span>
+יכולה להבטיח לנו שערך הינו מספר שלם שנמצא בטווח הערכים השלמים הבטוח לשימוש, כמו בדוגמה הבאה:
+
+
+<div dir="ltr">
 
 ```js
 var inside = Number.MAX_SAFE_INTEGER,
@@ -41,10 +100,27 @@ console.log(Number.isSafeInteger(inside));      // true
 console.log(Number.isInteger(outside));         // true
 console.log(Number.isSafeInteger(outside));     // false
 ```
+</div>
 
-The number `inside` is the largest safe integer, so it returns `true` for both the `Number.isInteger()` and `Number.isSafeInteger()` methods. The number `outside` is the first questionable integer value, and it isn't considered safe even though it's still an integer.
+הערך
+`inside`
+הינו הערך המספרי השלם הבטוח הגדול ביותר, ולכן הוא מחזיר את הערך
 
-Most of the time, you only want to deal with safe integers when doing integer arithmetic or comparisons in JavaScript, so using `Number.isSafeInteger()` as part of input validation is a good idea.
+עבור המתודות
+<span dir="ltr">`Number.isInteger()`</span>
+ו-
+<span dir="ltr">`Number.isSafeInteger()`</span>.
+המספר
+`outside`
+אינו נחשב לערך בטוח למרות שעדיין מדובר בערך מספרי שלם.
+
+רוב הזמן, נרצה להשתמש בערכים בטוחים לשימוש בעת חישובים או השוואות בג׳אווהסקריפט, כך ששימוש במתודה
+<span dir="ltr">`Number.isSafeInteger()`</span>.
+כחלק מוולידציה של קלט מהמשתמש נחשב לרעיון טוב.
+
+
+
+</div>
 
 ## New Math Methods
 
