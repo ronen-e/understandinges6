@@ -151,59 +151,84 @@ asm.js,
 `Math`
 שעושה זאת בעבורכם לפני שמנסים לממש אותה בעצמכם.
 
+## מזהי יוניקוד
 
-</div>
+אקמהסקריפט 6 מציעה לנו תמיכה טובה יותר ביוניקוד מאשר גרסאות קודמות והיא גם משנה את סוג התווים שיכולים לשמש בתור מזהים.
+בגרסת אקמהסקריפט 5, היה ניתן להשתמש ברצף תווי בריחה מסוג יוניקוד בתור מזהים.
+לדוגמה:
 
-* `Math.clz32(x)` Returns the number of leading zero bits in the 32-bit integer representation of `x`.
-* `Math.cosh(x)` Returns the hyperbolic cosine of `x`.
-* `Math.expm1(x)` Returns the result of subtracting 1 from the exponential function of `x`
-* `Math.fround(x)` Returns the nearest single-precision float of `x`.
-* `Math.hypot(...values)` Returns the square root of the sum of the squares of each argument.
-* `Math.imul(x, y)` Returns the result of performing true 32-bit multiplication of the two arguments.
-* `Math.log1p(x)` Returns the natural logarithm of `1 + x`.
-* `Math.log10(x)` Returns the base 10 logarithm of `x`.
-* `Math.log2(x)` Returns the base 2 logarithm of `x`.
-* `Math.sign(x)` Returns -1 if the `x` is negative, 0 if `x` is +0 or -0, or 1 if `x` is positive.
-* `Math.sinh(x)` Returns the hyperbolic sine of `x`.
-* `Math.tanh(x)` Returns the hyperbolic tangent of `x`.
-* `Math.trunc(x)` Removes fraction digits from a float and returns an integer.
 
-It's beyond the scope of this book to explain each new method and what it does in detail. But if your application needs to do a reasonably common calculation, be sure to check the new `Math` methods before implementing it yourself.
-
-## Unicode Identifiers
-
-ECMAScript 6 offers better Unicode support than previous versions of JavaScript, and it also changes what characters may be used as identifiers. In ECMAScript 5, it was already possible to use Unicode escape sequences for identifiers. For example:
+<div dir="ltr">
 
 ```js
-// Valid in ECMAScript 5 and 6
+// תקין בגרסת אקמהסקריפט 5 ו-6
 var \u0061 = "abc";
 
 console.log(\u0061);     // "abc"
 
-// equivalent to:
+// כמו לכתוב
 console.log(a);          // "abc"
 ```
+</div>
 
-After the `var` statement in this example, you can use either `\u0061` or `a` to access the variable. In ECMAScript 6, you can also use Unicode code point escape sequences as identifiers, like this:
+לאחר פקודת
+`var`
+בדוגמה זו,
+ניתן להשתמש ברצף התווים
+`\u0061`
+או פשוט
+`a`
+על מנת לגשת למשתנה.
+בגרסת אקמהסקריפט 6 ניתן להשתמש ברצף בריחה של נקודות קוד של יוניקוד בתור מזהים.
+למשל:
+
+<div dir="ltr">
 
 ```js
-// Valid in ECMAScript 5 and 6
+// תקין באקמהסקריפט 6
 var \u{61} = "abc";
 
 console.log(\u{61});      // "abc"
 
-// equivalent to:
+// כמו לכתוב
  console.log(a);          // "abc"
 ```
+</div>
 
-This example just replaces `\u0061` with its code point equivalent. Otherwise, it does exactly the same thing as the previous example.
+הדוגמה לעיל רק מחליפה את המזהה
+`\u0061`
+בנקודת הקוד המקבילה. חוץ מהבדל זה היא זהה לחלוטין לדוגמה הקודמת.
 
-Additionally, ECMAScript 6 formally specifies valid identifiers in terms of [Unicode Standard Annex #31: Unicode Identifier and Pattern Syntax](http://unicode.org/reports/tr31/), which gives the following rules:
+בנוסף לכך, אקמהסקריפט 6 מגדירה באופן רשמי מזהים תקינים לפי המונחים המצויים בדוקומנטציה של
+<span dir="ltr">
+[Unicode Standard Annex #31: Unicode Identifier and Pattern Syntax](http://unicode.org/reports/tr31/)
+</span>,
+שנותנת לנו את הכללים הבאים:
 
-1. The first character must be `$`, `_`, or any Unicode symbol with a derived core property of `ID_Start`.
-1. Each subsequent character must be `$`, `_`, `\u200c` (a zero-width non-joiner), `\u200d` (a zero-width joiner), or any Unicode symbol with a derived core property of `ID_Continue`.
+1. התו הראשון צריך להיות התו
+`$`, `_`,
+או כל תו יוניקוד בעל תכונת
+`ID_Start`.
+2. תו עוקב חייב להיות מהתווים
+`$`, `_`, `\u200c`
+(
+    תו לא מחבר באורך אפסי
+    <span dir="ltr">a zero-width non-joiner</span>
+),
+`\u200d`
+(
+    תו מחבר באורך אפסי
+    <span dir="ltr">a zero-width joiner</span>
+),
+או כל תו יוניקוד אחר בעל תכונת
+`ID_Continue`.
 
-The `ID_Start` and `ID_Continue` derived core properties are defined in Unicode Identifier and Pattern Syntax as a way to identify symbols that are appropriate for use in identifiers such as variables and domain names. The specification is not specific to JavaScript.
+התכונות
+`ID_Start`
+ו-
+`ID_Continue`
+מוגדרות בדוקומנטציה האמורה לעיל בתור דרך לזהות תווים שמקובלים לשימוש כמזהים בתור משתנים ושמות דומיין.
+ההגדרה המופיעה שם אינה בלעדית לג׳אווהסקריפט בלבד.
 
 ## Formalizing the `__proto__` Property
 
