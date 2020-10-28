@@ -14,9 +14,23 @@ TC-39
 אופרטור מתמטי חדש, מתודת מערך חדשה, ושגיאת תחביר חדשה.
 נספח זה ירחיב על כך.
 
-The only change to JavaScript syntax introduced in ECMAScript 2016 is the *exponentiation operator*, which is a mathematical operation that applies an exponent to a base. JavaScript already had the `Math.pow()` method to perform exponentiation, but JavaScript was also one of the only languages that required a method rather than a formal operator. (And some developers argue an operator is easier to read and reason about.)
+## האופרטור המעריכי
 
-The exponentiation operator is two asterisks (`**`) where the left operand is the base and the right operand is the exponent. For example:
+השינוי היחיד לתחביר בג׳אווהסקריפט שהוצג בגרסת אקמהסקריפט 2016 הינו
+*האופרטור המעריכי*
+(*exponentiation operator*),
+שמבטא פעולה מתמטית שמגדילה בסיס במעריך.
+בג׳אווהסקריפט כבר הייתה קיימת המתודה
+<span dir="ltr">`Math.pow()`</span>
+שביצעה הגדלה במעריך, אך ג׳אווהסקריפט הייתה אחת מהשפות הבודדות שדרשה מתודה לשם ביצוע הפעולה ולא היה לה אופרטור רשמי לכך
+(וישנם מפתחים שטוענים שאופרטור הינו קל יותר לקריאה והבנה).
+
+האופרטור המעריכי מורכב משת כוכביות
+(`**`)
+כאשר האופרנד השמאלי הינו הבסיס והאופרנד הימני הינו המעריך.
+לדוגמה:
+
+<div dir="ltr">
 
 ```js
 let result = 5 ** 2;
@@ -25,40 +39,100 @@ console.log(result);                        // 25
 console.log(result === Math.pow(5, 2));     // true
 ```
 
-This example calculates 5^2^, which is equal to 25. You can still use `Math.pow()` to achieve the same result.
+</div>
 
-### Order of Operations
+הדוגמה לעיל מחשבת
+<span dir="ltr">5^2^</span>,
+שערכו 25.
+ניתן עדיין להשתמש במתודה
+<span dir="ltr">`Math.pow()`</span>
+על מנת להשיג את אותה התוצאה.
 
-The exponentiation operator has the highest precedence of all binary operators in JavaScript (unary operators have higher precedence than `**`). That means it is applied first to any compound operation, as in this example:
+### סדר הפעולות
+
+האופרטור המעריכי בעל העדיפות הגבוהה ביותר מכל האופרטורים הבינאריים בג׳אווהסקריפט
+(לאופרטורים אונאריים יש עדיפות גבוהה יותר מאשר
+`**`).
+המשמעות היא שהוא מופעל קודם כל עבור כל פעולה מורכבת,
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let result = 2 * 5 ** 2;
 console.log(result);        // 50
 ```
 
-The calculation of 5^2^ happens first. The resulting value is then multiplied by 2 for a final result of 50.
+</div>
 
-### Operand Restriction
+ראשית כל נעשה החישוב עבור
+<span dir="ltr">5^2^</span>.
+התוצאה מוכפלת ב-2 ונקבל תוצאה סופית של 50.
 
-The exponentiation operator does have a somewhat unusual restriction that isn't present for other operators. The left side of an exponentiation operation cannot be a unary expression other than `++` or `--`. For example, this is invalid syntax:
+### הגבלת אופרנדים
+
+עבור האופרטור המעריכי קיימת מגבלה שאינה קיימת עבור אופרטורים אחרים. הצד השמאלי של האופרטור לא יכול להיות ביטוי אונארי מלבד
+`++`
+או
+`--`.
+הדוגמה הבאה מציגה תחביר לא תקני:
+
+
+<div dir="ltr">
 
 ```js
-// syntax error
+// שגיאת תחביר
 let result = -5 ** 2;
 ```
 
-The `-5` in this example is a syntax error because the order of operations is ambiguous. Does the `-` apply just to `5` or the result of the `5 ** 2` expression? Disallowing unary expressions on the left side of the exponentiation operator eliminates that ambiguity. In order to clearly specify intent, you need to include parentheses either around `-5` or around `5 ** 2` as follows:
+המספר
+`-5`
+בדוגמה זו נחשב לשגיאה תחבירית מכיוון שסדר הפעולות אינו ברור.
+האם הסימן
+`-`
+מופעל רק עבור הערך
+`5`
+או עבור תוצאת הביטוי
+<span dir="ltr">`5 ** 2`</span> ?
+הטלת איסור על ביטויים אונאריים בצידו השמאלי של האופרטור מבטלת את חוסר הבהירות.
+על מנת להבהיר את הכוונה, יש להוסיף סוגריים מסביב למספר
+`-5`
+או מסביב לביטוי
+`5 ** 2`
+כמו בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
-// ok
-let result1 = -(5 ** 2);    // equal to -25
+// תקין
+let result1 = -(5 ** 2);    // -25
 
-// also ok
-let result2 = (-5) ** 2;    // equal to 25
+// גם תקין
+let result2 = (-5) ** 2;    // 25
 ```
-If you put the parentheses around the expression, the `-` is applied to the whole thing. When the parentheses surround `-5`, it's clear that you want to raise -5 to the second power.
 
-You don't need parentheses to use `++` and `--` on the left side of the exponentiation operator because both operators have clearly-defined behavior on their operands. A prefix `++` or `--` changes the operand before any other operations take place, and the postfix versions don't apply any changes until after the entire expression has been evaluated. Both use cases are safe on the left side of this operator, as this code demonstrates:
+</div>
+
+אם נשים את הסוגריים מסביב לביטוי, הסימן
+`-`
+פועל על כל הביטוי.
+כאשר הסוגריים מופיעים מסביב לערך
+`-5`,
+ברור שהכוונה היא להגדיל את
+-5
+בריבוע.
+
+אין צורך להשתמש בסוגריים עבור האופרטורים
+`++`
+ו-
+`--`
+בצד השמאלי של האופרטור המעריכי מכיוון שלשני האופרטורים יש התנהגות מוגדרת היטב על האופרנדים שלהם. מקדם של
+`++`
+או
+`--`
+משנה את האופרנד לפני ביצוע כל פעולה אחרת והגרסה של האופרטורים שמופיעה מצד ימין של האופרנד לא מבצעת שינוי עד לאחר קריאת כל הביטוי כולו. שני הסוגים בטוחים לשימוש בצד השמאלי של האופרטור המעריכי, כפי שרואים בדוגמה הבאה:
+
+<div dir="ltr">
 
 ```js
 let num1 = 2,
@@ -71,7 +145,20 @@ console.log(num2-- ** 2);       // 4
 console.log(num2);              // 1
 ```
 
-In this example, `num1` is incremented before the exponentiation operator is applied, so `num1` becomes 3 and the result of the operation is 9. For `num2`, the value remains 2 for the exponentiation operation and then is decremented to 1.
+</div>
+
+בדוגמה זו,
+`num1`
+מועלה בערכו לפני שמופעל האופרטור המעריכי,
+לכן
+`num1`
+הופך למספר 3
+ותוצאת האופרציה היא
+9.
+עבור
+`num2`,
+הערך נשאר 2 עבור פעולת האופרטור המעריכי ואז משתנה ערכה ל 1.
+
 
 ## The Array.prototype.includes() Method
 
