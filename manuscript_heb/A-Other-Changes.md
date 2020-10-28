@@ -118,20 +118,42 @@ console.log(Number.isSafeInteger(outside));     // false
 <span dir="ltr">`Number.isSafeInteger()`</span>.
 כחלק מוולידציה של קלט מהמשתמש נחשב לרעיון טוב.
 
+## מתודות מתמטיות חדשות
+
+הדגש החדש על גיימינג וגרפיקה שהוביל את אקמהסקריפט 6 לכלול בתוכה מערכים בינאריים הוביל להבנה שמנוע הריצה של ג׳אווהסקריפט יכול לבצע חישובים מתמטיים רבים בצורה יעילה יותר. אך שיטות אופטימיזציה כמו
+asm.js,
+שפועלות על תת-קבוצה של ג׳אווהסקריפט על מנת לשפר ביצועים, זקוקות ליותר נתונים כדי לבצע חישובים באופן המהיר ביותר. למשל, הידיעה האם יש להתייחס לערכים נומריים בתור ערכים שלמים בני 32 ביט או בתור מספרים צפים בגודל 64 ביט חשובה עבור פעולות תלויות חומרה, שהן מהירות באופן משמעותי יותר מאשר פעולות על בסיס תוכנה.
+
+כתוצאה מכך, אקמהסקריפט 6 הוסיפה מספר מתודות לאובייקט
+`Math`
+כדי לשפר את מהירות החישובים המתמטיים הנפוצים.
+שיפור מהירות החישובים הנפוצים גם שיפרה את מהירות האפליקציות שמבצעות חישובים רבים, כמו תוכנות גרפיקה רבות. המתודות החדשות מופיעות בהמשך:
+
+* `Math.acosh(x)` מחזיר קוסינוס היפרבולי הפוך עבור `x`.
+* `Math.asinh(x)` מחזיר סינוס היפרבולי הפוך עבור `x`.
+* `Math.atanh(x)` מחזיר טנגנס היפרבולי הפוך עבור `x`
+* `Math.cbrt(x)` מחזיר שורש מעוקב עבור `x`.
+* `Math.clz32(x)` מחזיר את מספר הביטים המובילים בעלי ערך אפס בייצוג 32 ביט עבור `x`.
+* `Math.expm1(x)` מחזיר את התוצאה של חיסור 2 מהפונקציה האקספוננציאלית של `x`
+* `Math.fround(x)` מחזיר את המספר הצף הקרוב ביותר עבור `x`.
+* `Math.hypot(...values)` מחזיר את שורש סכום החזקות של כל הארגומנטים
+* `Math.imul(x, y)` מחזיר את תוצאת מכפלת 32 ביט של שני הארגומנטים
+* `Math.log1p(x)` מחזיר את הלוגריתם הטבעי של (`1 + x`).
+* `Math.log10(x)` מחזיר את הלוגריתם על העשרוני של `x`.
+* `Math.log2(x)` מחזיר את הלוגריתם על בסיס 2 של `x`.
+* `Math.sign(x)` מחזיר -1 אם הארגומנט שלילי, 0 אם ערכו +0 או -0 , ואת הערך 1 אם הארגומנט חיובי
+* `Math.cosh(x)` מחזיר קוסינוס היפרבולי עבור `x`.
+* `Math.sinh(x)` מחזיר את הסינוס ההיפרבולי עבור `x`.
+* `Math.tanh(x)` מחזיר טנגנס היפרבולי עבור `x`.
+* `Math.trunc(x)` מסלק ספרות לאחר הנקודה הדצימלית ממספר צף ומחזיר מספר שלם.
+
+הספר הזה לא ירחיב על כל מתודה חדשה שהוזכרה. אך במידה והאפליקציה שלכם צריכה לבצע חישובים מסוג נפוץ יחסית, חשוב לבדוק האם קיימת מתודה חדשה על האובייקט
+`Math`
+שעושה זאת בעבורכם לפני שמנסים לממש אותה בעצמכם.
 
 
 </div>
 
-## New Math Methods
-
-The new emphasis on gaming and graphics that led ECMAScript 6 to include typed arrays in JavaScript also led to the realization that a JavaScript engine could do many mathematical calculations more efficiently. But optimization strategies like asm.js, which works on a subset of JavaScript to improve performance, need more information to perform calculations in the fastest way possible. For instance, knowing whether the numbers should be treated as 32-bit integers or as 64-bit floats is important for hardware-based operations, which are much faster than software-based operations.
-
-As a result, ECMAScript 6 added several methods to the `Math` object to improve the speed of common mathematical calculations. Improving the speed of common calculations also improves the overall speed of applications that perform many calculations, such as graphics programs. The new methods are listed below:
-
-* `Math.acosh(x)` Returns the inverse hyperbolic cosine of `x`.
-* `Math.asinh(x)` Returns the inverse hyperbolic sine of `x`.
-* `Math.atanh(x)` Returns the inverse hyperbolic tangent of `x`
-* `Math.cbrt(x)` Returns the cubed root of `x`.
 * `Math.clz32(x)` Returns the number of leading zero bits in the 32-bit integer representation of `x`.
 * `Math.cosh(x)` Returns the hyperbolic cosine of `x`.
 * `Math.expm1(x)` Returns the result of subtracting 1 from the exponential function of `x`
