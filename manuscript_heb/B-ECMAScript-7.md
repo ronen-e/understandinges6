@@ -1,12 +1,18 @@
-# Appendix B: Understanding ECMAScript 7 (2016)
+<div dir="rtl">
 
-The development of ECMAScript 6 took about four years, and after that, TC-39 decided that such a long development process was unsustainable. Instead, they moved to a yearly release cycle to ensure new language features would make it into development sooner.
+# נספח ב: להבין אקמהסקריפט 7 (2016)
 
-More frequent releases mean that each new edition of ECMAScript should have fewer new features than ECMAScript 6. To signify this change, new versions of the specification no longer prominently feature the edition number, and instead refer to the year in which the specification was published. As a result, ECMAScript 6 is also known as ECMAScript 2015, and ECMAScript 7 is formally known as ECMAScript 2016. TC-39 expects to use the year-based naming system for all future ECMAScript editions.
+לקח כ-4 שנים לפתח את אקמהסקריפט 6. ולאחר מכן
+TC-39
+הגיעה לכלל החלטה שתהליך פיתוח ארוך כל כך אינו בר קיימא. תחת זאת, הוחלט לעבור למחזור שחרור גרסאות שנתי כדי לאפשר לתכונות חדשות של השפה להיכנס לאפיון מוקדם יותר.
 
-ECMAScript 2016 was finalized in March 2016 and contained only three additions to the language: a new mathematical operator, a new array method, and a new syntax error. Both are covered in this appendix.
+שחרורים בתדירות גבוהה יותר משמעותם שכל מהדורה חדשה של אקמהסקריפט תכיל פחות שינויים יחסית לאקמהסקריפט 6. כדי לתת משמעות לשינוי זה, גרסאות חדשות של השפה לא יציגו את מספר המהדורה ובמקום זאת יתייחסו לשנת הפרסום. כתוצאה מכך, אקמהסקריפט 6 ידועה גם בתור אקמהסקריפט 2015 ואקמהסקריפט 7 ידועה באופן רשמי בתור אקמהסקריפט 2016.
+TC-39
+מצפה להשתמש בשיטת השמות על בסיס השנה עבור כל גרסאות אקמהסקריפט העתידיות.
 
-## The Exponentiation Operator
+אקמהסקריפט 2016 פורסמה במרץ 2016 והכילה רק 3 תוספות לשפה:
+אופרטור מתמטי חדש, מתודת מערך חדשה, ושגיאת תחביר חדשה.
+נספח זה ירחיב על כך.
 
 The only change to JavaScript syntax introduced in ECMAScript 2016 is the *exponentiation operator*, which is a mathematical operation that applies an exponent to a base. JavaScript already had the `Math.pow()` method to perform exponentiation, but JavaScript was also one of the only languages that required a method rather than a formal operator. (And some developers argue an operator is easier to read and reason about.)
 
