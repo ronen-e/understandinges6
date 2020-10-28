@@ -159,14 +159,39 @@ console.log(num2);              // 1
 `num2`,
 הערך נשאר 2 עבור פעולת האופרטור המעריכי ואז משתנה ערכה ל 1.
 
+## <span dir="ltr">Array.prototype.includes()</span>
 
-## The Array.prototype.includes() Method
+ייתכן שתזכרו שאקמהסקריפט 6 הוסיפה את המתודה
+<span dir="ltr">String.prototype.includes()</span>
+על מנת לבדוק האם תת מחרוזת מסוימת קיימת בתוך מחרוזת נתונה. במקור אקמהסקריפט 6 הייתה אמורה להוסיף את המתודה
+<span dir="ltr">Array.prototype.includes()</span>
+כדי להמשיך המנהג של התייחסות למחרוזות ומערכים בצורה דומה. אך האפיון עבור
+<span dir="ltr">Array.prototype.includes()</span>
+לא הושלם על מועד הסיום עבור הגשת אקמהסקריפט 6
+ולכן
+<span dir="ltr">Array.prototype.includes()</span>
+הועבר לאקמהסקריפט 2016.
 
-You might recall that ECMAScript 6 added `String.prototype.includes()` in order to check whether certain substrings exist within a given string. Originally, ECMAScript 6 was also going to introduce an `Array.prototype.includes()` method to continue the trend of treating strings and arrays similarly. But the specification for `Array.prototype.includes()` was incomplete by the ECMAScript 6 deadline, and so `Array.prototype.includes()` ended up in ECMAScript 2016 instead.
+## כיצד להשתמש ב <span dir="ltr">Array.prototype.includes()</span>
 
-### How to Use Array.prototype.includes()
+המתודה
+<span dir="ltr">Array.prototype.includes()</span>
+מקבלת שני ארגומנטים:
+הערך לחיפוש ואינדקס אופציונלי שממנו להתחיל את החיפוש.
+כאשר נתון הארגומנט השני
 
-The `Array.prototype.includes()` method accepts two arguments: the value to search for and an optional index from which to start the search. When the second argument is provided, `includes()` starts the match from that index. (The default starting index is `0`.) The return value is `true` if the value is found inside the array and `false` if not. For example:
+מתחילה לחפש החל מאותו אינדקס.
+(
+    אינדקס ברירת המחדל לחיפוש הוא
+    `0`.
+).
+הערך שיוחזר יהיה
+`true`
+אם הערך מופיע במערך או
+`false`
+אם אינו מופיע במערך.
+
+<div dir="ltr">
 
 ```js
 let values = [1, 2, 3];
@@ -174,11 +199,38 @@ let values = [1, 2, 3];
 console.log(values.includes(1));        // true
 console.log(values.includes(0));        // false
 
-// start the search from index 2
+// החיפוש יתחיל החל מאינדקס 2
 console.log(values.includes(1, 2));     // false
 ```
+</div>
 
-Here, calling `values.includes()` returns `true` for the value of `1` and `false` for the value of `0` because `0` isn't in the array. When the second argument is used to start the search at index 2 (which contains the value `3`), the `values.includes()` method returns `false` because the number `1` is not found between index 2 and the end of the array.
+בדוגמה זו, קריאה לקוד
+<span dir="ltr">values.includes()</span>
+מחזירה
+`true`
+עבור הערך
+`1`
+ותחזיר
+`false`
+עבור הערך
+`0`
+מכיוון שהערך
+`0`
+אינו מופיע במערך.
+כאשר הארגומנט השני משמש כדי להתחיל את החיפוש מאינדקס 2
+(שמכיל את הערך
+`3`),
+המתודה
+<span dir="ltr">values.includes()</span>
+מחזירה
+`false`
+מכיוון שהמספר
+`1`
+לא מופיע החל מאינדקס 2 ועד סוף המערך.
+
+
+</div>
+
 
 ### Value Comparison
 
