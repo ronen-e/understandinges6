@@ -85,6 +85,8 @@ console.log(result);        // 50
 let result = -5 ** 2;
 ```
 
+</div>
+
 המספר
 `-5`
 בדוגמה זו נחשב לשגיאה תחבירית מכיוון שסדר הפעולות אינו ברור.
@@ -162,20 +164,20 @@ console.log(num2);              // 1
 ## <span dir="ltr">Array.prototype.includes()</span>
 
 ייתכן שתזכרו שאקמהסקריפט 6 הוסיפה את המתודה
-<span dir="ltr">String.prototype.includes()</span>
+<span dir="ltr">`String.prototype.includes()`</span>
 על מנת לבדוק האם תת מחרוזת מסוימת קיימת בתוך מחרוזת נתונה. במקור אקמהסקריפט 6 הייתה אמורה להוסיף את המתודה
-<span dir="ltr">Array.prototype.includes()</span>
+<span dir="ltr">`A`rray.prototype.includes()`</span>
 כדי להמשיך המנהג של התייחסות למחרוזות ומערכים בצורה דומה. אך האפיון עבור
-<span dir="ltr">Array.prototype.includes()</span>
+<span dir="ltr">`Array.prototype.includes()`</span>
 לא הושלם על מועד הסיום עבור הגשת אקמהסקריפט 6
 ולכן
-<span dir="ltr">Array.prototype.includes()</span>
+<span dir="ltr">`Array.prototype.includes()`</span>
 הועבר לאקמהסקריפט 2016.
 
 ## כיצד להשתמש ב <span dir="ltr">Array.prototype.includes()</span>
 
 המתודה
-<span dir="ltr">Array.prototype.includes()</span>
+<span dir="ltr">`Array.prototype.includes()`</span>
 מקבלת שני ארגומנטים:
 הערך לחיפוש ואינדקס אופציונלי שממנו להתחיל את החיפוש.
 כאשר נתון הארגומנט השני
@@ -205,7 +207,7 @@ console.log(values.includes(1, 2));     // false
 </div>
 
 בדוגמה זו, קריאה לקוד
-<span dir="ltr">values.includes()</span>
+<span dir="ltr">`values.includes()`</span>
 מחזירה
 `true`
 עבור הערך
@@ -221,7 +223,7 @@ console.log(values.includes(1, 2));     // false
 (שמכיל את הערך
 `3`),
 המתודה
-<span dir="ltr">values.includes()</span>
+<span dir="ltr">`values.includes()`</span>
 מחזירה
 `false`
 מכיוון שהמספר
@@ -231,7 +233,7 @@ console.log(values.includes(1, 2));     // false
 ### השוואת ערכים
 
 ההשוואה שמבוצעת על ידי המתודה
-<span dir="ltr">includes()</span>
+<span dir="ltr">`includes()`</span>
 משתמשת באופרטור
 `===`
 עם יוצא דופן אחד:
@@ -319,11 +321,18 @@ console.log(values.includes(-0));       // true
 `-0`
 כאל ערכים שונים.
 
-</div>
+## שינוי במצב קפדני בתוך פונקציה
 
-## Change to Function-Scoped Strict Mode
+כאשר מצב קפדני הופיע לראשונה באקמהסקריפט 5, השפה הייתה פשוטה יותר יחסית למה שנהייתה באקמהסקריפט 6. למרות זאת אקמהסקריפט 6 עדיין אפשרה לנו להגדיר מצב קפדני על ידי שימוש בפקודת
+<span dir="ltr">`"use strict"`</span>
+במרחב הגלובלי
+(שיגרום לכל הקוד לרוץ במצב קפדני)
+או בתור מרחב פונקציה
+(מה שיגרום רק לפונקציה לרוץ במצב קפדני).
+המצב השני היווה בעיה באקמהסקריפט 6 עקב הדרכים המורכבות יותר שבהן ניתן היה להגדיר פרמטרים. הכוונה לפירוק פרמטרים וערכי ברירת מחדל לפרמטרים.
+כדי להבין את הבעיה נבחן את הדוגמה הבאה:
 
-When strict mode was introduced in ECMAScript 5, the language was quite a bit simpler than it became in ECMAScript 6. Despite that, ECMAScript 6 still allowed you to specify strict mode using the `"use strict"` directive either in the global scope (which would make all code run in strict mode) or in a function scope (so only the function would run in strict mode). The latter ended up being a problem in ECMAScript 6 due to the more complex ways that parameters could be defined, specifically, with destructuring and default parameter values. To understand the problem, consider the following code:
+<div dir="ltr">
 
 ```js
 function doSomething(first = this) {
@@ -333,26 +342,56 @@ function doSomething(first = this) {
 }
 ```
 
-Here, the named parameter `first` is assigned a default value of `this`. What would you expect the value of `first` to be? The ECMAScript 6 specification instructed JavaScript engines to treat the parameters as being run in strict mode in this case, so `this` should be equal to `undefined`. However, implementing parameters running in strict mode when `"use strict"` is present inside the function turned out to be quite difficult because parameter default values can be functions as well. This difficulty led to most JavaScript engines not implementing this feature (so `this` would be equal to the global object).
+</div>
 
-As a result of the implementation difficulty, ECMAScript 2016 makes it illegal to have a `"use strict"` directive inside of a function whose parameters are either destructured or have default values. Only *simple parameter lists*, those that don't contain destructuring or default values, are allowed when `"use strict"` is present in the body of a function. Here are some examples:
+בדוגמה לעיל הפרמטר בשם
+`first`
+מקבל את ערך ברירת המחדל
+`this`.
+מה היינו מצפים שיהיה ערכו של
+`first`?
+הגדרות אקמהסקריפט 6 מורות למנועי ריצה של ג׳אווהסקריפט להתייחס לפרמטרים כאילו הם רצים במצב קפדני במצב שכזה.
+לכן
+`this`
+אמור לקבל את הערך
+`undefined`.
+אך מימוש פרמטרים במצב קפדני כאשר
+<span dir="ltr">`"use strict"`</span>
+מופיע בתוך הפונקציה התגלה כבעייתי במיוחד מכיוון שערכים דיפולטיביים לפרמטרים יכולים להיות פונקציות בעצמם.
+קושי זה הוביל לכך שרוב מנועי הריצה של ג׳אווהסקריפט לא מימשו שינוי זה.
+(ולכן
+`this`
+יצביע על האובייקט הגלובלי).
+
+כתוצאה מקושי זה במימוש, אקמהסקריפט 2016 אוסרת על פקודת
+<span dir="ltr">`"use strict"`</span>
+בתוך פונקציה שהפרמטרים שלה הינם פרמטרים מפורקים או בעלי ערכי ברירת מחדל.
+רק
+*פרמטרים פשוטים*
+(*simple parameter lists*),
+כאלו שאינם מכילים פרמטרים מפורקים או בעלי ערך דיפולטיבי, מותרים לשימוש כאשר פקודת
+<span dir="ltr">`"use strict"`</span>
+מופיעה בתוך הפונקציה.
+להלן מספר דוגמאות:
+
+<div dir="ltr">
 
 ```js
-// okay - using simple parameter list
+// תקין - שימוש בפרמטרים פשוטים
 function okay(first, second) {
     "use strict";
 
     return first;
 }
 
-// syntax error
+// שגיאה תחבירית
 function notOkay1(first, second=first) {
     "use strict";
 
     return first;
 }
 
-// syntax error
+// שגיאה תחבירית
 function notOkay2({ first, second }) {
     "use strict";
 
@@ -360,6 +399,25 @@ function notOkay2({ first, second }) {
 }
 ```
 
-You can still use `"use strict"` with simple parameter lists, which is why `okay()` works as you would expect (the same as it would in ECMAScript 5). The `notOkay1()` function is a syntax error because you can no longer use `"use strict"` in functions with default parameter values. Similarly, the `notOkay2()` function is a syntax error because you can't use `"use strict"` in a function with destructured parameters.
+</div>
 
-Overall, this change removes both a point of confusion for JavaScript developers and an implementation problem for JavaScript engines.
+ניתן עדיין להשתמש בפקודת
+<span dir="ltr">`"use strict"`</span>
+ביחד עם פרמטרים פשוטים, ולכן הפונקציה
+<span dir="ltr">`okay()`</span>
+עובדת כמצופה
+(בדיוק כמו שעבדה באקמהסקריפט 5).
+הפונקציה
+<span dir="ltr">`notOkay1()`</span>
+זורקת שגיאה תחבירית מכיוון שלא ניתן להשתמש בפקודת
+<span dir="ltr">`"use strict"`</span>
+בתוך פונקציה בעלת ערכי ברירת מחדל לפרמטרים.
+באופן דומה הפונקציה
+<span dir="ltr">`notOkay2()`</span>
+גם זורקת שגיאה תחבירית מכיוון שלא ניתן להשתמש בפקודת
+<span dir="ltr">`"use strict"`</span>
+בפונקציה עם פרמטרים מפורקים.
+
+בהיבט הכללי, השינוי הנ״ל מבטל מקור לבלבול בקרב מפתחים ופותר בעיית מימוש עבור מנועי ריצה של ג׳אווהסקריפט.
+
+</div>
