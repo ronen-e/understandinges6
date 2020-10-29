@@ -228,13 +228,28 @@ console.log(values.includes(1, 2));     // false
 `1`
 לא מופיע החל מאינדקס 2 ועד סוף המערך.
 
+### השוואת ערכים
 
-</div>
+ההשוואה שמבוצעת על ידי המתודה
+<span dir="ltr">includes()</span>
+משתמשת באופרטור
+`===`
+עם יוצא דופן אחד:
+`NaN`
+נחשב זהה לערך
+`NaN`
+אף על פי שהביטוי
+`NaN === NaN`
+מחזיר את הערך
+`false`.
+זוהי אינה התנהגות זהה לזו של המתודה
+<span dir="ltr">`indexOf()`</span>
+שמשתמשת אך ורק באופרטור
+`===`
+לצורך השוואה.
+כדי לראות את ההבדל נשתמש בדוגמה הבאה:
 
-
-### Value Comparison
-
-The value comparison performed by the `includes()` method uses the `===` operator with one exception: `NaN` is considered equal to `NaN` even though `NaN === NaN` evaluates to `false`. This is different than the behavior of the `indexOf()` method, which strictly uses `===` for comparison. To see the difference, consider this code:
+<div dir="ltr">
 
 ```js
 let values = [1, NaN, 2];
@@ -243,11 +258,41 @@ console.log(values.indexOf(NaN));       // -1
 console.log(values.includes(NaN));      // true
 ```
 
-The `values.indexOf()` method returns `-1` for `NaN` even though `NaN` is contained in the `values` array. On the other hand, `values.includes()` returns `true` for `NaN` because it uses a different value comparison operator.
+</div>
 
-W> When you want to check just for the existence of a value in an array and don't need to know the index , I recommend using `includes()` because of the difference in how `NaN` is treated by the `includes()` and `indexOf()` methods. If you do need to know where in the array a value exists, then you have to use the `indexOf()` method.
+המתודה
+<span dir="ltr">`values.indexOf()`</span>
+מחזירה את הערך
+`-1`
+עבור
+`NaN`
+למרות ש
+`NaN`
+מופיע במערך
+`values`
 
-Another quirk of this implementation is that `+0` and `-0` are considered to be equal. In this case, the behavior of `indexOf()` and `includes()` is the same:
+W> כאשר נרצה לבחון את הופעת הערך במערך ואין צורך לדעת את מיקומו, מומלץ להשתמש במתודה
+<span dir="ltr">`includes()`</span>
+בגלל השוני ביחס לערך
+`NaN`
+בין המתודה
+<span dir="ltr">`includes()`</span>
+למתודה
+<span dir="ltr">`indexOf()`</span>.
+אם נרצה לדעת את מיקום הערך במערך, ניאלץ להשתמש במתודה
+<span dir="ltr">`indexOf()`</span>.
+
+חשוב לדעת שבעת השוואה, הערכים
+`+0`
+וגם
+`-0`
+נחשבים זהים. במקרה זה ההתנהגות בעבור המתודות
+<span dir="ltr">`indexOf()`</span>
+וגם
+<span dir="ltr">`includes()`</span>
+זהה:
+
+<div dir="ltr">
 
 ```js
 let values = [1, +0, 2];
@@ -256,7 +301,25 @@ console.log(values.indexOf(-0));        // 1
 console.log(values.includes(-0));       // true
 ```
 
-Here, both `indexOf()` and `includes()` find `+0` when `-0` is passed because the two values are considered equal. Note that this is different than the behavior of the `Object.is()` method, which considers `+0` and `-0` to be different values.
+</div>
+
+בדוגמה לעיל המתודות
+<span dir="ltr">`includes()`</span>
+ו-
+<span dir="ltr">`indexOf()`</span>
+מאתרות את
+`+0`
+כאשר משתמשים בערך
+`-0`
+כפרמטר מכיוון ששני הערכים נחשבים לזהים. שימו לב לכך שזוהי התנהגות שונה מזו של המתודה
+<span dir="ltr">`Object.is()`</span>,
+שמתייחסת לערכים
+`+0`
+ו-
+`-0`
+כאל ערכים שונים.
+
+</div>
 
 ## Change to Function-Scoped Strict Mode
 
