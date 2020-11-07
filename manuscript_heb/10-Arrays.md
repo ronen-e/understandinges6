@@ -41,7 +41,8 @@ let items = new Array(2);
 console.log(items.length); // 2
 console.log(items[0]); // undefined
 console.log(items[1]); // undefined
-```</span>
+```
+</span>
 
 זאת לעומת
 <span dir="ltr">
@@ -59,7 +60,8 @@ items = new Array(3, "2");
 console.log(items.length); // 2
 console.log(items[0]); // 3
 console.log(items[1]); //"2"
-```</span>
+```
+</span>
 
 כאשר מועבר לקונסטרקטור של המערך ערך מספרי כארגומנט יחיד ערך זה יהווה את האורך
 `length`
@@ -90,11 +92,12 @@ console.log(items[0]); // 2
 items = Array.of("2");
 console.log(items.length); // 1
 console.log(items[0]); // "2"
-```</span>
+```
+</span>
 
 בכדי ליצור מערך באמצעות מתודת
 <span dir="ltr">`Array.of()`</span>
-פשוט נעביר לה את הערכים הרצויים במערך. כך למשל בדוגמה הראשונה לעיל נוצר מערך המכיל שני מספרים. המערך שבדוגמה השניה מכיל מספר אחד והמערך האחרון מכיל מחרוזת אחת. הדבר דומה לשימוש במערך ליטראלי ואכן ניתן להשתמש במערך מילולי במקום
+פשוט נעביר לה את הערכים הרצויים במערך. כך למשל בדוגמה הראשונה לעיל נוצר מערך המכיל שני מספרים. המערך שבדוגמה השניה מכיל מספר אחד והמערך האחרון מכיל מחרוזת אחת. הדבר דומה לשימוש במערך ליטראלי ואכן ניתן להשתמש במערך ליטראלי במקום
 <span dir="ltr">`Array.of()`</span>
 ליצירת מערכים מקוריים במרבית המקרים.
 אך אם נרצה להעביר את הקונסטרקטור של המערך לפונקציה אז יתכן שנרצה להשתמש במתודה
@@ -109,7 +112,8 @@ function createArray(arrayCreator, value) {
 }
 
 let items = createArray(Array.of, value);
-```</span>
+```
+</span>
 
 בקוד זה הפונקציה
 <span dir="ltr">`createArray()`</span>
@@ -156,7 +160,8 @@ function doSomething() {
 
   //use args
 }
-```</span>
+```
+</span>
 
 דרך זו יוצרת באופן ידני מערך בשם
 `result`
@@ -175,10 +180,11 @@ function doSomething() {
 
   //use args
 }
-```</span>
+```
+</span>
 
 קוד זה מקביל מבחינה פונקציונלית לדוגמה הקודמת והוא עובד כיוון שהוא מגדיר את הערך
-`<span dir="ltr">this()</span>`
+`<span dir="ltr">this</span>`
 עבור
 `<span dir="ltr">slice()</span>`.
 מכיוון ש-
@@ -208,7 +214,8 @@ function doSomething() {
 
   //use args
 }
-```</span>
+```
+</span>
 
 הקריאה
 `<span dir="ltr">Array.from()</span>`
@@ -238,7 +245,8 @@ function translate() {
 let numbers = translate(1, 2, 3);
 
 console.log(numbers);   // 2,3,4
-```</span>
+```
+</span>
 
 בדוגמה זו, למתודת
 `<span dir="ltr">Array.from()</span>`
@@ -267,7 +275,8 @@ function translate() {
 let numbers = translate(1, 2, 3);
 
 console.log(numbers);   // 2,3,4
-```</span>
+```
+</span>
 
 דוגמה זו מעבירה
 `<span dir="ltr">helper.add()</span>`
@@ -282,8 +291,8 @@ console.log(numbers);   // 2,3,4
 הודות לארגומנט השלישי,
 `<span dir="ltr">Array.from()</span>`
 יכול בקלות להמיר נתונים מבלי לקרוא למתודת
-`bind()
-או לציין את הערך
+`bind()`
+ או לציין את הערך של
 `this`
 בדרך אחרת.
 
@@ -311,7 +320,8 @@ let numbers = {
 let numbers2 = Array.from(numbers, (value) => value + 1);
 
 console.log(numbers2);              // 2,3,4
-```</span>
+```
+</span>
 
 מכיוון שהאובייקט
 `numbers`
@@ -387,7 +397,8 @@ let numbers = [25, 30, 35, 40, 45];
 
 console.log(numbers.find(n => n > 33));         // 35
 console.log(numbers.findIndex(n => n > 33));    // 2
-```</spa>
+```
+</span>
 
 בדוגמא שלעיל הדוק קורא למתודות
 `<span dir="ltr">find()</span>`
@@ -426,7 +437,8 @@ let numbers = [1, 2, 3, 4];
 numbers.fill(1);
 
 console.log(numbers.toString());    // 1,1,1,1
-```</spa>
+```
+</span>
 
 בדוגמא שלעיל הקריאה ל-
 `<span dir="ltr">numbers.fill()</span>`
