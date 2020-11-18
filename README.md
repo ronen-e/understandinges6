@@ -1,108 +1,161 @@
-# Understanding ECMAScript 6
+<div dir="rtl">
 
-by Nicholas C. Zakas
+# להבין ECMAScript 6
 
-![Creative Commons License](http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png)
+מאת ניקולאס סי. זאקאס
 
-ECMAScript 6 represents the biggest change to the core of JavaScript in the history of the language. Not only does the sixth edition add new object types, but also new syntax and exciting new capabilities. The result of years of study and debate, ECMAScript 6 reached feature complete status in 2014. While it will take a bit of time before all JavaScript environments support ECMAScript 6, it's still useful to understand what's coming and which features are available already.
+[![Creative Commons License](http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png)](https://creativecommons.org/licenses/by-nc-nd/3.0/)
 
-This book is a guide for the transition between ECMAScript 5 and 6. It is not specific to any JavaScript environment, so it is equally useful to web developers as it is Node.js developers.
+ECMAScript 6
+מהווה את השינוי הגדול ביותר שעבר על מה שידוע לנו כ
+JavaScript
+מאז שנוצרה השפה. המהדורה השישית
+הוסיפה לא רק משתנים חדשים אלא גם תחביר חדש ויכולות חדשות.
+המהדורה השישית הושלמה בשנת 2014
+לאחר שנים של דיון
+ועבודת הכנה מעמיקה.
+למרות שיקח זמן מה עד שכל סביבות הג׳אווהסקריפט הקיימות יתמכו בה תמיכה מלאה,
+רצוי וחשוב לדעת מה קיים כעת ומה עתיד לבוא.
 
-What you'll learn:
+הספר נועד לשמש כמדריך עבור המעבר בין מהדורה 5 ל-6 של השפה. הוא איננו מיועד לשמש עבור סביבת ריצה ספציפית, כך שהוא שימושי באותה המידה עבור מפתחים שעובדים בסביבת דפדפן
+(מפתחי ווב)
+או מפתחי
+Node.js
 
-* All of the changes to the language since ECMAScript 5
-* How the new class syntax relates to more familiar JavaScript concepts
-* Why iterators and generators are useful
-* How arrow functions differ from regular functions
-* Additional options for storing data using sets, maps, and more
-* The power of inheriting from native types
-* Why people are so excited about promises for asynchronous programming
-* How modules will change the way you organize code
+מה מכיל הספר:
+* כל השינויים שחלו בשפה מאז מהדורה 5
+* כיצד תחביר המחלקה החדש מתקשר למושגים מוכרים בשפה
+* התועלת שבגנרטורים ואיטרטורים
+* ההבדל בין פונקציות חץ לפונקציות רגילות
+* אפשרויות חדשות לאחסון מידע בעזרת סטים, מפות ועוד.
+* הכוח הטמון בירושה ממשתנים בסיסיים
+* מדוע אנשים כה מתרגשים ממשתנה הפרומיס בנוגע לתכנות אסינכרוני
+* כיצד מודולים ישפיעו על כתיבת הקוד שלכם
 
-## Where to Read
+## היכן לקרוא
 
-The [published version](https://leanpub.com/understandinges6/read/) is available for free and contains the latest "blessed" version. The content may be incomplete but should be correct. New releases are published several times a month.
+[גרסת המוציא לאור](https://leanpub.com/understandinges6/read/)
+זמינה בחינם ומכילה את הגרסה העדכנית ביותר.
+התוכן לא בהכרח סופי אבל אמור להיות נכון.
+גרסאות חדשות מפורסמות מספר פעמים בחודש.
 
-Anything that is not present in the published version is considered a work-in-progress and may be incomplete or incorrect.
+תוכן שאינו מופיע בגרסת המו״ל נחשב לתוכן לא מושלם וייתכן שיכיל חסרים או שגיאות.
 
-## Purchasing a copy
+המו״ל הינו חברת לינפאב
+(Leanpub)
 
-You can purchase a copy of this ebook through [Leanpub](https://leanpub.com/understandinges6).
+## רכישת עותק דיגיטלי
 
-## Contributions
+ניתן לרכוש עותק דיגיטלי של הספר דרך חברת
+[Leanpub](https://leanpub.com/understandinges6).
+במידה ותרכוש עותק לפני שהספר יושלם, תקבל את כל העדכונים לספר בזמן העדכון כולל הגרסה הסופית.
 
-Even though this book is being developed in the open, the project works differently than open source software projects. Please read the following thoroughly before attempting to contribute.
+## רכישת עותק מודפס
 
-### Leanpub Markdown
+הספר מודפס על ידי חברת
+No Starch Press
+וניתן
+[לרכוש עותק באמזון](http://amzn.to/22YQOer).
+גרסת הדפוס מופצת לאחר עריכה מקצועית
 
-Leanpub uses a specific flavor of Markdown for its source files. Please be sure to read [their documentation](https://leanpub.com/help/manual#leanpub-auto-styling-text) about what is allowable and what is not.
+## תמיכה במחבר
 
-**Note:** It may be frustrating, but Leanpub does not support GitHub-flavored Markdown.
+אם נהנית מהספר ותרצה לתמוך במאמציי ליצירת תוכן חדש, קיימות מספר דרכים:
 
-### Pull requests
+* [השאר טיפ](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EFQLNGT3QEL6J) בפייפאל
+* [הפוך לפטרון](https://patreon.com/nzakas) ב Patreon
 
-Pull requests will be accepted only for *correction of content* and not for *creation of content*. Acceptable pull requests:
+תרומה קטנה תעזור מאוד להמשיך בעבודתי.
 
-* Typo fixes
-* Grammar/spelling errors
-* Alternate descriptions
-* Clarifying phrases
+## השתתפות בתוכן
 
-Pull requests that will not be considered:
+למרות שהספר נכתב בדרך של שיתוף תוכן, הפרויקט פועל תחת תנאים שונים מפרויקט קוד פתוח
+נא לקרוא את ההמשך לפני הוספת תוכן משלך.
 
-* New sections of content
-* New chapters
+### תחביר של Leanpub
 
-Basically, you can use pull requests to fix what is already in the repository but not to add what is not in the repository.
+Leanpub
+עובד בסגנון מיוחד עבור קבצי המקור. יש לעיין
+[בתיעוד](https://leanpub.com/help/manual#leanpub-auto-styling-text)
+לגבי המותר והאסור.
 
-**Note:** An accepted pull request means that your name will be added to a list of contributors. You are still bound by the conditions of the license, meaning that you are not considered an author or owner of the content once it has been merged in. It is considered a donation of your effort to this work.
+**שים לב:**
+Leanpub
+לא נותנים תמיכה לכל האפשרויות הקיימות בסגנון כתיבה רגיל המצוי בגיטהאב
 
-### Issues
+### בקשות שינוי
+בקשות שינוי
+PR (Pull Requests)
+יתקבלו רק עבור *תיקונים*
+ולא עבור *יצירת תוכן*
 
-Issues can be used both to point out errors as well as to make suggestions. Use issues for:
+בקשות שינוי שיתקבלו:
 
-* Asking questions about the content
-* Pointing out an error or problem with the content
-* Requesting more information about a section
-* Suggesting a new topic for inclusion
+* שגיאות כתיב
+* שגיאות תחביר
+* תיאורים אלטרנטיביים
+* הבהרות
 
-Any issue that remains open will be addressed. Issues will be closed either when addressed or if the issue will not be addressed.
+עקרונית, ניתן להגיש בקשות שינוי כדי לתקן את מה שקיים בקוד אבל לא להוסיף אליו
 
-Issues should not be used for:
+**הערה:** בקשת שינוי שהתקבלה משמעותה ששמך יתווסף לרשימת התורמים
+תורמים עדיין כפופים לתנאי הרשיון, כלומר אינך נחשב ליוצר או בעלים של התוכן לאחר שהוכנס לקוד. הדבר נחשב לתרומה של מאמץ ליצירת הספר.
 
-* Asking when a particular section or chapter will be complete
-* Anything already marked as "TODO" in the files
+### סוגיות (Issues)
+באמצעות סוגיות ניתן להצביע על שגיאות כמו גם להציע שינויים.
+ניתן להשתמש בסוגיות בשביל:
 
-These types of issues will simply be marked as invalid and closed without comment.
+* שאלות בנוגע לתוכן
+* הערה על שגיאה או בעיה בתוכן
+* בקשה ליותר אינפורמציה על חלק מהתוכן
 
-## Copyright and License
+כל סוגיה פתוחה תקבל מענה. סוגיות ייסגרו לאחר שקיבלו מענה או במידה והסוגיה לא תקבל מענה.
 
-Copyright 2014 Nicholas C. Zakas.
+אין לפתוח סוגיות עבור:
 
-This work is licensed under a [Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License](http://creativecommons.org/licenses/by-nc-nd/3.0/).
+* שאלות מתי תוכן מסויים יושלם
+* כל דבר שמסומן בקבצים בתור ״ TODO״
 
-## Frequently Asked Questions
+## זכויות יוצרים ורשיון
+זכויות יוצרים שייכות לניקולאס סי. זאקאס 2014-2016
 
-### When will the book be finished?
+יצירה זו מופיעה תחת רשיון מסוג
+[Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License](http://creativecommons.org/licenses/by-nc-nd/3.0/).
 
-To be determined. Since I'm writing this in my spare time, it's hard to predict when it will be complete. The goal is to have it complete by December 2014, but that is a goal and not a deadline.
+## שאלות
 
-### If I buy a copy now, do I get the finished one?
+### מתי יושלם הספר?
 
-Yes. When you buy a copy today, you will automatically get all updates for the book. You'll be notified of updated versions via email after purchase.
+הספר הושלם מבחינת תוכן מתאריך 10 ביוני 2016.
 
-### How often is the book published?
+### אם ארכוש את הספר עכשיו, האם אקבל את הגרסא הסופית?
 
-Roughly every week or two the changes in GitHub are published to Leanpub.
+כן. כאשר תרכוש עותק אלקטרוני של Leanpub , תקבל גם את כל העדכונים לספר. עדכונים יתקבלו באמצעות דואר אלקטרוני לאחר הרכישה.
 
-### What is the state of content in GitHub?
+### באיזו תדירות מפורסם הספר?
 
-Everything in GitHub is a work in progress. Those parts that are known to be correct and fully-formed enough to be valuable are published to Leanpub. That's why there's more content in GitHub than is available on Leanpub, as GitHub contains everything, including content that's not quite ready for the book.
+בערך כל שבוע עד שבועיים השינויים ב Github מפורסמים תחת Leanpub
 
-### Will there be a print version of the book?
+### כיצד להתייחס לתוכן בגיטהאב?
 
-In all likelihood yes. I've already been contacted by a couple of publishers, but there will be no final decision made until the content of the book is complete. This is intentional on my part because publishers have deadlines, and I'm unable to estimate when I'll have the book finished.
+כל מה שמופיע בגיטהאב נחשב לתוכן בתהליך יצירה.
+החלקים שנחשבים לנכונים ומסודרים מפורסמים תחת
+Leanpub.
+זו הסיבה שקיים יותר תוכן בגיטהאב מאשר בלינפאב,
+מאחר וגיטהאב מכיל את התוכן כולו, כולל תוכן שעוד לא פורסם.
 
-### Can I acquire translation rights?
+### מה ההבדל בין הגרסא המודפסת לבין גרסת לינפאב?
 
-Not at this time. I will likely leave that to the publisher of the print book.
+הנושאים והסדר שבו הם מופיעים בספר זהים בין הגרסאות. ההבדל הוא במספר מילים וביטויים ששונו על ידי עורכים למען בהירות או על מנת לשמור על סגנון הכתיבה של חברת
+No Starch.
+השינויים האלו לא מועברים ללינפאב מכיוון שהם מתרחשים בתוך קבצים בפורמט
+PDF
+ולפעמים בצורה לא ברורה, כך שקשה לשמור על שתי הגרסאות מסונכרנות זו עם זו.
+
+### האם ניתן לרכוש זכויות תרגום
+
+כן. יש ליצור קשר עם חברת
+[No Starch Press](https://www.nostarch.com/)
+למען רכישת זכויות תרגום
+
+</div>
