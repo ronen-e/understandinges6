@@ -12,7 +12,17 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
-      search: 'auto',
+      search: {
+        placeholder: 'חפש',
+        noData: 'אין תוצאות!',
+        paths: 'auto',
+        depth: 2,
+        maxAge: 86400000, // 1 day
+        hideOtherSidebarContent: false,
+        namespace: undefined,
+        pathNamespaces: undefined,
+      },
+      auto2top: true,
       loadSidebar: true,
       subMaxLevel: 2,
       coverpage: false,
@@ -27,6 +37,7 @@
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
   <!-- <script src="//unpkg.com/docsify-rtl/build/index.min.js"></script> -->
 </body>
 </html>
