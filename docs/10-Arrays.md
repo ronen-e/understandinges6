@@ -1311,6 +1311,35 @@ console.log(mapped instanceof Int16Array);  // true
 פונקציית המיפוי מכפילה כל ערך במערך ומייצרת מערך חדש מסוג
 `Int16Array`.
 
+### איטרטורים זהים
+
+למערכים בינאריים יש את אותם שלושה איטרטורים כמו מערכים רגילים. אלו הם המתודות
+<span dir="ltr">`entries(), keys(), values()`</span>.
+המשמעות היא שניתן להשתמש באופרטור הפיזור ולולאות
+<span dir="ltr">`for-of`</span>
+עם מערכים בינאריים.
+לדוגמה:
+
+<div dir="ltr">
+
+```js
+let ints = new Int16Array([25, 50]),
+    intsArray = [...ints];
+
+console.log(intsArray instanceof Array);    // true
+console.log(intsArray[0]);                  // 25
+console.log(intsArray[1]);                  // 50
+```
+</div>
+
+הקוד לעיל יוצר מערך חדש בשם
+`intsArray`
+שמכיל את אותם נתונים כמו המערך הבינארי
+`ints`.
+בדומה לאובייקטים איטרבילים אחרים, אופרטור הפיזור מאפשר המרה קלה של מערכים בינאריים למערכים רגילים.
+
+
+
 (שורה 600)
 
 
