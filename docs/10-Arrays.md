@@ -1591,6 +1591,7 @@ console.log(subints1.toString());   // 25,50,75,100
 console.log(subints2.toString());   // 75,100
 console.log(subints3.toString());   // 50,75
 ```
+</div>
 
 שלושה מערכים בינאריים נוצרים מהמערך המקורי
 `ints`
