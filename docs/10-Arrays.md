@@ -1338,6 +1338,47 @@ console.log(intsArray[1]);                  // 50
 `ints`.
 בדומה לאובייקטים איטרבילים אחרים, אופרטור הפיזור מאפשר המרה קלה של מערכים בינאריים למערכים רגילים.
 
+### המתודות <span dir="ltr">of(), from()</span>
+
+לכל המערכים הבינאריים יש מתודות סטטיות בשם
+<span dir="ltr">of()</span>
+ו-
+<span dir="ltr">from()</span>
+שעובדות כמו המתודות
+<span dir="ltr">Array.of()</span>
+ו-
+<span dir="ltr">Array.from()</span>.
+ההבדל הוא שהמתודות של מערכים בינאריים מחזירים מערך בינארי במקום מערך רגיל. להלן מספר דוגמאות שמשתמשות באותן מתודות על מנת ליצור מערכים בינאריים:
+
+<div dir="ltr">
+
+```js
+let ints = Int16Array.of(25, 50),
+    floats = Float32Array.from([1.5, 2.5]);
+
+console.log(ints instanceof Int16Array);        // true
+console.log(floats instanceof Float32Array);    // true
+
+console.log(ints.length);       // 2
+console.log(ints[0]);           // 25
+console.log(ints[1]);           // 50
+
+console.log(floats.length);     // 2
+console.log(floats[0]);         // 1.5
+console.log(floats[1]);         // 2.5
+```
+
+</div>
+
+המתודות
+<span dir="ltr">of()</span>
+ו-
+<span dir="ltr">from()</span>
+משמשות אותנו ליצירת מערך מסוג
+`Int16Array`
+ומסוג
+`Float32Array`,
+בהתאמה. המתודות הללו מבטיחות לנו שיצירת מערכים בינאריים תהיה קלה ופשוטה כמו יצירת מערכים רגילים.
 
 
 (שורה 600)
