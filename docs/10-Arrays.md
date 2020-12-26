@@ -537,6 +537,8 @@ I>
 
 כך למשל, כדי להעתיק ערכים מתוך שני הפריטים הראשונים במערך אל שני הפריטים האחרונים במערך נוכל לכתוב את הקוד הבא:
 
+<div dir="ltr">
+
 ```js
 let numbers = [1, 2, 3, 4];
 
@@ -546,6 +548,7 @@ numbers.copyWithin(2, 0);
 
 console.log(numbers.toString());    // 1,2,1,2
 ```
+</div>
 
 הקוד לעיל מעתיק ערכים לתוך המערך
 `numbers`
@@ -561,6 +564,8 @@ console.log(numbers.toString());    // 1,2,1,2
 <span dir="ltr">(exclusive end index)</span>
 שבו נפסקת העתקת הערכים. להלן דוגמה:
 
+<div dir="ltr">
+
 ```js
 let numbers = [1, 2, 3, 4];
 
@@ -571,6 +576,7 @@ numbers.copyWithin(2, 0, 1);
 
 console.log(numbers.toString());    // 1,2,1,4
 ```
+</div>
 
 בדוגמה זו, רק הערך באינדקס 0 מועתק מכיוון ואינדקס הסיום האופציונלי מוגדר לפי הערך
 `1`.
@@ -655,19 +661,25 @@ I>
 `ArrayBuffer`
 כמו בדוגמה הבאה:
 
+<div dir="ltr">
+
 ```js
 let buffer = new ArrayBuffer(10);   // הקצאת 10 בתים
 ```
+</div>
 
 יש להעביר כארגומנט את מספר הבתים שהחוצץ המערכי אמור להכיל בעת הקריאה לבנאי. המשתנה מסוג
 `let`
 מוגדר עבור חוצץ מערכי בגודל 10 בתים. לאחר שיצרנו חוצץ מערכי ניתן לקבל את מספר הבתים בו על ידי קריאת התכונה
 `byteLength`:
 
+<div dir="ltr">
+
 ```js
 let buffer = new ArrayBuffer(10);   // הקצאת 10 בתים
 console.log(buffer.byteLength);     // 10
 ```
+</div>
 
 ניתן להשתמש במתודה
 <span dir="ltr">`slice()`</span>
@@ -680,12 +692,15 @@ console.log(buffer.byteLength);     // 10
 שמורכב מאותם אלמנטים מהמערך המקורי.
 לדוגמה:
 
+<div dir="ltr">
+
 ```js
 let buffer = new ArrayBuffer(10);   // הקצאת 10 בתים
 
 let buffer2 = buffer.slice(4, 6);
 console.log(buffer2.byteLength);    // 2
 ```
+</div>
 
 בקוד שבדוגמה לעיל המשתנה
 `buffer2`
@@ -716,10 +731,13 @@ I> חוצץ מערכי תמיד מייצג את מספר הבתים שנקבע �
 חדש.
 לדוגמה:
 
+<div dir="ltr">
+
 ```js
 let buffer = new ArrayBuffer(10),
     view = new DataView(buffer);
 ```
+</div>
 
 האובייקט
 `view`
@@ -730,10 +748,13 @@ let buffer = new ArrayBuffer(10),
 יתקדם מאותו מיקום עד סוף החוצץ כברירת המחדל.
 לדוגמה:
 
+<div dir="ltr">
+
 ```js
 let buffer = new ArrayBuffer(10),
     view = new DataView(buffer, 5, 2);      // בתים באינדקס 5 ו 6
 ```
+</div>
 
 בדוגמה לעיל,
 `view`
@@ -758,6 +779,8 @@ let buffer = new ArrayBuffer(10),
 
 על ידי שימוש בתכונות הללו ניתן לדעת היכן מופעל מצג מסוים, כמו בדוגמה הבאה:
 
+<div dir="ltr">
+
 ```js
 let buffer = new ArrayBuffer(10),
     view1 = new DataView(buffer),           // בחירת כל הבתים
@@ -770,6 +793,7 @@ console.log(view2.byteOffset);              // 5
 console.log(view1.byteLength);              // 10
 console.log(view2.byteLength);              // 2
 ```
+</div>
 
 הקוד לעיל יוצר את המשתנה
 `view1`,
@@ -867,6 +891,8 @@ float64
 "get"
 בפעולה ראו את הדוגמה הבאה:
 
+<div dir="ltr">
+
 ```js
 let buffer = new ArrayBuffer(2),
     view = new DataView(buffer);
@@ -877,6 +903,7 @@ view.setInt8(1, -1);
 console.log(view.getInt8(0));       // 5
 console.log(view.getInt8(1));       // -1
 ```
+</div>
 
 הקוד בדוגמה לעיל משתמש בחוצץ מערכי בגודל 2 בתים על מנת לשמור שני ערכים מסוג
 int8.
@@ -894,6 +921,8 @@ int8
 int16
 הינן פעולות תקינות לחלוטין, כפי שניתן לראות בדוגמה הבאה:
 
+<div dir="ltr">
+
 ```js
 let buffer = new ArrayBuffer(2),
     view = new DataView(buffer);
@@ -905,6 +934,7 @@ console.log(view.getInt16(0));      // 1535
 console.log(view.getInt8(0));       // 5
 console.log(view.getInt8(1));       // -1
 ```
+</div>
 
 הקריאה לפונקציה
 `view.getInt16(0)`
@@ -917,11 +947,14 @@ console.log(view.getInt8(1));       // -1
 
 <!--![תרשים 10-1: החוצץ המערכי לאחר שתי קריאות לפונקציה](images/Ch 10 Graphic.jpg)-->
 
+<div dir="ltr">
+
 ```
 new ArrayBuffer(2)      0000000000000000
 view.setInt8(0, 5);     0000010100000000
 view.setInt8(1, -1);    0000010111111111
 ```
+</div>
 
 החוצץ המערכי מתחיל עם 16 סיביות שכולן בעלות הערך 0.
 כתיבת הערך
@@ -949,7 +982,93 @@ view.setInt8(1, -1);    0000010111111111
 `DataView`
 שימושי מאוד במקרים בהם מערבבים מספר סוגי נתונים שונים בצורה זו. ואולם, אם משתמשים רק בסוג נתונים אחד אזי המצגים הספציפיים לסוג מסויים הינה בחירה מוצלחת יותר.
 
+#### מערכים בינאריים הם מצגים
 
+מערכים בינאריים של אקמהסקריפט 6 הם למעשה מצגים מסוג ספציפי עבור חוצצים מערכיים. במקום להשתמש באובייקט
+
+פשוט על מנת לעבוד עם חוצץ מערכי, ניתן להשתמש באובייקטים שאוכפים סוג נתונים מסוים. ישנם שמונה מצגים מותאמים לסוג נתונים מסוים בהתאמה לשמונה סוגי הנתונים הנומריים, בנוסף לאפשרות לעבוד עם ערכים מסוג
+`uint8`.
+
+טבלה 10-1 מראה גרסה מקוצרת של הרשימה המלאה של מצגים מותאמים לסוג מסוים מתוך סעיף 22.2 של אפיון
+אקמהסקריפט 6.
+
+<!--{ title="Table 10-1: Some Type-Specific Views in ECMAScript 6" }-->
+<!-- @Nicholas: I noticed the table title was throwing off the markdown preview
+     output somehow, so I commented it out for now. /JG -->
+
+
+|שם הקונסטרקטור|גודל האלמנט (בתים)|תיאור                        |מקבילה בשפת סי|
+|----------------|------------|-----------------------------------|-----------------|
+|`Int8Array`     |1           |מספר שלם בגודל 8 סיביות עם סיבית סימן בשיטת משלים ל-2|`signed char`|
+|`Uint8Array`    |1           |מספר שלם בגודל 8 סיביות ללא סיבית סימן             |`unsigned char`|
+|`Uint8ClampedArray`|1        |מספר שלם בגודל 8 סיביות ללא סיבית סימן (המרה תחומה)|`unsigned char`|
+|`Int16Array`    |2           |מספר שלם בגודל 16 סיביות עם סיבית סימן בשיטת משלים ל-2|`short`|
+|`Uint16Array`   |2           |מספר שלם בגודל 16 סיביות ללא סיבית סימן            |`unsigned short`|
+|`Int32Array`    |4           |מספר שלם בגודל 32 סיביות עם סיבית סימן בשיטת משלים ל-2|`int`|
+|`Uint32Array`   |4           |מספר שלם בגודל 32 סיביות ללא סיבית סימן   |`int`|
+|`Float32Array`  |4           |מספר מסוג נקודה צפה בגודל 32 סיביות בתקן IEEE           |`float`|
+|`Float64Array`  |8           |מספר מסוג נקודה צפה בגודל 64 סיביות בתקן IEEE          |`double`|
+
+העמודה השמאלית מכילה את רשימת הקונסטרקטורים עבור מערכים בינאריים, והעמודות האחרות מתארות את סוג הנתונים שכל מערך בינארי יכול להכיל. מערך מסוג
+`Uint8ClampedArray`
+זהה למערך מסוג
+`Uint8Array`
+אלא אם ערכים בחוצץ המערכי קטנים מ-0 או גדולים יותר מהערך 255.
+מערך מסוג
+`Uint8ClampedArray`
+ממיר ערכים קטנים יותר מ-0 ל-0
+(
+  <span dir="ltr">-1</span>
+  הופך ל-0, לדוגמה
+)
+וממיר ערכים גבוהים יותר מ-255 ל-255
+(המספר 300 יהפוך ל 255).
+
+פעולות במערכים בינאריים עובדות רק בעבור סוג נתונים מסוים. לדוגמה, כל הפעולות על מערכים מסוג
+`Int8Array`
+משתמשות בערכים מסוג
+`int8`.
+גודל אלמנט במערך בינארי תלוי גם בסוג המערך. בעוד שאלמנט במערך מסוג
+`Int8Array`
+הוא בגודל בית אחד, מערך מסוג
+`Float64Array`
+משתמש ב-8 בתים עבור כל אלמנט. למרבה המזל, האלמנטים נקראים באמצעות גישה על ידי אינדקס נומרי, בדיוק כמו מערכים רגילים, מה שמאפשר לנו להימנע משימוש בקריאות ישירות למתודות
+"set"
+ו-
+"get"
+כמו ב
+`DataView`.
+
+<!--
+A> ### Element Size
+A>
+A> Each typed array is made up of a number of elements, and the element size is the number of bytes each element represents. This value is stored on a `BYTES_PER_ELEMENT` property on each constructor and each instance, so you can easily query the element size:
+A>
+A> ```js
+A> console.log(UInt8Array.BYTES_PER_ELEMENT);      // 1
+A> console.log(UInt16Array.BYTES_PER_ELEMENT);     // 2
+A>
+A> let ints = new Int8Array(5);
+A> console.log(ints.BYTES_PER_ELEMENT);            // 1
+A> ```
+-->
+
+### גודל אלמנט
+
+כל מערך בינארי מורכב ממספר אלמנטים, וגודל כל אלמנט הינו מספר הבתים שכל אלמנט מייצג. ערך זה מופיע בתכונה
+`BYTES_PER_ELEMENT`
+על הבנאי ועל כל מופע, כך שניתן למצוא בקלות  את גודל האלמנט:
+
+<div dir="ltr">
+
+```js
+console.log(UInt8Array.BYTES_PER_ELEMENT);      // 1
+console.log(UInt16Array.BYTES_PER_ELEMENT);     // 2
+A>
+let ints = new Int8Array(5);
+console.log(ints.BYTES_PER_ELEMENT);            // 1
+```
+</div>
 (שורה 437)
 
 
