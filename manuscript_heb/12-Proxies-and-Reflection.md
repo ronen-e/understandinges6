@@ -38,7 +38,7 @@ ECMASCript 6.
 <span dir="ltr">`length`</span> .
 לדוגמה:
 
-</div>
+<div dir="ltr">
 
 ```js
 let colors = ["red", "green", "blue"];
@@ -58,7 +58,8 @@ console.log(colors[2]);             // undefined
 console.log(colors[1]);             // "green"
 ```
 
-<div dir="rtl">
+</div>
+
 
 מערך
 `colors`
@@ -135,8 +136,6 @@ ECMAScript 6.
 |`apply`                   | קריאה לפונקציה | `Reflect.apply()` |
 |`construct`               | קריאה לפונקציה `new` | `Reflect.construct()` |
 
-<div dir="rtl">
-
 כל מלכודת עוקפת התנהגות מובנית באובייקט של ג'אווה סקריפט, ומאפשרת ליירט ולשנות את התתנהגות.
 אם צריך עדיין את ההתנהגות הדיפולטיבית ,ניתן להשתמש במתודה התואמת ב
 ממשק ההתבוננות
@@ -175,7 +174,8 @@ JavaScript
 בשביל לייצר פרוקסי פשוט אפשר להשתמש ב
 handler
 ללא מלכודות:
-</div>
+
+<div dir="ltr">
 
 ```js
 let target = {};
@@ -191,7 +191,7 @@ console.log(proxy.name);        // "target"
 console.log(target.name);       // "target"
 ```
 
-<div dir="rtl">
+</div>
 
 בדוגמה הזו,
 `proxy`
@@ -256,7 +256,8 @@ console.log(target.name);       // "target"
 `set`
 על מנת לבדוק את הערך
 שמועבר. הנה דוגמה:
-</div>
+
+<div dir="ltr">
 
 ```js
 let target = {
@@ -292,7 +293,7 @@ console.log(target.name);       // "proxy"
 proxy.anotherName = "proxy";
 ```
 
-<div dir="rtl">
+</div>
 
 הקוד לעיל מגדיר מלכודת פרוקסי המאמתת את הערך של כל תכונה חדשה שנוספת ל
 `target`.
@@ -372,7 +373,7 @@ JavaScript
 `undefined`
 הוא ממומש בשביל המאפיין, כמו בדוגמה:
 
-</div>
+<div dir="ltr">
 
 ```js
 let target = {};
@@ -380,7 +381,7 @@ let target = {};
 console.log(target.name);       // undefined
 ```
 
-<div dir="rtl">
+</div>
 
 בשפות אחרות, נסיון לקרוא את
 `target.name`
@@ -390,7 +391,7 @@ console.log(target.name);       // undefined
 `target.name` .
 אם אי פעם עבדתם על בסיס קוד גדול, בטח ראיתם כיצד התנהגות זו עלולה לגרום לבעיות משמעותיות, במיוחד כאשר יש שגיאת הקלדה בשם המאפיין. פרוקסי יכול לעזור לכם להציל את עצמכם מבעיה זו על ידי אימות צורת אובייקט.
 
-ה *object shape*
+*object shape*
 זה אוסף של מאפיינים ומתודות שנמצא על האובייקט. מנוע הג'אווה סקריפט משתמש בצורת האובייקט לעשות אופטמיזציה לקוד ,לעיתים יוצר קלאס לייצג את האובייקט. אם ניתן להניח בבטחה שלאובייקט יהיו תמיד אותם מאפיינים והמתודות איתן הוא התחיל (התנהגות שניתן לכפות ע"י המתודה
 <span dir="ltr">`Object.preventExtensions()`</span> ,
 המתודה
@@ -405,12 +406,15 @@ console.log(target.name);       // undefined
 `get`
 נקראית כאשר מאפיין נקרא, אפילו אם המאפיין לא קיים על האובייקט, והוא מקבל 3 ארגומנטים:
 
-1. `trapTarget` - האובייקט ממנו קוראים את המאפיין (פרוקסי target)
-1. `key` - מפתח המאפיין (סטרינג או סימבול) שממנו קוראים
+1. `trapTarget` - האובייקט ממנו קוראים את המאפיין
+(פרוקסי target)
+1. `key` - מפתח המאפיין
+(סטרינג או סימבול)
+שממנו קוראים
 1. `receiver` - האובייקט עליו התרחשה הפעולה (בדר"כ הפרוקסי)
 
 ארגומנטים אלה משקפים את הארגומנטים של מלכודת ה
- `set`,
+`set`,
 עם הבדל בולט אחד.
 אין
 `value`
@@ -428,7 +432,7 @@ console.log(target.name);       // undefined
 <span dir="ltr">`Reflect.get()`</span>
 לזרוק שגיאה כאשר מאפיין אינו קיים על המטרה, כדלקמן:
 
-</div>
+<div dir="ltr">
 
 ```js
 let proxy = new Proxy({}, {
@@ -449,7 +453,7 @@ console.log(proxy.name);            // "proxy"
 console.log(proxy.nme);             // throws error
 ```
 
-<div dir="rtl">
+</div>
 
 בדוגמה בזו , מלכודת
 `get`
@@ -466,7 +470,7 @@ console.log(proxy.nme);             // throws error
 במקרה ש
 `receiver`
 הוא פרוקסי עם מלכודת
-`has` ,
+`has`,
 נושא שנכסה בחלק הבא. שימוש ב
 `trapTarget`
 במקרה הזה היה מפריע למלכודת
@@ -485,16 +489,15 @@ console.log(proxy.nme);             // throws error
 
 ## הסתרת קיום מאפיין באמצעות מלכודת `has`
 
-ה
+האופרטור
 `in`
-אופרטור בודק אם מאפיין קיים על אובייקט ומחזיר
+בודק אם מאפיין קיים על אובייקט ומחזיר
 `true`
 אם קיים או קיים במאפייני הפרוטוטייפ המתאימים לשם או ל
 symbol.
 לדוגמה:
 
-</div>
-
+<div dir="ltr">
 
 ```js
 let target = {
@@ -505,7 +508,8 @@ console.log("value" in target);     // true
 console.log("toString" in target);  // true
 ```
 
-<div dir="rtl">
+</div>
+
 
 שניהם - גם
 `value`
@@ -522,18 +526,19 @@ console.log("toString" in target);  // true
 זה מאפיין של האובייקט בזמן ש
 `toString`
 הוא מאפיין מהפרוטוטייפ
-(יורש `Object`).
+(יורש
+`Object`).
 פרוקסי מאפשרים לך ליירט את הפעולה הזו ולהחזיר ערכים שונים עבור
 `in`
 עם מלכודת
 `has`.
 
 מלכודת
- `has`
- נקראית בזמן שאופרטור
-  `in`
-  נמצא בשימוש. כאשר הוא נקרא, שני הארגונטים מועברים למלכודת
-  `has`:
+`has`
+נקראת בזמן שאופרטור
+`in`
+נמצא בשימוש. כאשר הוא נקרא, שני הארגונטים מועברים למלכודת
+`has`:
 
 1. `trapTarget` - האובייקט ממנו קוראים את המאפיין (פרוקסי target)
 1. `key` - מפתח המאפיין (סטרניג או סימבול) שממנו קוראים
@@ -552,7 +557,8 @@ console.log("toString" in target);  // true
 `value` .
 ניתן לעשות את זה כך:
 
-</div>
+<div dir="ltr">
+
 
 ```js
 let target = {
@@ -577,7 +583,7 @@ console.log("name" in proxy);       // true
 console.log("toString" in proxy);   // true
 ```
 
-<div dir="rtl">
+</div>
 
 מלכודת
 `has`
@@ -608,7 +614,7 @@ console.log("toString" in proxy);   // true
 כאשר משתמשים באופרטור
 `in`.
 
-## מניעת מחיקת מאפיין ע"י מלכודת `deleteProperty` Trap
+## מניעת מחיקת מאפיין ע"י מלכודת `deleteProperty`
 
 האופרטור
 `delete`
@@ -626,7 +632,7 @@ strict,
 `delete`.
 להלן דוגמה:
 
-</div>
+<div dir="ltr">
 
 ```js
 let target = {
@@ -643,14 +649,15 @@ console.log(result1);               // true
 
 console.log("value" in target);     // false
 
-// הערה: השורה הבאה תזרוק שגיאה ב strict mode
+// הערה: השורה הבאה תזרוק שגיאה במצב
+// strict mode
 let result2 = delete target.name;
 console.log(result2);               // false
 
 console.log("name" in target);      // true
 ```
 
-<div dir="rtl">
+</div>
 
 המאפיין
 `value`
@@ -677,9 +684,9 @@ strict
 
 המלכודת
 `deleteProperty`
- נקראית כל פעם שהאופרטור
- `delete`
- הוא בשימוש על מאפיין באובייקט. המלכודת מעבירה שני ארגומנטים:
+נקראית כל פעם שהאופרטור
+`delete`
+הוא בשימוש על מאפיין באובייקט. המלכודת מעבירה שני ארגומנטים:
 
 1. `trapTarget` - האובייקט ממנו מוחקים את המאפיין (פרוקסי target)
 1. `key` - מפתח המאפיין (מחרוזת או symbol) שאותו מוחקים
@@ -698,7 +705,7 @@ strict
 `value`
 לא יוכל להימחק:
 
-</div>
+<div dir="ltr">
 
 ```js
 let target = {
@@ -736,7 +743,7 @@ console.log(result2);               // true
 console.log("name" in proxy);       // false
 ```
 
-<div dir="rtl">
+</div>
 
 הקוד נורא דומה לדומת המלכודת
 `has`
@@ -756,14 +763,15 @@ console.log("name" in proxy);       // false
 `proxy`
 בגלל שהמאפיין ממולכד, אבל המאפיין
 `name`
-נמחק כמצופה. גישה זו שימושית במיוחד כשרוצים להגן על מאפיינים מלהימחק ב strict mode
+נמחק כמצופה. גישה זו שימושית במיוחד כשרוצים להגן על מאפיינים מלהימחק ב
+strict mode
 בלי לזרוק שגיאה.
 
 ## מלכודת פרוקסי לאב-טיפוס (Prototype)
 
 פרק ארבע הציג את המתודה
- <span dir="ltr">`Object.setPrototypeOf()`<span>
- של
+<span dir="ltr">`Object.setPrototypeOf()`<span>
+של
 ECMAScript 6
 כדי להשלים את המתודה של
 ECMAScript 5
@@ -777,15 +785,17 @@ ECMAScript 5
 
 מאחר ויש שתי מלכודות הקשורות לפרוטוטייפ פרוקסי, קיים סט של מלכודות הקשורות לכל אחת מהמתודות. המלכודת
 `setPrototypeOf`
- מקבלת את הארגומנטים הבאים:
+מקבלת את הארגומנטים הבאים:
 
-1. `trapTarget` - האובייקט שעבורו יש להגדיר את אב הטיפוס (פרוקסי target)
+1. `trapTarget` - האובייקט שעבורו יש להגדיר את אב הטיפוס
+(פרוקסי
+target)
 1. `proto` - האובייקט לשימוש בו כאב-טיפוס
 
 אלו אותם ארגומנטים המועברים למתודות
 <span dir="ltr">`Object.setPrototypeOf()`</span>
 ו
-<span dir="ltr">`Reflect.setPrototypeOf()`</span> .
+<span dir="ltr">`Reflect.setPrototypeOf()`</span>.
 המלכודת
 `getPrototypeOf` ,
 מצד שני, מקבלת רק את הארגומנט
@@ -795,13 +805,13 @@ ECMAScript 5
 ו
 <span dir="ltr">`Reflect.getPrototypeOf()`</span>.
 
-### How Prototype Proxy Traps Work - איך מלכודת פרוקסי לאב-טיפוס עובדת
+### איך פרוקסי לפרוטוטיפ עובד
 
 יש כמה מגבלות למלכודות אלה. ראשית, מלכודת
 `getPrototypeOf`
 חייבת להחזיר אובייקט או
 `null`,
- וכל ערך החזרה אחר מביא לשגיאת זמן ריצה. בדיקת הערך החוזר מבטיחה ש
+וכל ערך החזרה אחר מביא לשגיאת זמן ריצה. בדיקת הערך החוזר מבטיחה ש
 <span dir="ltr">`Object.getPrototypeOf()`</span>
 תמיד תחזיר את הערך הרצוי. באופן דומה, ערך ההחזר של המלכודת
 `setPrototypeOf`
@@ -826,8 +836,7 @@ proxy
 `null`
 וגם לא מאפשרת לשנות את האב-טיפוס:
 
-</div>
-
+<div dir="ltr">
 
 ```js
 let target = {};
@@ -854,14 +863,14 @@ Object.setPrototypeOf(target, {});
 Object.setPrototypeOf(proxy, {});
 ```
 
-<div dir="rtl">
+</div>
 
 קוד זה מדגיש את ההבדל בין התנהגות של
- `target`
- ו
- `proxy`.
+`target`
+ו
+`proxy`.
 בזמן ש
-`Object.getPrototypeOf()`
+<span dir="ltr">`Object.getPrototypeOf()`</span>
 מחזיר את הערך של
 `target`,
 מוחזר
@@ -870,8 +879,8 @@ Object.setPrototypeOf(proxy, {});
 `proxy`
 בגלל שהמלכודת
 `getPrototypeOf`
-נקראית. באופן דומה,
-`Object.setPrototypeOf()`
+נקראת. באופן דומה,
+<span dir="ltr">`Object.setPrototypeOf()`</span>
 מצליח כאשר משתמשים ב
 `target`
 אבל זורק שגיאה כאשר משתמשים ב
@@ -886,7 +895,7 @@ Object.setPrototypeOf(proxy, {});
 ו
 `setPrototypeOf`:
 
-</div>
+<div dir="ltr">
 
 ```js
 let target = {};
@@ -905,14 +914,14 @@ let proxyProto = Object.getPrototypeOf(proxy);
 console.log(targetProto === Object.prototype);      // true
 console.log(proxyProto === Object.prototype);       // true
 
-//יצליח
+// יצליח
 Object.setPrototypeOf(target, {});
 
 // גם יצליח
 Object.setPrototypeOf(proxy, {});
 ```
 
-<div dir="rtl">
+</div>
 
 בדוגמה זו תוכלו להשתמש גם ב
 `target`
@@ -923,9 +932,9 @@ Object.setPrototypeOf(proxy, {});
 ו
 `setPrototypeOf`
 מעבירות את ההתנהגות הדיפולטיבית. אנחנו משידים זאת בדוגמה הנוכחית תודות למתודות
-`Reflect.getPrototypeOf()`
+<span dir="ltr">`Reflect.getPrototypeOf()`</span>
 ו
-`Reflect.setPrototypeOf()`
+<span dir="ltr">`Reflect.setPrototypeOf()`</span>
 ולא למתודות עם אותו שם שנמצאות על ה
 `Object`
 עם כמה הבדלים חשובים.
@@ -933,33 +942,33 @@ Object.setPrototypeOf(proxy, {});
 ### למה שתי סוגי מתודות?
 
 ההיבט המבלבל של
-`Reflect.getPrototypeOf()`
+<span dir="ltr">`Reflect.getPrototypeOf()`</span>
 ו
-`Reflect.setPrototypeOf()`
+<span dir="ltr">`Reflect.setPrototypeOf()`</span>
 זה שהם נראים מאוד דומים בצורה חשודה למתודות
-`Object.getPrototypeOf()`
+<span dir="ltr">`Object.getPrototypeOf()`</span>
 ו
-`Object.setPrototypeOf()`
+<span dir="ltr">`Object.setPrototypeOf()`</span>
 .בזמן ששני סוגי המתודות נראים שעושים פעולות דומות , ישנם כמה הבדלים ברורים בין השניים.
 
 נתחיל,
-`Object.getPrototypeOf()`
+<span dir="ltr">`Object.getPrototypeOf()`</span>
 ו
-`Object.setPrototypeOf()`
+<span dir="ltr">`Object.setPrototypeOf()`</span>
 הן פעולות ברמה גבוהה יותר שנוצרו לשימוש מפתחים מההתחלה. המתודות
-`Reflect.getPrototypeOf()`
+<span dir="ltr">`Reflect.getPrototypeOf()`</span>
 ו
-`Reflect.setPrototypeOf()`
+<span dir="ltr">`Reflect.setPrototypeOf()`</span>
 הן םפעולות ברמה נמוכה המעניקות למפתחים גישה למערכת הפנימית  שהיתה בעבר פנימית בלבד - האופרטורים
 `[[GetPrototypeOf]]`
 ו
 `[[SetPrototypeOf]]`
 . המתודה
-`Reflect.getPrototypeOf()`
+<span dir="ltr">`Reflect.getPrototypeOf()`</span>
 היא מעטפת לפעולה
 `[[GetPrototypeOf]]`
 (עם אותו אימות קלט). המתודה
-`Reflect.setPrototypeOf()`
+<span dir="ltr">`Reflect.setPrototypeOf()`</span>
 ו
 `[[SetPrototypeOf]]`
 יש אותה מערכת יחסים. המתודות המתאימות על ה
@@ -971,12 +980,12 @@ Object.setPrototypeOf(proxy, {});
 אך מבוצעת מסםר שלבים לפני הקריאה ובודקת את הערך החוזר כדי לקבוע את ההתנהגות שלו.
 
 המתודה
-`Reflect.getPrototypeOf()`
+<span dir="ltr">`Reflect.getPrototypeOf()`</span>
 זורקת שגיאה אם הארגומנט הוא לא אובייקט, כאשר
-`Object.getPrototypeOf()`
+<span dir="ltr">`Object.getPrototypeOf()`</span>
 קודם יכניס את הערך לאובייקט לפני ביצוע הפעולה. אם הייתם מעבירים מספר לכל אחת מהשיטות, הייתם מקבלים תוצאה שונה:
 
-</div>
+<div dir="ltr">
 
 ```js
 let result1 = Object.getPrototypeOf(1);
@@ -986,11 +995,10 @@ console.log(result1 === Number.prototype);  // true
 Reflect.getPrototypeOf(1);
 ```
 
-<div dir="rtl">
-
+</div>
 
 המתודה
-`Object.getPrototypeOf()`
+<span dir="ltr">`Object.getPrototypeOf()`</span>
 מאפשרת לך לקבל את הפרוטוטייפ של המספר
 `1`
 בגלל שקודם הוא מכפיף את הערך לאובייקט
@@ -998,23 +1006,23 @@ Reflect.getPrototypeOf(1);
 ואז מחזיר
 `Number.prototype`.
 המתודה
-`Reflect.getPrototypeOf()`
+<span dir="ltr">`Reflect.getPrototypeOf()`</span>
 לא מכפיפה את הערך , לכן
 `1`
 הוא לא אובייקט, וזורק שגיאה.
 
 המתודה
-`Reflect.setPrototypeOf()`
+<span dir="ltr">`Reflect.setPrototypeOf()`</span>
 יש לה גם מספר שינויים מהמתודה
-`Object.setPrototypeOf()`
+<span dir="ltr">`Object.setPrototypeOf()`</span>
 . ראשית,
-`Reflect.setPrototypeOf()`
+<span dir="ltr">`Reflect.setPrototypeOf()`</span>
 מחזירה ערך בוליאני המציין אם הפעולה הצליחה. הערך
 `true`
 יחזור עבור הצלחה, ו
 `false`
 יחזור עבור כישלון. אם
-`Object.setPrototypeOf()`
+<span dir="ltr">`Object.setPrototypeOf()`</span>
 נכשל, יזרוק שגיאה.
 
 בדוגמה הראשונה תחת "מלכודת פרוקסי לאב-טיפוס" הראינו, כאשר מלכודת הפרוקסי
@@ -1022,14 +1030,15 @@ Reflect.getPrototypeOf(1);
 מחזירה
 `false`,
 זה גורם ל
-`Object.setPrototypeOf()`
+<span dir="ltr">`Object.setPrototypeOf()`</span>
 לזרוק שגיאה. המתודה
-`Object.setPrototypeOf()`
+<span dir="ltr">`Object.setPrototypeOf()`</span>
 מחזירה את הארגומנט הראשון כערך וזה לא מתאים להתנהגות ברירת המחדל דל מלכודת הפרוקסי
 `setPrototypeOf`.
 הקוד הבא מדגים את ההבדלים הללו:
 
-</div>
+
+<div dir="ltr">
 
 ```js
 let target1 = {};
@@ -1042,15 +1051,14 @@ console.log(result2 === target2);                   // false
 console.log(result2);                               // true
 ```
 
-<div dir="rtl">
-
+</div>
 
 בדוגמה הזו,
-`Object.setPrototypeOf()`
+<span dir="ltr">`Object.setPrototypeOf()`</span>
 מחזיר את
 `target1`
 כערך שלו, אבל
-`Reflect.setPrototypeOf()`
+<span dir="ltr">`Reflect.setPrototypeOf()`</span>
 מחזיר
 `true`.
 ההבדל העדין הזה חשוב מאוד. תאם תוכלו לקראות לכאורה עוד מתודות כפולות ל
@@ -1070,9 +1078,9 @@ I> שתי השיטות של המתודות יקראו למלכודת הפרוק�
 
 ECMAScript 5
 הוסיף אפשרות להרחבת האובייקט דרך המתודות
-`Object.preventExtensions()`
+<span dir="ltr">`Object.preventExtensions()`</span>
 ו
-`Object.isExtensible()`
+<span dir="ltr">`Object.isExtensible()`</span>
 , ו
 ECMAScript 6
 מאפשרת לפרוקסי ליירט את הקריאה למתודות לאובייקטים הבסיסיים באמצעות המלכודות
@@ -1088,9 +1096,9 @@ ECMAScript 6
 חייבת להחזיר ערך בוליאני המציין אם הפעולה הצליחה.
 
 יש גם את המתודות
-`Reflect.preventExtensions()`
+<span dir="ltr">`Reflect.preventExtensions()`</span>
 ו
-`Reflect.isExtensible()`
+<span dir="ltr">`Reflect.isExtensible()`</span>
 ליישם את ההתנהגות הדיפולטיבית. שניהם מחזירים ערך בוליאני, כך שניתן להשתמש בהם ישירות במלכודות המקבילות שלהם.
 
 ### שתי דוגמאות בסיסיות
@@ -1100,7 +1108,7 @@ ECMAScript 6
 ו
 `preventExtensions`:
 
-</div>
+<div dir="ltr">
 
 ```js
 let target = {};
@@ -1123,24 +1131,25 @@ console.log(Object.isExtensible(target));       // false
 console.log(Object.isExtensible(proxy));        // false
 ```
 
-<div dir="rtl">
+</div>
+
 
 דוגמה זו מראה ש
-`Object.preventExtensions()`
+<span dir="ltr">`Object.preventExtensions()`</span>
 ו
-`Object.isExtensible()`
+<span dir="ltr">`Object.isExtensible()`</span>
 עוברים כראוי מ
 `proxy`
 ל
 `target`.
 אתה יכול כמובן , לשנות את ההתנהגות. לדוגמה, אם אתה לא רוצה לאפשר ל
-`Object.preventExtensions()`
+<span dir="ltr">`Object.preventExtensions()`</span>
 להצליח בפרוקסי שלך, אתה יכול להחזיר
 `false`
 מהמלכודת
 `preventExtensions`:
 
-</div>
+<div dir="ltr">
 
 ```js
 let target = {};
@@ -1163,10 +1172,10 @@ console.log(Object.isExtensible(target));       // true
 console.log(Object.isExtensible(proxy));        // true
 ```
 
-<div dir="rtl">
+</div>
 
 כאן בקריאה ל
-`Object.preventExtensions(proxy)`
+<span dir="ltr">`Object.preventExtensions(proxy)`</span>
 מתעלם ביעילות מכיוון שהמלכודת
 `preventExtensions`
 מחזירה
@@ -1174,7 +1183,7 @@ console.log(Object.isExtensible(proxy));        // true
 הפעולה אינה מועברת לבסיס
 `target`,
 כך ש
-`Object.isExtensible()`
+<span dir="ltr">`Object.isExtensible()`</span>
 מחזיר
 `true`.
 
@@ -1185,18 +1194,18 @@ console.log(Object.isExtensible(proxy));        // true
 ו
 `Reflect`.
 במקרה הזה יש יותר דמיון מאשר לא. המתודות
-`Object.isExtensible()`
+<span dir="ltr">`Object.isExtensible()`</span>
 ו
-`Reflect.isExtensible()`
+<span dir="ltr">`Reflect.isExtensible()`</span>
 הם דומים למעט כאשר מועבר ערך שהוא אינו אובייקט. במקרה הזה,
-`Object.isExtensible()`
+<span dir="ltr">`Object.isExtensible()`</span>
 תמיד יחזיר
 `false`
 כאשר
-`Reflect.isExtensible()`
+<span dir="ltr">`Reflect.isExtensible()`</span>
 יזרוק שגיאה. הנה דוגמה להתנהגות הזו:
 
-</div>
+<div dir="ltr">
 
 ```js
 let result1 = Object.isExtensible(2);
@@ -1206,31 +1215,31 @@ console.log(result1);                       // false
 let result2 = Reflect.isExtensible(2);
 ```
 
-<div dir="rtl">
+</div>
 
 מגבלה זו דומה להבדל בין המתודות
-`Object.getPrototypeOf()`
+<span dir="ltr">`Object.getPrototypeOf()`</span>
 ו
-`Reflect.getPrototypeOf()`,
+<span dir="ltr">`Reflect.getPrototypeOf()`</span>,
 מכיוון  שלמתודות עם פונקונאליות ברמה הנמוכה יש יותר בדיקות שגיאה מחמירות מאשר  למקבילה ברמה הגבוהה יותר.
 
 המתודות
-`Object.preventExtensions()`
+<span dir="ltr">`Object.preventExtensions()`</span>
 ו
-`Reflect.preventExtensions()`
+<span dir="ltr">`Reflect.preventExtensions()`</span>
 גם כן נורא דומות. המתודה
-`Object.preventExtensions()`
+<span dir="ltr">`Object.preventExtensions()`</span>
 תמיד תחזיר את הערך שהועובר אליה כארגומנט אפילו אם הערך הוא אינו אובייקט. המתודה
-`Reflect.preventExtensions()`,
+<span dir="ltr">`Reflect.preventExtensions()`</span>,
 מצד שני , תזרוק שגיאה אם הארגומנט הוא אינו אובייקט; אם הארגומנט הוא אובייקט, אזי
-`Reflect.preventExtensions()`
+<span dir="ltr">`Reflect.preventExtensions()`</span>
 יחזיר
 `true`
 כאשר הפעולה מצליחה  ויחזיר
 `false`
 אם לא. לדוגמה:
 
-</div>
+<div dir="ltr">
 
 ```js
 let result1 = Object.preventExtensions(2);
@@ -1244,16 +1253,16 @@ console.log(result2);                               // true
 let result3 = Reflect.preventExtensions(2);
 ```
 
-<div dir="rtl">
+</div>
 
 כאן מועבר ל
-`Object.preventExtensions()`
+<span dir="ltr">`Object.preventExtensions()`</span>
 הערך
 `2`
 והוא מחזיר למרות ש
 `2`
 הוא לא אובייקט. המתודה
-`Reflect.preventExtensions()`
+<span dir="ltr">`Reflect.preventExtensions()`</span>
 מחזירה
 `true`
 כאשר אובייקט מועובר אליה וזורקת שגיאה כאשר
@@ -1267,16 +1276,16 @@ ECMAScript 5
 היא היכולת להגדיר מאפיינים
 -property attributes
 בשימוש עם המתודה
-`Object.defineProperty()`.
+<span dir="ltr">`Object.defineProperty()`</span>.
 בגרסאות קודמות של ג'אווה סקריפט, לא הייתה שום דרך להגדיר מאפיין , להגדיר מאפיין רק לקריאה, או בלתי נספר. כל זה אפשרי תודות למתודה
-`Object.defineProperty()`,
+<span dir="ltr">`Object.defineProperty()`</span>,
 ואתה יכול לקבל מאפיין תודות למתודה
-`Object.getOwnPropertyDescriptor()`.
+<span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>.
 
 פרוקסי נותן לך אפשרות ליירט קריאות ל
-`Object.defineProperty()`
+<span dir="ltr">`Object.defineProperty()`</span>
 ו
-`Object.getOwnPropertyDescriptor()`
+<span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>
 בשימוש המלכודות
 `defineProperty`
 ו
@@ -1285,8 +1294,12 @@ ECMAScript 5
 `defineProperty`
 מקבלת את הארגומנטים הבאים:
 
-1. `trapTarget` - האובייקט שיקבל את המאפיינים (המטרה של הפרוקסי)
-1. `key` - מפתח המאפיין (סטרינג או symbol) לכתוב אליו
+1. `trapTarget` - האובייקט שיקבל את המאפיינים
+(המטרה של הפרוקסי)
+1. `key` - מפתח המאפיין
+(סטרינג או
+symbol)
+לכתוב אליו
 1. `descriptor` - אובייקט המתאר את המאפיין
 
 מלכודת
@@ -1302,12 +1315,12 @@ ECMAScript 5
 ו
 `key`,
 ואתה מצפה שתחזיר את המתאר. המתודות התואמות
-`Reflect.defineProperty()`
+<span dir="ltr">`Reflect.defineProperty()`</span>
 ו
-`Reflect.getOwnPropertyDescriptor()`
+<span dir="ltr">`Reflect.getOwnPropertyDescriptor()`</span>
 מקבלות את אותם ארגומנטים כמו מלכודת הפרוקסי המקבילה. להלן דוגמה שמיישמת את התנהגות ברירת המחדל עבור כל מלכודת:
 
-</div>
+<div dir="ltr">
 
 ```js
 let proxy = new Proxy({}, {
@@ -1331,30 +1344,35 @@ let descriptor = Object.getOwnPropertyDescriptor(proxy, "name");
 console.log(descriptor.value);      // "proxy"
 ```
 
-<div dir="rtl">
+</div>
+
 
 הקוד פה מגדיר מאפיין
 `"name"`
 על הפרוקסי עם המתודה
-`Object.defineProperty()` .
+<span dir="ltr">`Object.defineProperty()`</span>.
 לאחר מכן מאוחזר מתאר המאפיינים של אותו נכס במתודה
-`Object.getOwnPropertyDescriptor()` .
+<span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>.
 
-### חסימת Object.defineProperty()
+### מלכודת Object.defineProperty
 
 מלכודת
 `defineProperty`
-דורשת שתחזיר עקך בוליאני כדי לציין אם הפעולה הצליחה. כאשר מוחזר
+דורשת שתחזיר ערך בוליאני כדי לציין אם הפעולה הצליחה. כאשר מוחזר
 `true` ,
-`Object.defineProperty()`
+<span dir="ltr">`Object.defineProperty()`</span>
 הצליח כרגיל; כאשר מוחזר
 `false` ,
-`Object.defineProperty()`
+<span dir="ltr">`Object.defineProperty()`</span>
 יזרוק שגיאה. אתה יכול להשתמש בפונקציונליות זו כדי להגביל את סוגי המאפיינים שהמתודה-
- `Object.defineProperty()` יכולה להגדיר. לדוגמה, אם אתה רוצה למנוע את הגדרת מאפייני ה symbol , אתה יכול לבדוק שהמפתח הוא מחרוזת ולהחזיר
- `false` , כמו כאן:
+<span dir="ltr">`Object.defineProperty()`</span>
+יכולה להגדיר. לדוגמה, אם אתה רוצה למנוע את הגדרת מאפייני ה
+symbol,
+אתה יכול לבדוק שהמפתח הוא מחרוזת ולהחזיר
+`false`,
+כמו כאן:
 
-</div>
+<div dir="ltr">
 
 ```js
 let proxy = new Proxy({}, {
@@ -1383,7 +1401,7 @@ Object.defineProperty(proxy, nameSymbol, {
 });
 ```
 
-<div dir="rtl">
+</div>
 
 מלכודת הפרוקסי
 `defineProperty`
@@ -1394,11 +1412,11 @@ Object.defineProperty(proxy, nameSymbol, {
 הוא
 symbol
 אחרת ממשיכה עם ההתנהגות הדיפולטיבית. כאשר
-`Object.defineProperty()`
+<span dir="ltr">`Object.defineProperty()`</span>
 נקרא עם
 `"name"`
 כמפתח, המתודה תצליח בגלל שהמפתח הוא סטרינג. כאשר
-`Object.defineProperty()`
+<span dir="ltr">`Object.defineProperty()`</span>
 נקראית עם
 `nameSymbol`,
 הוא יזרוק שגיאה כי המלכודת
@@ -1407,19 +1425,19 @@ symbol
 `false`.
 
 I> אתה יכול גם לקבל את
-`Object.defineProperty()`
+<span dir="ltr">`Object.defineProperty()`</span>
 שיכשל בשקט על ידי החזרת
 `true`
 ולא לקרוא לשיטה
-`Reflect.defineProperty ()`.
+<span dir="ltr">`Reflect.defineProperty()`</span>.
 זה ידכא את השגיאה אם לא הגדרת את המאפיין בפועל.
 
 ### הגבלת מתאר אובייקט
 
 על מנת להבטיח התנהגות עקבית בזמן השימוש במתודות
-`Object.defineProperty()`
+<span dir="ltr">`Object.defineProperty()`</span>
 ו
-`Object.getOwnPropertyDescriptor()` ,
+<span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>,
 מתאר אובייקט שמועבר למלכודת
 `defineProperty`
 מנורמלים. אובייקטים שמוחזרים מהמלכודת
@@ -1427,7 +1445,7 @@ I> אתה יכול גם לקבל את
 תמיד יעברו אימות מאותה הסיבה.
 
 לא משנה איזה אובייקט מועבר בארגומנט השלישי למתודה
-`Object.defineProperty()`,
+<span dir="ltr">`Object.defineProperty()`</span>,
 רק המאפיינים
 `enumerable`,
 `configurable`, `value`, `writable`, `get`,
@@ -1437,7 +1455,7 @@ I> אתה יכול גם לקבל את
 `defineProperty`.
 לדוגמה:
 
-</div>
+<div dir="ltr">
 
 ```js
 let proxy = new Proxy({}, {
@@ -1456,10 +1474,11 @@ Object.defineProperty(proxy, "name", {
 });
 ```
 
-<div dir="rtl">
+</div>
+
 
 כאן,
-`Object.defineProperty()`
+<span dir="ltr">`Object.defineProperty()`</span>
 קורא למאפיין לא סטנדרטי
 `name`
 בארגומנט השלישי. כאשר מלכודת
@@ -1473,9 +1492,9 @@ Object.defineProperty(proxy, "name", {
 זה בגלל ש
 `descriptor`
 לא מתייחס בפועל לארגומנט השלישי שהועובר במתודה
-`Object.defineProperty()`,
+<span dir="ltr">`Object.defineProperty()`</span>,
 אלא לאובייקט החדש המכיל רק את המאפיינים המותרים. המתודה
-`Reflect.defineProperty()`
+<span dir="ltr">`Reflect.defineProperty()`</span>
 גם מתעלמת מהמאפיינים שלא מותרים במתאר.
 
 המלכודת
@@ -1488,7 +1507,7 @@ Object.defineProperty(proxy, "name", {
 `set`
 מותרים כמאפיינים על האובייקט. שגיאה נזרקת אם אתה מחזיר אובייקט עם מאפיין משלו שאינו מותר, כמו שהקוד מראה:
 
-</div>
+<div dir="ltr">
 
 ```js
 let proxy = new Proxy({}, {
@@ -1503,16 +1522,16 @@ let proxy = new Proxy({}, {
 let descriptor = Object.getOwnPropertyDescriptor(proxy, "name");
 ```
 
-<div dir="rtl">
+</div>
 
 המאפיין
 `name`
 לא מאושר כמאפיין על המתאר, כך ש
-`Object.getOwnPropertyDescriptor()`
+<span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>
 נקרא, ה
 `getOwnPropertyDescriptor`
 ערך החזרה מפעיל שגיאה. הגבלה זו מבטיחה שהערך שיוחזר על ידי
-`Object.getOwnPropertyDescriptor()`
+<span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>
 תמיד יש מבנה אמין ללא קשר לשימוש בפרוקסי.
 
 ### מתודות תיאור כפול
@@ -1520,32 +1539,32 @@ let descriptor = Object.getOwnPropertyDescriptor(proxy, "name");
 שוב,
 ECMAScript 6
 יש כמה מתודות דומות באופן מבלבל, כמו המתודת
-`Object.defineProperty()`
+<span dir="ltr">`Object.defineProperty()`</span>
 ו
-`Object.getOwnPropertyDescriptor()`
+<span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>
 נראה שעושות את הודות הדבר כמו המתודות
-`Reflect.defineProperty()`
+<span dir="ltr">`Reflect.defineProperty()`</span>
 ו
-`Reflect.getOwnPropertyDescriptor()`,
+<span dir="ltr">`Reflect.getOwnPropertyDescriptor()`</span>,
 בהתאמה. כמו זוגות מתודות אחרות שנדונו קודם לכן בפרק זה, יש להם כמה הבדלים עדינים אך חשובים.
 
-#### המתודה defineProperty()
+#### המתודה defineProperty
 
 המתודות
-`Object.defineProperty()`
+<span dir="ltr">`Object.defineProperty()`</span>
 ו
-`Reflect.defineProperty()`
+<span dir="ltr">`Reflect.defineProperty()`</span>
 הם בדיוק אותו הדבר למעט הערך שחוזר מהם. המתודה
-`Object.defineProperty()`
+<span dir="ltr">`Object.defineProperty()`</span>
 מחזירה את הארומנט הראשון, בזמן ש
-`Reflect.defineProperty()`
+<span dir="ltr">`Reflect.defineProperty()`</span>
 תחזיר
 `true`
 אם הפעולה הצליחה ו
 `false`
 אם לא . לדוגמה:
 
-</div>
+<div dir="ltr">
 
 ```js
 let target = {};
@@ -1558,16 +1577,17 @@ let result2 = Reflect.defineProperty(target, "name", { value: "reflect" });
 
 console.log(result2);                   // true
 ```
-<div dir="rtl">
+
+</div>
 
 כאשר
-`Object.defineProperty()`
+<span dir="ltr">`Object.defineProperty()`</span>
 נקראת על
 `target`,
 הערך החוזר הוא
 `target`.
 כאשר
-`Reflect.defineProperty()`
+<span dir="ltr">`Reflect.defineProperty()`</span>
 נקרא על
 `target`,
 הערך החוזר הוא
@@ -1575,20 +1595,20 @@ console.log(result2);                   // true
 שמעיד שהפעולה הצליחה. מאחר ומלכודת הפרוקסי
 `defineProperty`
 דורשת שערך בוליאני יחזור, זה יותר טוב להשתמש ב
-`Reflect.defineProperty()`
+<span dir="ltr">`Reflect.defineProperty()`</span>
 ליישם את התנהגות ברירת המחדל במידת הצורך.
 
-#### המתודה getOwnPropertyDescriptor()
+#### המתודה getOwnPropertyDescriptor
 
 המתודה
-`Object.getOwnPropertyDescriptor()`
+<span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>
 כופה את
 הארגומנט
 הראשון שלו לאובייקט כאשר מועבר ערך פרימיטיבי ואז ממשיך בפעולה. מצד שני, המתודה
-`Reflect.getOwnPropertyDescriptor()`
+<span dir="ltr">`Reflect.getOwnPropertyDescriptor()`</span>
 תזרוק שגיאה אם הארגומנט הראשון יהיה מסוג פרמטיבי. להלן דוגמה המציגה את שניהם:
 
-</div>
+<div dir="ltr">
 
 ```js
 let descriptor1 = Object.getOwnPropertyDescriptor(2, "name");
@@ -1598,10 +1618,10 @@ console.log(descriptor1);       // undefined
 let descriptor2 = Reflect.getOwnPropertyDescriptor(2, "name");
 ```
 
-<div dir="rtl">
+</div>
 
 המתודה
-`Object.getOwnPropertyDescriptor()`
+<span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>
 תחזיר
 `undefined`
 בגלל ההשמה של
@@ -1609,7 +1629,7 @@ let descriptor2 = Reflect.getOwnPropertyDescriptor(2, "name");
 לתוך אובייקט, ולו אין את המאפיין
 `name`
 . זוהי ההתנהגות הסטנדרטית של המתודה כאשר מאפיין עם השם הנתון אינו נמצא באובייקט. כאשר
-`Reflect.getOwnPropertyDescriptor()`
+<span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>
 נקרא, מצד שני, שגיאה נזרקת מייד מכיוון שמתודה זו אינה מקבלת ערכים פרימיטיביים לטיעון הראשון.
 
 ## מלכודת `ownKeys`
@@ -1619,29 +1639,29 @@ let descriptor2 = Reflect.getOwnPropertyDescriptor(2, "name");
 מיירטת את המתודה הפנימית
 `[[OwnPropertyKeys]]`
 ומאפשרת לך לשנות את התתנהגות שלה ע"י החזרה של מערך של ערכים. במערך הזה נעשה שימוש בארבע מתודות שונות: המתודה
-`Object.keys()` ,
+<span dir="ltr">`Object.keys()`</span>,
 המתודה
-`Object.getOwnPropertyNames()`,
+<span dir="ltr">`Object.getOwnPropertyNames()`</span>,
 המתודה
-`Object.getOwnPropertySymbols()`,
+<span dir="ltr">`Object.getOwnPropertySymbols()`</span>,
 והמתודה
-`Object.assign()`
-. (המתודה
-`Object.assign()`
+<span dir="ltr">`Object.assign()`</span>.
+(
+המתודה
+<span dir="ltr">`Object.assign()`</span>
 משתמשת במערך כדי להחליט איזה מאפיינים להעתיק.)
 
 ההתנהגות הדיפולטיבית עבור המלכודת
 `ownKeys`
 ממומשת ע"י המתודה
-`Reflect.ownKeys()`
+<span dir="ltr">`Reflect.ownKeys()`</span>
 ומחזירה מערך של כל מפתחות של המאפיינים,כולל סטרינג וסימבול. המתודה
-`Object.getOwnProperyNames()`
+<span dir="ltr">`Object.getOwnPropertyNames()`</span>
 והמתודה
-`Object.keys()`
 מסננות סימבול מהמערך ומחזירה את התוצאות בזמן שהמתודה
-`Object.getOwnPropertySymbols()`
+<span dir="ltr">`Object.getOwnPropertySymbols()`</span>
 מסננת את הסטרינג ומחזירה את התוצאות. המתודה
-`Object.assign()`
+<span dir="ltr">`Object.assign()`</span>
 משתמשת גם בסטרינג וגם בסימבול.
 
 המלכודת
@@ -1650,20 +1670,20 @@ let descriptor2 = Reflect.getOwnPropertyDescriptor(2, "name");
 אחרת, שגיאה תיזרק. אתה יכול להשתמש במלכודת
 `ownKeys`
 לדוגמה, לסנן החוצה את כל המפתחות שאתה לא רוצה שישתמשו בזמן הקריאה  למתודה
-`Object.keys()`,
+<span dir="ltr">`Object.keys()`</span>,
 למתודה
-`Object.getOwnPropertyNames()`,
+<span dir="ltr">`Object.getOwnPropertyNames()`</span>,
 למתודה
-`Object.getOwnPropertySymbols()`,
+<span dir="ltr">`Object.getOwnPropertySymbols()`</span>,
 או למתודה
-`Object.assign()`.
+<span dir="ltr">`Object.assign()`</span>.
 נניח שאינך רוצה לכלול את המאפיינים שמתחילים עם קו-תחתון, סימון נפוץ ב-
 JavaScript
 המצביע על כך ששדה הוא פרטי. אתה יכול להשתמש במלכודת
 `ownKeys`
 לסנן החוצה את המפתחות האלו כך:
 
-</div>
+<div dir="ltr">
 
 ```js
 let proxy = new Proxy({}, {
@@ -1694,23 +1714,23 @@ console.log(symbols.length);    // 1
 console.log(symbols[0]);        // "Symbol(name)"
 ```
 
-<div dir="rtl">
+</div>
 
 הדוגמה הזו השתמשנו במלכודת
 `ownKeys`
 שקוראת בהתחלה למתודה
-`Reflect.ownKeys()`
+<span dir="ltr">`Reflect.ownKeys()`</span>
 כדי לקבל את כל המפתחות של אובייקט המטרה. ואז במתודה
-`filter()`
+<span dir="ltr">`filter()`</span>
 נעשה שימוש לסנן החוצה את המפתחות שמתחילות עם סימון של קו-תחתון. לאחר מכן מוספים שלושה מאפיינים לאובייקט פרוקסי
 `proxy` : `name`,
 `_name`,
 ו
 `nameSymbol`.
 כאשר
-`Object.getOwnPropertyNames()`
+<span dir="ltr">`Object.getOwnPropertyNames()`</span>
 ו
-`Object.keys()`
+<span dir="ltr">`Object.keys()`</span>
 נקראות על פרוקסי
 `proxy`,
 רק המאפיין
@@ -1718,7 +1738,7 @@ console.log(symbols[0]);        // "Symbol(name)"
 מוחזר. באופן דומה
 `nameSymbol`
 מוחזר כאשר
-`Object.getOwnPropertySymbols()`
+<span dir="ltr">`Object.getOwnPropertySymbols()`</span>
 נקרא על
 `proxy`.
 המאפיין
@@ -1751,20 +1771,24 @@ I> המלכודת
 המלכודת
 `apply`
 ו
-`Reflect.apply()`
+<span dir="ltr">`Reflect.apply()`</span>
 מקבלים ומצפים , לארגומנטים הבאים :
 
-1. `trapTarget` - הפונקציה שמבוצעת (the proxy's target)
-1. `thisArg` - הערך של  `this` בתוך הפונקציה במהלך הקריאה
+1. `trapTarget` - הפונקציה שמבוצעת
+(the proxy's target)
+1. `thisArg` - הערך של
+`this`
+בתוך הפונקציה במהלך הקריאה
 1. `argumentsList` - מערך של ארגומנטים שהועברו לפונקציה
 
 מלכודת
-`construct` ,
+`construct`,
 אשר נקרא כאשר הפונקציה מבוצעת באמצעות
 `new`,
 מקבלת את הארגומנטים הבאים:
 
-1. `trapTarget` - הפונקציה שמבוצעת (the proxy's target)
+1. `trapTarget` - הפונקציה שמבוצעת
+(the proxy's target)
 1. `argumentsList` - מערך של ארגומנטים שהועברו לפונקציה
 
 המתודה
