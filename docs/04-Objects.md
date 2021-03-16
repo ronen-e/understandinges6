@@ -556,50 +556,50 @@ console.log(receiver.name);     // "file.js"
 ECMAScript 6,
 אך היא הופכת פונקציה נפוצה בספריות לפונקציה רשמית של השפה.
 
-A> ### עבודה עם תכונות גישה
-A>
-A> חשוב לזכור ש
-A> <span dir="ltr">`Object.assign()`</span>
-A> לא יוצרת תכונות גישה על המקבל כאשר הן מופיעות בספק.
-A> מכיוון ש
-A> <span dir="ltr">`Object.assign()`</span>
-A> משתמשת באופרטור ההשמה, תכונת גישה בספק תהפוך לתכונת ערך במקבל.
-A> לדוגמה:
-A>
-A> <div dir="ltr">
-A>
-A> ```js
-A> var receiver = {},
-A>     supplier = {
-A>         get name() {
-A>             return "file.js"
-A>         }
-A>     };
-A>
-A> Object.assign(receiver, supplier);
-A>
-A> var descriptor = Object.getOwnPropertyDescriptor(receiver, "name");
-A>
-A> console.log(descriptor.value);      // "file.js"
-A> console.log(descriptor.get);        // undefined
-A> ```
-A> </div>
-A>
-A> לאוביקט
-A> `supplier`
-A> יש תכונת גישה בשם
-A> `name`.
-A> לאחר הפעלת המתודה
-A> <span dir="ltr">`Object.assign()`</span>,
-A>`receiver.name`
-A> קיים בתור תכונה עם הערך
-A>`"file.js"`
-A> מכיוון ש
-A> `supplier.name`
-A> החזיר
-A> `"file.js"`
-A> לאחר הקריאה למתודה
-A> `Object.assign()`
+### עבודה עם תכונות גישה
+
+חשוב לזכור ש
+<span dir="ltr">`Object.assign()`</span>
+לא יוצרת תכונות גישה על המקבל כאשר הן מופיעות בספק.
+מכיוון ש
+<span dir="ltr">`Object.assign()`</span>
+משתמשת באופרטור ההשמה, תכונת גישה בספק תהפוך לתכונת ערך במקבל.
+לדוגמה:
+
+<div dir="ltr">
+
+```js
+var receiver = {},
+    supplier = {
+        get name() {
+            return "file.js"
+        }
+    };
+
+Object.assign(receiver, supplier);
+
+var descriptor = Object.getOwnPropertyDescriptor(receiver, "name");
+
+console.log(descriptor.value);      // "file.js"
+console.log(descriptor.get);        // undefined
+```
+</div>
+
+לאוביקט
+`supplier`
+יש תכונת גישה בשם
+`name`.
+לאחר הפעלת המתודה
+<span dir="ltr">`Object.assign()`</span>,
+`receiver.name`
+קיים בתור תכונה עם הערך
+`"file.js"`
+מכיוון ש
+`supplier.name`
+החזיר
+`"file.js"`
+לאחר הקריאה למתודה
+`Object.assign()`
 
 ## כפילות בשמות תכונות
 
@@ -1202,7 +1202,7 @@ ECMAScript 6
 מקלה על שינוי מספר תכונות באוביקט בו זמנית. זה שיפור יעיל כשמשתמשים בטכניקת מיקסין
 (mixin pattern).
 המתודה
-<span dir="ltr">`Object.is(()`</span>
+<span dir="ltr">`Object.is()`</span>
 מבצעת בדיקת שוויון עמוק בעבור כל ערך, למעשה היא הופכת לגרסה בטוחה של האופרטור
 `===`
 כאשר מטפלים בערכים מיוחדים של ג׳אווהסקריפט.
@@ -1216,7 +1216,7 @@ ECMAScript 6.
 
 כעת ניתן לשנות את הפרוטוטיפ של אוביקט לאחר יצירתו,
 הודות למתודה
-<span dir="ltr">`Object.setPrototypeOf(()`</span>.
+<span dir="ltr">`Object.setPrototypeOf()`</span>.
 
 ולבסוף, ניתן להשתמש במילה
 `super`
