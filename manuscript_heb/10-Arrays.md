@@ -313,13 +313,12 @@ console.log(numbers);   // 2,3,4
 `this.diff`
 עלינו לספק את הארגומנט השלישי ל-
 <span dir="ltr">`Array.from()`</span>
-">Array.from()</span>`
 המציין את הערך של
 `this`.
 הודות לארגומנט השלישי,
 <span dir="ltr">`Array.from()`</span>
 יכול בקלות להמיר נתונים מבלי לקרוא למתודת
-`bind()`
+<span dir="ltr">`bind()`</span>
 או לציין את הערך של
 `this`
 בדרך אחרת.
@@ -414,7 +413,7 @@ I>
 ההבדל היחיד בין שתי המתודות הוא שהמתודה
 <span dir="ltr">`find()`</span>
 מחזירה את הערך עצמו, ואילו המתודה
-`<span dir="ltr">`findIndex()`</span>`
+<span dir="ltr">`findIndex()`</span>
 מחזירה את האינדקס במערך שבו נמצא הערך.
 
 הנה דוגמא להמחשה:
