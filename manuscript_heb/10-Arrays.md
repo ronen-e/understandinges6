@@ -108,7 +108,8 @@ console.log(items[0]); // "2"
 על מנת להבטיח התנהגות עקבית.
 
 לדוגמה:
-<span dir="ltr">
+
+<div dir="ltr">
 
 ```js
 function createArray(arrayCreator, value) {
@@ -117,7 +118,7 @@ function createArray(arrayCreator, value) {
 
 let items = createArray(Array.of, value);
 ```
-</span>
+</div>
 
 בקוד זה הפונקציה
 <span dir="ltr">`createArray()`</span>
