@@ -1,5 +1,3 @@
-<div dir="rtl">
-
 # פונקציות
 
 פונקציות הינן חלק חשוב בכל שפת תכנות ועד לגרסת אקמהסקריפט 6, פונקציות נותרו כמעט כמות שהיו מאז המצאת השפה.
@@ -26,7 +24,6 @@
 
 באקמהסקריפט 5 וקודם לכן, היה ניתן להשתמש בשיטה הבאה על מנת ליצור פונקציה עם ערכים דיפולטיביים
 
-<div dir="ltr">
 
 ```js
 function makeRequest(url, timeout, callback) {
@@ -39,7 +36,6 @@ function makeRequest(url, timeout, callback) {
 }
 ```
 
-</div>
 
 בדוגמה לעיל, שני המשתנים
 `timeout` ו `callback`
@@ -67,8 +63,6 @@ OR
 `typeof`
 כמו בדוגמה הבאה:
 
-<div dir="ltr">
-
 ```js
 function makeRequest(url, timeout, callback) {
 
@@ -80,16 +74,12 @@ function makeRequest(url, timeout, callback) {
 }
 ```
 
-</div>
-
 בעוד שגישה זו עדיפה, היא עדיין דורשת כתיבת קוד רב יחסית עבור פעולה בסיסית.
 ספריות ג׳אווהסקריפט פופולריות מלאות בדוגמאות דומות.
 
 ### ערכים דיפולטיביים באקמהסקריפט 6
 
 אקמהסקריפט 6 מפשטת את תהליך הוספת ערכים דיפולטיביים לפרמטרים באמצעות הוספת יכולת אתחול פרמטרים כאשר הללו אינם נתונים לנו. לדוגמה:
-
-<div dir="ltr">
 
 ```js
 function makeRequest(url, timeout = 2000, callback = function() {}) {
@@ -99,15 +89,11 @@ function makeRequest(url, timeout = 2000, callback = function() {}) {
 }
 ```
 
-</div>
-
 הפונקציה בדוגמה לעיל מצפה לקבל רק את הפרמטר הראשון כארגומנט שחובה להעבירו. שני הפרמטרים האחרים מקבלים ערכים דיפולטיביים, מה שהופך את הפונקציה לקצרה יותר מאחר ואין צורך לכתוב קוד נוסף שבודק ערכים חסרים ומחליף אותם.
 
 כאשר קוראים לפונקציה
 <span dir="ltr">`makeRequest()`</span>
 ומספקים את כל שלושת הפרמטרים, הערכים הדיפולטיביים אינם נלקחים. לדוגמה:
-
-<div dir="ltr">
 
 ```js
 // שימוש בערכים דיפולטיביים
@@ -124,8 +110,6 @@ makeRequest("/foo", 500, function(body) {
 });
 ```
 
-</div>
-
 בגרסת אקמהסקריפט 6 המשתנה
 `url`
 הוא משתנה שחובה לספק, וזוהי הסיבה שהערך
@@ -138,8 +122,6 @@ makeRequest("/foo", 500, function(body) {
 למשל,
 הקוד בדוגמה הבאה הינו קוד תקין:
 
-<div dir="ltr">
-
 ```js
 function makeRequest(url, timeout = 2000, callback) {
 
@@ -148,15 +130,11 @@ function makeRequest(url, timeout = 2000, callback) {
 }
 ```
 
-</div>
-
 בדוגמה זו, הערך הדיפולטיבי עבור המשתנה
 `timeout`
 יתקבל רק כאשר הארגומנט השני איננו מסופק לפונקציה או כאשר הארגומנט השני מסופק עם הערך
 `undefined`,
 לדוגמה:
-
-<div dir="ltr">
 
 ```js
 // שימוש בערכים דיפולטיביים
@@ -174,8 +152,6 @@ makeRequest("/foo", null, function(body) {
     doSomething(body);
 });
 ```
-
-</div>
 
 בכל הנוגע לערכים דיפולטיביים, הערך
 `null`
@@ -198,8 +174,6 @@ makeRequest("/foo", null, function(body) {
 משקף שינויים בפרמטרים של הפונקציה, אשר הועברו לתוכה
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 function mixArgs(first, second) {
     console.log(first === arguments[0]);
@@ -213,20 +187,14 @@ function mixArgs(first, second) {
 mixArgs("a", "b");
 ```
 
-</div>
-
 הפלט עבור הקוד לעיל הינו:
 
-<div dir="ltr">
-
 ```
 true
 true
 true
 true
 ```
-
-</div>
 
 אוביקט
 `arguments`
@@ -256,8 +224,6 @@ true
 אינו משקף שינויים בפרמטרים של הפונקציה.
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 function mixArgs(first, second) {
     "use strict";
@@ -273,20 +239,14 @@ function mixArgs(first, second) {
 mixArgs("a", "b");
 ```
 
-</div>
-
 הפלט הינו:
 
-<div dir="ltr">
-
 ```
 true
 true
 false
 false
 ```
-
-</div>
 
 בדוגמה לעיל,
 שינוי המשתנים
@@ -311,8 +271,6 @@ false
 בעת הפיתוח.
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 // הפונקציה אינה פועלת במצב קשיח
 function mixArgs(first, second = "b") {
@@ -328,12 +286,7 @@ function mixArgs(first, second = "b") {
 mixArgs("a");
 ```
 
-</div>
-
 הפלט הינו:
-
-<div dir="ltr">
-
 
 ```
 1
@@ -342,8 +295,6 @@ false
 false
 false
 ```
-
-</div>
 
 בדוגמה זו,
 הערך של
@@ -375,8 +326,6 @@ false
 תכונה מעניינת של ערכים דיפולטיביים היא שהם אינם חייבים להיות ערכים פרימיטיביים.
 ניתן למשל, להריץ פונקציה כדי להחזיר ממנה את הערך הדיפולטיבי, לדוגמה:
 
-<div dir="ltr">
-
 ```js
 function getValue() {
     return 5;
@@ -390,14 +339,12 @@ console.log(add(1, 1));     // 2
 console.log(add(1));        // 6
 ```
 
-</div>
-
 כאשר הארגומנט האחרון אינו מועבר לפונקציה
 <span dir="ltr">`add()`</span>
 תופעל הפונקציה
 <span dir="ltr">`getValue()`</span>
 על מנת לקבל את הערך הדיפולטיבי עבור הפרמטר השני.
- הפונקציה
+הפונקציה
 <span dir="ltr">`getValue()`</span>
 נקראת רק כאשר
 <span dir="ltr">`add()`</span>
@@ -406,8 +353,6 @@ console.log(add(1));        // 6
 <span dir="ltr">`getValue()`</span>
 הייתה נכתבת אחרת היא הייתה יכולה להחזיר ערך אחר.
 לדוגמה:
-
-<div dir="ltr">
 
 ```js
 let value = 5;
@@ -424,8 +369,6 @@ console.log(add(1, 1));     // 2
 console.log(add(1));        // 6
 console.log(add(1));        // 7
 ```
-
-</div>
 
 בדוגמה לעיל, המשתנה
 `value`
@@ -461,8 +404,6 @@ W> חובה להיזהר בעת שימוש בפונקציות למתן ערכי�
 ניתן להשתמש בפרמטר קודם כערך דיפולטיבי לפרמטר שאחריו.
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 function add(first, second = first) {
     return first + second;
@@ -471,8 +412,6 @@ function add(first, second = first) {
 console.log(add(1, 1));     // 2
 console.log(add(1));        // 2
 ```
-
-</div>
 
 בקוד לעיל, הפרמטר
 `second`
@@ -485,11 +424,9 @@ console.log(add(1));        // 2
 תחזיר את הערך `2` כתוצאה כמו הקריאה
 <span dir="ltr">`add(1)`</span>.
 ניתן אף להעביר את המשתנה
- `first`
+`first`
 לתוך פונקציה על מנת לקבל ערך דיפולטיבי עבור המשתנה
- `second`:
-
-<div dir="ltr">
+`second`:
 
 ```js
 function getValue(value) {
@@ -503,8 +440,6 @@ function add(first, second = getValue(first)) {
 console.log(add(1, 1));     // 2
 console.log(add(1));        // 7
 ```
-
-</div>
 
 בדוגמה האחרונה נותנים למשתנה
 `second`
@@ -521,8 +456,6 @@ console.log(add(1));        // 7
 
 שיטה זו של הפניה לפרמטרים קודמים בעת השמת ערכים דיפולטיביים עובדת רק עבור ארגומנטים קיימים, ולכן אין גישה לארגומנטים שבאים מאוחר יותר מאשר בזמן הגדרת הפונקציה. לדוגמה:
 
-<div dir="ltr">
-
 ```js
 function add(first = second, second) {
     return first + second;
@@ -531,8 +464,6 @@ function add(first = second, second) {
 console.log(add(1, 1));         // 2
 console.log(add(undefined, 1)); // שגיאה
 ```
-
-</div>
 
 הקריאה לפונקציה
 <span dir="ltr">`add(undefined, 1)`</span>
@@ -561,8 +492,6 @@ console.log(add(undefined, 1)); // שגיאה
 
 על מנת לחקור את האזור המת של פרמטרים דיפולטיביים ניתן להשתמש בדוגמת קוד קודמת:
 
-<div dir="ltr">
-
 ```js
 function getValue(value) {
     return value + 5;
@@ -576,8 +505,6 @@ console.log(add(1, 1));     // 2
 console.log(add(1));        // 7
 ```
 
-</div>
-
 הקריאות לפונקציות
 <span dir="ltr">`add(1, 1)`</span>
 ו-
@@ -585,9 +512,7 @@ console.log(add(1));        // 7
 למעשה מריצות את הקוד הבא על מנת ליצור את הערכים עבור הפרמטרים
 `first`
 ו
- `second`:
-
-<div dir="ltr">
+`second`:
 
 ```js
 // add(1, 1)
@@ -599,15 +524,13 @@ let first = 1;
 let second = getValue(first);
 ```
 
-</div>
-
 כאשר הפונקציה
 <span dir="ltr">`add()`</span>
 נקראת לראשונה,
 הקישורים למשתנים
 `first`
 ו
- `second`
+`second`
 נוצרים בתוך אזור מת מיוחד לפרמטרים
 (בדומה להתנהגות משתנים מסוג
 `let`).
@@ -622,8 +545,6 @@ let second = getValue(first);
 אך ההיפך אינו תמיד נכון.
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 function add(first = second, second) {
     return first + second;
@@ -633,15 +554,11 @@ console.log(add(1, 1));         // 2
 console.log(add(undefined, 1)); // שגיאה
 ```
 
-</div>
-
 בדוגמה לעיל הקריאות לפונקציות
 <span dir="ltr">`add(1, 1)`</span>
 ו-
 <span dir="ltr">`add(undefined, 1)`</span>
 למעשה מתורגמות מאחורי הקלעים לקוד הבא:
-
-<div dir="ltr">
 
 ```js
 // add(1, 1)
@@ -652,8 +569,6 @@ let second = 1;
 let first = second;
 let second = 1;
 ```
-
-</div>
 
 בדוגמה לעיל הקריאה לפונקציה
 <span dir="ltr">`add(undefined, 1)`</span>
@@ -686,8 +601,6 @@ I> פרמטרים של פונקציה מקבלים סביבה ואזור מת ז
 בתור דרך להתייחס לכל הפרמטרים שמועברים לפונקציה מבלי שיהיה צורך להגדיר כל אחד מהם בנפרד.
 התעסקות עם האוביקט ייתכן שתהיה מכבידה יחסית. לדוגמה, הקוד הבא:
 
-<div dir="ltr">
-
 ```js
 function pick(object) {
     let result = Object.create(null);
@@ -711,7 +624,6 @@ let bookData = pick(book, "author", "year");
 console.log(bookData.author);   // "Nicholas C. Zakas"
 console.log(bookData.year);     // 2015
 ```
-</div>
 
 הפונקציה בדוגמת הקוד פועלת בדומה לפונקציה
 <span dir="ltr">`pick()`</span>
@@ -749,8 +661,6 @@ console.log(bookData.year);     // 2015
 <span dir="ltr">`pick()`</span>
 להשתמש בפרמטרים מסוג רסט:
 
-<div dir="ltr">
-
 ```js
 function pick(object, ...keys) {
     let result = Object.create(null);
@@ -762,8 +672,6 @@ function pick(object, ...keys) {
     return result;
 }
 ```
-
-</div>
 
 בדוגמה לעיל,
 הפרמטר בשם
@@ -793,8 +701,6 @@ I> פרמטרים מסוג רסט אינם משפיעים על תכונת
 מתקיימות שתי הגבלות לעניין פרמטרים מסוג רסט. המגבלה הראשונה היא שיהיה אך ורק פרמטר אחד מסוג רסט, ואותו פרמטר חייב להיות מוגדר אחרון.
 הקוד בדוגמה הבאה לא יעבוד:
 
-<div dir="ltr">
-
 ```js
 // Syntax error: Can't have a named parameter after rest parameters
 function pick(object, ...keys, last) {
@@ -808,8 +714,6 @@ function pick(object, ...keys, last) {
 }
 ```
 
-</div>
-
 בדוגמה לעיל, הפרמטר
 `last`
 בא אחרי הפרמטר מסוג רסט בשם
@@ -820,8 +724,6 @@ function pick(object, ...keys, last) {
 <span dir="ltr">`(setter)`</span>.
 גם הקוד הבא יזרוק שגיאת תחביר:
 
-<div dir="ltr">
-
 ```js
 let object = {
 
@@ -831,8 +733,6 @@ let object = {
     }
 };
 ```
-
-</div>
 
 מגבלה זו קיימת מכיוון ומגדירי ערך תכונה מוגבלים לארגומנט בודד יחיד.
 פרמטרים מסוג רסט מייצגים מספר בלתי מוגבל של ארגומנטים ולכן הם אסורים לשימוש בהקשר זה.
@@ -852,8 +752,6 @@ let object = {
 `arguments`
 עובד יחד עם פרמטרים מסוג רסט כאשר הוא משקף את הארגומנטים שהועברו לפונקציה בעת קריאתה, כפי שמודגם בדוגמה הקוד הבאה:
 
-<div dir="ltr">
-
 ```js
 function checkArgs(...args) {
     console.log(args.length);
@@ -865,13 +763,9 @@ function checkArgs(...args) {
 checkArgs("a", "b");
 ```
 
-</div>
-
 הקריאה לפונקציה
 <span dir="ltr">`checkArgs()`</span>.
 מייצרת את הפלט הבא:
-
-<div dir="ltr">
 
 ```
 2
@@ -879,8 +773,6 @@ checkArgs("a", "b");
 a a
 b b
 ```
-
-</div>
 
 אוביקט
 `arguments`
@@ -895,22 +787,16 @@ b b
 כל הארגומנטים הינם מחרוזות.
 להלן דוגמה:
 
-<div dir="ltr">
-
 ```js
 var add = new Function("first", "second", "return first + second");
 
 console.log(add(1, 1));     // 2
 ```
 
-</div>
-
 אקמהסקריפט 6 מוסיפה לבנאי הפונקציה את האפשרות להוסיף ערכים דיפולטיביים ופרמטרים מסוג רסט.
 צריך רק להוסיף סימן
 `=`
 וערך עבור שמות הפרמטרים, לדוגמה:
-
-<div dir="ltr">
 
 ```js
 var add = new Function("first", "second = first",
@@ -919,8 +805,6 @@ var add = new Function("first", "second = first",
 console.log(add(1, 1));     // 2
 console.log(add(1));        // 2
 ```
-
-</div>
 
 בדוגמה זו, הפרמטר
 `second`
@@ -933,15 +817,11 @@ console.log(add(1));        // 2
 `...`
 לפני הפרמטר האחרון, כמו בדוגמה הבאה:
 
-<div dir="ltr">
-
 ```js
 var pickFirst = new Function("...args", "return args[0]");
 
 console.log(pickFirst(1, 2));   // 1
 ```
-
-</div>
 
 הקוד בדוגמה יוצר פונקציה שמקבלת פרמטר בודד מסוג רסט ומחזירה את הארגומנט הראשון שהועבר לפונקציה.
 
@@ -958,8 +838,6 @@ console.log(pickFirst(1, 2));   // 1
 <span dir="ltr">`Math.max()`</span>
 שיכולה לקבל כל מספר של ארגומנטים ומחזירה את הארגומנט בעל הערך המספרי הגבוה ביותר.
 
-<div dir="ltr">
-
 ```js
 let value1 = 25,
     value2 = 50;
@@ -967,27 +845,21 @@ let value1 = 25,
 console.log(Math.max(value1, value2));      // 50
 ```
 
-</div>
-
 כאשר מעבירים לפונקציה שני ערכים בלבד, כמו בדוגמה לעיל,
 קל להשתמש בפונקציה
 <span dir="ltr">`Math.max()`</span>.
- אך מה היה קורה אם היינו רוצים למצוא את הערך הגבוה ביותר בתוך מערך של עצמים?
+אך מה היה קורה אם היינו רוצים למצוא את הערך הגבוה ביותר בתוך מערך של עצמים?
 הפונקציה
 <span dir="ltr">`Math.max()`</span>.
 לא מקבלת מערכים, ולכן לפני אקמהסקריפט 6 היה צורך לבדוק את המערך בעצמנו או להשתמש בפונקציה
 <span dir="ltr">`apply()`</span>
 כמו בדוגמה הבאה:
 
-<div dir="ltr">
-
 ```js
 let values = [25, 50, 75, 100]
 
 console.log(Math.max.apply(Math, values));  // 100
 ```
-
-</div>
 
 הקוד בדוגמה עובד אך השימוש ב
 <span dir="ltr">`apply()`</span>
@@ -1005,8 +877,6 @@ console.log(Math.max.apply(Math, values));  // 100
 המערך מפורק לארגומנטים בודדים שמועברים אחד אחד לפונקציה.
 כמו בדוגמה הבאה:
 
-<div dir="ltr">
-
 ```js
 let values = [25, 50, 75, 100]
 
@@ -1014,8 +884,6 @@ let values = [25, 50, 75, 100]
 // console.log(Math.max(25, 50, 75, 100));
 console.log(Math.max(...values));           // 100
 ```
-
-</div>
 
 כעת הקריאה ל
 <span dir="ltr">`Math.max()`</span>
@@ -1031,15 +899,11 @@ console.log(Math.max(...values));           // 100
 נניח שהיינו רוצים שלא יוחזר מספר קטן מ-0.
 ניתן להעביר את הערך הנ״ל בנפרד ועדיין להשתמש באופרטור הפיזור, לדוגמה:
 
-<div dir="ltr">
-
 ```js
 let values = [-25, -50, -75, -100]
 
 console.log(Math.max(...values, 0));        // 0
 ```
-
-</div>
 
 בדוגמה האחרונה, הארגומנט האחרון שמועבר לפונקציה
 <span dir="ltr">`Math.max()`</span>
@@ -1070,8 +934,6 @@ console.log(Math.max(...values, 0));        // 0
 עבור הגדרת פונקציה
 ועבור משתנה מסוג פונקציה.
 
-<div dir="ltr">
-
 ```js
 function doSomething() {
     // ...
@@ -1084,8 +946,6 @@ var doAnotherThing = function() {
 console.log(doSomething.name);          // "doSomething"
 console.log(doAnotherThing.name);       // "doAnotherThing"
 ```
-
-</div>
 
 בדוגמת הקוד האחרונה לפונקציה
 <span dir="ltr">`doSomething()`</span>
@@ -1110,8 +970,6 @@ console.log(doAnotherThing.name);       // "doAnotherThing"
 הפונקציות יהיו בעלות שם מתאים.
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 var doSomething = function doSomethingElse() {
     // ...
@@ -1132,8 +990,6 @@ console.log(person.sayName.name);   // "sayName"
 var descriptor = Object.getOwnPropertyDescriptor(person, "firstName");
 console.log(descriptor.get.name); // "get firstName"
 ```
-
-</div>
 
 בדוגמה זו,
 הערך של
@@ -1177,8 +1033,6 @@ console.log(descriptor.get.name); // "get firstName"
 `"anonymous"`,
 כמו בדוגמה הבאה:
 
-<div dir="ltr">
-
 ```js
 var doSomething = function() {
     // ...
@@ -1188,8 +1042,6 @@ console.log(doSomething.bind().name);   // "bound doSomething"
 
 console.log((new Function()).name);     // "anonymous"
 ```
-
-</div>
 
 השם של פונקציה שעברה דרך
 <span dir="ltr">`bind()`</span>
@@ -1223,8 +1075,6 @@ console.log((new Function()).name);     // "anonymous"
 בתוך הפונקציה לאוביקט חדש שמוחזר מהפונקציה.
 כפי שמודגם בדוגמת הקוד הבאה:
 
-<div dir="ltr">
-
 ```js
 function Person(name) {
     this.name = name;
@@ -1237,8 +1087,6 @@ console.log(person);        // "[Object object]"
 console.log(notAPerson);    // "undefined"
 ```
 
-</div>
-
 כאשר יוצרים את המשתנה
 `notAPerson`,
 קריאה לפונקציה
@@ -1249,9 +1097,9 @@ console.log(notAPerson);    // "undefined"
 מחזירה את הערך
 `undefined`
 (
-    וגם מגדירה את תכונת
+וגם מגדירה את תכונת
 `name`
-    על האוביקט הגלובלי במצב לא קשיח
+על האוביקט הגלובלי במצב לא קשיח
 ).
 השימוש באות ראשונה גדולה
 (`capitalization`)
@@ -1280,7 +1128,7 @@ console.log(notAPerson);    // "undefined"
 *אוביקט המטרה*
 <span dir="ltr">`(new target)`</span>
 וממשיכה להריץ את הפונקציה כמות שהיא כתובה ורק המשתנה המיוחד
- `this`
+`this`
 מצביע על
 אוביקט המטרה.
 פונקציות אשר מכילות בתוכן פונקציה פנימית
@@ -1307,8 +1155,6 @@ I> יש לשים לב לכך שלא לכל הפונקציות יש פונקצי�
 `instanceof`,
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 function Person(name) {
     if (this instanceof Person) {
@@ -1321,8 +1167,6 @@ function Person(name) {
 var person = new Person("Nicholas");
 var notAPerson = Person("Nicholas");  // error
 ```
-
-</div>
 
 בדוגמה זו, ערכו של המשתנה
 `this`
@@ -1349,8 +1193,6 @@ var notAPerson = Person("Nicholas");  // error
 `new`,
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 function Person(name) {
     if (this instanceof Person) {
@@ -1363,8 +1205,6 @@ function Person(name) {
 var person = new Person("Nicholas");
 var notAPerson = Person.call(person, "Michael");    // works!
 ```
-
-</div>
 
 הקריאה לפונקציה
 <span dir="ltr">`Person.call()`</span>
@@ -1415,8 +1255,6 @@ var notAPerson = Person.call(person, "Michael");    // works!
 <span dir="ltr">`new.target`</span>
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 function Person(name) {
     if (typeof new.target !== "undefined") {
@@ -1429,8 +1267,6 @@ function Person(name) {
 var person = new Person("Nicholas");
 var notAPerson = Person.call(person, "Michael");    // error!
 ```
-
-</div>
 
 בעזרת שימוש ב
 <span dir="ltr">`new.target`</span>
@@ -1445,8 +1281,6 @@ var notAPerson = Person.call(person, "Michael");    // error!
 <span dir="ltr">`new.target`</span>
 קריאה לקונסטרקטור ספציפי.
 לדוגמה:
-
-<div dir="ltr">
 
 ```js
 function Person(name) {
@@ -1464,8 +1298,6 @@ function AnotherPerson(name) {
 var person = new Person("Nicholas");
 var anotherPerson = new AnotherPerson("Nicholas");  // error!
 ```
-
-</div>
 
 בקוד שבדוגמה הערך עבור
 <span dir="ltr">`new.target`</span>
@@ -1513,8 +1345,6 @@ W> אזהרה:
 
 בניסיון להשתלט על הבעיה, מהדורה 5 של אקמהסקריפט זרקה שגיאה בכל פעם שפונקציה הייתה מוגדרת בתוך בלוק אך במצב קשיח בלבד:
 
-<div dir="ltr">
-
 ```js
 "use strict";
 
@@ -1527,15 +1357,11 @@ if (true) {
 }
 ```
 
-</div>
-
 באקמהסקריפט 5, הקוד זורק שגיאה תחבירית.
 באקמהסקריפט 6, הפונקציה
 <span dir="ltr">`doSomething()`</span>
 נחשבת למוגדרת ברמת בלוק ויכולה להיקרא בתוך אותו בלוק בה הוגדרה.
 לדוגמה:
-
-<div dir="ltr">
 
 ```js
 "use strict";
@@ -1553,8 +1379,6 @@ if (true) {
 
 console.log(typeof doSomething);            // "undefined"
 ```
-
-</div>
 
 פונקציות ברמת בלוק מורמות לתחילת הבלוק שבו הוגדרו, ולכן הקוד
 <span dir="ltr">`typeof doSomething`</span>
@@ -1578,8 +1402,6 @@ console.log(typeof doSomething);            // "undefined"
 שמוגדרים בעזרת
 אינם מורמים, כפי שמדגימה הדוגמה הבאה:
 
-<div dir="ltr">
-
 ```js
 "use strict";
 
@@ -1596,8 +1418,6 @@ if (true) {
 
 console.log(typeof doSomething);
 ```
-
-</div>
 
 בדוגמה זו, הקוד נעצר בעת הרצת הפקודה
 <span dir="ltr">`typeof doSomething`</span>
@@ -1621,8 +1441,6 @@ console.log(typeof doSomething);
 במקום להרים את הגדרת הפונקציה לתחילת הבלוק הן מורמות לתחילת הפונקציה העוטפת, ובמקרה שאין פונקציה עוטפת - לתחילת הסביבה הגלובלית.
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 // ECMAScript 6
 if (true) {
@@ -1638,8 +1456,6 @@ if (true) {
 
 console.log(typeof doSomething);            // "function"
 ```
-
-</div>
 
 בדוגמה זו,
 <span dir="ltr">`doSomething()`</span>
@@ -1719,8 +1535,6 @@ I> הערה: לפונקציות מוגדרת התכונה
 התחביר לכתיבת פונקציות חץ מופיע במספר צורות, תלוי במטרה.
 כל הוריאציות מתחילות עם ארגומנטים לפונקציה, כשלאחר מכן מופיע סימן החץ כשלאחר מכן מופיע גוף הפונקציה. גם הארגומנטים וגם גוף הפונקציה יכולים להופיע במספר צורות שונות, תלוי בשימוש. לדוגמה פונקציה החץ בדוגמה הבאה מקבלת ארגומנט אחד ומחזירה אותו:
 
-<div dir="ltr">
-
 ```js
 var reflect = value => value;
 
@@ -1731,8 +1545,6 @@ var reflect = function(value) {
 };
 ```
 
-</div>
-
 כאשר נתון רק ארגומנט אחד לפונקציית חץ, אותו ארגומנט יכול לשמש בצורה ישירה ללא כתיבה נוספת. החץ בא לאחר מכן והביטוי לימינו מחושב ומוחזר.
 גם אם לא כותבים פקודת
 `return`
@@ -1740,8 +1552,6 @@ var reflect = function(value) {
 פונקציית החץ תחזיר את הארגומנט.
 
 במידה ומועבר לפונקציה יותר מארגומנט אחד, יש להקיף את הארגומנטים בסוגריים, כמו בדוגמה הבאה:
-
-<div dir="ltr">
 
 ```js
 var sum = (num1, num2) => num1 + num2;
@@ -1753,8 +1563,6 @@ var sum = function(num1, num2) {
 };
 ```
 
-</div>
-
 הפונקציה
 <span dir="ltr">`sum()`</span>
 מוסיפה ארגומנט אחד לארגומנט שני ומחזירה את התוצאה.
@@ -1764,8 +1572,6 @@ var sum = function(num1, num2) {
 (בדומה לפונקציות רגילות).
 
 במידה וכלל אין לפונקציה ארגומנטים, חובה להוסיף סוגריים ריקים, כמו בדוגמה הבאה:
-
-<div dir="ltr">
 
 ```js
 var getName = () => "Nicholas";
@@ -1777,12 +1583,8 @@ var getName = function() {
 };
 ```
 
-</div>
-
 כאשר רוצים להשתמש בגוף פונקציה רגיל, כזה שיש בו יותר ביטויי קוד, יש לעטוף את גוף הפונקציה בסוגריים מסולסלים ולהחזיר ערך בצורה מפורשת,
 כמו בדוגמה הבאה:
-
-<div dir="ltr">
 
 ```js
 var sum = (num1, num2) => {
@@ -1796,15 +1598,11 @@ var sum = function(num1, num2) {
 };
 ```
 
-</div>
-
 ניתן להתייחס לחלק שבתוך הסוגריים כמו לזה שנמצא בפונקציה רגילה, כמובן צריך לזכור שהמשתנה
 `arguments`
 אינו זמין
 
 אם נרצה ליצור פונקציה שלא עושה דבר, יש להשתמש בסוגריים מסולסלים, כמו בדוגמה הבאה:
-
-<div dir="ltr">
 
 ```js
 var doNothing = () => {};
@@ -1814,13 +1612,9 @@ var doNothing = () => {};
 var doNothing = function() {};
 ```
 
-</div>
-
 סוגריים מסולסלים משמשים עבור גוף הפונקציה.
 לכן כאשר רוצים להחזיר אוביקט בכתיבה מקוצרת יש לעטוף אותו בסוגריים.
 לדוגמה:
-
-<div dir="ltr">
 
 ```js
 var getTempItem = id => ({ id: id, name: "Temp" });
@@ -1836,8 +1630,6 @@ var getTempItem = function(id) {
 };
 ```
 
-</div>
-
 עטיפת האוביקט בסוגריים מסמנת לנו שהסוגריים המסולסלים מייצגים אוביקט ולא את גוף הפונקציה.
 
 ### הגדרת פונקציה שמופעלת מיידית
@@ -1849,8 +1641,6 @@ var getTempItem = function(id) {
 מאפשרים לנו להגדיר פונקציה אנונימית ולקרוא לה באופן מיידי ללא צורך במצביע לפונקציה.
 שיטה זו יעילה במיוחד כאשר רוצים ליצור סביבה פנימית שאינה חשופה לשאר הקוד שרץ.
 לדוגמה:
-
-<div dir="ltr">
 
 ```js
 let person = function(name) {
@@ -1866,8 +1656,6 @@ let person = function(name) {
 console.log(person.getName());      // "Nicholas"
 ```
 
-</div>
-
 בקוד שבדוגמה, משתמשים ב
 IIFE
 כדי ליצור אוביקט בעל פונקציית
@@ -1879,8 +1667,6 @@ IIFE
 למשתנה פרטי בעבור האוביקט שמוחזר מהפונקציה.
 
 ניתן להגיע לאותה תוצאה בעזרת שימוש בפונקציות חץ, כל עוד עוטפים את הפונקציה בסוגריים:
-
-<div dir="ltr">
 
 ```js
 let person = ((name) => {
@@ -1896,8 +1682,6 @@ let person = ((name) => {
 console.log(person.getName());      // "ניקולאס"
 ```
 
-</div>
-
 הסוגריים עוטפים אך ורק את הגדרת הפונקציה, אך לא מסביב לקריאה לפונקציה
 <span dir="ltr">`("ניקולאס")`</span>.
 זה שונה מפונקציה רגילה, שם הסוגריים יכולים להופיע באותה צורה או אפילו מסביב לכל הפונקציה כולל הקריאה לה.
@@ -1911,8 +1695,6 @@ console.log(person.getName());      // "ניקולאס"
 `this`
 יכול להשתנות, תלוי באיזה אופן הפונקציה נקראה, ייתכן שנשפיע בטעות על אוביקט אחד בעת שהתכוונו לשנות אוביקט אחר.
 למשל:
-
-<div dir="ltr">
 
 ```js
 var PageHandler = {
@@ -1930,8 +1712,6 @@ var PageHandler = {
     }
 };
 ```
-
-</div>
 
 בדוגמת הקוד האוביקט
 `PageHandler`
@@ -1964,8 +1744,6 @@ var PageHandler = {
 
 על הפונקציה עצמה. לדוגמה:
 
-<div dir="ltr">
-
 ```js
 var PageHandler = {
 
@@ -1982,8 +1760,6 @@ var PageHandler = {
     }
 };
 ```
-
-</div>
 
 כעת הקוד עובד כמצופה, למרות שהוא נראה קצת מוזר.
 על ידי קריאה לפונקציה
@@ -2011,8 +1787,6 @@ var PageHandler = {
 בסביבה הגלובלית.
 דוגמה:
 
-<div dir="ltr">
-
 ```js
 var PageHandler = {
 
@@ -2028,8 +1802,6 @@ var PageHandler = {
     }
 };
 ```
-
-</div>
 
 הפונקציה שמטפלת באירועים בדוגמה זו הינה פונקציית חץ שקוראת בתורה לפונקציה
 <span dir="ltr">`this.doSomething()`</span>.
@@ -2051,14 +1823,10 @@ var PageHandler = {
 `new`
 על פונקציית חץ תיזרק שגיאה. כמו בדוגמה הבאה:
 
-<div dir="ltr">
-
 ```js
 var MyType = () => {},
     object = new MyType();  // שגיאה
 ```
-
-</div>
 
 בדוגמת הקוד האחרונה הקריאה לפונקציה
 <span dir="ltr">`new MyType()`</span>.
@@ -2084,25 +1852,17 @@ var MyType = () => {},
 התחביר המקוצר עבור פונקציות חץ הופך אותן למתאימות במיוחד לשימוש בעת עיבוד מערכים.
 לדוגמה, אם נרצה למיין מערך נכתוב בד״כ קוד כזה:
 
-<div dir="ltr">
-
 ```js
 var result = values.sort(function(a, b) {
     return a - b;
 });
 ```
 
-</div>
-
 זוהי כתיבה ארוכה יחסית עבור הליך פשוט. אילו היינו משתמשים בפונקציית חץ היינו יכולים לכתוב זאת כך:
-
-<div dir="ltr">
 
 ```js
 var result = values.sort((a, b) => a - b);
 ```
-
-</div>
 
 פונקציות של מערך שמקבלות פונקציית קולבק כגון
 <span dir="ltr">`sort()`, `map()`, `reduce()`</span>
@@ -2120,8 +1880,6 @@ var result = values.sort((a, b) => a - b);
 ניתן לגישה ללא קשר למיקום בו רצה פונקציית החץ.
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 function createArrowFunctionReturningFirstArg() {
     return () => arguments[0];
@@ -2131,8 +1889,6 @@ var arrowFunction = createArrowFunctionReturningFirstArg(5);
 
 console.log(arrowFunction());       // 5
 ```
-
-</div>
 
 בתוך הפונקציה
 <span dir="ltr">`createArrowFunctionReturningFirstArg()`</span>
@@ -2155,16 +1911,12 @@ console.log(arrowFunction());       // 5
 למרות התחביר השונה, פונקציות חץ הן עדיין פונקציות, לא משנה כיצד הן מופיעות.
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 var comparator = (a, b) => a - b;
 
 console.log(typeof comparator);                 // "function"
 console.log(comparator instanceof Function);    // true
 ```
-
-</div>
 
 בדוגמה ניתן לראות כי
 `typeof`
@@ -2179,8 +1931,6 @@ console.log(comparator instanceof Function);    // true
 של הפונקציה לא ישתנה.
 לדוגמה:
 
-<div dir="ltr">
-
 ```js
 var sum = (num1, num2) => num1 + num2;
 
@@ -2191,8 +1941,6 @@ var boundSum = sum.bind(null, 1, 2);
 
 console.log(boundSum());                // 3
 ```
-
-</div>
 
 בדוגמה זו הפונקציה
 <span dir="ltr">`sum()`</span>
@@ -2222,15 +1970,11 @@ console.log(boundSum());                // 3
 מתקבלת כאשר פונקציה נקראת בתור הפקודה האחרונה של פונקציה,
 כמו בדוגמה הבאה:
 
-<div dir="ltr">
-
 ```js
 function doSomething() {
     return doSomethingElse();   // tail call
 }
 ```
-
-</div>
 
 רקורסיות זנב באקמהסקריפט 5 מטופלות בדומה לקריאות פונקציה אחרות:
 מקטע זכרון חדש נוצר ונדחף לתוך מחסנית הקריאות על מנת לייצג את הקריאה לפונקציה.
@@ -2252,8 +1996,6 @@ closure)
 הקוד בדוגמה הבאה עומד בכל שלושת התנאים:
 
 
-<div dir="ltr">
-
 ```js
 "use strict";
 
@@ -2263,13 +2005,9 @@ function doSomething() {
 }
 ```
 
-</div>
-
 הפונקציה בדוגמה מבצעת רקורסיית זנב לפונקציה
 <span dir="ltr">`doSomethingElse()`</span>,
 מחזירה את התוצאה מייד ואינה ניגשת לאף משתנה בסביבה המקומית של הפונקציה. שינוי אחד קטן, כמו לא להחזיר את התוצאה יהפוך את הפונקציה ללא מתאימה לאופטימיזציה:
-
-<div dir="ltr">
 
 ```js
 "use strict";
@@ -2280,11 +2018,7 @@ function doSomething() {
 }
 ```
 
-</div>
-
 באופן דומה, אם הפונקציה מבצעת פעולה נוספת אחרי שהערך מוחזר מרקורסיית הזנב, גם אז הפונקציה לא תעבור אופטימיזציה:
-
-<div dir="ltr">
 
 ```js
 "use strict";
@@ -2295,16 +2029,12 @@ function doSomething() {
 }
 ```
 
-</div>
-
 בדוגמה זו מוסיפים 1 לערך המוחזר מהפונקציה
 <span dir="ltr">`doSomethingElse()`</span>
 לפני שמחזירים את הערך הסופי וזה מספיק בשביל לא להפעיל אופטימיזציה.
 
 דרך נוספת לבטל אופטימיזציה ללא כוונה היא שמירת התוצאה של הפונקציה בתוך משתנה ואז להחזיר את התוצאה,
 לדוגמה:
-
-<div dir="ltr">
 
 ```js
 "use strict";
@@ -2316,8 +2046,6 @@ function doSomething() {
 }
 ```
 
-</div>
-
 הקוד בדוגמה לא יעבור אופטימיזציה כיוון שהערך המוחזר מהקריאה של
 <span dir="ltr">`doSomethingElse()`</span>
 אינו מוחזר מיידית.
@@ -2326,8 +2054,6 @@ function doSomething() {
 <span dir="ltr">`(closures)`</span>
 יש גישה למשתנים בתוך הסביבה העוטפת הדבר יכול לבטל אופטימיזציה.
 לדוגמה:
-
-<div dir="ltr">
 
 ```js
 "use strict";
@@ -2357,8 +2083,6 @@ function doSomething() {
 השימוש העיקרי באופטימיזציה של רקורסיית זנב הינו בפונקציות רקורסיביות ממילא, שם יהיה לאופטימיזציה את האפקט המירבי.
 נשתמש כדוגמה בפונקציה הבאה שמחשבת עצרת:
 
-<div dir="ltr">
-
 ```js
 function factorial(n) {
 
@@ -2371,8 +2095,6 @@ function factorial(n) {
     }
 }
 ```
-
-</div>
 
 צורה זו של הפונקציה לא יכולה לעבור אופטימיזציה, מכיוון שמתבצעת פעולת כפל לאחר הקריאה הרקורסיבית לפונקציה
 <span dir="ltr">`factorial()`</span>.
@@ -2389,8 +2111,6 @@ function factorial(n) {
 *ניתנת לאופטימיזציה*.
 להלן הקוד:
 
-<div dir="ltr">
-
 ```js
 function factorial(n, p = 1) {
 
@@ -2404,8 +2124,6 @@ function factorial(n, p = 1) {
     }
 }
 ```
-
-</div>
 
 בגרסה חדשה זו של הפונקציה
 <span dir="ltr">`factorial()`</span>.
@@ -2471,5 +2189,3 @@ function factorial(n, p = 1) {
 ומניעת שגיאות של גלישת זיכרון.
 האופטימיזציה מתבצעת באופן פנימי על ידי מנוע הריצה של ג׳אווהסקריפט כאשר הדבר אפשרי,
 אך יחד עם זאת באפשרותך לשכתב פונקציות רקרוסיביות קיימות כדי לנצל את האופטימיזציה.
-
-</div>

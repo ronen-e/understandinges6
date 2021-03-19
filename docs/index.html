@@ -23,13 +23,26 @@
     }
   </style>
   <style id="fix-rtl-issues">
+
+    /* General content */
     .content, .sidebar, .sidebar-toggle, body.close .content {
       direction: rtl;
       left: initial;
       right: 0;
     }
+
+    /* main content */
+    .content {
+      right: 300px;
+      transition: right .25s ease;
+    }
+
+    /* sidebar */
     .sidebar ul {
       margin: 0 15px 0 0;
+    }
+    body.close .sidebar {
+      transform: translateX(300px);
     }
     .sidebar ul li.active>a {
       border-right: 0;
@@ -40,23 +53,26 @@
       padding-left: 4px;
       float: right;
     }
+
+    /* github corner icon */
     .github-corner {
       transform: rotate(-90deg);
       right: initial;
       left: 0;
       top: -2px;
     }
-    .content {
-      right: 300px;
-      transition: right .25s ease;
-    }
-    body.close .sidebar {
-      transform: translateX(300px);
-    }
+
+    /* darklight theme swiitcher */
     #docsify-darklight-theme {
       right: initial;
       left: 20px;
     }
+
+    /* code samples */
+    pre[data-lang] {
+      direction: ltr;
+    }
+    
   </style>
 </head>
 <body>
