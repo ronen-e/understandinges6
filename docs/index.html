@@ -72,7 +72,13 @@
     pre[data-lang] {
       direction: ltr;
     }
-    
+
+    @media screen and (max-width: 768px) {
+      body.close .content {
+        transform: translateX(0px);
+      }
+    }
+
   </style>
 </head>
 <body>
