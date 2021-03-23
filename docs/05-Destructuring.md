@@ -1,4 +1,4 @@
-<div dir="rtl">
+
 
 # פעולת פירוק לשם גישה קלה יותר לנתונים
 
@@ -19,7 +19,7 @@ ECMAScript 5
 הצורך לחלץ נתונים מתוך אוביקטים ומערכים יכול היה להוביל לכתיבה מרובה של קוד כמעט זהה לחלוטין לקודמו, אך ורק בשביל להעביר נתונים מסוימים אל תוך משתנים מקומיים.
 לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let options = {
@@ -32,7 +32,7 @@ let repeat = options.repeat,
     save = options.save;
 ```
 
-</div>
+
 
 הקוד לעיל מחלץ את הערכים
 `repeat`
@@ -59,7 +59,7 @@ ECMAScript 6
 התחביר עבור פירוק מערכים משתמש באוביקט ליטראל בצד השמאלי של פעולת ההשמה.
 לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let node = {
@@ -73,7 +73,7 @@ console.log(type);      // "Identifier"
 console.log(name);      // "foo"
 ```
 
-</div>
+
 
 בקוד לעיל, ערכו של
 `node.type`
@@ -104,7 +104,7 @@ console.log(name);      // "foo"
 (`=`).
 השורות הבאות בקוד יגרמו כולן לזריקת שגיאות תחביר בגלל היעדר מאתחל ערך:
 
-<div dir="ltr">
+
 
 
 ```js
@@ -117,7 +117,7 @@ let { type, name };
 // שגיאה תחבירית
 const { type, name };
 ```
-</div>
+
 
 בעוד שמשתנה מסוג
 `const`
@@ -132,7 +132,7 @@ const { type, name };
 הדוגמאות שהוצגו עד עתה הגדירו משתנים.
 אך ניתן לבצע השמה באמצעות פעולת פירוק. כך למשל, ניתן לשנות ערכי משתנים לאחר הגדרתם, כמו בדוגמה הבאה:
 
-<div dir="ltr">
+
 
 ```js
 let node = {
@@ -149,7 +149,7 @@ console.log(type);      // "Identifier"
 console.log(name);      // "foo"
 ```
 
-</div>
+
 
 בדוגמה לעיל, המשתנים
 `type`
@@ -177,7 +177,7 @@ console.log(name);      // "foo"
 ).
 המשמעות היא שניתן להשתמש בפעולת השמה בעזרת פירוק בכל מקום שבו מצפים לקבל ערך. כך למשל ניתן להעביר ערך אל תוך פונקציה:
 
-<div dir="ltr">
+
 
 ```js
 let node = {
@@ -197,7 +197,7 @@ console.log(type);      // "Identifier"
 console.log(name);      // "foo"
 ```
 
-</div>
+
 
 הפונקציה
 <span dir="ltr">`outputInfo()`</span>
@@ -238,7 +238,7 @@ W>  תיזרק שגיאה במידה וצידו הימני של ביטוי הש�
 `undefined`.
 לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let node = {
@@ -252,7 +252,7 @@ console.log(type);      // "Identifier"
 console.log(name);      // "foo"
 console.log(value);     // undefined
 ```
-</div>
+
 
 הקוד בדוגמה האחרונה מגדיר משתנה בשם
 `value`
@@ -266,7 +266,7 @@ console.log(value);     // undefined
 (`=`)
 לאחר שם התכונה ואז להגדיר את הערך ההתחלתי. כמו בדוגמה הבאה:
 
-<div dir="ltr">
+
 
 ```js
 let node = {
@@ -281,7 +281,7 @@ console.log(name);      // "foo"
 console.log(value);     // true
 ```
 
-</div>
+
 
 בדוגמה זו, המשתנה
 `value`
@@ -308,7 +308,7 @@ console.log(value);     // true
 אקמהסקריפט 6
 יש צורת תחביר שמאפשר השמת ערכים למשתנים בעלי שם שונה, והתחביר דומה במראהו לזה של אתחול תכונה על אוביקט. לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let node = {
@@ -321,7 +321,7 @@ let { type: localType, name: localName } = node;
 console.log(localType);     // "Identifier"
 console.log(localName);     // "foo"
 ```
-</div>
+
 
 הקוד בדוגמה משתמש בהשמה ע״י פירוק על מנת להגדיר את המשתנים
 `localType`
@@ -343,7 +343,7 @@ console.log(localName);     // "foo"
 באפשרותכם להוסיף ערכים דיפולטיביים כאשר משתמשים בשמות שונים.
 סימן ההשוואה והערך הדיפולטיבי עדיין ממוקמים לאחר שם המשתנה. לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let node = {
@@ -355,7 +355,7 @@ let { type: localType, name: localName = "bar" } = node;
 console.log(localType);     // "Identifier"
 console.log(localName);     // "bar"
 ```
-</div>
+
 
 בדוגמה זו, למשתנה
 `localName`
@@ -373,7 +373,7 @@ console.log(localName);     // "bar"
 
 בעזרת כתיבה הדומה לזו של אוביקט ליטראל, ניתן לנווט בתוך אוביקט פנימי על מנת לקבל את הנתונים הרצויים. לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let node = {
@@ -396,7 +396,7 @@ let { loc: { start }} = node;
 console.log(start.line);        // 1
 console.log(start.column);      // 1
 ```
-</div>
+
 
 טכניקת הפירוק בקוד בדוגמה לעיל משתמש בסוגריים מסולסלים כדי להורות לפעולת הפירוק לנווט לתכונה בשם
 `loc`
@@ -408,7 +408,7 @@ console.log(start.column);      // 1
 
 ניתן אף לתת שם אחר למשתנה:
 
-<div dir="ltr">
+
 
 ```js
 let node = {
@@ -433,7 +433,7 @@ let { loc: { start: localStart }} = node;
 console.log(localStart.line);   // 1
 console.log(localStart.column); // 1
 ```
-</div>
+
 
 בדוגמה לעיל, הערך בתוך
 `node.loc.start`
@@ -447,13 +447,13 @@ console.log(localStart.column); // 1
 
 יש להיזהר ממצב שבו יוצרים פקודה חסרת משמעות בעת פירוק עמוק. סוגריים מסולסלים ריקים נחשבים לתחביר תקין בעת פירוק אוביקט, אך הינם חסרי משמעות. לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 // אין הגדרת משתנה!
 let { loc: {} } = node;
 ```
-</div>
+
 בקוד למעלה לא מתבצע קישור בין תכונה למשתנה. בגלל הסוגריים המסולסלים בצד ימין, השם
 `loc`
 משמש לניווט ולא בתור משתנה. במקרה כזה סביר שהכוונה הייתה להשתמש בסימן
@@ -467,7 +467,7 @@ let { loc: {} } = node;
 התחביר עבור פירוק מערכים דומה לזה של פירוק אוביקטים. הוא פשוט משתמש בתחביר של כתיבת מערך במקום זה של כתיבת  אוביקט ליטראל. פעולת הפירוק עובדת על מיקומים בתוך המערך במקום לעבוד על תכונות בתוך האוביקט.
 לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let colors = [ "red", "green", "blue" ];
@@ -477,7 +477,7 @@ let [ firstColor, secondColor ] = colors;
 console.log(firstColor);        // "red"
 console.log(secondColor);       // "green"
 ```
-</div>
+
 
 בדוגמה לעיל, פירוק על המערך מושך את הערכים
 `"red"`
@@ -494,7 +494,7 @@ console.log(secondColor);       // "green"
 ניתן להתעלם מפריטים קיימים בעת הפירוק ולתת שמות רק עבור פריטים שאנו מעוניינים בהם. אם למשל היינו רוצים למצוא רק את הערך במיקום השלישי במערך, אין צורך לספק שמות עבור הפריט הראשון והשני.
 לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let colors = [ "red", "green", "blue" ];
@@ -504,7 +504,7 @@ let [ , , thirdColor ] = colors;
 console.log(thirdColor);        // "blue"
 ```
 
-</div>
+
 
 הקוד בדוגמה לעיל משתמש בפעולת פירוק כדי לקבל את הפריט השלישי במערך
 `colors`.
@@ -521,7 +521,7 @@ W> בדומה לפירוק אוביקטים, חובה להשתמש במאתחל 
 
 ניתן להשתמש בפירוק מערכים בכדי לבצע השמה, אך בניגוד לפירוק אוביקט אין צורך לעטוף את הביטוי בסוגריים. לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let colors = [ "red", "green", "blue" ],
@@ -534,7 +534,7 @@ console.log(firstColor);        // "red"
 console.log(secondColor);       // "green"
 ```
 
-</div>
+
 
 ההשמה על ידי פירוק בקוד לעיל מתבצעת באופן דומה לדוגמה הקודמת שעסקה בפירוק מערך. ההבדל היחידי הינו שהמשתנים
 `firstColor`
@@ -546,7 +546,7 @@ console.log(secondColor);       // "green"
 ECMAScript 5
 מערבת משתנה שלישי זמני כמו בדוגמה הבאה:
 
-<div dir="ltr">
+
 
 ```js
 // החלפת מערכים בגרסת אקמהסקריפט 5
@@ -562,7 +562,7 @@ console.log(a);     // 2
 console.log(b);     // 1
 ```
 
-</div>
+
 
 המשתנה הזמני
 `tmp`
@@ -573,7 +573,7 @@ console.log(b);     // 1
 באמצעות פירוק מערכים , אין צורך במשתנה הנוסף. בדוגמה הבאה נראה כיצד ניתן להחליף ערכים בגרסת
 ECMAScript 6:
 
-<div dir="ltr">
+
 
 ```js
 // החלפת ערכים בגרסת אקמהסקריפט 6
@@ -586,7 +586,7 @@ console.log(a);     // 2
 console.log(b);     // 1
 ```
 
-</div>
+
 
 פעולת ההשמה על ידי פירוק בדוגמה לעיל נראית כמו השתקפות בראי. הצד השמאלי של ההשמה
 (לפני סימן ההשוואה)
@@ -610,7 +610,7 @@ W> בדומה לפעולת השמה על ידי פירוק באוביקט, גם 
 `undefined`.
 לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let colors = [ "red" ];
@@ -621,7 +621,7 @@ console.log(firstColor);        // "red"
 console.log(secondColor);       // "green"
 ```
 
-</div>
+
 
 בקוד לעיל למערך
 `colors`
@@ -638,7 +638,7 @@ console.log(secondColor);       // "green"
 
 ניתן לבצע פירוק עמוק במערכים פנימיים בצורה דומה לזו של פירוק אוביקטים פנימיים. על ידי שימוש בתחביר פירוק פנימי בתוך התבנית העוטפת, פעולת הפירוק תמשיך אל תוך המערך הפנימי. לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let colors = [ "red", [ "green", "lightgreen" ], "blue" ];
@@ -651,7 +651,7 @@ console.log(firstColor);        // "red"
 console.log(secondColor);       // "green"
 ```
 
-</div>
+
 
 בדוגמה זו, המשתנה בשם
 `secondColor`
@@ -676,7 +676,7 @@ console.log(secondColor);       // "green"
 כדי לבצע השמת ערכים של יתר הפריטים במערך למשתנה מסוים.
 לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let colors = [ "red", "green", "blue" ];
@@ -689,7 +689,7 @@ console.log(restColors[0]);     // "green"
 console.log(restColors[1]);     // "blue"
 ```
 
-</div>
+
 
 ערך הפריט הראשון במערך
 `colors`
@@ -712,7 +712,7 @@ ECMAScript 5,
 <span dir="ltr">`concat()`</span>
 על מנת לשכפל מערך. לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 // שכפול מערך באקמהסקריפט 5
@@ -722,7 +722,7 @@ var clonedColors = colors.concat();
 console.log(clonedColors);      // "[red,green,blue]"
 ```
 
-</div>
+
 
 בעוד שהמתודה
 <span dir="ltr">`concat()`</span>
@@ -730,7 +730,7 @@ console.log(clonedColors);      // "[red,green,blue]"
 ECMAScript 6,
 ניתן להשתמש בפריטים מסוג רסט על מנת להשיג אותה תוצאה ובעזרת תחביר שנועד לכך. זה עובד כך:
 
-<div dir="ltr">
+
 
 ```js
 // שכפול מערך באקמהסקריפט 6
@@ -740,7 +740,7 @@ let [ ...clonedColors ] = colors;
 console.log(clonedColors);      // "[red,green,blue]"
 ```
 
-</div>
+
 
 בדוגמה זו, פריטים מסוג רסט משמשים אותנו להעתקת ערכים מן המערך
 `colors`
@@ -757,7 +757,7 @@ W> פריטים מסוג רסט חייבים להיות הפריט האחרון 
 ניתן להשתמש בו זמנית בפירוק אוביקטים ובפירוק מערכים ביחד כדי ליצור ביטויים מורכבים. על ידי כך ניתן לחלץ מתוך מבנה נתונים מסויים אך ורק את הנתונים החשובים לנו מתוך עירוב של אוביקטים ומערכים.
 לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 let node = {
@@ -786,7 +786,7 @@ console.log(start.column);      // 1
 console.log(startIndex);        // 0
 ```
 
-</div>
+
 
 הקוד לעיל מבצע השמה של הערכים
 <span dir="ltr">`node.loc.start`</span>
@@ -798,9 +798,9 @@ console.log(startIndex);        // 0
 `startIndex`,
 בהתאמה.
 יש לזכור שהביטויים
-`loc:`
+<span dir="ltr">`loc:`</span>
 ו-
-`range:`
+<span dir="ltr">`range:`</span>
 בפעולת הפירוק הם רק מיקומים עבור תכונות באוביקט
 `node`.
 גישה זו שימושית מאוד לשליפת ערכים מתוך מבנה נתונים בצורת
@@ -813,7 +813,7 @@ JSON
 `options`,
 שהוא אוביקט שתכונותיו מגדירות באופן מפורש את הפרמטרים האפשריים, כמו בדוגמה הבאה:
 
-<div dir="ltr">
+
 
 ```js
 // תכונות על הארגומנט האחרון מייצגות פרמטרים נוספים
@@ -836,7 +836,7 @@ setCookie("type", "js", {
 });
 ```
 
-</div>
+
 
 ספריות ג׳אווהסקריפט רבות מכילות פונקציות בשם
 <span dir="ltr">`setCookie()`</span>
@@ -854,7 +854,7 @@ setCookie("type", "js", {
 <span dir="ltr">`setCookie()`</span>
 מהדוגמה הקודמת:
 
-<div dir="ltr">
+
 
 ```js
 function setCookie(name, value, { secure, path, domain, expires }) {
@@ -868,7 +868,7 @@ setCookie("type", "js", {
 });
 ```
 
-</div>
+
 
 פונקציה זו מתנהגת בצורה דומה לדוגמה הקודמת, אך עתה, הארגומנט השלישי משתמש בפעולת פירוק בכדי לשלוף את הנתונים. הפרמטרים מחוץ לתבנית הפירוק הינם כאלו שמצפים לקבלם ובאותה עת, גם ברור למי שמשתמש בפונקציה
 <span dir="ltr">`setCookie()`</span>
@@ -886,14 +886,14 @@ A> פרמטרים מפורקים מקבלים את כל יכולות פעולת 
 שהוגדרה בדוגמת הקוד לעיל
 תגרום לשגיאה בדוגמת הקוד הבאה
 
-<div dir="ltr">
+
 
 ```js
 // Error!
 setCookie("type", "js");
 ```
 
-</div>
+
 
 הארגומנט השלישי חסר, ולכן ערכו ייחשב בתור
 `undefined`
@@ -901,7 +901,7 @@ setCookie("type", "js");
 <span dir="ltr">`setCookie()`</span>
 נקראת, מה שמנוע הג׳אווהסקריפט עושה הוא:
 
-<div dir="ltr">
+
 
 ```js
 function setCookie(name, value, options) {
@@ -911,7 +911,7 @@ function setCookie(name, value, options) {
     // שאר הפונקציה
 }
 ```
-</div>
+
 
 מאחר ופעולת פירוק זורקת שגיאה כאשר הצד הימני של הביטוי מקבל את הערך
 `null`
@@ -922,7 +922,7 @@ function setCookie(name, value, options) {
 
 במידה ונרצה לדאוג שהפרמטר המפורק יהיה חיוני, הבעיה אינה מהותית. אך במידה ונחליט שהפרמטר המפורק הינו פרמטר רשות, ניתן לפתור את הבעיה על ידי מתן ערך דיפולטיבי, בדומה לדוגמה הבאה:
 
-<div dir="ltr">
+
 
 ```js
 function setCookie(name, value, { secure, path, domain, expires } = {}) {
@@ -931,7 +931,7 @@ function setCookie(name, value, { secure, path, domain, expires } = {}) {
 }
 ```
 
-</div>
+
 
 הדוגמה לעיל מספקת  אוביקט חדש בתור ערך דיפולטיבי לפרמטר השלישי. מתן ערך דיפולטיבי לפרמטר המפורק משמעו שהערכים עבור
 `secure`, `path`, `domain`, `expires`
@@ -945,7 +945,7 @@ function setCookie(name, value, { secure, path, domain, expires } = {}) {
 
 ניתן להגדיר ערכים דיפולטיביים עבור פרמטרים מפורקים בדיוק כמו עבור פעולת פירוק רגילה. פשוט מוסיפים את סימן ההשוואה לאחר הפרמטר וכותבים את הערך הדיפולטיבי. לדוגמה:
 
-<div dir="ltr">
+
 
 ```js
 function setCookie(name, value,
@@ -961,7 +961,7 @@ function setCookie(name, value,
 }
 ```
 
-</div>
+
 
 לכל תכונה בפרמטר המפורק קיים ערך דיפולטיבי, ולכן אין צורך לבצע בדיקה כדי לוודא שערך מסויים הועבר לפונקציה לפני שמשתמשים בו. כמו כן, לפרמטר המפורק עצמו יש ערך דיפולטיבי של אוביקט ריק, מה שהופך את הפרמטר לפרמטר רשות. אכן, הפונקציה נראית יותר מורכבת מן הרגיל, אך זהו מחיר קטן לשלם בעד הבטחון שלכל ארגומנט יש ערך ניתן לשימוש.
 
@@ -986,4 +986,4 @@ function setCookie(name, value,
 שקופים יותר בעת שימוש בתור פרמטרים לפונקציה. הנתונים שבהם מעוניינים יכולים לקבל שם לצד פרמטרים אחרים בעלי שם שעומדים לבדם.
 פרמטרים מפורקים יכולים להיות מערכים, אוביקטים או שילוב שלהם, וניתן לבצע עליהם את כל פעולות הפירוק.
 
-</div>
+

@@ -798,9 +798,9 @@ console.log(startIndex);        // 0
 `startIndex`,
 בהתאמה.
 יש לזכור שהביטויים
-`loc:`
+<span dir="ltr">`loc:`</span>
 ו-
-`range:`
+<span dir="ltr">`range:`</span>
 בפעולת הפירוק הם רק מיקומים עבור תכונות באוביקט
 `node`.
 גישה זו שימושית מאוד לשליפת ערכים מתוך מבנה נתונים בצורת
