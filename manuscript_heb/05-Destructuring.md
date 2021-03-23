@@ -108,13 +108,13 @@ A><div dir="ltr">
 A>
 A>
 A>```js
-A>// syntax error!
+A>// שגיאה תחבירית
 A>var { type, name };
 A>
-A>// syntax error!
+A>// שגיאה תחבירית
 A>let { type, name };
 A>
-A>// syntax error!
+A>// שגיאה תחבירית
 A>const { type, name };
 A>```
 A></div>
