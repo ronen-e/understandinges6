@@ -3,7 +3,7 @@
 # הרחבת פונקציונליות של אוביקטים
 
 ECMAScript 6
-שמה דגש כבד על ייעול השימוש באוביקטים. יש בכך הגיון רב מאחר וכמעט כל ערך בג׳אווהסקריפט הינו סוג מסוים של אוביקט. בנוסף, מספר האוביקטים אשר מופיע בתוכנת ג׳אווהסקריפט ממוצעת ממשיך לגדול ככל שמורכבותן של אפליקציות ג׳אווהסקריפט גדלה. משמעות הדבר היא שתוכנות קיימות מייצרות אוביקטים נוספים כל הזמן. בד בבד עם הוספת אוביקטים מגיע הצורך להשתמש בהם באופן יעיל יותר.
+שמה דגש על ייעול השימוש באוביקטים. יש בכך הגיון רב מאחר וכמעט כל ערך בג׳אווהסקריפט הינו סוג מסוים של אוביקט. בנוסף, מספר האוביקטים אשר מופיע בתוכנת ג׳אווהסקריפט ממוצעת ממשיך לגדול ככל שמורכבותן של אפליקציות ג׳אווהסקריפט גדלה. משמעות הדבר היא שתוכנות קיימות מייצרות אוביקטים נוספים כל הזמן. בד בבד עם הוספת אוביקטים מגיע הצורך להשתמש בהם באופן יעיל יותר.
 
 ECMAScript 6
 משפרת את השימוש באוביקטים במספר דרכים, החל משינויי תחביר פשוטים ועד לדרכים חדשות לשנות אותם.
@@ -23,7 +23,7 @@ ECMAScript 6
 * *לאוביקטים אקזוטיים*
 יש להם התנהגות פנימית ששונה במידת מה מהתנהגות הרגילה
 * *אוביקטים סטנדרטים*
- הם אותם אוביקטים אשר מוגדרים על ידי
+הם אותם אוביקטים אשר מוגדרים על ידי
 ECMAScript 6
 כמו
 <span dir="ltr">`Array`, `Date`<span>,
@@ -44,13 +44,13 @@ ECMAScript 6.
 התחביר עבור
 JSON
 נבנה על פי אותו תחביר, וניתן למצוא אותו כמעט בכל קובץ ג׳אווהסקריפט באינטרנט.
-אוביקט ליטראל פופולרי כיוון ומדובר דרך קלה וקצרה ליצירת אוביקטים שאחרת היו לוקחים מספר שורות קוד.
+אוביקט ליטראל פופולרי כיוון ומדובר דרך קלה וקצרה ליצירת אוביקטים שאחרת היו נכתבים עם מספר שורות קוד.
 ECMAScript 6
 מרחיבה את התחביר הנוכחי במספר צורות.
 
 ### אתחול תכונות
 
-ב
+בגרסת
 ECMAScript 5
 ועוד קודם לכן, אוביקט ליטראל היה אוסף של זוגות
 שמות-ערכים. המשמעות הייתה שתיתכן כפילות בקוד בעת אתחול תכונות.
@@ -172,8 +172,7 @@ ECMAScript 5.
 ההבדל היחיד הוא שמתודה מקוצרת יכולה להשתמש במזהה
 `super`
 (
-אשר יורחב עליו בהמשך בחלק על
-״גישה קלה לפרוטוטייפ באמצעות
+אשר יורחב עליו בהמשך בחלק ״גישה קלה לפרוטוטייפ באמצעות
 super"
 )
 
@@ -213,10 +212,10 @@ console.log(person[lastName]);          // "זאקאס"
 מכיוון והמשתנה
 `lastName`
 מקבל את הערך
-"last name"`,
+`"last name"`,
 שני שמות התכונות בדוגמה לעיל מכילים רווח,
 ולכן לא ניתן לקרוא להם על ידי שימוש בנקודה.
-ואולם, שימוש בסוגריים מאפשר לכל ערך מחרוזת לשמש בתור שם תכונה, ובדוגמה לעיל מאפשר השמת הערך
+ואולם, שימוש בסוגריים מאפשר לכל ערך מחרוזת לשמש בתור שם תכונה, ובדוגמה לעיל  הדבר מאפשר את השמת הערך
 `"ניקולאס"`
 לתכונה בשם
 `"first name"`
@@ -259,16 +258,16 @@ var lastName = "last name";
 
 var person = {
     "first name": "ניקולאס",
-    [lastName]: "Zakas"
+    [lastName]: "זאקאס"
 };
 
 console.log(person["first name"]);      // "ניקולאס"
-console.log(person[lastName]);          // "Zakas"
+console.log(person[lastName]);          // "זאקאס"
 ```
 
 </div>
 
-הסוגריים המרובעים בתוך אוביקט ליטראל מצביעים על היותה של התכונה בעל ערך מחושב, כך שערכה מחושב כמחרוזת.
+הסוגריים המרובעים בתוך אוביקט ליטראל מצביעים על היותה של התכונה בעלת ערך מחושב, כך שערכה מחושב כמחרוזת.
 מכאן ניתן לכלול גם ביטויים
 (expressions)
 כמו בדוגמה הבאה:
@@ -279,11 +278,11 @@ console.log(person[lastName]);          // "Zakas"
 var suffix = " name";
 
 var person = {
-    ["first" + suffix]: "Nicholas",
+    ["first" + suffix]: "ניקולאס",
     ["last" + suffix]: "זאקאס"
 };
 
-console.log(person["first name"]);      // "Nicholas"
+console.log(person["first name"]);      // "ניקולאס"
 console.log(person["last name"]);       // "זאקאס"
 ```
 
@@ -392,7 +391,7 @@ console.log(Object.is(5, "5"));     // false
 *מיקסין*
 (*Mixins*)
 הינה שיטה נפוצה לבניית אוביקטים בג׳אווהסקריפט.
-בעזרת מיקסין, אוביקט אחד מקבל תכונות ושיטות
+בעזרת מיקסין, אוביקט אחד מקבל תכונות ומתודות
 (properties and methods)
 מאוביקט אחר.
 ספריות רבות משתמשות בטכניקה דומה לזו שבדוגמה הבאה:
@@ -443,7 +442,7 @@ myObject.emit("somethingChanged");
 `myObject`
 מעתיק התנהגות מתוך האוביקט
 `EventTarget.prototype`.
-על ידי זאת
+האוביקט
 `myObject`
 יכול כעת לשדר אירועים ולהירשם אליהם באמצעות שימוש במתודות
 <span dir="ltr">`emit()`</span>
@@ -599,7 +598,7 @@ A> `supplier.name`
 A> החזיר
 A> `"file.js"`
 A> לאחר הקריאה למתודה
-A> `Object.assign()`
+A> <span dir="ltr">`Object.assign()`</span>
 
 ## כפילות בשמות תכונות
 
@@ -615,8 +614,9 @@ ECMAScript 5
 "use strict";
 
 var person = {
-    name: "Nicholas",
-    name: "Greg"        // שגיאה במצב קשיח תחת גרסה 5
+    name: "ניקולאס",
+    // שגיאה במצב קשיח תחת גרסה 5
+    name: "גרג"
 };
 ```
 </div>
@@ -631,8 +631,9 @@ ECMAScript 5,
 ECMAScript 6,
 הבדיקה לגילוי כפילויות סולקה.
 גם הגרסה הרגילה וגם הגרסה הקשיחה לא בודקות כפילות בשם התכונה.
-תחת זאת, התכונה האחרונה עבור אותו שם הופכת לערך הסופי של התכונה.
+במקום זאת, התכונה האחרונה עבור אותו שם הופכת לערך הסופי של התכונה.
 כלומר - ״דורסת״ את התכונות לפניה בעלות אותו שם.
+כפי שמודגם בקוד הבא
 
 <div dir="ltr">
 
@@ -640,42 +641,19 @@ ECMAScript 6,
 "use strict";
 
 var person = {
-    name: "Nicholas",
-    name: "Greg"        // אין שגיאה במצב קשיח בגרסה 6
+    name: "ניקולאס",
+    // אין שגיאה במצב קשיח בגרסה 6
+    name: "גרג"
 };
 
-console.log(person.name);       // "Greg"
-```
-</div>
-
-בעת ריצה במצב קשיח בגרסת
-ECMAScript 5,
-תכונת
-`name`
-השנייה זורקת שגיאת תחביר.
-ECMAScript 6
-ביטלה את בדיקת הכפילות.
-כך, גם מצב קשיח ומצב רגיל לא בודקים עבור כפילויות.
-במקום זאת, התכונה האחרונה באותו שם נותנת ערך סופי לתכונה. כפי שמודגם בקוד הבא:
-
-<div dir="ltr">
-
-```js
-"use strict";
-
-var person = {
-    name: "Nicholas",
-    name: "Greg"        // אין שגיאה במצב קשיח בגרסה 6
-};
-
-console.log(person.name);       // "Greg"
+console.log(person.name);       // "גרג"
 ```
 </div>
 
 בדוגמה לעיל, ערכו של
 `person.name`
 הוא
-`"Greg"`
+`"גרג"`
 מאחר וזהו הערך האחרון עבור אותה תכונה.
 
 ## סדר ספירה של תכונות עצמיות
@@ -686,9 +664,9 @@ ECMAScript 5
 עבור תכונות של אוביקט, והשאירה זאת לשיקול דעתו של יצרן מנוע הריצה של ג׳אווהסקריפט.
 לעומת זאת
 ECMAScript 6
-מגדירה באופן ברור את הסדר לפיו תכונות מוחזרות בעת ספירתן. זה משפיע על האופן בה תכונות מוחזרות בעת שימוש ב
+מגדירה באופן ברור את הסדר לפיו תכונות מוחזרות בעת ספירתן. הדבר משפיע על האופן בו תכונות מוחזרות בעת שימוש במתודה
 <span dir="ltr">`Object.getOwnPropertyNames()`</span>
-ו
+ובמתודה
 <span dir="ltr">`Reflect.ownKeys()`</span>
 (עליו יורחב בפרק 12).
 הדבר משפיע על הסדר לפיו תכונות מטופלות בעת קריאה למתודה
@@ -752,7 +730,8 @@ W> עבור לולאת
 ECMAScript 6,
 על ידי הגדרת סדר הספירה באופן ברור, מבטיח שקוד אשר מסתמך על סדר ספירה מסוים יעבוד בצורה תקינה.
 
-## פרוטוטיפ עוצמתי יותר
+## פרוטוטיפ משופר
+
 פרוטוטיפים
 (Prototypes)
 מהווים את הבסיס להורשה בג׳אווהסקריפט, וגרסת
@@ -775,7 +754,7 @@ ECMAScript 5
 שהחזירה את הפרוטוטיפ של אוביקט נתון, אך לא הייתה קיימת דרך לשנות פרוטוטיפ של אוביקט לאחר יצירתו.
 
 ECMAScript 6
-משנה את ההנחה הקודמת על ידי הוספת המתודה
+משנה את השפה על ידי הוספת המתודה
 <span dir="ltr">`Object.setPrototypeOf()`</span>,
 שמאפשרת לנו לשנות את הפרוטוטיפ של כל אוביקט.
 המתודה
@@ -789,26 +768,26 @@ ECMAScript 6
 ```js
 let person = {
     getGreeting() {
-        return "Hello";
+        return "שלום";
     }
 };
 
 let dog = {
     getGreeting() {
-        return "Woof";
+        return "הב הב";
     }
 };
 
 // הפרוטוטיפ הינו האוביקט בשם
 // person
 let friend = Object.create(person);
-console.log(friend.getGreeting());                      // "Hello"
+console.log(friend.getGreeting());                      // "שלום"
 console.log(Object.getPrototypeOf(friend) === person);  // true
 
 // שינוי הפרוטוטיפ לאוביקט בשם
 // dog
 Object.setPrototypeOf(friend, dog);
-console.log(friend.getGreeting());                      // "Woof"
+console.log(friend.getGreeting());                      // "הב הב"
 console.log(Object.getPrototypeOf(friend) === dog);     // true
 ```
 </div>
@@ -826,13 +805,13 @@ console.log(Object.getPrototypeOf(friend) === dog);     // true
 כלומר - המתודה
 <span dir="ltr">`getGreeting()`</span>
 תדפיס
-`"Hello"`.
+`"שלום"`.
 כאשר הפרוטוטיפ משתנה לאוביקט
 `dog`
 אזי המתודה
 <span dir="ltr">`friend.getGreeting()`</span>
 תדפיס את המילה
-`"Woof"`
+`"הב הב"`
 מכיוון שהקישור לאוביקט
 `person`
 אינו קיים עוד.
@@ -851,7 +830,8 @@ console.log(Object.getPrototypeOf(friend) === dog);     // true
 `[[Prototype]]`.
 
 ### גישה קלה לפרוטוטיפ בעזרת super
-כפי שהוזכר קודם, לפרוטוטיפים תפקיד חשוב בג׳אווהסקריפט ועבודה רבה נעשתה כדי להקל על השימוש בם בגרסת
+
+כפי שהוזכר קודם, לפרוטוטיפים תפקיד חשוב בג׳אווהסקריפט ועבודה רבה נעשתה כדי להקל על השימוש בהם בגרסת
 ECMAScript 6.
 שיפור נוסף היה יצירת מצביעים בשם
 `super`,
@@ -864,33 +844,33 @@ ECMAScript 6.
 ```js
 let person = {
     getGreeting() {
-        return "Hello";
+        return "שלום";
     }
 };
 
 let dog = {
     getGreeting() {
-        return "Woof";
+        return "הב הב";
     }
 };
 
 
 let friend = {
     getGreeting() {
-        return Object.getPrototypeOf(this).getGreeting.call(this) + ", hi!";
+        return Object.getPrototypeOf(this).getGreeting.call(this) + ", הי";
     }
 };
 
 // שינוי הפרוטוטיפ לאוביקט בשם
 // person
 Object.setPrototypeOf(friend, person);
-console.log(friend.getGreeting());                      // "Hello, hi!"
+console.log(friend.getGreeting());                      // "שלום, הי"
 console.log(Object.getPrototypeOf(friend) === person);  // true
 
 // שינוי הפרוטוטיפ לאוביקט בשם
 // dog
 Object.setPrototypeOf(friend, dog);
-console.log(friend.getGreeting());                      // "Woof, hi!"
+console.log(friend.getGreeting());                      // "הב הב, הי"
 console.log(Object.getPrototypeOf(friend) === dog);     // true
 ```
 
@@ -935,7 +915,7 @@ let friend = {
     getGreeting() {
         // עושה את אותה פעולה כמו בדוגמה הקודמת עבור
         // Object.getPrototypeOf(this).getGreeting.call(this)
-        return super.getGreeting() + ", hi!";
+        return super.getGreeting() + ", הי";
     }
 };
 ```
@@ -947,7 +927,7 @@ let friend = {
 <span dir="ltr">`Object.getPrototypeOf(this).getGreeting.call(this)`</span>.
 באופן דומה ניתן לקרוא לכל מתודה של פרוטוטיפ באמצעות
 `super`
-כל עוד הוא בתוך מתודה מקוצרת
+כל עוד הוא מופיע בתוך מתודה מקוצרת
 (concise method).
 ניסיון לקרוא ל
 `super`
@@ -961,7 +941,7 @@ let friend = {
 let friend = {
     getGreeting: function() {
         // שגיאת תחביר
-        return super.getGreeting() + ", hi!";
+        return super.getGreeting() + ", הי";
     }
 };
 ```
@@ -983,7 +963,7 @@ let friend = {
 ```js
 let person = {
     getGreeting() {
-        return "Hello";
+        return "שלום";
     }
 };
 
@@ -991,7 +971,7 @@ let person = {
 // person
 let friend = {
     getGreeting() {
-        return Object.getPrototypeOf(this).getGreeting.call(this) + ", hi!";
+        return Object.getPrototypeOf(this).getGreeting.call(this) + ", הי";
     }
 };
 Object.setPrototypeOf(friend, person);
@@ -1001,9 +981,9 @@ Object.setPrototypeOf(friend, person);
 // friend
 let relative = Object.create(friend);
 
-console.log(person.getGreeting());                  // "Hello"
-console.log(friend.getGreeting());                  // "Hello, hi!"
-console.log(relative.getGreeting());                // error!
+console.log(person.getGreeting());                  // "שלום"
+console.log(friend.getGreeting());                  // "שלום, הי"
+console.log(relative.getGreeting());                // שגיאה
 ```
 </div>
 
@@ -1041,7 +1021,7 @@ ECMAScript 6
 ```js
 let person = {
     getGreeting() {
-        return "Hello";
+        return "שלום";
     }
 };
 
@@ -1049,7 +1029,7 @@ let person = {
 // person
 let friend = {
     getGreeting() {
-        return super.getGreeting() + ", hi!";
+        return super.getGreeting() + ", הי";
     }
 };
 Object.setPrototypeOf(friend, person);
@@ -1059,9 +1039,9 @@ Object.setPrototypeOf(friend, person);
 // person
 let relative = Object.create(friend);
 
-console.log(person.getGreeting());                  // "Hello"
-console.log(friend.getGreeting());                  // "Hello, hi!"
-console.log(relative.getGreeting());                // "Hello, hi!"
+console.log(person.getGreeting());                  // "שלום"
+console.log(friend.getGreeting());                  // "שלום, הי"
+console.log(relative.getGreeting());                // "שלום, הי"
 ```
 
 </div>
@@ -1093,13 +1073,13 @@ let person = {
 
     // מתודה
     getGreeting() {
-        return "Hello";
+        return "שלום";
     }
 };
 
 // לא מתודה
 function shareGreeting() {
-    return "Hi!";
+    return "הי";
 }
 ```
 </div>
@@ -1143,19 +1123,19 @@ function shareGreeting() {
 ```js
 let person = {
     getGreeting() {
-        return "Hello";
+        return "שלום";
     }
 };
 
 // prototype is person
 let friend = {
     getGreeting() {
-        return super.getGreeting() + ", hi!";
+        return super.getGreeting() + ", הי";
     }
 };
 Object.setPrototypeOf(friend, person);
 
-console.log(friend.getGreeting());  // "Hello, hi!"
+console.log(friend.getGreeting());  // "שלום, הי"
 ```
 </div>
 
@@ -1164,7 +1144,7 @@ console.log(friend.getGreeting());  // "Hello, hi!"
 מחזירה מחרוזת שמשלבת את הערך המוחזר מקריאת
 <span dir="ltr">`person.getGreeting()`</span>
 יחד עם המחרוזת
-`", hi!"`.
+`", הי"`.
 ערך התכונה הפנימית
 `[[HomeObject]]`
 של
@@ -1181,29 +1161,30 @@ person
 <span dir="ltr">`person.getGreeting.call(this)`</span>.
 
 ## סיכום
-אוביקטים מהווים מרכז החיים של מתכנתים בג׳אווהסקריפט,
+
+אוביקטים מהווים נושא מרכזי עבור מתכנתים בג׳אווהסקריפט,
 וגרסת
 ECMAScript 6
-הוסיפה מספר תוספות מבורכות לאוביקטים שהופכות את העבודה איתם לקלה יותר ונותנת להם יכולות חדשות.
+הוסיפה מספר תוספות מבורכות לאוביקטים שהופכות את העבודה איתם לקלה יותר ומספקת יכולות חדשות.
 
 ECMAScript 6
 ביצעה מספר שינויים למה שנקרא אוביקט ליטראל.
 הגדרות תכונה מקוצרות מקלות על הגדרת תכונות בעלות שם זהה למשתנים באותה סביבה.
 שמות מחושבים עבור תכונות מאפשרים לנו להגדיר ערכים לא רגילים בתור שמות של תכונות, אגב, יכולת שהייתה קיימת באופן חלקי גם קודם לכן.
-כתיבה קצרה עבור מתודות מאפשרת לך לכתוב פחות קוד על מנת להגדיר מתודה על אוביקט בעזרת השמטת
+כתיבה קצרה עבור מתודות מאפשרת לנו לכתוב פחות קוד על מנת להגדיר מתודה על אוביקט בעזרת השמטת סימן נקודותיים
 (:)
 ואת המילה
 `function`.
 ECMAScript 6
-מגמיש את הבדיקה במצב קשיח עבור כפילות בשם התכונות של אוביקט, כך שאפשר לשייך שתי תכונות בעלות אותו שם עבור אוביקט אחד מבלי לזרוק שגיאה.
+מגמיש את הבדיקה במצב קשיח עבור כפילות בשם התכונות של אוביקט, כך שניתן לשייך שתי תכונות בעלות אותו שם עבור אוביקט אחד ללא שגיאה.
 
 המתודה
 <span dir="ltr">`Object.assign()`</span>
-מקלה על שינוי מספר תכונות באוביקט בו זמנית. זה שיפור יעיל כשמשתמשים בטכניקת מיקסין
+מקלה על שינוי מספר תכונות באוביקט בו זמנית. זהו שיפור יעיל כשמשתמשים בטכניקת מיקסין
 (mixin pattern).
 המתודה
-<span dir="ltr">`Object.is(()`</span>
-מבצעת בדיקת שוויון עמוק בעבור כל ערך, למעשה היא הופכת לגרסה בטוחה של האופרטור
+<span dir="ltr">`Object.is()`</span>
+מבצעת בדיקת שוויון עמוק עבור כל ערך, למעשה היא הופכת לגרסה בטוחה של האופרטור
 `===`
 כאשר מטפלים בערכים מיוחדים של ג׳אווהסקריפט.
 
@@ -1216,9 +1197,9 @@ ECMAScript 6.
 
 כעת ניתן לשנות את הפרוטוטיפ של אוביקט לאחר יצירתו,
 הודות למתודה
-<span dir="ltr">`Object.setPrototypeOf(()`</span>.
+<span dir="ltr">`Object.setPrototypeOf()`</span>.
 
-ולבסוף, ניתן להשתמש במילה
+לבסוף, ניתן להשתמש במילה
 `super`
 כדי לקרוא למתודות על הפרוטוטיפ של אוביקט נתון.
 הקישור למשתנה
