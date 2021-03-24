@@ -1375,7 +1375,9 @@ let count = 10,
 הארגומנט האחרון יהיה
 `"2.50"`,
 שהוא הערך המוחזר מהביטוי
-<span dir="ltr">`(count * price).toFixed(2)` </span>
+
+<span dir="ltr">`(count * price).toFixed(2)`</span>
+
 והוא יהיה האלמנט השני במערך
 `substitutions`.
 
