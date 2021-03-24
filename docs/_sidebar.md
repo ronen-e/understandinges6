@@ -3,7 +3,7 @@
 * [פרק 1 - משתנים בבלוק של קוד](01-Block-Bindings.md)
 * [פרק 2 מחרוזות וביטויים רגולריים](02-Strings-and-Regular-Expressions.md)
 * [פרק 3 - פונקציות](03-Functions.md)
-* [פרק 4 - אובייקטים](04-Objects.md)
+* [פרק 4 - אוביקטים](04-Objects.md)
 * [פרק 5 - פירוק](05-Destructuring.md)
 * [פרק 6 - סימבול](06-Symbols.md)
 * [פרק 7 - סטים ומפות](07-Sets-And-Maps.md)
