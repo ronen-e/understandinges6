@@ -222,14 +222,14 @@ let PersonType2 = (function() {
 בתוך ה-
 IIFE.
 בשיטה זו מונעים ממתודות של מחלקה לדרוס את שם המחלקה בעוד שקוד חיצוני למחלקה רשאי לעשות זאת. פונקצית הקונסטרקטור בוחנת את
-`new.target`
+<span dir="ltr">`new.target`</span>
 כדי לוודא שהיא נקראת בעזרת שימוש באופרטור
 `new`;
 אחרת, תיזרק שגיאה.
 בהמשך, המתודה
 <span dir="ltr">`sayName()`</span>
 מוגדרת ככזו שאינה אנומרבילית, והמתודה בוחנת את
-`new.target`
+<span dir="ltr">`new.target`</span>
 על מנת לוודא שאינה נקראת עם האופרטור
 `new`.
 השלב האחרון הינו החזרת פונקצית הקונסטרקטור בתור ערך החזרה.
@@ -244,6 +244,7 @@ A> שם המחלקה נחשב בתור
 לדוגמה:
 A>
 <div dir="ltr">
+A>
 A> ```js
 A> class Foo {
 A>    constructor() {
@@ -294,7 +295,7 @@ A> בקוד שבדוגמה, המשתנה
 ובאופן דומה, למחלקות יש צורת כתב כביטוי שלא דורשת מזהה לאחר המילה
 `class`.
 *ביטויי מחלקה*
-(*class expressions*)
+<span dir="ltr">(*class expressions*)</span>
 אלו נועדו לשמש בהגדרת משתנים או להיות מועברים לפונקציה כארגומנטים.
 
 ### ביטוי מחלקה בסיסי
@@ -379,7 +380,7 @@ console.log(typeof PersonClass2);       // "undefined"
 שבדוגמה לעיל
 ).
 מחוץ למחלקה, התוצאה עבור
-`typeof PersonClass2`
+<span dir="ltr">`typeof PersonClass2`</span>
 היא
 `"undefined"`
 מאחר והמזהה
@@ -454,7 +455,7 @@ let PersonClass = (function() {
 
 בעולם התכנות, נאמר על דבר שהוא
 *אזרח מדרגה ראשונה*
-(*first-class citizen*)
+<span dir="ltr">(*first-class citizen*)</span>
 כאשר הוא יכול לשמש בתור ערך, כלומר ניתן להעביר אותו לפונקציה, להחזיר אותו מפונקציה, ולבצע השמה שלו למשתנה.
 פונקציות בג׳אווהסקריפט נחשבות לאזרחים מדרגה ראשונה
 (
@@ -475,11 +476,11 @@ function createObject(classDef) {
 let obj = createObject(class {
 
     sayHi() {
-        console.log("Hi!");
+        console.log("הי");
     }
 });
 
-obj.sayHi();        // "Hi!"
+obj.sayHi();        // "הי"
 ```
 
 </div>
@@ -525,15 +526,15 @@ person.sayName();       // "ניקולאס"
 הסוגריים בסוף הביטוי מהווים אינדיקציה לכך שאנו קוראים לפונקציה וגם מעבירים פנימה ארגומנט.
 
 הדוגמאות בפרק זה עד כה התמקדו במחלקות עם מתודות. אך באפשרותנו ליצור גם תכונות גישה
-(accessor properties)
+<span dir="ltr">(accessor properties)</span>
 בעזרת תחביר דומה לזה של אובייקט ליטראל.
 
 ## תכונות גישה
 
 בעוד שתכונות עצמיות
-(own properties)
+<span dir="ltr">(own properties)</span>
 אמורות להיווצר בתוך קונסטרקטור המחלקה, מחלקות מאפשרות לנו להגדיר תוכנות גישה
-(accessor properties)
+<span dir="ltr">(accessor properties)</span>
 על הפרוטוטיפ. כדי ליצור
 `getter`
 יש להשתמש במילה השמורה
@@ -544,7 +545,6 @@ person.sayName();       // "ניקולאס"
 יש לפעול באותה צורה ולהשתמש במילה השמורה
 `set`.
 לדוגמה:
-
 
 <div dir="ltr">
 
@@ -586,7 +586,7 @@ setter
 `innerHTML`
 על האלמנט עצמו.
 תכונת הגישה נוצרת על
-`CustomHTMLElement.prototype`,
+<span dir="ltr">`CustomHTMLElement.prototype`</span>,
 שכמו כל מתודה אחרת נחשבת ללא אינומרבילית.
 צורת הכתיבה המקבילה ללא שימוש במחלקה הינה:
 
@@ -633,7 +633,7 @@ let CustomHTMLElement = (function() {
 ## שם תכונה מחושב לאיבר במחלקה
 
 הדמיון בין אובייקט ליטראל לבין מחלקה ממשיך. מתודות ותכונות גישה יכולות שיהיו בעלי שם מחושב
-(computed name).
+<span dir="ltr">(computed name)</span>.
 במקום להשתמש במזהה, נוכל להשתמש בסוגריים מרובעים מסביב לביטוי, כמו התחביר שמשמש לכתיבת שם תכונה מחושב באובייקט ליטראל. לדוגמה:
 
 <div dir="ltr">
@@ -652,8 +652,8 @@ class PersonClass {
     }
 }
 
-let me = new PersonClass("Nicholas");
-me.sayName();           // "Nicholas"
+let me = new PersonClass("ניקולאס");
+me.sayName();           // "ניקולאס"
 ```
 </div>
 
@@ -667,7 +667,7 @@ me.sayName();           // "Nicholas"
 <span dir="ltr">`sayName()`</span>
 נקראת באופן ישיר לאחר מכן.
 
-תכונות גישה יכולות להשתמש בשמות תכונה מחושבים גם כן:
+תכונות גישה יכולות להשתמש בשמות תכונה מחושבים:
 
 <div dir="ltr">
 
@@ -700,11 +700,11 @@ setter
 נקבעים על ידי המשתנה
 `propertyName`.
 לגישה לתכונה באמצעות
-`.html`
+<span dir="ltr">`.html`</span>
 יש אפקט רק עבור ההגדרה עצמה.
 
 עד כה ראינו דמיון רב בין מחלקות לבין אובייקט ליטראל, במתודות, תכונות גישה ושמות מחושבים.
-יש רק עוד נקודת דמיון אחת לכסות: גנרטורים.
+יש רק עוד נקודת דמיון אחת שחשוב לעבור עליה: גנרטורים.
 
 ## מתודות מסוג גנרטור
 
@@ -740,7 +740,7 @@ let iterator = instance.createIterator();
 למערך, מפה וסט יש מספר מתודות מסוג גנרטור שעוזרות למפתחים לגשת לפריטים השמורים שם בצורות שונות.
 
 בעוד שמתודות גנרטור הן שימושיות, הגדרת איטרטור דיפולטיבי למחלקה שימושי מאוד כאשר המחלקה מייצגת אוסף של ערכים. ניתן להגדיר את האיטרטור הדיפולטיבי למחלקה על ידי שימוש בסימבול
-`Symbol.iterator`
+<span dir="ltr">`Symbol.iterator`</span>
 כדי להגדיר מתודה מסוג גנרטור, כמו למשל:
 
 <div dir="ltr">
@@ -774,7 +774,7 @@ for (let x of collection) {
 </div>
 
 הדוגמה לעיל משתמשת בשם מחושב למתודה מסוג גנרטור שמעבירה שליטה אל איטרטור
-<span dir="ltr">`values()`</span>.
+<span dir="ltr">`values()`</span>
 של המערך
 `this.items`.
 כל מחלקה שמנהלת אוסף של ערכים כדאי שתכלול איטרטור דיפולטיבי מכיוון שמספר פעולות שמתבצעות על אוספי ערכים דורשות איטרטור. כעת כל מופע של
@@ -806,7 +806,7 @@ PersonType.prototype.sayName = function() {
     console.log(this.name);
 };
 
-var person = PersonType.create("Nicholas");
+var person = PersonType.create("ניקולאס");
 ```
 </div>
 
@@ -849,7 +849,7 @@ class PersonClass {
     }
 }
 
-let person = PersonClass.create("Nicholas");
+let person = PersonClass.create("ניקולאס");
 ```
 
 </div>
@@ -868,7 +868,7 @@ let person = PersonClass.create("Nicholas");
 `static`
 בהגדרת מתודת הקונסטרקטור.
 
-W> איברים סטטיים לא ניתנים לגישה מתוך מופע המחלקה. חייבים לגשת לאיברים סטטיים ישירות מתוך המחלקה עצמה
+W> איברים סטטיים לא ניתנים לגישה מתוך מופע המחלקה. חובה לגשת לאיברים סטטיים ישירות מתוך המחלקה עצמה
 
 ## ירושה במחלקות נגזרות
 
@@ -912,16 +912,16 @@ console.log(square instanceof Rectangle);   // true
 מ-
 `Rectangle`,
 ועל מנת לעשות זאת עליה לדרוס את
-`Square.prototype`
+<span dir="ltr">`Square.prototype`</span>
 עם אובייקט חדש שנוצר מ-
-`Rectangle.prototype`
+<span dir="ltr">`Rectangle.prototype`</span>
 יחד עם קריאה ל-
 <span dir="ltr">`Rectangle.call()`</span>.
 השלבים האלו לרוב בלבלו מפתחים חדשים לשפה והיוו מקור לשגיאות גם עבור מפתחים מנוסים.
 
 מחלקות מקלות על מימוש ירושה על ידי שימוש במילה השמורה
 `extends`
-כדי להגדיר את הפונקציה שממנה יורשת המחלקה. הפרוטוטייפים מקבלים הכוונה אוטומטית וניתן לקרוא לקונסטרקטור מחלקת הבסיס על ידי קריאה ל-
+כדי להגדיר את הפונקציה שממנה יורשת המחלקה. הפרוטוטייפים מוגדרים בצורה אוטומטית וניתן לקרוא לקונסטרקטור מחלקת הבסיס על ידי קריאה ל-
 <span dir="ltr">`super()`</span>.
 להלן דוגמה מקבילה לדוגמה הקודמת שנכתבה באקמהסקריפט 6:
 
@@ -978,10 +978,10 @@ console.log(square instanceof Rectangle);   // true
 
 מחלקות שיורשות ממחלקה אחרת נקראות
 *מחלקות נגזרות*
-(*derived classes*).
+<span dir="ltr">(*derived classes*)</span>.
 מחלקות נגזרות דורשות מאיתנו להשתמש ב-
 <span dir="ltr">`super()`</span>
-במידה והגדרנו קונסטרקטור משלנו. אם לא נעשה זאת תיזרק שגיאה
+במידה והגדרנו קונסטרקטור משלנו. אם לא נעשה זאת תיזרק שגיאה.
 אם לא נממש קונסטרקטור בעצמנו אזי
 <span dir="ltr">`super()`</span>
 ייקרא באופן אוטומטי עם כל הארגומנטים המסופקים בעת יצירת מופע חדש של המחלקה.
@@ -1071,7 +1071,6 @@ class Square extends Rectangle {
 <span dir="ltr">`super.getArea()`</span>
 כמו בדוגמה הבאה:
 
-
 <div dir="ltr">
 
 ```js
@@ -1155,7 +1154,9 @@ console.log(rect instanceof Square);        // false
 
 ### מחלקות נגזרות מביטויים
 
-אחד מההיבטים המעניינים של מחלקות נגזרות באקמהסקריפט 6 הינו היכולת לייצר מחלקה מביטוי. ניתן להשתמש במילה
+אחד מההיבטים המעניינים של מחלקות נגזרות באקמהסקריפט 6 הינו היכולת לייצר מחלקה מביטוי
+(expression).
+ניתן להשתמש במילה
 `extends`
 עם כל ביטוי כל עוד תוצאתו היא פונקציה עם
 תכונה פנימית
@@ -1193,7 +1194,7 @@ console.log(x instanceof Rectangle);    // true
 היא מחלקה.
 מכיוון של-
 `Rectangle`
-יש
+יש את התכונה הפנימית
 `[[Construct]]`
 ופרוטוטייפ, המחלקה
 `Square`
@@ -1201,7 +1202,7 @@ console.log(x instanceof Rectangle);    // true
 
 היכולת לקבל כל סוג ביטוי לאחר שימוש בסעיף
 `extends`
-מאפשר לנו שיטות עבודה כמו קביעה דינמית של הסוג ממנו יורשים. למשל:
+מאפשרת לנו פעולות כמו קביעה דינמית של הסוג ממנו יורשים. למשל:
 
 <div dir="ltr">
 
@@ -1328,7 +1329,7 @@ W> שניתן לקרוא לה.
 ```js
 // התנהגות מובנית של מערך
 var colors = [];
-colors[0] = "red";
+colors[0] = "אדום";
 console.log(colors.length);         // 1
 
 colors.length = 0;
@@ -1351,11 +1352,11 @@ MyArray.prototype = Object.create(Array.prototype, {
 });
 
 var colors = new MyArray();
-colors[0] = "red";
+colors[0] = "אדום";
 console.log(colors.length);         // 0
 
 colors.length = 0;
-console.log(colors[0]);             // "red"
+console.log(colors[0]);             // "אדום"
 ```
 
 </div>
@@ -1412,7 +1413,7 @@ class MyArray extends Array {
 }
 
 var colors = new MyArray();
-colors[0] = "red";
+colors[0] = "אדום";
 console.log(colors.length);         // 1
 
 colors.length = 0;
@@ -1474,15 +1475,15 @@ console.log(subitems instanceof MyArray);   // true
 `Array`
 כמצופה.
 הקונסטרקטור שבו ישתמשו ליצירת המופע נקרא מתוך התכונה
-`Symbol.species`
+<span dir="ltr">`Symbol.species`</span>
 ומאפשר לנו לבצע שינוי במידה ונרצה.
 
-הסימבול המוכר
-`Symbol.species`
+הסימבול הידוע
+<span dir="ltr">`Symbol.species`</span>
 משמש לצורך הגדרת פונקצית גישה סטאטית שמחזירה פונקציה. הפונקציה שחוזרת היא הקונסטרקטור שבו יש להשתמש בכל פעם שמופע של המחלקה נוצר בתוך מתודה של המופע
 (כאשר לא משתמשים בקונסטרקטור).
 לסוגים המובנים הבאים מוגדרת התכונה
-`Symbol.species` :
+<span dir="ltr">`Symbol.species`</span> :
 
 * `Array`
 * `ArrayBuffer` (ראו פרק 10)
@@ -1493,7 +1494,7 @@ console.log(subitems instanceof MyArray);   // true
 * Typed Arrays (ראו פרק 10)
 
 לכל אחד מהסוגים הללו מוגדרת תכונה
-`Symbol.species`
+<span dir="ltr">`Symbol.species`</span>
 שמחזירה את הערך
 `this`,
 משמע התכונה תמיד תחזיר את הקונסטרקטור עצמו. במידה ונרצה לממש התנהגות זו על מחלקה שאנו יצרנו הקוד ייראה כך:
@@ -1519,7 +1520,7 @@ class MyClass {
 </div>
 
 בדוגמה לעיל נעשה שימוש בסימבול המוכר בשם
-`Symbol.species`
+<span dir="ltr">`Symbol.species`</span>
 כדי לייצר תכונת גישה סטטית עבור
 `MyClass`.
 שימו לב לכך שישנו רק
@@ -1535,7 +1536,6 @@ setter
 משתמשת באותו ערך כדי להחזיר מופע חדש במקום להשתמש ישירות במחלקה
 `MyClass`,
 וזה מה שמאפשר למחלקות נגזרות לעקוף את אותו ערך. לדוגמה:
-
 
 <div dir="ltr">
 
@@ -1581,11 +1581,11 @@ console.log(clone2 instanceof MyDerivedClass2);     // false
 יורשת מן המחלקה
 `MyClass`
 ואינה משנה את ערך התכונה
-`Symbol.species`.
+<span dir="ltr">`Symbol.species`</span>.
 כאשר המתודה
 <span dir="ltr">`clone()`</span>
 נקראת, מתקבל מופע של
-`MyDerivedClass1`
+`MyDerivedClass1`.
 מאחר ו-
 <span dir="ltr">`this.constructor[Symbol.species]`</span>
 מחזיר את
@@ -1595,7 +1595,7 @@ console.log(clone2 instanceof MyDerivedClass2);     // false
 יורשת מן המחלקה
 `MyClass`
 ודורסת את התכונה
-`Symbol.species`
+<span dir="ltr">`Symbol.species`</span>
 כך שתחזיר את
 `MyClass`.
 כאשר המתודה
@@ -1605,17 +1605,16 @@ console.log(clone2 instanceof MyDerivedClass2);     // false
 הערך המוחזר הינו מופע של
 `MyClass`.
 על ידי שימוש בסימבול
-`Symbol.species`,
+<span dir="ltr">`Symbol.species`</span>,
 כל מחלקה נגזרת יכולה לקבוע את סוג הערך שמוחזר כאשר מתודה מחזירה מופע.
 
 כך למשל הסוג המובנה
 `Array`
 משתמש בתכונה
-`Symbol.species`
+<span dir="ltr">`Symbol.species`</span>
 על מנת להגדיר את המחלקה בה יש להשתמש כאשר מפעילים מתודות שמחזירות מערך. במחלקה נגזרת מן
 `Array`,
 ניתן לקבוע את סוג האובייקט המוחזר מהשיטות שהתקבלו בירושה. כמו למשל:
-
 
 <div dir="ltr">
 
@@ -1637,7 +1636,7 @@ console.log(subitems instanceof MyArray);   // false
 </div>
 
 הקוד בדוגמה האחרונה דורס את
-`Symbol.species`
+<span dir="ltr">`Symbol.species`</span>
 בעבור
 `MyArray`,
 שיורש תכונות מן
@@ -1648,21 +1647,21 @@ console.log(subitems instanceof MyArray);   // false
 `MyArray`.
 
 כעקרון, נרצה להשתמש בתכונה
-`Symbol.species`
+<span dir="ltr">`Symbol.species`</span>
 כל פעם שנרצה להשתמש בערך
-`this.constructor`
+<span dir="ltr">`this.constructor`</span>
 בתוך מתודה של מחלקה. זה יאפשר למחלקות נגזרות לעקוף את הערך המוחזר בקלות. בנוסף, אם ניצור מחלקות נגזרות ממחלקה שמוגדרת עבורה התכונה
-`Symbol.species`
+<span dir="ltr">`Symbol.species`</span>
 עלינו לוודא שאנו אכן משתמשים באותו ערך ולא משתמשים בקונסטרקטור באופן ישיר.
 
 ## שימוש ב new.target בתוך קונסטרקטור
 
 בפרק 3 למדנו על
-`new.target`
+<span dir="ltr">`new.target`</span>
 וכיצד הערך משתנה בהתאם לצורת הקריאה של הפונקציה. ניתן להשתמש בערך
-`new.target`
+<span dir="ltr">`new.target`</span>
 בקונסטרקטור של מחלקה על מנת לקבוע כיצד קוראים למחלקה. במקרה הפשוט הערך
-`new.target`
+<span dir="ltr">`new.target`</span>
 מצביע על קונסטרקטור המחלקה. כמו בדוגמה זו:
 
 <div dir="ltr">
@@ -1683,7 +1682,7 @@ var obj = new Rectangle(3, 4);      // true
 </div>
 
 בדוגמת הקוד האחרונה הערך
-`new.target`
+<span dir="ltr">`new.target`</span>
 מצביע על
 `Rectangle`
 כאשר קוראים למחלקה על ידי הקוד
@@ -1691,7 +1690,7 @@ var obj = new Rectangle(3, 4);      // true
 מכיוון שלא ניתן להריץ קונסטרקטור של מחלקה ללא האופרטור
 `new`,
 התכונה
-`new.target`
+<span dir="ltr">`new.target`</span>
 תמיד מוגדרת בתוך קונסטרקטור של מחלקה. אך הערך לא תמיד יהיה אותו הערך. לדוגמה:
 
 <div dir="ltr">
@@ -1721,7 +1720,7 @@ var obj = new Square(3);      // false
 קורא לקונסטרקטור של
 `Rectangle`
 ולכן
-`new.target`
+<span dir="ltr">`new.target`</span>
 מצביע על
 `Square`
 כאשר קוראים לקונסטרקטור של המחלקה
@@ -1729,7 +1728,7 @@ var obj = new Square(3);      // false
 מדובר בהיבט חשוב מכיוון שכך מתאפשר לכל קונסטרקטור לשנות את התנהגותו לפי הדרך בה הוא נקרא. כך למשל, ניתן ליצור מחלקת בסיס אבסטרקטית
 (כזו שלא מפעילים באופן ישיר)
 על ידי שימוש בערך
-`new.target`
+<span dir="ltr">`new.target`</span>
 כמו בדוגמה הבאה:
 
 <div dir="ltr">
@@ -1762,13 +1761,12 @@ console.log(y instanceof Shape);    // true
 
 בדוגמה האחרונה, קונסטרקטור המחלקה
 `Shape`
-זורק שגיאה כאשר
-`new.target`
+זורק שגיאה כאשר הערך
+<span dir="ltr">`new.target`</span>
 מצביע על
 `Shape`,
 כלומר, הפקודה
-`new Shape()`
-<span dir="ltr">`new Shape()`</span>.
+<span dir="ltr">`new Shape()`</span>
 תמיד תזרוק שגיאה. אך ניתן להשתמש במחלקה
 `Shape`
 בתור מחלקת בסיס, וזה אכן מה שהמחלקה
@@ -1778,7 +1776,7 @@ console.log(y instanceof Shape);    // true
 מפעילה את הקונסטרקטור של
 `Shape`
 והערך
-`new.target`
+<span dir="ltr">`new.target`</span>
 מצביע על
 `Rectangle`
 וכל הקונסטרקטור ממשיך לרוץ ללא שגיאה.
@@ -1786,15 +1784,15 @@ console.log(y instanceof Shape);    // true
 I> מאחר וחייבים לקרוא למחלקה באמצעות האופרטור
 `new`,
 התכונה
-`new.target`
+<span dir="ltr">`new.target`</span>
 לעולם לא תקבל את הערך
 `undefined`
 בתוך קונסטרקטור של מחלקה
 
 ## סיכום
 
-מחלקות באקמהסקריפט 6 מקלות על שימוש בירושה בג׳אווהסקריפט, כך שאין צורך לבטל הבנה קודמת של הורשה שאולי הגיעה משפות תכנות אחרות. מחלקות באקמהסקריפט 6 מתחילות בתור עטיפה נוחה
-(syntactic sugar)
+מחלקות באקמהסקריפט 6 מקלות על שימוש בירושה בג׳אווהסקריפט, כך שאין צורך לבטל הבנה קודמת של הורשה שאולי הגיעה משפות תכנות אחרות. מחלקות באקמהסקריפט 6 מתחילות בתור עטיפה  תחבירית נוחה
+<span dir="ltr">(syntactic sugar)</span>
 למודל הירושה במחלקות של אקמהסקריפט 5, וכמו כן מוסיפות יכולות נוספות על מנת לצמצם טעויות.
 
 מחלקות באקמהסקריפט 6 מממשות הורשה פרוטוטייפית על ידי הגדרת מתודות לא סטטיות על פרוטוטייפ המחלקה, בעוד שמתודות סטטיות מוגדרות על הקונסטרקטור עצמו. כל המתודות אינן אינומרביליות, התנהגות שתואמת בצורת טובה יותר את ההתנהגות הקיימת של אובייקטים מובנים שעבורם מתודות בדרך כלל אינן אינומרביליות כברירת מחדל. בנוסף, קונסטרקטור של מחלקה לא יכול להיקרא ללא האופרטור
@@ -1806,7 +1804,7 @@ I> מאחר וחייבים לקרוא למחלקה באמצעות האופרטו
 אפשרית ופועלת כמצופה.
 
 ניתן להשתמש בערך
-`new.target`
+<span dir="ltr">`new.target`</span>
 בתוך קונסטרקטור של מחלקה כדי להגדיר התנהגויות שונות בהתאם לאופן בה קראנו למחלקה. השימוש הנפוץ ביותר הינו יצירת מחלקת בסיס אבסטרקטית שזורקת שגיאה כאשר מנסים לקרוא לה ישירות אך עדיין מאפשרת הורשה דרך מחלקות אחרות.
 
 ככלל, מחלקות הינן תוספת חשובה בג׳אווהסקריפט. הן מאפשרות כתיבה ברורה ומקוצרת ויכולת משופרת להגדרת סוגי אובייקטים מותאמים.
