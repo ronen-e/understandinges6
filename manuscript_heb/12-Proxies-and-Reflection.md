@@ -1323,22 +1323,26 @@ let result3 = Reflect.preventExtensions(2);
 
 ## מלכודת לתיאור מאפיינים
 
-אחת התכונות החשובות ביותר של
+אחד השיפורים החשובים ביותר של
 ECMAScript 5
-היא היכולת להגדיר מאפיינים
--property attributes
-בשימוש עם המתודה
+היה היכולת להגדיר מאפייני תכונה
+<span dir="ltr">(property attributes)</span>
+באמצעות המתודה
 <span dir="ltr">`Object.defineProperty()`</span>.
-בגרסאות קודמות של ג'אווה סקריפט, לא הייתה שום דרך להגדיר מאפיין , להגדיר מאפיין רק לקריאה, או בלתי נספר. כל זה אפשרי תודות למתודה
+בגרסאות קודמות של ג'אווהסקריפט, לא היה  ניתן להגדיר תכונת גישה
+/
+גטר
+<span dir="ltr">(accessor property - getter)</span>,
+להגדיר תכונה לקריאה בלבד, או להגדיר אותה כתכונה לא אנומרבילית. כל הדברים הללו ניתנים לביצוע בעזרת המתודה
 <span dir="ltr">`Object.defineProperty()`</span>,
-ואתה יכול לקבל מאפיין תודות למתודה
+וניתן לקרוא את אותם מאפיינים על ידי המתודה
 <span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>.
 
-פרוקסי נותן לך אפשרות ליירט קריאות ל
+פרוקסי מאפשר לנו ליירט קריאות למתודה
 <span dir="ltr">`Object.defineProperty()`</span>
-ו
+ולמתודה
 <span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>
-בשימוש המלכודות
+באמצעות המלכודות
 `defineProperty`
 ו
 `getOwnPropertyDescriptor`,
@@ -1346,27 +1350,27 @@ ECMAScript 5
 `defineProperty`
 מקבלת את הארגומנטים הבאים:
 
-1. `trapTarget` - האובייקט שיקבל את המאפיינים
+1. `trapTarget` - האובייקט שעליו תוגדר התכונה
 (המטרה של הפרוקסי)
-1. `key` - מפתח המאפיין
-(סטרינג או
-symbol)
-לכתוב אליו
-1. `descriptor` - אובייקט המתאר את המאפיין
+1. `key` - מזהה התכונה
+(מחרוזת או
+סימבול)
+1. `descriptor` - אובייקט מאפייני התכונה
+(דיסקריפטור)
 
-מלכודת
+מלכודת על
 `defineProperty`
-דורשת שתחזיר
+להחזיר את הערך
 `true`
-אם הפעולה הצליחה ו
+אם הפעולה הצליחה ואת הערך
 `false`
 אם לא. מלכודת
 `getOwnPropertyDescriptor`
-מקבלת רק
+מקבלת רק את הערכים
 `trapTarget`
 ו
 `key`,
-ואתה מצפה שתחזיר את המתאר. המתודות התואמות
+ותחזיר את מאפייני התכונה. המתודות התואמות
 <span dir="ltr">`Reflect.defineProperty()`</span>
 ו
 <span dir="ltr">`Reflect.getOwnPropertyDescriptor()`</span>
@@ -1399,30 +1403,32 @@ console.log(descriptor.value);      // "proxy"
 </div>
 
 
-הקוד פה מגדיר מאפיין
+הקוד לעיל מגדיר תכונה בשם
 `"name"`
-על הפרוקסי עם המתודה
+על הפרוקסי באמצעות המתודה
 <span dir="ltr">`Object.defineProperty()`</span>.
-לאחר מכן מאוחזר מתאר המאפיינים של אותו נכס במתודה
+לאחר מכן מוחזר אובייקט המאפיינים על ידי המתודה
 <span dir="ltr">`Object.getOwnPropertyDescriptor()`</span>.
 
-### מלכודת Object.defineProperty
+### חסימת פעולת Object.defineProperty
 
 מלכודת
 `defineProperty`
-דורשת שתחזיר ערך בוליאני כדי לציין אם הפעולה הצליחה. כאשר מוחזר
+דורשת להחזיר ערך בוליאני שמציין האם הפעולה הצליחה. כאשר מוחזר הערך
 `true` ,
+המשמעות היא שהמתודה
 <span dir="ltr">`Object.defineProperty()`</span>
-הצליח כרגיל; כאשר מוחזר
-`false` ,
-<span dir="ltr">`Object.defineProperty()`</span>
-יזרוק שגיאה. אתה יכול להשתמש בפונקציונליות זו כדי להגביל את סוגי המאפיינים שהמתודה-
-<span dir="ltr">`Object.defineProperty()`</span>
-יכולה להגדיר. לדוגמה, אם אתה רוצה למנוע את הגדרת מאפייני ה
-symbol,
-אתה יכול לבדוק שהמפתח הוא מחרוזת ולהחזיר
+פעלה בהצלחה; כאשר מוחזר הערך
 `false`,
-כמו כאן:
+אזי המתודה
+<span dir="ltr">`Object.defineProperty()`</span>
+תזרוק שגיאה. ניתן להשתמש בפונקציונליות זו כדי להגביל את סוגי התכונות שהמתודה-
+<span dir="ltr">`Object.defineProperty()`</span>
+יכולה להגדיר. לדוגמה, כדי למנוע הגדרת תכונות עם מזהה מסוג סימבול,
+ניתן לבדוק שהמזהה הוא מסוג מחרוזת ולהחזיר
+`false`
+אם לא.
+כמו בדוגמה הבאה:
 
 <div dir="ltr">
 
@@ -1461,28 +1467,28 @@ Object.defineProperty(proxy, nameSymbol, {
 `false`
 אם
 `key`
-הוא
-symbol
-אחרת ממשיכה עם ההתנהגות הדיפולטיבית. כאשר
+הוא מסוג סימבול
+אחרת היא ממשיכה עם ההתנהגות הדיפולטיבית. כאשר המתודה
 <span dir="ltr">`Object.defineProperty()`</span>
-נקרא עם
+נקראת עם הערך
 `"name"`
-כמפתח, המתודה תצליח בגלל שהמפתח הוא סטרינג. כאשר
+בתור מזהה, הפעולה תצליח מפני שהמפתח הוא מסוג מחרוזת. כאשר המתודה
 <span dir="ltr">`Object.defineProperty()`</span>
-נקראית עם
-`nameSymbol`,
-הוא יזרוק שגיאה כי המלכודת
+מופעלת עם הסימבול
+`nameSymbol`
+בתור מזהה התכונה,
+תיזרק שגיאה מפני שהמלכודת
 `defineProperty`
 מחזירה
 `false`.
 
-I> אתה יכול גם לקבל את
+I> ניתן לגרום למתודה
 <span dir="ltr">`Object.defineProperty()`</span>
-שיכשל בשקט על ידי החזרת
+שתיכשל בשקט על ידי החזרת הערך
 `true`
-ולא לקרוא לשיטה
+ולא לקרוא למתודה
 <span dir="ltr">`Reflect.defineProperty()`</span>.
-זה ידכא את השגיאה אם לא הגדרת את המאפיין בפועל.
+הדבר ימנע את זריקת השגיאה ללא הגדרת התכונה בפועל.
 
 ### הגבלת מתאר אובייקט
 
