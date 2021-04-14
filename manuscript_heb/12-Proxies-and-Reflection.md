@@ -803,7 +803,7 @@ console.log("name" in proxy);       // false
 strict mode
 בלי לזרוק שגיאה.
 
-## מלכודת פרוקסי לאב-טיפוס (Prototype)
+## מלכודת פרוקסי לפרוטוטייפ (Prototype)
 
 פרק ארבע הציג את המתודה
 <span dir="ltr">`Object.setPrototypeOf()`<span>
