@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # פרוקסי וריפלקשן
 <span dir="ltr">(Proxies and the Reflection API)</span>
 
@@ -3421,3 +3423,5 @@ ECMAScript 6.
 ו
 `has`
 ניתנות לשימוש על פרוקסי כאשר הוא משמש בתור פרוטוטייפ, דבר שמצמצם את יכולת השימוש בו.
+
+</div>
