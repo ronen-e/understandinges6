@@ -54,6 +54,13 @@
       float: right;
     }
 
+    /* sidebar toggle */
+    .sidebar-toggle {
+      width: auto;
+      bottom: initial;
+      top: 0;
+    }
+
     /* github corner icon */
     .github-corner {
       transform: rotate(-90deg);
@@ -77,6 +84,9 @@
       body.close .content {
         transform: translateX(0px);
       }
+      .sidebar-toggle {
+        padding: 12px 12px 10px 10px;
+      }
     }
 
   </style>
@@ -85,6 +95,15 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
+      plugins: [
+        function(hook, vm) {
+          hook.init(function closeSidebarOnMobile() {
+            if (window.screen.width <= 768) {
+              document.body.classList.add('close');
+            }
+          })
+        }
+      ],
       search: {
         placeholder: 'חיפוש',
         noData: 'אין תוצאות!',
@@ -96,6 +115,9 @@
         pathNamespaces: undefined,
       },
       auto2top: true,
+      // hideSidebar: false,
+      // mergeNavbar: true,
+      // loadNavbar: false,
       loadSidebar: true,
       subMaxLevel: 3,
       coverpage: false,
@@ -104,6 +126,12 @@
       themeable: {
           readyTransition : true, // default
           responsiveTables: true  // default
+      },
+      // docsify-copy-code (defaults)
+      copyCode: {
+        buttonText : 'העתק טקסט',
+        errorText  : 'שגיאת העתקה',
+        successText: 'הועתק בהצלחה'
       }
       // rtl: {
       //   body: "ltr",
@@ -119,5 +147,7 @@
 
   <!-- <script src="//unpkg.com/docsify-rtl/build/index.min.js"></script> -->
   <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js" type="text/javascript"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
+
 </body>
 </html>

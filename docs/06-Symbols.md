@@ -78,7 +78,7 @@ console.log(firstName);                     // "Symbol(first name)"
 </div>
 
 תיאור הסימבול נשמר בתכונה הפנימית
-`[[Description]]`.
+<span dir="ltr">`[[Description]]`</span>.
 תכונה זו נקראת בכל פעם שמתודת
 <span dir="ltr">`toString()`</span>
 של הסימבול נקראת, באופן ישיר או עקיף.
@@ -89,7 +89,7 @@ console.log(firstName);                     // "Symbol(first name)"
 נקראת באופן עקיף על ידי
 <span dir="ltr">`console.log()`</span>
 והתיאור מודפס כפלט. אין דרך אחרת לגשת ל
-`[[Description]]`
+<span dir="ltr">`[[Description]]`</span>
 ישירות מהקוד. מומלץ תמיד לספק תיאור לסימבול בכדי להקל על קריאתו ועל פתרון שגיאות הקשורות בו
 
 ### זיהוי סימבול
@@ -1015,7 +1015,7 @@ console.log(isArray([]));   // true
 ששייכת לאוביקט
 `Object.prototype`
 כוללת בתוכה פרמטר פנימי בשם
-`[[Class]]`
+<span dir="ltr">`[[Class]]`</span>
 בתוצאה.
 מפתחים היו מסוגלים להשתמש במתודה זו על אוביקט על מנת להציג את מה שסביבת הריצה החשיבה לסוג האוביקט.
 

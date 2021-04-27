@@ -817,17 +817,17 @@ console.log(Object.getPrototypeOf(friend) === dog);     // true
 אינו קיים עוד.
 
 הקישור האמיתי עבור פרוטוטיפ כלשהו מצוי בתוך תכונה פנימית פרטית שנקראת
-`[[Prototype]]`.
+<span dir="ltr">`[[Prototype]]`</span>.
 המתודה
 <span dir="ltr">`Object.getPrototypeOf()`</span>
 מחזירה את ערכה של
-`[[Prototype]]`
+<span dir="ltr">`[[Prototype]]`</span>
 והמתודה
 <span dir="ltr">`Object.setPrototypeOf()`</span>
 משנה את ערכה של
-`[[Prototype]]`.
+<span dir="ltr">`[[Prototype]]`</span>.
 ואולם, אלו אינן הדרכים היחידות לעבוד עם הערך השמור בתוך
-`[[Prototype]]`.
+<span dir="ltr">`[[Prototype]]`</span>.
 
 ### גישה קלה לפרוטוטיפ בעזרת super
 
@@ -1062,11 +1062,9 @@ ECMAScript 6,
 מתודות היו תכונות של אוביקט שערכן היה פונקציה.
 ECMAScript 6
 מגדיר מתודה בצורה רשמית כפונקציה בעלת תכונה פנימית בשם
-`[[HomeObject]]`
+<span dir="ltr">`[[HomeObject]]`</span>
 שמצביעה על האוביקט אליו שייכת המתודה.
 לדוגמה:
-
-
 
 ```js
 let person = {
@@ -1089,7 +1087,7 @@ function shareGreeting() {
 בעל מתודה אחת בשם
 <span dir="ltr">`ֿgetGreeting()`</span>.
 הערך המושם בתוך
-`[[HomeObject]]`
+<span dir="ltr">`[[HomeObject]]`</span>
 עבור המתודה
 <span dir="ltr">`ֿgetGreeting()`</span>.
 הינו
@@ -1099,26 +1097,24 @@ function shareGreeting() {
 הפונקציה
 <span dir="ltr">`shareGreeting()`</span>
 אינה בעלת ערך עבור התכונה הפנימית
-`[[HomeObject]]`
+<span dir="ltr">`[[HomeObject]]`</span>
 מאחר והיא לא שויכה לאוביקט בזמן הגדרתה.
 ברוב המקרים ההבדל אינו חשוב, אך הופך לחשוב ביותר כאשר משתמשים ב
 `super`.
 
 `super`
 משתמש בתכונה הפנימית
-`[[HomeObject]]`.
+<span dir="ltr">`[[HomeObject]]`</span>.
 השלב הראשון הינו לקרוא למתודה
 <span dir="ltr">`Object.getPrototypeOf()`</span>
 על הערך של
-`[[HomeObject]]`
+<span dir="ltr">`[[HomeObject]]`</span>
 כדי לקבל את הפרוטוטיפ.
 לאחר מכן מחפשים עליו פונקציה בעלת אותו השם.
 בסוף, נקבע הערך של-
 `this`
 והמתודה נקראת.
 לדוגמה:
-
-
 
 ```js
 let person = {
@@ -1146,7 +1142,7 @@ console.log(friend.getGreeting());  // "שלום, הי"
 יחד עם המחרוזת
 `", הי"`.
 ערך התכונה הפנימית
-`[[HomeObject]]`
+<span dir="ltr">`[[HomeObject]]`</span>
 של
 <span dir="ltr">`friend.getGreeting()`</span>
 הוא
