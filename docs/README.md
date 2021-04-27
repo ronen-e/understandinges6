@@ -158,4 +158,14 @@ PDF
 [No Starch Press](https://www.nostarch.com/)
 למען רכישת זכויות תרגום
 
+## תורמים לפרויקט התרגום
+
+* [Ronen Elster](https://github.com/ronen-e)
+* [yanai101](https://github.com/yanai101)
+* [dekelb](https://github.com/dekelb)
+* [Maya Liberman](https://github.com/mayaliberman)
+* [Eli Orr](https://github.com/eliorr)
+* [Oded Dugma](https://github.com/odeddugma)
+
+
 </div>
