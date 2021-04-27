@@ -95,6 +95,15 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
+      plugins: [
+        function(hook, vm) {
+          hook.init(function closeSidebarOnMobile() {
+            if (window.screen.width <= 768) {
+              document.body.classList.add('close');
+            }
+          })
+        }
+      ],
       search: {
         placeholder: 'חיפוש',
         noData: 'אין תוצאות!',
