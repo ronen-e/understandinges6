@@ -106,6 +106,9 @@
         pathNamespaces: undefined,
       },
       auto2top: true,
+      // hideSidebar: false,
+      // mergeNavbar: true,
+      // loadNavbar: false,
       loadSidebar: true,
       subMaxLevel: 3,
       coverpage: false,
@@ -114,6 +117,12 @@
       themeable: {
           readyTransition : true, // default
           responsiveTables: true  // default
+      },
+      // docsify-copy-code (defaults)
+      copyCode: {
+        buttonText : 'העתק טקסט',
+        errorText  : 'שגיאת העתקה',
+        successText: 'הועתק בהצלחה'
       }
       // rtl: {
       //   body: "ltr",
@@ -129,5 +138,7 @@
 
   <!-- <script src="//unpkg.com/docsify-rtl/build/index.min.js"></script> -->
   <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js" type="text/javascript"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
+
 </body>
 </html>
