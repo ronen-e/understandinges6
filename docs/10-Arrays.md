@@ -1292,10 +1292,7 @@ console.log(floats.length);         // 5
 בשני המקרים נוצר באפר חדש שניתן לגשת אליו במידת הצורך על ידי התכונה
 `buffer`.
 
-<!--
-W> If no argument is passed to a typed array constructor, the constructor acts as if `0` was passed. This creates a typed array that cannot hold data because zero bytes are allocated to the buffer.
--->
-אם לא מועבר ארגומנט לקונסטרקטור
+?> אם לא מועבר ארגומנט לקונסטרקטור
 <span dir="ltr">Typed Array</span>,
 הקונסטרקטור מתנהג כאילו הועבר הארגומנט
 `0`.

@@ -50,7 +50,7 @@ console.log(person[firstName]);     // "Nicholas"
 
 
 <!-- This is not entirely correct see issue #459 https://github.com/nzakas/understandinges6/issues/459 -->
-W> מאחר וסימבולים הינם ערכים פרימיטיביים, קריאה ל
+?> מאחר וסימבולים הינם ערכים פרימיטיביים, קריאה ל
 <span dir="ltr">`new Symbol()`</span>
 זורקת שגיאה. ניתן ליצור אוביקט מסוג
 `Symbol`
@@ -264,7 +264,7 @@ console.log(Symbol.keyFor(uid3));   // undefined
 מחזירה את הערך
 `undefined`.
 
-W> מרשם הסימבולים הגלובלי נחשב לסביבה משותפת, בדיוק כמו הסביבה הגלובלית
+?> מרשם הסימבולים הגלובלי נחשב לסביבה משותפת, בדיוק כמו הסביבה הגלובלית
 (global scope).
 לכן, לא ניתן להניח הנחות לגבי מה שקיים או לא באותה הסביבה.
 יש להשתמש במרחב שמות עבור מזהה סימבולים
@@ -596,7 +596,7 @@ console.log(zero instanceof SpecialNumber);   // false
 `false`
 באופן קבוע.
 
-W> ניתן לשנות את ההתנהגות הדיפולטיבית של
+?> ניתן לשנות את ההתנהגות הדיפולטיבית של
 `Symbol.hasInstance`
 עבור כל הפונקציות המוגדרות מראש כמו למשל
 `Date`
