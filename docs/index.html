@@ -80,6 +80,29 @@
       direction: ltr;
     }
 
+    /* docsify tips */
+    .markdown-section p.tip {
+      border-left: initial;
+      border-right: 4px solid #f66;
+    }
+    .markdown-section p.tip:before {
+      left: initial;
+      right: -12px;
+    }
+
+    .app-name-link img {
+      max-height: 120px;
+      box-shadow: 0 0 20px 0 rgb(0 0 0 / 10%);
+      margin: 0 1rem;
+    }
+    .app-name-link {
+      display: flex;
+      align-items: center;
+    }
+    .app-name-link:after {
+      content: 'להבין ES6';
+    }
+
     @media screen and (max-width: 768px) {
       body.close .content {
         transform: translateX(0px);
@@ -121,12 +144,14 @@
       loadSidebar: true,
       subMaxLevel: 3,
       coverpage: false,
-      name: '<span dir="rtl">להבין ES6</span>',
+      logo: './images/title_page.png',
+      name: 'להבין ES6',
       repo: 'https://github.com/ronen-e/understandinges6/',
       themeable: {
           readyTransition : true, // default
           responsiveTables: true  // default
       },
+
       // docsify-copy-code (defaults)
       copyCode: {
         buttonText : 'העתק טקסט',
