@@ -80,9 +80,20 @@
       direction: ltr;
     }
 
+    /* docsify tips */
+    .markdown-section p.tip {
+      border-left: initial;
+      border-right: 4px solid #f66;
+    }
+    .markdown-section p.tip:before {
+      left: initial;
+      right: -12px;
+    }
+
     .app-name-link img {
       width: 60px;
     }
+
     @media screen and (max-width: 768px) {
       body.close .content {
         transform: translateX(0px);
@@ -131,6 +142,7 @@
           readyTransition : true, // default
           responsiveTables: true  // default
       },
+
       // docsify-copy-code (defaults)
       copyCode: {
         buttonText : 'העתק טקסט',
