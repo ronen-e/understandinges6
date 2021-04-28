@@ -91,7 +91,16 @@
     }
 
     .app-name-link img {
-      width: 60px;
+      max-height: 120px;
+      box-shadow: 0 0 20px 0 rgb(0 0 0 / 10%);
+      margin: 0 1rem;
+    }
+    .app-name-link {
+      display: flex;
+      align-items: center;
+    }
+    .app-name-link:after {
+      content: 'להבין ES6';
     }
 
     @media screen and (max-width: 768px) {
@@ -135,7 +144,7 @@
       loadSidebar: true,
       subMaxLevel: 3,
       coverpage: false,
-      logo: './images/logo.png',
+      logo: './images/title_page.png',
       name: 'להבין ES6',
       repo: 'https://github.com/ronen-e/understandinges6/',
       themeable: {
